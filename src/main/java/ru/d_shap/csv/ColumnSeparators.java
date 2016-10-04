@@ -21,6 +21,11 @@ public enum ColumnSeparators {
         _value = value;
     }
 
+    /**
+     * Character value of object.
+     *
+     * @return character value.
+     */
     public String getValue() {
         return _value;
     }

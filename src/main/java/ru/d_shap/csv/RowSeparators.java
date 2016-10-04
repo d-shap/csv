@@ -23,6 +23,11 @@ public enum RowSeparators {
         _value = value;
     }
 
+    /**
+     * Character value of object.
+     *
+     * @return character value.
+     */
     public String getValue() {
         return _value;
     }
