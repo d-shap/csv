@@ -33,19 +33,28 @@ public final class Result {
     }
 
     void pushColumn() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
-        }
+        createCurrentRow();
         _currentRow.add(_currentColumn.toString());
         _currentColumn.setLength(0);
     }
 
     void pushRow() {
+        createRows();
+        createCurrentRow();
+        _rows.add(_currentRow);
+        _currentRow = null;
+    }
+
+    private void createRows() {
         if (_rows == null) {
             _rows = new ArrayList<>();
         }
-        _rows.add(_currentRow);
-        _currentRow = null;
+    }
+
+    private void createCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<>();
+        }
     }
 
     /**
