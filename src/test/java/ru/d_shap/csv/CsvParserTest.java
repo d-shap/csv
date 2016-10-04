@@ -9,12 +9,23 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Tests for {@link ru.d_shap.csv.CsvParser}.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class CsvParserTest {
 
+    /**
+     * Test class constructor.
+     */
     public CsvParserTest() {
         super();
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readColumnsWithSemicolonsTest() {
         String csv = "true;1.0.1;5";
@@ -26,6 +37,9 @@ public final class CsvParserTest {
         Assert.assertEquals("5", result.get(0).get(2));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readColumnsWithCommasTest() {
         String csv = "true,1.0.1,5";
@@ -37,6 +51,9 @@ public final class CsvParserTest {
         Assert.assertEquals("5", result.get(0).get(2));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readColumnsWithSpecialsTest() {
         String csv = "true,\"aa,bb;\r\na\",\"5\"";
@@ -48,6 +65,9 @@ public final class CsvParserTest {
         Assert.assertEquals("5", result.get(0).get(2));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readEmptyColumnsTest() {
         String csv = ";a;;b;;;c;";
@@ -64,6 +84,9 @@ public final class CsvParserTest {
         Assert.assertEquals("", result.get(0).get(7));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readEmptySpecialColumnsTest() {
         String csv = "\"\",\"\",,\"\"";
@@ -76,6 +99,9 @@ public final class CsvParserTest {
         Assert.assertEquals("", result.get(0).get(3));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readColumnsWithQuotsTest() {
         String csv = "\"a\"\"b\",ab;\"\"\"a\",\"b\"\"\"";
@@ -88,30 +114,45 @@ public final class CsvParserTest {
         Assert.assertEquals("b\"", result.get(0).get(3));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test(expected = CsvParseException.class)
     public void wrongQuotFailTest() {
         String csv = "aaa,bb,c\"c,dd";
         CsvParser.parseCsv(csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test(expected = CsvParseException.class)
     public void notClosedQuotFailTest() {
         String csv = "aaa,bb,\"ccc,dd";
         CsvParser.parseCsv(csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test(expected = CsvParseException.class)
     public void notOpenedQuotFailTest() {
         String csv = "aaa,bb,ccc\",dd";
         CsvParser.parseCsv(csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test(expected = CsvParseException.class)
-    public void notAllValueInQuotFailTest() {
+    public void notAllColumnsInQuotFailTest() {
         String csv = "aaa,bb,\"ccc\"cc,dd";
         CsvParser.parseCsv(csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readRowsWithCrTest() {
         String csv = "a\rb\rc";
@@ -125,6 +166,9 @@ public final class CsvParserTest {
         Assert.assertEquals("c", result.get(2).get(0));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readRowsWithLfTest() {
         String csv = "a\nb\nc";
@@ -138,6 +182,9 @@ public final class CsvParserTest {
         Assert.assertEquals("c", result.get(2).get(0));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readRowsWithCrLfTest() {
         String csv = "a\r\nb\r\nc";
@@ -151,6 +198,9 @@ public final class CsvParserTest {
         Assert.assertEquals("c", result.get(2).get(0));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readEmptyRowsTest() {
         String csv = "\naaa\n\nbbb\n\n";
@@ -165,6 +215,9 @@ public final class CsvParserTest {
         Assert.assertEquals(0, result.get(4).size());
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readRowsWithSpecialsTest() {
         String csv = "\",\"\r\n\"\"\"\"\r\n\"aaa;bbb\"\r\n";
@@ -178,6 +231,9 @@ public final class CsvParserTest {
         Assert.assertEquals("aaa;bbb", result.get(2).get(0));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readTableTest() {
         String csv = "a,,false\nb,true,\n\n,c,d\n";
@@ -198,6 +254,9 @@ public final class CsvParserTest {
         Assert.assertEquals("d", result.get(3).get(2));
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test
     public void readEmptyCsvTest() {
         String csv = "";
@@ -205,6 +264,9 @@ public final class CsvParserTest {
         Assert.assertEquals(0, result.size());
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     */
     @Test(expected = CsvParseException.class)
     public void unquotedQuotTest() {
         String csv = "one;\"t\"wo\"\nthree;four";

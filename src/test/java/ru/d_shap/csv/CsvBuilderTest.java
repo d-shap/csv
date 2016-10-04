@@ -7,12 +7,23 @@ package ru.d_shap.csv;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Tests for {@link ru.d_shap.csv.CsvBuilder}.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class CsvBuilderTest {
 
+    /**
+     * Test class constructor.
+     */
     public CsvBuilderTest() {
         super();
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addIntColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -22,6 +33,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("10\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addLongColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -31,6 +45,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("9223372036854775807\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addFloatColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -40,6 +57,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1.1\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addDoubleColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -49,6 +69,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("2.2\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addBooleanColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -58,6 +81,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("true\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addStringColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -67,6 +93,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("aaa\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addStringWithSpecialsColumnTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -76,6 +105,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("\"a\"\"a,a;a\ra\na\"\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addMultipleColumnsTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -87,6 +119,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1;true;aaa\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addMultipleColumnsWithSpecialsTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -99,6 +134,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1;true;aaa;\"a,a;a\"\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addRowTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -112,6 +150,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1;2\r\n3;4\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void getCsvReusableTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -134,6 +175,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("3;4\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void addEmptyRowTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -149,6 +193,9 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1;true\r\n\r\n\r\n2;false\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void tableCsvTest() {
         CsvBuilder builder = new CsvBuilder();
@@ -169,9 +216,12 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1;true\r\n2.2;aaa;\"a;a;a\";\r\nfalse\r\n4;10.01\r\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void changeSeparatorsTest() {
-        CsvBuilder builder = new CsvBuilder(ValueSeparators.COMMA, RowSeparators.LF);
+        CsvBuilder builder = new CsvBuilder(ColumnSeparators.COMMA, RowSeparators.LF);
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -189,9 +239,12 @@ public final class CsvBuilderTest {
         Assert.assertEquals("1,true\n2.2,aaa,\"a;a;a\",\nfalse\n4,10.01\n", csv);
     }
 
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     */
     @Test
     public void defaultSeparatorsTest() {
-        CsvBuilder builder1 = new CsvBuilder(ValueSeparators.SEMICOLON, RowSeparators.LF);
+        CsvBuilder builder1 = new CsvBuilder(ColumnSeparators.SEMICOLON, RowSeparators.LF);
         builder1.addColumn(1);
         builder1.addColumn(true);
         builder1.addRow();
@@ -202,7 +255,7 @@ public final class CsvBuilderTest {
         String csv1 = builder1.getCsv();
         Assert.assertEquals("1;true\n2;false;\n", csv1);
 
-        CsvBuilder builder2 = new CsvBuilder(ValueSeparators.COMMA, RowSeparators.CRLF);
+        CsvBuilder builder2 = new CsvBuilder(ColumnSeparators.COMMA, RowSeparators.CRLF);
         builder2.addColumn(1);
         builder2.addColumn(true);
         builder2.addRow();
