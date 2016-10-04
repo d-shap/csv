@@ -4,7 +4,12 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
-public enum ValueSeparators {
+/**
+ * Available separators between columns in one row.
+ *
+ * @author Dmitry Shapovalov
+ */
+public enum ColumnSeparators {
 
     COMMA(","),
 
@@ -12,11 +17,11 @@ public enum ValueSeparators {
 
     private final String _value;
 
-    ValueSeparators(final String value) {
+    ColumnSeparators(final String value) {
         _value = value;
     }
 
-    String getValue() {
+    public String getValue() {
         return _value;
     }
 

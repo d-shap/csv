@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to create CSV from rows and columns. Object can be used to create multiple CSVs.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class CsvBuilder {
 
     private static final List<String> SPECIAL;
@@ -15,13 +20,13 @@ public final class CsvBuilder {
     static {
         SPECIAL = new LinkedList<>();
         SPECIAL.add("\"");
-        SPECIAL.add(ValueSeparators.COMMA.getValue());
-        SPECIAL.add(ValueSeparators.SEMICOLON.getValue());
+        SPECIAL.add(ColumnSeparators.COMMA.getValue());
+        SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());
         SPECIAL.add(RowSeparators.CR.getValue());
         SPECIAL.add(RowSeparators.LF.getValue());
     }
 
-    private final String _valueSeparator;
+    private final String _columnSeparator;
 
     private final String _rowSeparator;
 
@@ -29,13 +34,22 @@ public final class CsvBuilder {
 
     private List<String> _currentRow;
 
+    /**
+     * Creates new object.
+     */
     public CsvBuilder() {
-        this(ValueSeparators.SEMICOLON, RowSeparators.CRLF);
+        this(ColumnSeparators.SEMICOLON, RowSeparators.CRLF);
     }
 
-    public CsvBuilder(final ValueSeparators valueSeparator, final RowSeparators rowSeparator) {
+    /**
+     * Creates new object.
+     *
+     * @param columnSeparator separator between columns.
+     * @param rowSeparator    separator between rows.
+     */
+    public CsvBuilder(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
         super();
-        _valueSeparator = valueSeparator.getValue();
+        _columnSeparator = columnSeparator.getValue();
         _rowSeparator = rowSeparator.getValue();
         _rows = null;
         _currentRow = null;
@@ -53,60 +67,101 @@ public final class CsvBuilder {
         }
     }
 
-    public CsvBuilder addColumn(final int value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final int column) {
         setCurrentRow();
-        _currentRow.add(String.valueOf(value));
+        _currentRow.add(String.valueOf(column));
         return this;
     }
 
-    public CsvBuilder addColumn(final long value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final long column) {
         setCurrentRow();
-        _currentRow.add(String.valueOf(value));
+        _currentRow.add(String.valueOf(column));
         return this;
     }
 
-    public CsvBuilder addColumn(final float value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final float column) {
         setCurrentRow();
-        _currentRow.add(String.valueOf(value));
+        _currentRow.add(String.valueOf(column));
         return this;
     }
 
-    public CsvBuilder addColumn(final double value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final double column) {
         setCurrentRow();
-        _currentRow.add(String.valueOf(value));
+        _currentRow.add(String.valueOf(column));
         return this;
     }
 
-    public CsvBuilder addColumn(final boolean value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final boolean column) {
         setCurrentRow();
-        _currentRow.add(String.valueOf(value));
+        _currentRow.add(String.valueOf(column));
         return this;
     }
 
-    public CsvBuilder addColumn(final String value) {
+    /**
+     * Add column to the current row and move cursor to the next column.
+     *
+     * @param column column.
+     * @return current object for chaining.
+     */
+    public CsvBuilder addColumn(final String column) {
         setCurrentRow();
-        _currentRow.add(getValueForCsv(value));
+        _currentRow.add(getColumnForCsv(column));
         return this;
     }
 
-    private String getValueForCsv(final String value) {
-        if (value == null) {
+    private String getColumnForCsv(final String column) {
+        if (column == null) {
             return "";
         }
         boolean hasSpecial = false;
         for (int i = 0; i < SPECIAL.size(); i++) {
-            if (value.contains(SPECIAL.get(i))) {
+            if (column.contains(SPECIAL.get(i))) {
                 hasSpecial = true;
             }
         }
 
         if (hasSpecial) {
-            return "\"" + value.replaceAll("\"", "\"\"") + "\"";
+            return "\"" + column.replaceAll("\"", "\"\"") + "\"";
         } else {
-            return value;
+            return column;
         }
     }
 
+    /**
+     * Complete current row and move cursor to the next row.
+     *
+     * @return current object for chaining.
+     */
     public CsvBuilder addRow() {
         setRows();
         setCurrentRow();
@@ -115,6 +170,11 @@ public final class CsvBuilder {
         return this;
     }
 
+    /**
+     * Convert rows and columns to CSV and clear internal buffers. After this call builder can be used to create new CSV.
+     *
+     * @return created CSV.
+     */
     public String getCsv() {
         setRows();
         String csv = convertToScv(_rows);
@@ -133,10 +193,10 @@ public final class CsvBuilder {
                 if (i == size) {
                     result.append(_rowSeparator);
                 } else {
-                    String value = row.get(i);
-                    result.append(value);
+                    String column = row.get(i);
+                    result.append(column);
                     if (i != sizeM1) {
-                        result.append(_valueSeparator);
+                        result.append(_columnSeparator);
                     }
                 }
             }

@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to parse CSV from source.
+ *
+ * @author Dmitry Shapovalov
+ */
 public final class CsvParser {
 
     private static final char QUOT = '"';
@@ -24,6 +29,12 @@ public final class CsvParser {
         super();
     }
 
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param csv CSV to parse.
+     * @return list of rows, each row is a list of columns.
+     */
     public static List<List<String>> parseCsv(final String csv) {
         List<String> rows = readRows(csv);
         List<List<String>> result = new ArrayList<>(rows.size());
@@ -78,7 +89,7 @@ public final class CsvParser {
                     isInQuot = false;
                     continue;
                 }
-                throw new CsvParseException("Value is not properly quoted");
+                throw new CsvParseException("Column is not properly quoted");
             }
             if (!isInQuot && currentCsv.charAt(position) == CR && position < currentCsv.length() - 1 && currentCsv.charAt(position + 1) == LF) {
                 continue;
@@ -97,7 +108,7 @@ public final class CsvParser {
         }
 
         if (isInQuot) {
-            throw new CsvParseException("Value is not properly quoted");
+            throw new CsvParseException("Column is not properly quoted");
         }
 
         if (!"".equals(currentCsv)) {
@@ -138,38 +149,38 @@ public final class CsvParser {
                     isInQuot = false;
                     continue;
                 }
-                throw new CsvParseException("Value is not properly quoted");
+                throw new CsvParseException("Column is not properly quoted");
             }
             if (!isInQuot && (currentRow.charAt(position) == COMMA || currentRow.charAt(position) == SEMICOLON)) {
                 String column = currentRow.substring(0, position);
                 currentRow = currentRow.substring(position + 1, currentRow.length());
                 position = -1;
-                columns.add(getValueFromCsv(column));
+                columns.add(getColumnFromCsv(column));
             }
         }
 
         if (isInQuot) {
-            throw new CsvParseException("Value is not properly quoted");
+            throw new CsvParseException("Column is not properly quoted");
         }
 
-        columns.add(getValueFromCsv(currentRow));
+        columns.add(getColumnFromCsv(currentRow));
 
         return columns;
     }
 
-    private static String getValueFromCsv(final String value) {
-        if (value == null) {
+    private static String getColumnFromCsv(final String column) {
+        if (column == null) {
             return null;
         }
-        String currentValue = value;
-        if (currentValue.length() > 0 && currentValue.charAt(0) == QUOT) {
-            currentValue = currentValue.substring(1);
+        String currentColumn = column;
+        if (currentColumn.length() > 0 && currentColumn.charAt(0) == QUOT) {
+            currentColumn = currentColumn.substring(1);
         }
-        if (currentValue.length() > 0 && currentValue.charAt(currentValue.length() - 1) == QUOT) {
-            currentValue = currentValue.substring(0, currentValue.length() - 1);
+        if (currentColumn.length() > 0 && currentColumn.charAt(currentColumn.length() - 1) == QUOT) {
+            currentColumn = currentColumn.substring(0, currentColumn.length() - 1);
         }
-        currentValue = currentValue.replace("\"\"", "\"");
-        return currentValue;
+        currentColumn = currentColumn.replace("\"\"", "\"");
+        return currentColumn;
     }
 
 }

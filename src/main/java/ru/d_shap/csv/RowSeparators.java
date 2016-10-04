@@ -4,6 +4,11 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+/**
+ * Available separators between rows.
+ *
+ * @author Dmitry Shapovalov
+ */
 public enum RowSeparators {
 
     CR("\r"),
@@ -18,7 +23,7 @@ public enum RowSeparators {
         _value = value;
     }
 
-    String getValue() {
+    public String getValue() {
         return _value;
     }
 
