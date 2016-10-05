@@ -37,7 +37,7 @@ final class State6 extends AbstractState {
                 result.pushColumn();
                 return State1.INSTANCE;
             case CR:
-                return State3.INSTANCE;
+                return State4.INSTANCE;
             case LF:
                 result.pushColumn();
                 result.pushRow();
