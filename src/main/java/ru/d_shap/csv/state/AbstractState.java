@@ -13,7 +13,7 @@ public abstract class AbstractState {
 
     static final char END_OF_INPUT = 0;
 
-    static final char COMMA = '\'';
+    static final char COMMA = ',';
 
     static final char SEMICOLON = ';';
 
@@ -25,6 +25,15 @@ public abstract class AbstractState {
 
     AbstractState() {
         super();
+    }
+
+    /**
+     * Return init state of CSV parser state machine.
+     *
+     * @return init state.
+     */
+    public static AbstractState getInitState() {
+        return State0.INSTANCE;
     }
 
     /**
