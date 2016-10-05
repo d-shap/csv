@@ -18,14 +18,16 @@ public final class Result {
 
     private List<String> _currentRow;
 
-    private final StringBuilder _currentColumn;
+    private final CharBuffer _currentColumn;
 
     /**
      * Creates new object.
      */
     public Result() {
         super();
-        _currentColumn = new StringBuilder(50);
+        _rows = null;
+        _currentRow = null;
+        _currentColumn = new CharBuffer();
     }
 
     void pushChar(final char ch) {
@@ -35,7 +37,7 @@ public final class Result {
     void pushColumn() {
         createCurrentRow();
         _currentRow.add(_currentColumn.toString());
-        _currentColumn.setLength(0);
+        _currentColumn.clear();
     }
 
     void pushRow() {
@@ -43,6 +45,7 @@ public final class Result {
         createCurrentRow();
         _rows.add(_currentRow);
         _currentRow = null;
+        _currentColumn.clear();
     }
 
     private void createRows() {
