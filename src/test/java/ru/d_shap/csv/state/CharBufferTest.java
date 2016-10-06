@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link ru.d_shap.csv.state.CharBuffer}.
+ * Tests for {@link CharBuffer}.
  *
  * @author Dmitry Shapovalov
  */
@@ -22,7 +22,7 @@ public final class CharBufferTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.CharBuffer} class test.
+     * {@link CharBuffer} class test.
      */
     @Test
     public void emptyCharBufferTest() {
@@ -32,7 +32,7 @@ public final class CharBufferTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.CharBuffer} class test.
+     * {@link CharBuffer} class test.
      */
     @Test
     public void appendCharTest() {
@@ -52,7 +52,7 @@ public final class CharBufferTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.CharBuffer} class test.
+     * {@link CharBuffer} class test.
      */
     @Test
     public void charBufferExtensionTest() {
@@ -87,7 +87,7 @@ public final class CharBufferTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.CharBuffer} class test.
+     * {@link CharBuffer} class test.
      */
     @Test
     public void clearTest() {
