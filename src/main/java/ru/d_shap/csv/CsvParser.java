@@ -10,7 +10,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import ru.d_shap.csv.state.AbstractState;
-import ru.d_shap.csv.state.Result;
+import ru.d_shap.csv.state.ParserEventHandler;
 
 /**
  * Class to parse CSV from source.
@@ -53,7 +53,7 @@ public final class CsvParser {
             return null;
         }
 
-        Result result = new Result();
+        ParserEventHandler parserEventHandler = new ParserEventHandler();
         AbstractState state = AbstractState.getInitState();
         int read;
         while (true) {
@@ -61,10 +61,10 @@ public final class CsvParser {
             if (read < 0) {
                 break;
             }
-            state = state.processInput(read, result);
+            state = state.processInput(read, parserEventHandler);
         }
-        state.processInput(AbstractState.END_OF_INPUT, result);
-        return result.getResult();
+        state.processInput(AbstractState.END_OF_INPUT, parserEventHandler);
+        return parserEventHandler.getResult();
     }
 
 }
