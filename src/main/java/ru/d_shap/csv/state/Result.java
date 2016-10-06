@@ -30,8 +30,8 @@ public final class Result {
         _currentColumn = new CharBuffer();
     }
 
-    void pushChar(final char ch) {
-        _currentColumn.append(ch);
+    void pushSymbol(final int symbol) {
+        _currentColumn.append((char) symbol);
     }
 
     void pushColumn() {
@@ -44,6 +44,12 @@ public final class Result {
         createRows();
         createCurrentRow();
         _rows.add(_currentRow);
+        _currentRow = null;
+        _currentColumn.clear();
+    }
+
+    void pushRows() {
+        createRows();
         _currentRow = null;
         _currentColumn.clear();
     }
