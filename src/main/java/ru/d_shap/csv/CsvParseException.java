@@ -15,13 +15,6 @@ public final class CsvParseException extends RuntimeException {
 
     /**
      * Creates new object.
-     */
-    public CsvParseException() {
-        super();
-    }
-
-    /**
-     * Creates new object.
      *
      * @param message exception message.
      */
