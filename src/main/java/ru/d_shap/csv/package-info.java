@@ -24,7 +24,7 @@
  * builder.addColumn(4L);
  * builder.addColumn(10.01);
  * builder.addRow();
- * String CSV = builder.getCsv();
+ * String csv = builder.getCsv();
  * }</pre>
  * <p>
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
