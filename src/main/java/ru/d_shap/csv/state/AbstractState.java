@@ -37,7 +37,7 @@ public abstract class AbstractState {
     }
 
     /**
-     * Process input char and define next parser state.
+     * Process input symbol and define next parser state.
      *
      * @param symbol             input symbol.
      * @param parserEventHandler event handler to process parser events.
