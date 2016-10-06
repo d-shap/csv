@@ -4,6 +4,8 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+import ru.d_shap.csv.state.AbstractState;
+
 /**
  * Available separators between rows.
  *
@@ -11,11 +13,11 @@ package ru.d_shap.csv;
  */
 public enum RowSeparators {
 
-    CR("\r"),
+    CR(String.valueOf((char) AbstractState.CR)),
 
-    LF("\n"),
+    LF(String.valueOf((char) AbstractState.LF)),
 
-    CRLF("\r\n");
+    CRLF(CR.getValue() + LF.getValue());
 
     private final String _value;
 
@@ -23,12 +25,7 @@ public enum RowSeparators {
         _value = value;
     }
 
-    /**
-     * Character value of object.
-     *
-     * @return character value.
-     */
-    public String getValue() {
+    String getValue() {
         return _value;
     }
 

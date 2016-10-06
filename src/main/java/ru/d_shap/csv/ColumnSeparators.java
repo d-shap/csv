@@ -4,6 +4,8 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+import ru.d_shap.csv.state.AbstractState;
+
 /**
  * Available separators between columns in one row.
  *
@@ -11,9 +13,9 @@ package ru.d_shap.csv;
  */
 public enum ColumnSeparators {
 
-    COMMA(","),
+    COMMA(String.valueOf((char) AbstractState.COMMA)),
 
-    SEMICOLON(";");
+    SEMICOLON(String.valueOf((char) AbstractState.SEMICOLON));
 
     private final String _value;
 
@@ -21,12 +23,7 @@ public enum ColumnSeparators {
         _value = value;
     }
 
-    /**
-     * Character value of object.
-     *
-     * @return character value.
-     */
-    public String getValue() {
+    String getValue() {
         return _value;
     }
 
