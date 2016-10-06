@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link ru.d_shap.csv.CsvParser}.
+ * Tests for {@link CsvParser}.
  *
  * @author Dmitry Shapovalov
  */
@@ -27,7 +27,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readColumnsWithSemicolonsTest() {
@@ -41,7 +41,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readColumnsWithCommasTest() {
@@ -55,7 +55,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readColumnsWithSpecialsTest() {
@@ -69,7 +69,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readEmptyColumnsTest() {
@@ -88,7 +88,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readEmptySpecialColumnsTest() {
@@ -103,7 +103,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readColumnsWithQuotsTest() {
@@ -118,7 +118,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
     public void wrongQuotFailTest() {
@@ -127,7 +127,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
     public void notClosedQuotFailTest() {
@@ -136,7 +136,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
     public void notOpenedQuotFailTest() {
@@ -145,7 +145,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
     public void notAllColumnsInQuotFailTest() {
@@ -154,7 +154,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readRowsWithCrTest() {
@@ -170,7 +170,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readRowsWithLfTest() {
@@ -186,7 +186,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readRowsWithCrLfTest() {
@@ -202,7 +202,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readEmptyRowsTest() {
@@ -219,7 +219,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readRowsWithSpecialsTest() {
@@ -235,7 +235,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readTableTest() {
@@ -258,7 +258,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test
     public void readEmptyCsvTest() {
@@ -268,7 +268,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
     public void unquotedQuotTest() {
@@ -277,7 +277,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParser} class test.
+     * {@link CsvParser} class test.
      *
      * @throws IOException IO Exception.
      */

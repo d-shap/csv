@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link ru.d_shap.csv.CsvBuilder}.
+ * Tests for {@link CsvBuilder}.
  *
  * @author Dmitry Shapovalov
  */
@@ -25,7 +25,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addIntColumnTest() {
@@ -37,7 +37,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addLongColumnTest() {
@@ -49,7 +49,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addFloatColumnTest() {
@@ -61,7 +61,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addDoubleColumnTest() {
@@ -73,7 +73,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addBooleanColumnTest() {
@@ -85,7 +85,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addStringColumnTest() {
@@ -97,7 +97,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addStringWithSpecialsColumnTest() {
@@ -109,7 +109,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addMultipleColumnsTest() {
@@ -123,7 +123,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addMultipleColumnsWithSpecialsTest() {
@@ -138,7 +138,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addRowTest() {
@@ -154,7 +154,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void getCsvReusableTest() {
@@ -179,7 +179,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void addEmptyRowTest() {
@@ -197,7 +197,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void tableCsvTest() {
@@ -220,7 +220,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void changeSeparatorsTest() {
@@ -243,7 +243,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      */
     @Test
     public void defaultSeparatorsTest() {
@@ -271,7 +271,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     * {@link CsvBuilder} class test.
      *
      * @throws IOException IO Exception.
      */
