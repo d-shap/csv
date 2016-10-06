@@ -4,9 +4,14 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import ru.d_shap.csv.state.AbstractState;
 
 /**
  * Class to create CSV from rows and columns. Object can be used to create multiple CSVs.
@@ -19,7 +24,7 @@ public final class CsvBuilder {
 
     static {
         SPECIAL = new LinkedList<>();
-        SPECIAL.add("\"");
+        SPECIAL.add(String.valueOf((char) AbstractState.QUOT));
         SPECIAL.add(ColumnSeparators.COMMA.getValue());
         SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());
         SPECIAL.add(RowSeparators.CR.getValue());
@@ -176,33 +181,46 @@ public final class CsvBuilder {
      * @return created CSV.
      */
     public String getCsv() {
-        setRows();
-        String csv = convertToScv(_rows);
-        _rows = null;
-        _currentRow = null;
-        return csv;
+        StringWriter writer = new StringWriter();
+        try {
+            writeTo(writer);
+        } catch (IOException ex) {
+            // Ignore
+        }
+        return writer.getBuffer().toString();
     }
 
-    private String convertToScv(final List<List<String>> rows) {
-        StringBuilder result = new StringBuilder();
+    /**
+     * Writes CSV to the writer. After this call builder can be used to create new CSV.
+     *
+     * @param writer writer to write CSV.
+     * @throws IOException IO exception.
+     */
+    public void writeTo(final Writer writer) throws IOException {
+        setRows();
+        convertToCsv(writer);
+        _rows = null;
+        _currentRow = null;
+    }
 
-        for (List<String> row : rows) {
-            int size = row.size();
-            int sizeM1 = size - 1;
-            for (int i = 0; i <= size; i++) {
-                if (i == size) {
-                    result.append(_rowSeparator);
+    private void convertToCsv(final Writer writer) throws IOException {
+        int rowCount = _rows.size();
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            List<String> row = _rows.get(rowIndex);
+            int columnCount = row.size();
+            int columnCountM1 = columnCount - 1;
+            for (int columnIndex = 0; columnIndex <= columnCount; columnIndex++) {
+                if (columnIndex == columnCount) {
+                    writer.write(_rowSeparator);
                 } else {
-                    String column = row.get(i);
-                    result.append(column);
-                    if (i != sizeM1) {
-                        result.append(_columnSeparator);
+                    String column = row.get(columnIndex);
+                    writer.write(column);
+                    if (columnIndex != columnCountM1) {
+                        writer.write(_columnSeparator);
                     }
                 }
             }
         }
-
-        return result.toString();
     }
 
 }
