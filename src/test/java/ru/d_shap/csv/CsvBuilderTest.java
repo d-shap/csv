@@ -4,6 +4,9 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -265,6 +268,29 @@ public final class CsvBuilderTest {
         builder2.addRow();
         String csv2 = builder2.getCsv();
         Assert.assertEquals("1,true\r\n2,false,\r\n", csv2);
+    }
+
+    /**
+     * {@link ru.d_shap.csv.CsvBuilder} class test.
+     *
+     * @throws IOException IO Exception.
+     */
+    @Test
+    public void writeToTest() throws IOException {
+        CsvBuilder builder = new CsvBuilder();
+        builder.addColumn("");
+        builder.addColumn("");
+        builder.addRow();
+        builder.addColumn("\n");
+        builder.addColumn(",;");
+        builder.addColumn(12);
+        builder.addColumn("");
+        builder.addRow();
+
+        StringWriter writer = new StringWriter();
+        builder.writeTo(writer);
+        String csv = writer.toString();
+        Assert.assertEquals(";\r\n\"\n\";\",;\";12;\r\n", csv);
     }
 
 }

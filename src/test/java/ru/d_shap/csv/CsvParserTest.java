@@ -4,6 +4,9 @@
 // //////////////////////////////
 package ru.d_shap.csv;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 
 import org.junit.Assert;
@@ -271,6 +274,29 @@ public final class CsvParserTest {
     public void unquotedQuotTest() {
         String csv = "one;\"t\"wo\"\nthree;four";
         CsvParser.parseCsv(csv);
+    }
+
+    /**
+     * {@link ru.d_shap.csv.CsvParser} class test.
+     *
+     * @throws IOException IO Exception.
+     */
+    @Test
+    public void parseCsvFromReaderTest() throws IOException {
+        String csv = ";,\n,aaa,bbb,\"a\"\"b\";\r";
+        Reader reader = new StringReader(csv);
+        List<List<String>> result = CsvParser.parseCsv(reader);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("", result.get(0).get(0));
+        Assert.assertEquals("", result.get(0).get(1));
+        Assert.assertEquals("", result.get(0).get(2));
+        Assert.assertEquals(5, result.get(1).size());
+        Assert.assertEquals("", result.get(1).get(0));
+        Assert.assertEquals("aaa", result.get(1).get(1));
+        Assert.assertEquals("bbb", result.get(1).get(2));
+        Assert.assertEquals("a\"b", result.get(1).get(3));
+        Assert.assertEquals("", result.get(1).get(4));
     }
 
 }
