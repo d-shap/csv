@@ -11,17 +11,17 @@ package ru.d_shap.csv.state;
  */
 public abstract class AbstractState {
 
-    public static final char END_OF_INPUT = 0;
+    public static final int END_OF_INPUT = -1;
 
-    public static final char COMMA = ',';
+    public static final int COMMA = ',';
 
-    public static final char SEMICOLON = ';';
+    public static final int SEMICOLON = ';';
 
-    public static final char CR = '\r';
+    public static final int CR = '\r';
 
-    public static final char LF = '\n';
+    public static final int LF = '\n';
 
-    public static final char QUOT = '"';
+    public static final int QUOT = '"';
 
     AbstractState() {
         super();
@@ -39,10 +39,10 @@ public abstract class AbstractState {
     /**
      * Process input char and define next parser state.
      *
-     * @param ch     input symbol.
+     * @param symbol input symbol.
      * @param result parse result object.
      * @return next parser state.
      */
-    public abstract AbstractState processInput(char ch, Result result);
+    public abstract AbstractState processInput(int symbol, Result result);
 
 }
