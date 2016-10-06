@@ -39,13 +39,13 @@ public final class ResultTest {
     public void pushCharTest() {
         Result result = new Result();
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         Assert.assertNull(result.getResult());
 
-        result.pushChar('b');
+        result.pushSymbol('b');
         Assert.assertNull(result.getResult());
 
-        result.pushChar('c');
+        result.pushSymbol('c');
         Assert.assertNull(result.getResult());
     }
 
@@ -56,15 +56,15 @@ public final class ResultTest {
     public void pushColumnTest() {
         Result result = new Result();
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         Assert.assertNull(result.getResult());
 
-        result.pushChar('b');
+        result.pushSymbol('b');
         result.pushColumn();
         Assert.assertNull(result.getResult());
 
-        result.pushChar('c');
+        result.pushSymbol('c');
         result.pushColumn();
         Assert.assertNull(result.getResult());
     }
@@ -76,7 +76,7 @@ public final class ResultTest {
     public void pushRowTest() {
         Result result = new Result();
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         result.pushRow();
         List<List<String>> list1 = result.getResult();
@@ -85,9 +85,9 @@ public final class ResultTest {
         Assert.assertEquals(1, list1.get(0).size());
         Assert.assertEquals("a", list1.get(0).get(0));
 
-        result.pushChar('b');
+        result.pushSymbol('b');
         result.pushColumn();
-        result.pushChar('c');
+        result.pushSymbol('c');
         result.pushColumn();
         result.pushRow();
         List<List<String>> list2 = result.getResult();
@@ -113,10 +113,10 @@ public final class ResultTest {
         Assert.assertEquals(1, list1.get(0).size());
         Assert.assertEquals("", list1.get(0).get(0));
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         result.pushColumn();
-        result.pushChar('b');
+        result.pushSymbol('b');
         result.pushColumn();
         result.pushRow();
         List<List<String>> list2 = result.getResult();
@@ -127,7 +127,7 @@ public final class ResultTest {
         Assert.assertEquals("", list2.get(0).get(1));
         Assert.assertEquals("b", list2.get(0).get(2));
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         result.pushColumn();
         result.pushRow();
@@ -152,12 +152,12 @@ public final class ResultTest {
         Assert.assertEquals(1, list1.size());
         Assert.assertEquals(0, list1.get(0).size());
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         result.pushRow();
         result.pushRow();
         result.pushRow();
-        result.pushChar('b');
+        result.pushSymbol('b');
         result.pushColumn();
         result.pushRow();
         List<List<String>> list2 = result.getResult();
@@ -170,7 +170,7 @@ public final class ResultTest {
         Assert.assertEquals(1, list2.get(3).size());
         Assert.assertEquals("b", list2.get(3).get(0));
 
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
         result.pushRow();
         result.pushRow();
@@ -188,12 +188,12 @@ public final class ResultTest {
     @Test
     public void putMultipleCharsTest() {
         Result result = new Result();
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushColumn();
-        result.pushChar('b');
-        result.pushChar('c');
-        result.pushChar('d');
-        result.pushChar('e');
+        result.pushSymbol('b');
+        result.pushSymbol('c');
+        result.pushSymbol('d');
+        result.pushSymbol('e');
         result.pushColumn();
         result.pushColumn();
         result.pushRow();
@@ -212,14 +212,14 @@ public final class ResultTest {
     @Test
     public void skipPushColumnTest() {
         Result result = new Result();
-        result.pushChar('a');
+        result.pushSymbol('a');
         result.pushRow();
-        result.pushChar('b');
-        result.pushChar('c');
-        result.pushChar('d');
-        result.pushChar('e');
+        result.pushSymbol('b');
+        result.pushSymbol('c');
+        result.pushSymbol('d');
+        result.pushSymbol('e');
         result.pushRow();
-        result.pushChar('f');
+        result.pushSymbol('f');
         result.pushColumn();
         result.pushRow();
         List<List<String>> list = result.getResult();
