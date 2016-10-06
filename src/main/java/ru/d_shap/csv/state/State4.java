@@ -22,38 +22,39 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final int symbol, final Result result) {
+    public AbstractState processInput(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                result.pushColumn();
-                result.pushRow();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
                 return null;
             case COMMA:
-                result.pushColumn();
-                result.pushRow();
-                result.pushColumn();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
+                parserEventHandler.pushColumn();
                 return State1.INSTANCE;
             case SEMICOLON:
-                result.pushColumn();
-                result.pushRow();
-                result.pushColumn();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
+                parserEventHandler.pushColumn();
                 return State1.INSTANCE;
             case CR:
-                result.pushColumn();
-                result.pushRow();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
                 return State3.INSTANCE;
             case LF:
-                result.pushColumn();
-                result.pushRow();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
                 return State2.INSTANCE;
             case QUOT:
-                result.pushColumn();
-                result.pushRow();
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
                 return State5.INSTANCE;
             default:
-                result.pushColumn();
-                result.pushRow();
-                result.pushSymbol(symbol);
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
+                parserEventHandler.pushSymbol(symbol);
                 return State7.INSTANCE;
         }
     }

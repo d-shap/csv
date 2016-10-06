@@ -22,25 +22,26 @@ final class State2 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final int symbol, final Result result) {
+    public AbstractState processInput(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
                 return null;
             case COMMA:
-                result.pushColumn();
+                parserEventHandler.pushColumn();
                 return State1.INSTANCE;
             case SEMICOLON:
-                result.pushColumn();
+                parserEventHandler.pushColumn();
                 return State1.INSTANCE;
             case CR:
                 return State3.INSTANCE;
             case LF:
-                result.pushRow();
+                parserEventHandler.pushRow();
                 return State2.INSTANCE;
             case QUOT:
                 return State5.INSTANCE;
             default:
-                result.pushSymbol(symbol);
+                parserEventHandler.pushSymbol(symbol);
                 return State7.INSTANCE;
         }
     }
