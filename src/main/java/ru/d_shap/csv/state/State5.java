@@ -24,26 +24,26 @@ final class State5 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final char ch, final Result result) {
-        switch (ch) {
+    public AbstractState processInput(final int symbol, final Result result) {
+        switch (symbol) {
             case END_OF_INPUT:
-                throw new CsvParseException("Wrong symbol obtained: " + ch);
+                throw new CsvParseException("Wrong symbol obtained: " + (char) symbol);
             case COMMA:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
             case SEMICOLON:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
             case CR:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
             case LF:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
             case QUOT:
                 return State6.INSTANCE;
             default:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
         }
     }

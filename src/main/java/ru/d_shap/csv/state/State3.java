@@ -23,8 +23,8 @@ final class State3 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final char ch, final Result result) {
-        switch (ch) {
+    public AbstractState processInput(final int symbol, final Result result) {
+        switch (symbol) {
             case END_OF_INPUT:
                 result.pushRow();
                 return null;
@@ -47,7 +47,7 @@ final class State3 extends AbstractState {
                 return State5.INSTANCE;
             default:
                 result.pushRow();
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State7.INSTANCE;
         }
     }

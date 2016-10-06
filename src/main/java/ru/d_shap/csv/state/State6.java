@@ -24,8 +24,8 @@ final class State6 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final char ch, final Result result) {
-        switch (ch) {
+    public AbstractState processInput(final int symbol, final Result result) {
+        switch (symbol) {
             case END_OF_INPUT:
                 result.pushColumn();
                 result.pushRow();
@@ -43,10 +43,10 @@ final class State6 extends AbstractState {
                 result.pushRow();
                 return State2.INSTANCE;
             case QUOT:
-                result.pushChar(ch);
+                result.pushSymbol(symbol);
                 return State5.INSTANCE;
             default:
-                throw new CsvParseException("Wrong symbol obtained: " + ch);
+                throw new CsvParseException("Wrong symbol obtained: " + (char) symbol);
         }
     }
 
