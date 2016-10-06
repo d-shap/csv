@@ -13,7 +13,7 @@ import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
 
 /**
- * Tests for {@link ru.d_shap.csv.state.State7}.
+ * Tests for {@link State7}.
  *
  * @author Dmitry Shapovalov
  */
@@ -27,7 +27,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processEndOfInputTest() {
@@ -40,7 +40,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processCommaTest() {
@@ -54,7 +54,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processSemicolonTest() {
@@ -68,7 +68,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processCrTest() {
@@ -82,7 +82,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processLfTest() {
@@ -95,7 +95,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test(expected = CsvParseException.class)
     public void processQuotTest() {
@@ -104,7 +104,7 @@ public final class State7Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State7} class test.
+     * {@link State7} class test.
      */
     @Test
     public void processDefaultTest() {

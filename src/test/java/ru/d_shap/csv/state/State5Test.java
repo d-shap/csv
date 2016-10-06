@@ -13,7 +13,7 @@ import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
 
 /**
- * Tests for {@link ru.d_shap.csv.state.State5}.
+ * Tests for {@link State5}.
  *
  * @author Dmitry Shapovalov
  */
@@ -27,7 +27,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test(expected = CsvParseException.class)
     public void processEndOfInputTest() {
@@ -36,7 +36,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processCommaTest() {
@@ -49,7 +49,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processSemicolonTest() {
@@ -62,7 +62,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processCrTest() {
@@ -75,7 +75,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processLfTest() {
@@ -88,7 +88,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processQuotTest() {
@@ -101,7 +101,7 @@ public final class State5Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State5} class test.
+     * {@link State5} class test.
      */
     @Test
     public void processDefaultTest() {

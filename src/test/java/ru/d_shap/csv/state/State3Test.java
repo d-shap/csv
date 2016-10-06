@@ -12,7 +12,7 @@ import org.junit.Test;
 import ru.d_shap.csv.CsvParser;
 
 /**
- * Tests for {@link ru.d_shap.csv.state.State3}.
+ * Tests for {@link State3}.
  *
  * @author Dmitry Shapovalov
  */
@@ -26,7 +26,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processEndOfInputTest() {
@@ -39,7 +39,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processCommaTest() {
@@ -55,7 +55,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processSemicolonTest() {
@@ -71,7 +71,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processCrTest() {
@@ -85,7 +85,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processLfTest() {
@@ -98,7 +98,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processQuotTest() {
@@ -113,7 +113,7 @@ public final class State3Test {
     }
 
     /**
-     * {@link ru.d_shap.csv.state.State3} class test.
+     * {@link State3} class test.
      */
     @Test
     public void processDefaultTest() {
