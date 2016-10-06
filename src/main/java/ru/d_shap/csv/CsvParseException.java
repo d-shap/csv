@@ -16,10 +16,24 @@ public final class CsvParseException extends RuntimeException {
     /**
      * Creates new object.
      *
-     * @param message exception message.
+     * @param symbol      wrong symbol.
+     * @param lastSymbols last symbols before wrong symbol.
      */
-    public CsvParseException(final String message) {
-        super(message);
+    public CsvParseException(final int symbol, final String lastSymbols) {
+        super(getErrorMessage(symbol, lastSymbols));
+    }
+
+    private static String getErrorMessage(final int symbol, final String lastSymbols) {
+        StringBuilder builder = new StringBuilder(80);
+        builder.append("Wrong symbol obtained: '");
+        builder.append((char) symbol);
+        builder.append("' (");
+        builder.append(symbol);
+        builder.append("). ");
+        builder.append("Last symbols: \"");
+        builder.append(lastSymbols);
+        builder.append("\".");
+        return builder.toString();
     }
 
 }
