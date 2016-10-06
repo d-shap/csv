@@ -39,10 +39,10 @@ public abstract class AbstractState {
     /**
      * Process input char and define next parser state.
      *
-     * @param symbol input symbol.
-     * @param result parse result object.
+     * @param symbol             input symbol.
+     * @param parserEventHandler event handler to process parser events.
      * @return next parser state.
      */
-    public abstract AbstractState processInput(int symbol, Result result);
+    public abstract AbstractState processInput(int symbol, ParserEventHandler parserEventHandler);
 
 }
