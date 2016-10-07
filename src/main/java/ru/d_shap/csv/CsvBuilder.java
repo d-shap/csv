@@ -23,7 +23,7 @@ public final class CsvBuilder {
     private static final List<String> SPECIAL;
 
     static {
-        SPECIAL = new LinkedList<>();
+        SPECIAL = new LinkedList<String>();
         SPECIAL.add(String.valueOf((char) AbstractState.QUOT));
         SPECIAL.add(ColumnSeparators.COMMA.getValue());
         SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());
@@ -62,13 +62,13 @@ public final class CsvBuilder {
 
     private void setRows() {
         if (_rows == null) {
-            _rows = new ArrayList<>();
+            _rows = new ArrayList<List<String>>();
         }
     }
 
     private void setCurrentRow() {
         if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
+            _currentRow = new ArrayList<String>();
         }
     }
 

@@ -68,13 +68,13 @@ public final class ParserEventHandler {
 
     private void createRows() {
         if (_rows == null) {
-            _rows = new ArrayList<>();
+            _rows = new ArrayList<List<String>>();
         }
     }
 
     private void createCurrentRow() {
         if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
+            _currentRow = new ArrayList<String>();
         }
     }
 
