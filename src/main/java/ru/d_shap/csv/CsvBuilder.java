@@ -35,15 +35,66 @@ public final class CsvBuilder {
 
     private final String _rowSeparator;
 
+    private final boolean _checkRectangular;
+
     private List<List<String>> _rows;
 
     private List<String> _currentRow;
+
+    private int _columnCount;
 
     /**
      * Creates new object.
      */
     public CsvBuilder() {
-        this(ColumnSeparators.SEMICOLON, RowSeparators.CRLF);
+        this(ColumnSeparators.COMMA, RowSeparators.CRLF, false);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param checkRectangular check if all rows should have the same column count.
+     */
+    public CsvBuilder(final boolean checkRectangular) {
+        this(ColumnSeparators.COMMA, RowSeparators.CRLF, checkRectangular);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param columnSeparator separator between columns.
+     */
+    public CsvBuilder(final ColumnSeparators columnSeparator) {
+        this(columnSeparator, RowSeparators.CRLF, false);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param columnSeparator  separator between columns.
+     * @param checkRectangular check if all rows should have the same column count.
+     */
+    public CsvBuilder(final ColumnSeparators columnSeparator, final boolean checkRectangular) {
+        this(columnSeparator, RowSeparators.CRLF, checkRectangular);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param rowSeparator separator between rows.
+     */
+    public CsvBuilder(final RowSeparators rowSeparator) {
+        this(ColumnSeparators.COMMA, rowSeparator, false);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param rowSeparator     separator between rows.
+     * @param checkRectangular check if all rows should have the same column count.
+     */
+    public CsvBuilder(final RowSeparators rowSeparator, final boolean checkRectangular) {
+        this(ColumnSeparators.COMMA, rowSeparator, checkRectangular);
     }
 
     /**
@@ -53,11 +104,24 @@ public final class CsvBuilder {
      * @param rowSeparator    separator between rows.
      */
     public CsvBuilder(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        this(columnSeparator, rowSeparator, false);
+    }
+
+    /**
+     * Creates new object.
+     *
+     * @param columnSeparator  separator between columns.
+     * @param rowSeparator     separator between rows.
+     * @param checkRectangular check if all rows should have the same column count.
+     */
+    public CsvBuilder(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
         super();
         _columnSeparator = columnSeparator.getValue();
         _rowSeparator = rowSeparator.getValue();
+        _checkRectangular = checkRectangular;
         _rows = null;
         _currentRow = null;
+        _columnCount = -1;
     }
 
     private void setRows() {
@@ -170,6 +234,12 @@ public final class CsvBuilder {
     public CsvBuilder addRow() {
         setRows();
         setCurrentRow();
+        if (_columnCount < 0) {
+            _columnCount = _currentRow.size();
+        }
+        if (_checkRectangular && _columnCount != _currentRow.size()) {
+            throw new NotRectangularException();
+        }
         _rows.add(_currentRow);
         _currentRow = null;
         return this;
@@ -201,6 +271,7 @@ public final class CsvBuilder {
         convertToCsv(writer);
         _rows = null;
         _currentRow = null;
+        _columnCount = -1;
     }
 
     private void convertToCsv(final Writer writer) throws IOException {
