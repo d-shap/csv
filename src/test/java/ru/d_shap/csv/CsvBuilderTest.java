@@ -119,7 +119,7 @@ public final class CsvBuilderTest {
         builder.addColumn("aaa");
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1;true;aaa\r\n", csv);
+        Assert.assertEquals("1,true,aaa\r\n", csv);
     }
 
     /**
@@ -134,7 +134,7 @@ public final class CsvBuilderTest {
         builder.addColumn("a,a;a");
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1;true;aaa;\"a,a;a\"\r\n", csv);
+        Assert.assertEquals("1,true,aaa,\"a,a;a\"\r\n", csv);
     }
 
     /**
@@ -150,7 +150,7 @@ public final class CsvBuilderTest {
         builder.addColumn(4);
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1;2\r\n3;4\r\n", csv);
+        Assert.assertEquals("1,2\r\n3,4\r\n", csv);
     }
 
     /**
@@ -166,7 +166,7 @@ public final class CsvBuilderTest {
         builder.addColumn(2);
         builder.addRow();
         csv = builder.getCsv();
-        Assert.assertEquals("1;2\r\n", csv);
+        Assert.assertEquals("1,2\r\n", csv);
 
         csv = builder.getCsv();
         Assert.assertEquals("", csv);
@@ -175,7 +175,7 @@ public final class CsvBuilderTest {
         builder.addColumn(4);
         builder.addRow();
         csv = builder.getCsv();
-        Assert.assertEquals("3;4\r\n", csv);
+        Assert.assertEquals("3,4\r\n", csv);
     }
 
     /**
@@ -193,7 +193,7 @@ public final class CsvBuilderTest {
         builder.addColumn(false);
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1;true\r\n\r\n\r\n2;false\r\n", csv);
+        Assert.assertEquals("1,true\r\n\r\n\r\n2,false\r\n", csv);
     }
 
     /**
@@ -216,7 +216,7 @@ public final class CsvBuilderTest {
         builder.addColumn(10.01);
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1;true\r\n2.2;aaa;\"a;a;a\";\r\nfalse\r\n4;10.01\r\n", csv);
+        Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
     }
 
     /**
@@ -224,7 +224,7 @@ public final class CsvBuilderTest {
      */
     @Test
     public void changeSeparatorsTest() {
-        CsvBuilder builder = new CsvBuilder(ColumnSeparators.COMMA, RowSeparators.LF);
+        CsvBuilder builder = new CsvBuilder(ColumnSeparators.SEMICOLON, RowSeparators.LF);
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -239,7 +239,7 @@ public final class CsvBuilderTest {
         builder.addColumn(10.01);
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1,true\n2.2,aaa,\"a;a;a\",\nfalse\n4,10.01\n", csv);
+        Assert.assertEquals("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n", csv);
     }
 
     /**
@@ -247,7 +247,7 @@ public final class CsvBuilderTest {
      */
     @Test
     public void defaultSeparatorsTest() {
-        CsvBuilder builder1 = new CsvBuilder(ColumnSeparators.SEMICOLON, RowSeparators.LF);
+        CsvBuilder builder1 = new CsvBuilder(RowSeparators.LF);
         builder1.addColumn(1);
         builder1.addColumn(true);
         builder1.addRow();
@@ -256,9 +256,9 @@ public final class CsvBuilderTest {
         builder1.addColumn("");
         builder1.addRow();
         String csv1 = builder1.getCsv();
-        Assert.assertEquals("1;true\n2;false;\n", csv1);
+        Assert.assertEquals("1,true\n2,false,\n", csv1);
 
-        CsvBuilder builder2 = new CsvBuilder(ColumnSeparators.COMMA, RowSeparators.CRLF);
+        CsvBuilder builder2 = new CsvBuilder(ColumnSeparators.SEMICOLON);
         builder2.addColumn(1);
         builder2.addColumn(true);
         builder2.addRow();
@@ -267,7 +267,7 @@ public final class CsvBuilderTest {
         builder2.addColumn("");
         builder2.addRow();
         String csv2 = builder2.getCsv();
-        Assert.assertEquals("1,true\r\n2,false,\r\n", csv2);
+        Assert.assertEquals("1;true\r\n2;false;\r\n", csv2);
     }
 
     /**
@@ -290,7 +290,7 @@ public final class CsvBuilderTest {
         StringWriter writer = new StringWriter();
         builder.writeTo(writer);
         String csv = writer.toString();
-        Assert.assertEquals(";\r\n\"\n\";\",;\";12;\r\n", csv);
+        Assert.assertEquals(",\r\n\"\n\",\",;\",12,\r\n", csv);
     }
 
 }
