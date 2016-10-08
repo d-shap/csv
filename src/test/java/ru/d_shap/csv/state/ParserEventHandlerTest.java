@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.csv.NotRectangularException;
+
 /**
  * Tests for {@link ParserEventHandler}.
  *
@@ -28,7 +30,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void newObjectTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
         Assert.assertEquals("", parserEventHandler.getLastSymbols());
         Assert.assertNull(parserEventHandler.getResult());
     }
@@ -38,7 +40,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void addLastSymbolTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.addLastSymbol('a');
         Assert.assertEquals("a", parserEventHandler.getLastSymbols());
@@ -86,7 +88,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushSymbolTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.pushSymbol('a');
         Assert.assertNull(parserEventHandler.getResult());
@@ -103,7 +105,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushColumnTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
@@ -123,7 +125,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushRowTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
@@ -152,7 +154,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushEmptyColumnTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
@@ -193,7 +195,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushEmptyRowTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
 
         parserEventHandler.pushRow();
         List<List<String>> list1 = parserEventHandler.getResult();
@@ -236,7 +238,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void putMultipleSymbolsTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('b');
@@ -260,7 +262,7 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void skipPushColumnTest() {
-        ParserEventHandler parserEventHandler = new ParserEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(false);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushRow();
         parserEventHandler.pushSymbol('b');
@@ -278,6 +280,22 @@ public final class ParserEventHandlerTest {
         Assert.assertEquals(0, list.get(1).size());
         Assert.assertEquals(1, list.get(2).size());
         Assert.assertEquals("f", list.get(2).get(0));
+    }
+
+    /**
+     * {@link ParserEventHandler} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void checkRectangularTest() {
+        ParserEventHandler parserEventHandler = new ParserEventHandler(true);
+        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+        parserEventHandler.pushSymbol('b');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushSymbol('c');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
     }
 
 }
