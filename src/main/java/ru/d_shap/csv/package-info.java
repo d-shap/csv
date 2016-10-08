@@ -30,7 +30,7 @@
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
  * </p>
  * <pre>{@code
- * String csv = "value1,,false\nvalue2,true,\n\n,value3,value3\n";
+ * String csv = "value1,,false\r\nvalue2,true,\r\n\r\n,value3,value3\r\n";
  * List<List<String>> result = CsvParser.parseCsv(csv);
  * }</pre>
  */
