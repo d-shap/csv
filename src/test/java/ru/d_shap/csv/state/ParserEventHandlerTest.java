@@ -298,4 +298,40 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushRow();
     }
 
+    /**
+     * {@link ParserEventHandler} class test.
+     */
+    @Test
+    public void reusableTest() {
+        ParserEventHandler parserEventHandler = new ParserEventHandler(true);
+
+        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushSymbol('b');
+        parserEventHandler.pushSymbol('c');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+        List<List<String>> list1 = parserEventHandler.getResult();
+        Assert.assertNotNull(list1);
+        Assert.assertEquals(1, list1.size());
+        Assert.assertEquals(2, list1.get(0).size());
+        Assert.assertEquals("a", list1.get(0).get(0));
+        Assert.assertEquals("bc", list1.get(0).get(1));
+
+        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+        parserEventHandler.pushSymbol('b');
+        parserEventHandler.pushSymbol('c');
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+        List<List<String>> list2 = parserEventHandler.getResult();
+        Assert.assertNotNull(list2);
+        Assert.assertEquals(2, list2.size());
+        Assert.assertEquals(1, list2.get(0).size());
+        Assert.assertEquals("a", list2.get(0).get(0));
+        Assert.assertEquals(1, list2.get(1).size());
+        Assert.assertEquals("bc", list2.get(1).get(0));
+    }
+
 }
