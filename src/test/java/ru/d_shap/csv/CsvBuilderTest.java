@@ -246,28 +246,34 @@ public final class CsvBuilderTest {
      * {@link CsvBuilder} class test.
      */
     @Test
-    public void defaultSeparatorsTest() {
-        CsvBuilder builder1 = new CsvBuilder(RowSeparators.LF);
-        builder1.addColumn(1);
-        builder1.addColumn(true);
-        builder1.addRow();
-        builder1.addColumn(2);
-        builder1.addColumn(false);
-        builder1.addColumn("");
-        builder1.addRow();
-        String csv1 = builder1.getCsv();
-        Assert.assertEquals("1,true\n2,false,\n", csv1);
-
-        CsvBuilder builder2 = new CsvBuilder(ColumnSeparators.SEMICOLON);
-        builder2.addColumn(1);
-        builder2.addColumn(true);
-        builder2.addRow();
-        builder2.addColumn(2);
-        builder2.addColumn(false);
-        builder2.addColumn("");
-        builder2.addRow();
-        String csv2 = builder2.getCsv();
+    public void changeColumnSeparatorTest() {
+        CsvBuilder builder = new CsvBuilder(ColumnSeparators.SEMICOLON);
+        builder.addColumn(1);
+        builder.addColumn(true);
+        builder.addRow();
+        builder.addColumn(2);
+        builder.addColumn(false);
+        builder.addColumn("");
+        builder.addRow();
+        String csv2 = builder.getCsv();
         Assert.assertEquals("1;true\r\n2;false;\r\n", csv2);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
+    public void changeRowSeparatorTest() {
+        CsvBuilder builder = new CsvBuilder(RowSeparators.LF);
+        builder.addColumn(1);
+        builder.addColumn(true);
+        builder.addRow();
+        builder.addColumn(2);
+        builder.addColumn(false);
+        builder.addColumn("");
+        builder.addRow();
+        String csv1 = builder.getCsv();
+        Assert.assertEquals("1,true\n2,false,\n", csv1);
     }
 
     /**
@@ -291,6 +297,107 @@ public final class CsvBuilderTest {
         builder.writeTo(writer);
         String csv = writer.toString();
         Assert.assertEquals(",\r\n\"\n\",\",;\",12,\r\n", csv);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
+    public void checkRectangularTest() {
+        CsvBuilder builder = new CsvBuilder(true);
+        builder.addColumn("1");
+        builder.addColumn("2");
+        builder.addRow();
+        builder.addColumn("3");
+        builder.addColumn("4");
+        builder.addRow();
+        String csv = builder.getCsv();
+        Assert.assertEquals("1,2\r\n3,4\r\n", csv);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
+    public void checkRectangularReusableTest() {
+        CsvBuilder builder = new CsvBuilder(true);
+        builder.addColumn(1);
+        builder.addColumn(2);
+        builder.addColumn(3);
+        builder.addRow();
+        builder.addColumn(4);
+        builder.addColumn(5);
+        builder.addColumn(6);
+        builder.addRow();
+        String csv1 = builder.getCsv();
+        Assert.assertEquals("1,2,3\r\n4,5,6\r\n", csv1);
+
+        builder.addColumn(1);
+        builder.addRow();
+        builder.addColumn(2);
+        builder.addRow();
+        String csv2 = builder.getCsv();
+        Assert.assertEquals("1\r\n2\r\n", csv2);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void checkRectangularFailTest() {
+        CsvBuilder builder = new CsvBuilder(true);
+        builder.addColumn("1");
+        builder.addColumn("2");
+        builder.addRow();
+        builder.addColumn("3");
+        builder.addColumn("4");
+        builder.addColumn("5");
+        builder.addRow();
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void changeSeparatorsCheckRectangularFailTest() {
+        CsvBuilder builder = new CsvBuilder(ColumnSeparators.SEMICOLON, RowSeparators.LF, true);
+        builder.addColumn("1");
+        builder.addColumn("2");
+        builder.addRow();
+        builder.addColumn("3");
+        builder.addColumn("4");
+        builder.addColumn("5");
+        builder.addRow();
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void changeColumnSeparatorCheckRectangularFailTest() {
+        CsvBuilder builder = new CsvBuilder(ColumnSeparators.SEMICOLON, true);
+        builder.addColumn("1");
+        builder.addColumn("2");
+        builder.addRow();
+        builder.addColumn("3");
+        builder.addColumn("4");
+        builder.addColumn("5");
+        builder.addRow();
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void changeRowSeparatorCheckRectangularFailTest() {
+        CsvBuilder builder = new CsvBuilder(RowSeparators.LF, true);
+        builder.addColumn("1");
+        builder.addColumn("2");
+        builder.addRow();
+        builder.addColumn("3");
+        builder.addColumn("4");
+        builder.addColumn("5");
+        builder.addRow();
     }
 
 }
