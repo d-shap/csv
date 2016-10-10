@@ -148,7 +148,7 @@ public final class CsvParserTest {
      * {@link CsvParser} class test.
      */
     @Test(expected = CsvParseException.class)
-    public void notAllColumnsInQuotFailTest() {
+    public void notAllColumnInQuotFailTest() {
         String csv = "aaa,bb,\"ccc\"cc,dd";
         CsvParser.parseCsv(csv);
     }
@@ -297,6 +297,66 @@ public final class CsvParserTest {
         Assert.assertEquals("bbb", result.get(1).get(2));
         Assert.assertEquals("a\"b", result.get(1).get(3));
         Assert.assertEquals("", result.get(1).get(4));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void checkRectangularTest() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parseCsv(csv, true);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3", result.get(0).get(2));
+        Assert.assertEquals(3, result.get(1).size());
+        Assert.assertEquals("4", result.get(1).get(0));
+        Assert.assertEquals("5", result.get(1).get(1));
+        Assert.assertEquals("6", result.get(1).get(2));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void checkRectangularFailTest() {
+        String csv = "1,2\r\n3,4,5\r\n";
+        CsvParser.parseCsv(csv, true);
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     *
+     * @throws IOException IO Exception.
+     */
+    @Test
+    public void parseCsvFromReaderCheckRectangularTest() throws IOException {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        Reader reader = new StringReader(csv);
+        List<List<String>> result = CsvParser.parseCsv(reader, true);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3", result.get(0).get(2));
+        Assert.assertEquals(3, result.get(1).size());
+        Assert.assertEquals("4", result.get(1).get(0));
+        Assert.assertEquals("5", result.get(1).get(1));
+        Assert.assertEquals("6", result.get(1).get(2));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     *
+     * @throws IOException IO Exception.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void parseCsvFromReaderCheckRectangularFailTest() throws IOException {
+        String csv = "1,2\r\n3,4,5\r\n";
+        Reader reader = new StringReader(csv);
+        CsvParser.parseCsv(reader, true);
     }
 
 }
