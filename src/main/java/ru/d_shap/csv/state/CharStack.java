@@ -35,11 +35,33 @@ final class CharStack {
 
     @Override
     public String toString() {
+        String result;
         if (_overflow) {
-            return new String(_buffer, _index, _buffer.length - _index) + new String(_buffer, 0, _index);
+            result = new String(_buffer, _index, _buffer.length - _index) + new String(_buffer, 0, _index);
         } else {
-            return new String(_buffer, 0, _index);
+            result = new String(_buffer, 0, _index);
         }
+        return replaceCrLf(result);
+    }
+
+    private String replaceCrLf(final String str) {
+        StringBuilder builder = new StringBuilder(str.length() * 2);
+        int lng = str.length();
+        for (int i = 0; i < lng; i++) {
+            char ch = str.charAt(i);
+            switch (ch) {
+                case AbstractState.CR:
+                    builder.append("\\r");
+                    break;
+                case AbstractState.LF:
+                    builder.append("\\n");
+                    break;
+                default:
+                    builder.append(ch);
+                    break;
+            }
+        }
+        return builder.toString();
     }
 
 }
