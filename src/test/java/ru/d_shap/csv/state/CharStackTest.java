@@ -104,4 +104,21 @@ public final class CharStackTest {
         Assert.assertEquals("34567890ab", charStack.toString());
     }
 
+    /**
+     * {@link CharStack} class test.
+     */
+    @Test
+    public void replaceCrLfTest() {
+        CharStack charStack = new CharStack();
+        charStack.append('a');
+        charStack.append('\r');
+        charStack.append('b');
+        charStack.append('\n');
+        charStack.append('c');
+        charStack.append('\r');
+        charStack.append('\n');
+        charStack.append('d');
+        Assert.assertEquals("a\\rb\\nc\\r\\nd", charStack.toString());
+    }
+
 }
