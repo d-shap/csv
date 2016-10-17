@@ -5,8 +5,9 @@
     <property name="charset" value="UTF-8" />
 
     <!-- Headers -->
-    <module name="Header">
-        <property name="header" value="// //////////////////////////////\n// This code is authored\n// Dmitry Shapovalov\n// //////////////////////////////\n" />
+    <module name="RegexpHeader">
+        <property name="headerFile" value="style-header.txt" />
+        <property name="fileExtensions" value="java" />
     </module>
 
     <!-- Javadoc Comments -->
