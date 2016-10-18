@@ -5,7 +5,7 @@
     <property name="charset" value="UTF-8" />
 
     <!-- Headers -->
-    <module name="RegexpHeader">
+    <module name="Header">
         <property name="headerFile" value="style-header.txt" />
         <property name="fileExtensions" value="java" />
     </module>
