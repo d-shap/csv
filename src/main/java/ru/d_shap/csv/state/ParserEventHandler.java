@@ -1,57 +1,60 @@
-// CSV-parser converts source stream to rows and columns and vice versa.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// CSV parser converts source stream to rows and columns and vice versa.
 // Copyright (C) 2016 Dmitry Shapovalov.
 //
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// This file is part of CSV parser.
+//
+// CSV parser is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// This program is distributed in the hope that it will be useful,
+// CSV parser is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
+// GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
+// You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.d_shap.csv.NotRectangularException;
+import ru.d_shap.csv.handler.IParserEventHandler;
 
 /**
- * Class obtains events from state machine and creates result CSV.
+ * Class obtains events from parser state machine and delegates them to {@link ru.d_shap.csv.handler.IParserEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
 public final class ParserEventHandler {
 
+    private final IParserEventHandler _parserEventHandler;
+
     private final boolean _checkRectangular;
 
     private final CharStack _lastSymbols;
 
-    private List<List<String>> _rows;
-
-    private List<String> _currentRow;
-
     private final CharBuffer _currentColumn;
 
-    private int _columnCount;
+    private int _firstRowColumnCount;
+
+    private int _currentColumnCount;
 
     /**
      * Creates new object.
      *
-     * @param checkRectangular check if all rows should have the same column count.
+     * @param parserEventHandler event handler to delegate event calls.
+     * @param checkRectangular   check if all rows should have the same column count.
      */
-    public ParserEventHandler(final boolean checkRectangular) {
+    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
         super();
+        _parserEventHandler = parserEventHandler;
         _checkRectangular = checkRectangular;
         _lastSymbols = new CharStack();
-        _rows = null;
-        _currentRow = null;
         _currentColumn = new CharBuffer();
-        _columnCount = -1;
+        _firstRowColumnCount = -1;
+        _currentColumnCount = 0;
     }
 
     void addLastSymbol(final int symbol) {
@@ -67,55 +70,22 @@ public final class ParserEventHandler {
     }
 
     void pushColumn() {
-        setCurrentRow();
-        _currentRow.add(_currentColumn.toString());
+        String column = _currentColumn.toString();
+        _parserEventHandler.pushColumn(column);
         _currentColumn.clear();
+        _currentColumnCount++;
     }
 
     void pushRow() {
-        setRows();
-        setCurrentRow();
-        if (_columnCount < 0) {
-            _columnCount = _currentRow.size();
+        if (_firstRowColumnCount < 0) {
+            _firstRowColumnCount = _currentColumnCount;
         }
-        if (_checkRectangular && _columnCount != _currentRow.size()) {
+        if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
             throw new NotRectangularException(_lastSymbols.toString());
         }
-        _rows.add(_currentRow);
-        _currentRow = null;
+        _parserEventHandler.pushRow();
         _currentColumn.clear();
-    }
-
-    void pushRows() {
-        setRows();
-        _currentRow = null;
-        _currentColumn.clear();
-    }
-
-    private void setRows() {
-        if (_rows == null) {
-            _rows = new ArrayList<List<String>>();
-        }
-    }
-
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<String>();
-        }
-    }
-
-    /**
-     * Return parse result.
-     *
-     * @return parse result.
-     */
-    public List<List<String>> getResult() {
-        List<List<String>> result = _rows;
-        _rows = null;
-        _currentRow = null;
-        _currentColumn.clear();
-        _columnCount = -1;
-        return result;
+        _currentColumnCount = 0;
     }
 
 }
