@@ -23,37 +23,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CSV parser event handler, that accumulates columns and rows in memory and returns them with {@link #getCsv()} method.
+ * CSV parser event handler, that accumulates columns and rows in memory.
  *
  * @author Dmitry Shapovalov
  */
 public final class ListParserEventHandler implements IParserEventHandler {
 
-    private List<List<String>> _rows;
+    private final List<List<String>> _rows;
 
     private List<String> _currentRow;
 
     /**
-     * Creates new object.
+     * Create new object.
      */
     public ListParserEventHandler() {
         super();
-        _rows = createRows();
+        _rows = new ArrayList<List<String>>();
         _currentRow = null;
     }
 
-    private List<List<String>> createRows() {
-        return new ArrayList<List<String>>();
-    }
-
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<String>();
-        }
+    @Override
+    public int getMaxColumnLength() {
+        return -1;
     }
 
     @Override
-    public void pushColumn(final String column) {
+    public boolean checkMaxColumnLength() {
+        return false;
+    }
+
+    @Override
+    public void pushColumn(final String column, final int actualLength) {
         setCurrentRow();
         _currentRow.add(column);
     }
@@ -65,16 +65,19 @@ public final class ListParserEventHandler implements IParserEventHandler {
         _currentRow = null;
     }
 
+    private void setCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<String>();
+        }
+    }
+
     /**
      * Return parse result as list of rows, each row is a list of columns.
      *
      * @return parse result.
      */
     public List<List<String>> getCsv() {
-        List<List<String>> result = _rows;
-        _rows = createRows();
-        _currentRow = null;
-        return result;
+        return _rows;
     }
 
 }
