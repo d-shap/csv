@@ -27,14 +27,24 @@ package ru.d_shap.csv.handler;
 public final class EmptyParserEventHandler implements IParserEventHandler {
 
     /**
-     * Creates new object.
+     * Create new object.
      */
     public EmptyParserEventHandler() {
         super();
     }
 
     @Override
-    public void pushColumn(final String column) {
+    public int getMaxColumnLength() {
+        return 0;
+    }
+
+    @Override
+    public boolean checkMaxColumnLength() {
+        return false;
+    }
+
+    @Override
+    public void pushColumn(final String column, final int actualLength) {
         // Ignore
     }
 
