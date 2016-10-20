@@ -20,19 +20,40 @@
 package ru.d_shap.csv.handler;
 
 /**
- * Interface to process events, pushed from CSV parser. After column separator parser invokes
- * {@link #pushColumn(String)} method. After row separator parser invokes {@link #pushRow()} method.
+ * Interface to configure CSV parser behaviour and to process events, pushed from CSV parser.
+ * Interface defines, how CSV parser process column values, with methods {@link #getMaxColumnLength()}
+ * and {@link #checkMaxColumnLength()}. This methods define, whether CSV parser store column value and pass this
+ * value to {@link #pushColumn(String, int)} method, or just skip it. Skipping column value could be useful
+ * to check, if CSV is rectangular, or to define column and row count, without actual processing of CSV.
+ * Parser events are handled by {@link #pushColumn(String, int)} and {@link #pushRow()} methods.
  *
  * @author Dmitry Shapovalov
  */
 public interface IParserEventHandler {
 
     /**
-     * Process column, pushed from the parser.
+     * Define maximum length of column value. If column value length is greater then defined by this method, then
+     * either the rest of column value is ignored, or an exception is thrown.
      *
-     * @param column column text.
+     * @return maximum length of column value, or negative number for no column value length restriction.
      */
-    void pushColumn(String column);
+    int getMaxColumnLength();
+
+    /**
+     * Define, should parser throw an excepton if column value length exceeds maximum length or not.
+     *
+     * @return true if parser should throw an exception if column value length exceeds maximum length.
+     */
+    boolean checkMaxColumnLength();
+
+    /**
+     * Process column, pushed from the parser. If maximum length is specified and actual column value length
+     * exceeds maximum length, then column value would be trimmed.
+     *
+     * @param column       column value.
+     * @param actualLength actual column value length.
+     */
+    void pushColumn(String column, int actualLength);
 
     /**
      * Process row, pushed from the parser.
