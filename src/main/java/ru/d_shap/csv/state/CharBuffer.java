@@ -26,32 +26,59 @@ package ru.d_shap.csv.state;
  */
 final class CharBuffer {
 
+    private static final int INITIAL_BUFFER_SIZE = 20;
+
+    private final int _maxColumnLength;
+
+    private final boolean _checkMaxColumnLength;
+
     private char[] _buffer;
 
     private int _currentIndex;
 
-    CharBuffer() {
+    private int _actualLength;
+
+    CharBuffer(final int maxColumnLength, final boolean checkMaxColumnLength) {
         super();
-        _buffer = new char[20];
+        _maxColumnLength = maxColumnLength;
+        if (_maxColumnLength > 0) {
+            _checkMaxColumnLength = checkMaxColumnLength;
+            _buffer = new char[_maxColumnLength];
+        } else if (_maxColumnLength == 0) {
+            _checkMaxColumnLength = checkMaxColumnLength;
+            _buffer = null;
+        } else {
+            _checkMaxColumnLength = false;
+            _buffer = new char[INITIAL_BUFFER_SIZE];
+        }
         _currentIndex = 0;
+        _actualLength = 0;
+    }
+
+    boolean canAppend() {
+        return _checkMaxColumnLength && _currentIndex < _maxColumnLength;
     }
 
     void append(final char ch) {
-        if (_currentIndex >= _buffer.length) {
+        if (_maxColumnLength < 0 && _currentIndex >= _buffer.length) {
             char[] newBuffer = new char[_buffer.length * 2];
             System.arraycopy(_buffer, 0, newBuffer, 0, _buffer.length);
             _buffer = newBuffer;
         }
-        _buffer[_currentIndex] = ch;
-        _currentIndex++;
+        if (_maxColumnLength < 0 || _currentIndex < _maxColumnLength) {
+            _buffer[_currentIndex] = ch;
+            _currentIndex++;
+        }
+        _actualLength++;
     }
 
-    int getLength() {
-        return _currentIndex;
+    int getActualLength() {
+        return _actualLength;
     }
 
     void clear() {
         _currentIndex = 0;
+        _actualLength = 0;
     }
 
     @Override
