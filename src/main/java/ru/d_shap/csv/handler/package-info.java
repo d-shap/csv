@@ -22,8 +22,9 @@
  * Event handlers for CSV parser.
  * </p>
  * <p>
- * CSV parser is a push parser. Parser reads symbols one by one and pushs events to {@link ru.d_shap.csv.handler.IParserEventHandler}
+ * CSV parser is a push parser. CSV parser reads symbols one by one and pushs events to {@link ru.d_shap.csv.handler.IParserEventHandler}
  * object. Instance of {@link ru.d_shap.csv.handler.IParserEventHandler} defines, what to do with pushed columns and rows.
+ * Also instance of {@link ru.d_shap.csv.handler.IParserEventHandler} defines, how CSV parser process column value.
  * </p>
  */
 package ru.d_shap.csv.handler;
