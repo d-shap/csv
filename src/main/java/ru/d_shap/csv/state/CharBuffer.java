@@ -41,12 +41,9 @@ final class CharBuffer {
     CharBuffer(final int maxColumnLength, final boolean checkMaxColumnLength) {
         super();
         _maxColumnLength = maxColumnLength;
-        if (_maxColumnLength > 0) {
+        if (_maxColumnLength >= 0) {
             _checkMaxColumnLength = checkMaxColumnLength;
             _buffer = new char[_maxColumnLength];
-        } else if (_maxColumnLength == 0) {
-            _checkMaxColumnLength = checkMaxColumnLength;
-            _buffer = null;
         } else {
             _checkMaxColumnLength = false;
             _buffer = new char[INITIAL_BUFFER_SIZE];
@@ -56,7 +53,7 @@ final class CharBuffer {
     }
 
     boolean canAppend() {
-        return _checkMaxColumnLength && _currentIndex < _maxColumnLength;
+        return !_checkMaxColumnLength || _currentIndex < _maxColumnLength;
     }
 
     void append(final char ch) {
