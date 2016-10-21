@@ -105,9 +105,8 @@ public final class CsvParser {
      *
      * @param reader CSV to parse.
      * @return list of rows, each row is a list of columns.
-     * @throws IOException IO Exception.
      */
-    public static List<List<String>> parseCsv(final Reader reader) throws IOException {
+    public static List<List<String>> parseCsv(final Reader reader) {
         ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
         parseCsv(reader, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
@@ -119,9 +118,8 @@ public final class CsvParser {
      * @param reader           CSV to parse.
      * @param checkRectangular check if all rows should have the same column count.
      * @return list of rows, each row is a list of columns.
-     * @throws IOException IO Exception.
      */
-    public static List<List<String>> parseCsv(final Reader reader, final boolean checkRectangular) throws IOException {
+    public static List<List<String>> parseCsv(final Reader reader, final boolean checkRectangular) {
         ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
         parseCsv(reader, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
@@ -132,9 +130,8 @@ public final class CsvParser {
      *
      * @param reader             CSV to parse.
      * @param parserEventHandler event handler to process parser events.
-     * @throws IOException IO Exception.
      */
-    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler) throws IOException {
+    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler) {
         parseCsv(reader, parserEventHandler, false);
     }
 
@@ -144,9 +141,8 @@ public final class CsvParser {
      * @param reader             CSV to parse.
      * @param parserEventHandler event handler to process parser events.
      * @param checkRectangular   check if all rows should have the same column count.
-     * @throws IOException IO Exception.
      */
-    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) throws IOException {
+    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
         if (reader == null) {
             return;
         }
@@ -154,17 +150,21 @@ public final class CsvParser {
             return;
         }
 
-        ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular);
-        AbstractState state = AbstractState.getInitState();
-        int symbol;
-        while (true) {
-            symbol = reader.read();
-            if (symbol < 0) {
-                break;
+        try {
+            ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular);
+            AbstractState state = AbstractState.getInitState();
+            int symbol;
+            while (true) {
+                symbol = reader.read();
+                if (symbol < 0) {
+                    break;
+                }
+                state = state.processInput(symbol, eventHandler);
             }
-            state = state.processInput(symbol, eventHandler);
+            state.processInput(AbstractState.END_OF_INPUT, eventHandler);
+        } catch (IOException ex) {
+            throw new CsvIOException(ex);
         }
-        state.processInput(AbstractState.END_OF_INPUT, eventHandler);
     }
 
 }
