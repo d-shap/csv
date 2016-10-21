@@ -59,14 +59,14 @@ public final class CsvBuilder {
     private int _columnCount;
 
     /**
-     * Creates new object.
+     * Create new object.
      */
     public CsvBuilder() {
         this(ColumnSeparators.COMMA, RowSeparators.CRLF, false);
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param checkRectangular check if all rows should have the same column count.
      */
@@ -75,7 +75,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param columnSeparator separator between columns.
      */
@@ -84,7 +84,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param columnSeparator  separator between columns.
      * @param checkRectangular check if all rows should have the same column count.
@@ -94,7 +94,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param rowSeparator separator between rows.
      */
@@ -103,7 +103,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param rowSeparator     separator between rows.
      * @param checkRectangular check if all rows should have the same column count.
@@ -113,7 +113,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param columnSeparator separator between columns.
      * @param rowSeparator    separator between rows.
@@ -123,7 +123,7 @@ public final class CsvBuilder {
     }
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param columnSeparator  separator between columns.
      * @param rowSeparator     separator between rows.
@@ -267,11 +267,7 @@ public final class CsvBuilder {
      */
     public String getCsv() {
         StringWriter writer = new StringWriter();
-        try {
-            writeTo(writer);
-        } catch (IOException ex) {
-            // Ignore
-        }
+        writeTo(writer);
         return writer.getBuffer().toString();
     }
 
@@ -279,9 +275,8 @@ public final class CsvBuilder {
      * Writes CSV to the writer. After this call builder can be used to create new CSV.
      *
      * @param writer writer to write CSV.
-     * @throws IOException IO exception.
      */
-    public void writeTo(final Writer writer) throws IOException {
+    public void writeTo(final Writer writer) {
         setRows();
         convertToCsv(writer);
         _rows = null;
@@ -289,23 +284,27 @@ public final class CsvBuilder {
         _columnCount = -1;
     }
 
-    private void convertToCsv(final Writer writer) throws IOException {
-        int rowCount = _rows.size();
-        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            List<String> row = _rows.get(rowIndex);
-            int columnCount = row.size();
-            int columnCountM1 = columnCount - 1;
-            for (int columnIndex = 0; columnIndex <= columnCount; columnIndex++) {
-                if (columnIndex == columnCount) {
-                    writer.write(_rowSeparator);
-                } else {
-                    String column = row.get(columnIndex);
-                    writer.write(column);
-                    if (columnIndex != columnCountM1) {
-                        writer.write(_columnSeparator);
+    private void convertToCsv(final Writer writer) {
+        try {
+            int rowCount = _rows.size();
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                List<String> row = _rows.get(rowIndex);
+                int columnCount = row.size();
+                int columnCountM1 = columnCount - 1;
+                for (int columnIndex = 0; columnIndex <= columnCount; columnIndex++) {
+                    if (columnIndex == columnCount) {
+                        writer.write(_rowSeparator);
+                    } else {
+                        String column = row.get(columnIndex);
+                        writer.write(column);
+                        if (columnIndex != columnCountM1) {
+                            writer.write(_columnSeparator);
+                        }
                     }
                 }
             }
+        } catch (IOException ex) {
+            throw new CsvIOException(ex);
         }
     }
 
