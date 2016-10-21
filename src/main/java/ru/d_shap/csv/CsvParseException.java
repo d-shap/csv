@@ -24,31 +24,18 @@ package ru.d_shap.csv;
  *
  * @author Dmitry Shapovalov
  */
-public final class CsvParseException extends RuntimeException {
+public class CsvParseException extends CsvException {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param symbol      wrong symbol.
-     * @param lastSymbols last symbols before wrong symbol.
+     * @param lastSymbols last symbols processed by CSV parser.
      */
     public CsvParseException(final int symbol, final String lastSymbols) {
-        super(getErrorMessage(symbol, lastSymbols));
-    }
-
-    private static String getErrorMessage(final int symbol, final String lastSymbols) {
-        StringBuilder builder = new StringBuilder(80);
-        builder.append("Wrong symbol obtained: '");
-        builder.append((char) symbol);
-        builder.append("' (");
-        builder.append(symbol);
-        builder.append("). ");
-        builder.append("Last symbols: \"");
-        builder.append(lastSymbols);
-        builder.append("\".");
-        return builder.toString();
+        super("Wrong symbol obtained: '" + (char) symbol + "' (" + symbol + ").", lastSymbols);
     }
 
 }
