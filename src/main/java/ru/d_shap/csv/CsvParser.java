@@ -21,6 +21,7 @@ package ru.d_shap.csv;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 
 import ru.d_shap.csv.handler.IParserEventHandler;
@@ -42,62 +43,57 @@ public final class CsvParser {
     /**
      * Parse CSV and define rows and columns.
      *
-     * @param csv CSV to parse.
+     * @param charSequence CSV to parse.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final String csv) {
+    public static List<List<String>> parseCsv(final CharSequence charSequence) {
         ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        parseCsv(csv, listParserEventHandler, false);
+        parseCsv(charSequence, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
     }
 
     /**
      * Parse CSV and define rows and columns.
      *
-     * @param csv              CSV to parse.
+     * @param charSequence     CSV to parse.
      * @param checkRectangular check if all rows should have the same column count.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final String csv, final boolean checkRectangular) {
+    public static List<List<String>> parseCsv(final CharSequence charSequence, final boolean checkRectangular) {
         ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        parseCsv(csv, listParserEventHandler, checkRectangular);
+        parseCsv(charSequence, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
     }
 
     /**
      * Parse CSV and define rows and columns.
      *
-     * @param csv                CSV to parse.
+     * @param charSequence       CSV to parse.
      * @param parserEventHandler event handler to process parser events.
      */
-    public static void parseCsv(final String csv, final IParserEventHandler parserEventHandler) {
-        parseCsv(csv, parserEventHandler, false);
+    public static void parseCsv(final CharSequence charSequence, final IParserEventHandler parserEventHandler) {
+        parseCsv(charSequence, parserEventHandler, false);
     }
 
     /**
      * Parse CSV and define rows and columns.
      *
-     * @param csv                CSV to parse.
+     * @param charSequence       CSV to parse.
      * @param parserEventHandler event handler to process parser events.
      * @param checkRectangular   check if all rows should have the same column count.
      */
-    public static void parseCsv(final String csv, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
-        if (csv == null) {
+    public static void parseCsv(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+        if (charSequence == null) {
             return;
         }
-        if (parserEventHandler == null) {
-            return;
+        String str;
+        if (charSequence instanceof String) {
+            str = (String) charSequence;
+        } else {
+            str = charSequence.toString();
         }
-
-        ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular);
-        AbstractState state = AbstractState.getInitState();
-        int lng = csv.length();
-        int symbol;
-        for (int i = 0; i < lng; i++) {
-            symbol = csv.charAt(i);
-            state = state.processInput(symbol, eventHandler);
-        }
-        state.processInput(AbstractState.END_OF_INPUT, eventHandler);
+        StringReader reader = new StringReader(str);
+        parseCsv(reader, parserEventHandler, checkRectangular);
     }
 
     /**
