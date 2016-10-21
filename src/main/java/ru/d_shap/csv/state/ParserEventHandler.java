@@ -20,6 +20,7 @@
 package ru.d_shap.csv.state;
 
 import ru.d_shap.csv.NotRectangularException;
+import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.IParserEventHandler;
 
 /**
@@ -28,6 +29,8 @@ import ru.d_shap.csv.handler.IParserEventHandler;
  * @author Dmitry Shapovalov
  */
 public final class ParserEventHandler {
+
+    private static final int LAST_SYMBOLS_COUNT = 25;
 
     private final IParserEventHandler _parserEventHandler;
 
@@ -42,7 +45,7 @@ public final class ParserEventHandler {
     private int _currentColumnCount;
 
     /**
-     * Creates new object.
+     * Create new object.
      *
      * @param parserEventHandler event handler to delegate event calls.
      * @param checkRectangular   check if all rows should have the same column count.
@@ -51,8 +54,8 @@ public final class ParserEventHandler {
         super();
         _parserEventHandler = parserEventHandler;
         _checkRectangular = checkRectangular;
-        _lastSymbols = new CharStack();
-        _currentColumn = new CharBuffer();
+        _lastSymbols = new CharStack(LAST_SYMBOLS_COUNT);
+        _currentColumn = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
         _firstRowColumnCount = -1;
         _currentColumnCount = 0;
     }
@@ -66,12 +69,17 @@ public final class ParserEventHandler {
     }
 
     void pushSymbol(final int symbol) {
-        _currentColumn.append((char) symbol);
+        if (_currentColumn.canAppend()) {
+            _currentColumn.append((char) symbol);
+        } else {
+            throw new WrongColumnLengthException(_lastSymbols.toString());
+        }
     }
 
     void pushColumn() {
         String column = _currentColumn.toString();
-        _parserEventHandler.pushColumn(column);
+        int actualLength = _currentColumn.getActualLength();
+        _parserEventHandler.pushColumn(column, actualLength);
         _currentColumn.clear();
         _currentColumnCount++;
     }
