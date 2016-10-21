@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import java.io.IOException;
 import java.io.StringWriter;
 
 import org.junit.Assert;
@@ -293,11 +292,9 @@ public final class CsvBuilderTest {
 
     /**
      * {@link CsvBuilder} class test.
-     *
-     * @throws IOException IO Exception.
      */
     @Test
-    public void writeToTest() throws IOException {
+    public void writeToTest() {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn("");
         builder.addColumn("");

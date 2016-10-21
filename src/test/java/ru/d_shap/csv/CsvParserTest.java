@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
@@ -293,11 +292,9 @@ public final class CsvParserTest {
 
     /**
      * {@link CsvParser} class test.
-     *
-     * @throws IOException IO Exception.
      */
     @Test
-    public void parseCsvFromReaderTest() throws IOException {
+    public void parseCsvFromReaderTest() {
         String csv = ";,\n,aaa,bbb,\"a\"\"b\";\r";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parseCsv(reader);
@@ -343,11 +340,9 @@ public final class CsvParserTest {
 
     /**
      * {@link CsvParser} class test.
-     *
-     * @throws IOException IO Exception.
      */
     @Test
-    public void parseCsvFromReaderCheckRectangularTest() throws IOException {
+    public void parseCsvFromReaderCheckRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parseCsv(reader, true);
@@ -364,11 +359,9 @@ public final class CsvParserTest {
 
     /**
      * {@link CsvParser} class test.
-     *
-     * @throws IOException IO Exception.
      */
     @Test(expected = NotRectangularException.class)
-    public void parseCsvFromReaderCheckRectangularFailTest() throws IOException {
+    public void parseCsvFromReaderCheckRectangularFailTest() {
         String csv = "1,2\r\n3,4,5\r\n";
         Reader reader = new StringReader(csv);
         CsvParser.parseCsv(reader, true);
