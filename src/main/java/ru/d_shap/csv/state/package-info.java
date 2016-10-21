@@ -22,14 +22,14 @@
  * State machine for CSV parser.
  * </p>
  * <p>
- * CSV parser reads input symbols, whether the symbol is a meaningful symbol or a special symbol.
+ * CSV parser reads input symbols and defines, whether the symbol is a meaningful symbol or a special symbol.
  * </p>
  * <p>
  * The special symbols are:
  * </p>
  * <ul>
  * <li><b>CR</b>, <b>CL</b> or <b>CRLF</b> - row separator</li>
- * <li><b>Comma</b> or <b>semicolon</b> - column separator</li>
+ * <li><b>Comma</b> or <b>Semicolon</b> - column separator</li>
  * <li><b>Quotation</b> - column bounds, if column contains other special symbols</li>
  * </ul>
  * <p>
