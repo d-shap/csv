@@ -26,27 +26,27 @@ package ru.d_shap.csv.state;
  */
 final class CharStack {
 
-    private static final int STACK_SIZE = 10;
-
     private final char[] _buffer;
 
     private int _index;
 
     private boolean _overflow;
 
-    CharStack() {
+    CharStack(final int stackSize) {
         super();
-        _buffer = new char[STACK_SIZE];
+        _buffer = new char[stackSize];
         _index = 0;
         _overflow = false;
     }
 
     void append(final char ch) {
-        _buffer[_index] = ch;
-        _index++;
-        if (_index >= STACK_SIZE) {
-            _index = 0;
-            _overflow = true;
+        if (_buffer.length > 0) {
+            _buffer[_index] = ch;
+            _index++;
+            if (_index >= _buffer.length) {
+                _index = 0;
+                _overflow = true;
+            }
         }
     }
 
@@ -54,7 +54,7 @@ final class CharStack {
     public String toString() {
         String result;
         if (_overflow) {
-            result = new String(_buffer, _index, STACK_SIZE - _index) + new String(_buffer, 0, _index);
+            result = new String(_buffer, _index, _buffer.length - _index) + new String(_buffer, 0, _index);
         } else {
             result = new String(_buffer, 0, _index);
         }
