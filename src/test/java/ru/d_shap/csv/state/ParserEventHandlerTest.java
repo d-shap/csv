@@ -27,7 +27,7 @@ import org.junit.Test;
 import ru.d_shap.csv.NotRectangularException;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.IParserEventHandler;
-import ru.d_shap.csv.handler.ListParserEventHandler;
+import ru.d_shap.csv.handler.ListEventHandler;
 
 /**
  * Tests for {@link ParserEventHandler}.
@@ -48,11 +48,11 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void newObjectTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
         Assert.assertEquals("", parserEventHandler.getLastSymbols());
-        Assert.assertNotNull(listParserEventHandler.getCsv());
-        Assert.assertTrue(listParserEventHandler.getCsv().isEmpty());
+        Assert.assertNotNull(listEventHandler.getCsv());
+        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
     }
 
     /**
@@ -60,8 +60,8 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void addLastSymbolTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
 
         parserEventHandler.addLastSymbol('a');
         Assert.assertEquals("a", parserEventHandler.getLastSymbols());
@@ -113,11 +113,11 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushSymbolTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
         parserEventHandler.pushSymbol('a');
-        Assert.assertNotNull(listParserEventHandler.getCsv());
-        Assert.assertTrue(listParserEventHandler.getCsv().isEmpty());
+        Assert.assertNotNull(listEventHandler.getCsv());
+        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
     }
 
     /**
@@ -125,12 +125,12 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushColumnTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
-        Assert.assertNotNull(listParserEventHandler.getCsv());
-        Assert.assertTrue(listParserEventHandler.getCsv().isEmpty());
+        Assert.assertNotNull(listEventHandler.getCsv());
+        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
     }
 
     /**
@@ -138,25 +138,25 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushRowTest() {
-        ListParserEventHandler listParserEventHandler1 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listParserEventHandler1, false);
+        ListEventHandler listEventHandler1 = new ListEventHandler();
+        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false);
         parserEventHandler1.pushSymbol('a');
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
-        List<List<String>> list1 = listParserEventHandler1.getCsv();
+        List<List<String>> list1 = listEventHandler1.getCsv();
         Assert.assertNotNull(list1);
         Assert.assertEquals(1, list1.size());
         Assert.assertEquals(1, list1.get(0).size());
         Assert.assertEquals("a", list1.get(0).get(0));
 
-        ListParserEventHandler listParserEventHandler2 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listParserEventHandler2, false);
+        ListEventHandler listEventHandler2 = new ListEventHandler();
+        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false);
         parserEventHandler2.pushSymbol('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushSymbol('c');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
-        List<List<String>> list2 = listParserEventHandler2.getCsv();
+        List<List<String>> list2 = listEventHandler2.getCsv();
         Assert.assertNotNull(list2);
         Assert.assertEquals(1, list2.size());
         Assert.assertEquals(2, list2.get(0).size());
@@ -169,25 +169,25 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushEmptyColumnTest() {
-        ListParserEventHandler listParserEventHandler1 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listParserEventHandler1, false);
+        ListEventHandler listEventHandler1 = new ListEventHandler();
+        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false);
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
-        List<List<String>> list1 = listParserEventHandler1.getCsv();
+        List<List<String>> list1 = listEventHandler1.getCsv();
         Assert.assertNotNull(list1);
         Assert.assertEquals(1, list1.size());
         Assert.assertEquals(1, list1.get(0).size());
         Assert.assertEquals("", list1.get(0).get(0));
 
-        ListParserEventHandler listParserEventHandler2 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listParserEventHandler2, false);
+        ListEventHandler listEventHandler2 = new ListEventHandler();
+        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false);
         parserEventHandler2.pushSymbol('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushSymbol('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
-        List<List<String>> list2 = listParserEventHandler2.getCsv();
+        List<List<String>> list2 = listEventHandler2.getCsv();
         Assert.assertNotNull(list2);
         Assert.assertEquals(1, list2.size());
         Assert.assertEquals(3, list2.get(0).size());
@@ -195,13 +195,13 @@ public final class ParserEventHandlerTest {
         Assert.assertEquals("", list2.get(0).get(1));
         Assert.assertEquals("b", list2.get(0).get(2));
 
-        ListParserEventHandler listParserEventHandler3 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listParserEventHandler3, false);
+        ListEventHandler listEventHandler3 = new ListEventHandler();
+        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false);
         parserEventHandler3.pushSymbol('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
-        List<List<String>> list3 = listParserEventHandler3.getCsv();
+        List<List<String>> list3 = listEventHandler3.getCsv();
         Assert.assertNotNull(list3);
         Assert.assertEquals(1, list3.size());
         Assert.assertEquals(2, list3.get(0).size());
@@ -214,16 +214,16 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void pushEmptyRowTest() {
-        ListParserEventHandler listParserEventHandler1 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listParserEventHandler1, false);
+        ListEventHandler listEventHandler1 = new ListEventHandler();
+        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false);
         parserEventHandler1.pushRow();
-        List<List<String>> list1 = listParserEventHandler1.getCsv();
+        List<List<String>> list1 = listEventHandler1.getCsv();
         Assert.assertNotNull(list1);
         Assert.assertEquals(1, list1.size());
         Assert.assertEquals(0, list1.get(0).size());
 
-        ListParserEventHandler listParserEventHandler2 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listParserEventHandler2, false);
+        ListEventHandler listEventHandler2 = new ListEventHandler();
+        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false);
         parserEventHandler2.pushSymbol('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
@@ -232,7 +232,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler2.pushSymbol('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
-        List<List<String>> list2 = listParserEventHandler2.getCsv();
+        List<List<String>> list2 = listEventHandler2.getCsv();
         Assert.assertNotNull(list2);
         Assert.assertEquals(4, list2.size());
         Assert.assertEquals(1, list2.get(0).size());
@@ -242,13 +242,13 @@ public final class ParserEventHandlerTest {
         Assert.assertEquals(1, list2.get(3).size());
         Assert.assertEquals("b", list2.get(3).get(0));
 
-        ListParserEventHandler listParserEventHandler3 = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listParserEventHandler3, false);
+        ListEventHandler listEventHandler3 = new ListEventHandler();
+        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false);
         parserEventHandler3.pushSymbol('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
         parserEventHandler3.pushRow();
-        List<List<String>> list3 = listParserEventHandler3.getCsv();
+        List<List<String>> list3 = listEventHandler3.getCsv();
         Assert.assertNotNull(list3);
         Assert.assertEquals(2, list3.size());
         Assert.assertEquals(1, list3.get(0).size());
@@ -261,8 +261,8 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void putMultipleSymbolsTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('b');
@@ -272,7 +272,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        List<List<String>> list = listParserEventHandler.getCsv();
+        List<List<String>> list = listEventHandler.getCsv();
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(3, list.get(0).size());
@@ -286,8 +286,8 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void skipPushColumnTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushRow();
         parserEventHandler.pushSymbol('b');
@@ -298,7 +298,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushSymbol('f');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        List<List<String>> list = listParserEventHandler.getCsv();
+        List<List<String>> list = listEventHandler.getCsv();
         Assert.assertNotNull(list);
         Assert.assertEquals(3, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -312,8 +312,8 @@ public final class ParserEventHandlerTest {
      */
     @Test(expected = NotRectangularException.class)
     public void checkRectangularFailTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, true);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
@@ -329,8 +329,8 @@ public final class ParserEventHandlerTest {
      */
     @Test
     public void notReusableTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, false);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
@@ -339,7 +339,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushSymbol('c');
         parserEventHandler.pushSymbol('d');
         parserEventHandler.pushSymbol('e');
-        List<List<String>> list1 = listParserEventHandler.getCsv();
+        List<List<String>> list1 = listEventHandler.getCsv();
         Assert.assertNotNull(list1);
         Assert.assertEquals(1, list1.size());
         Assert.assertEquals(1, list1.get(0).size());
@@ -348,7 +348,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        List<List<String>> list2 = listParserEventHandler.getCsv();
+        List<List<String>> list2 = listEventHandler.getCsv();
         Assert.assertNotNull(list2);
         Assert.assertEquals(2, list2.size());
         Assert.assertEquals(1, list2.get(0).size());
@@ -362,8 +362,8 @@ public final class ParserEventHandlerTest {
      */
     @Test(expected = NotRectangularException.class)
     public void notReusableRectangularFailTest() {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listParserEventHandler, true);
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true);
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('b');
@@ -375,7 +375,7 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
 
-        List<List<String>> list = listParserEventHandler.getCsv();
+        List<List<String>> list = listEventHandler.getCsv();
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(2, list.get(0).size());
@@ -552,13 +552,13 @@ public final class ParserEventHandlerTest {
 
         private final boolean _checkMaxColumnLength;
 
-        private final ListParserEventHandler _eventHandler;
+        private final ListEventHandler _eventHandler;
 
         ParserEventHandlerImpl(final int maxColumnLength, final boolean checkMaxColumnLength) {
             super();
             _maxColumnLength = maxColumnLength;
             _checkMaxColumnLength = checkMaxColumnLength;
-            _eventHandler = new ListParserEventHandler();
+            _eventHandler = new ListEventHandler();
         }
 
         @Override
