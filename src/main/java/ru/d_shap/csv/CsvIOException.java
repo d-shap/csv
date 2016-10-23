@@ -36,7 +36,7 @@ public class CsvIOException extends CsvException {
      * @param ex root cause of the exception.
      */
     public CsvIOException(final IOException ex) {
-        super(ex);
+        super(ex.getMessage(), ex);
     }
 
 }

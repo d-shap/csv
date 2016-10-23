@@ -40,10 +40,11 @@ public class CsvException extends RuntimeException {
     /**
      * Create new object.
      *
-     * @param ex root cause of the exception.
+     * @param message exception message.
+     * @param ex      root cause of the exception.
      */
-    CsvException(final Throwable ex) {
-        super(ex);
+    CsvException(final String message, final Throwable ex) {
+        super(message, ex);
     }
 
     /**
