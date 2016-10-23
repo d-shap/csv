@@ -20,17 +20,28 @@
 package ru.d_shap.csv.handler;
 
 /**
- * CSV parser event handler, that skips all callback calls.
+ * CSV parser event handler, that defines row and column count of rectangular CSV. If CSV is not rectangular,
+ * then column count is defined for the first row. Other rows could have another column count. That is why this
+ * handler should be used with rectangular check on.
  *
  * @author Dmitry Shapovalov
  */
-public final class EmptyParserEventHandler implements IParserEventHandler {
+public final class DimensionEventHandler implements IParserEventHandler {
+
+    private boolean _firstRow;
+
+    private int _columnCount;
+
+    private int _rowCount;
 
     /**
      * Create new object.
      */
-    public EmptyParserEventHandler() {
+    public DimensionEventHandler() {
         super();
+        _firstRow = true;
+        _columnCount = 0;
+        _rowCount = 0;
     }
 
     @Override
@@ -44,13 +55,34 @@ public final class EmptyParserEventHandler implements IParserEventHandler {
     }
 
     @Override
-    public void pushColumn(final String column, final int actualLength) {
-        // Ignore
+    public void pushColumn(final String column, final int length) {
+        if (_firstRow) {
+            _columnCount++;
+        }
     }
 
     @Override
     public void pushRow() {
-        // Ignore
+        _firstRow = false;
+        _rowCount++;
+    }
+
+    /**
+     * Return CSV column count.
+     *
+     * @return column count.
+     */
+    public int getColumnCount() {
+        return _columnCount;
+    }
+
+    /**
+     * Return CSV row count.
+     *
+     * @return row count.
+     */
+    public int getRowCount() {
+        return _rowCount;
     }
 
 }

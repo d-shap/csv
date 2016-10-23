@@ -19,28 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * CSV parser event handler, that defines row count and column count for each row of CSV. CSV can NOT
- * be rectangular - each row can have different number of columns.
+ * CSV parser event handler, that skips all callback calls.
  *
  * @author Dmitry Shapovalov
  */
-public final class SizeParserEventHandler implements IParserEventHandler {
-
-    private final List<Integer> _columnCounts;
-
-    private int _currentColumnCount;
+public final class NoopEventHandler implements IParserEventHandler {
 
     /**
      * Create new object.
      */
-    public SizeParserEventHandler() {
+    public NoopEventHandler() {
         super();
-        _columnCounts = new ArrayList<Integer>();
-        _currentColumnCount = 0;
     }
 
     @Override
@@ -55,22 +45,12 @@ public final class SizeParserEventHandler implements IParserEventHandler {
 
     @Override
     public void pushColumn(final String column, final int actualLength) {
-        _currentColumnCount++;
+        // Ignore
     }
 
     @Override
     public void pushRow() {
-        _columnCounts.add(_currentColumnCount);
-        _currentColumnCount = 0;
-    }
-
-    /**
-     * Return parse result as list of rows, each row contains count of columns in this row.
-     *
-     * @return parse result.
-     */
-    public List<Integer> getColumnCounts() {
-        return _columnCounts;
+        // Ignore
     }
 
 }

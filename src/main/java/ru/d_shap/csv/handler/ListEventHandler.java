@@ -19,34 +19,32 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * CSV parser event handler, that defines row and column count of rectangular CSV. If CSV is not rectangular,
- * then column count is defined for the first row. Other rows could have another column count. That is why this
- * handler should be used with rectangular check on.
+ * CSV parser event handler, that accumulates columns and rows in memory.
  *
  * @author Dmitry Shapovalov
  */
-public final class DimensionParserEventHandler implements IParserEventHandler {
+public final class ListEventHandler implements IParserEventHandler {
 
-    private boolean _firstRow;
+    private final List<List<String>> _rows;
 
-    private int _columnCount;
-
-    private int _rowCount;
+    private List<String> _currentRow;
 
     /**
      * Create new object.
      */
-    public DimensionParserEventHandler() {
+    public ListEventHandler() {
         super();
-        _firstRow = true;
-        _columnCount = 0;
-        _rowCount = 0;
+        _rows = new ArrayList<List<String>>();
+        _currentRow = null;
     }
 
     @Override
     public int getMaxColumnLength() {
-        return 0;
+        return -1;
     }
 
     @Override
@@ -55,34 +53,31 @@ public final class DimensionParserEventHandler implements IParserEventHandler {
     }
 
     @Override
-    public void pushColumn(final String column, final int length) {
-        if (_firstRow) {
-            _columnCount++;
-        }
+    public void pushColumn(final String column, final int actualLength) {
+        setCurrentRow();
+        _currentRow.add(column);
     }
 
     @Override
     public void pushRow() {
-        _firstRow = false;
-        _rowCount++;
+        setCurrentRow();
+        _rows.add(_currentRow);
+        _currentRow = null;
+    }
+
+    private void setCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<String>();
+        }
     }
 
     /**
-     * Return CSV column count.
+     * Return parse result as list of rows, each row is a list of columns.
      *
-     * @return column count.
+     * @return parse result.
      */
-    public int getColumnCount() {
-        return _columnCount;
-    }
-
-    /**
-     * Return CSV row count.
-     *
-     * @return row count.
-     */
-    public int getRowCount() {
-        return _rowCount;
+    public List<List<String>> getCsv() {
+        return _rows;
     }
 
 }

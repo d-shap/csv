@@ -23,28 +23,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CSV parser event handler, that accumulates columns and rows in memory.
+ * CSV parser event handler, that defines row count and column count for each row of CSV. CSV can NOT
+ * be rectangular - each row can have different number of columns.
  *
  * @author Dmitry Shapovalov
  */
-public final class ListParserEventHandler implements IParserEventHandler {
+public final class ColumnCountEventHandler implements IParserEventHandler {
 
-    private final List<List<String>> _rows;
+    private final List<Integer> _columnCounts;
 
-    private List<String> _currentRow;
+    private int _currentColumnCount;
 
     /**
      * Create new object.
      */
-    public ListParserEventHandler() {
+    public ColumnCountEventHandler() {
         super();
-        _rows = new ArrayList<List<String>>();
-        _currentRow = null;
+        _columnCounts = new ArrayList<Integer>();
+        _currentColumnCount = 0;
     }
 
     @Override
     public int getMaxColumnLength() {
-        return -1;
+        return 0;
     }
 
     @Override
@@ -54,30 +55,22 @@ public final class ListParserEventHandler implements IParserEventHandler {
 
     @Override
     public void pushColumn(final String column, final int actualLength) {
-        setCurrentRow();
-        _currentRow.add(column);
+        _currentColumnCount++;
     }
 
     @Override
     public void pushRow() {
-        setCurrentRow();
-        _rows.add(_currentRow);
-        _currentRow = null;
-    }
-
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<String>();
-        }
+        _columnCounts.add(_currentColumnCount);
+        _currentColumnCount = 0;
     }
 
     /**
-     * Return parse result as list of rows, each row is a list of columns.
+     * Return parse result as list of rows, each row contains count of columns in this row.
      *
      * @return parse result.
      */
-    public List<List<String>> getCsv() {
-        return _rows;
+    public List<Integer> getColumnCounts() {
+        return _columnCounts;
     }
 
 }
