@@ -24,13 +24,22 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 
+import ru.d_shap.csv.handler.ColumnCountEventHandler;
+import ru.d_shap.csv.handler.DimensionEventHandler;
 import ru.d_shap.csv.handler.IParserEventHandler;
-import ru.d_shap.csv.handler.ListParserEventHandler;
+import ru.d_shap.csv.handler.ListEventHandler;
 import ru.d_shap.csv.state.AbstractState;
 import ru.d_shap.csv.state.ParserEventHandler;
 
 /**
- * Class to parse CSV from source.
+ * Class to parse CSV from source. CSV parser is a push parser. CSV parser reads source symbol by symbol and
+ * pushes events to {@link ru.d_shap.csv.handler.IParserEventHandler} object. This object defines,
+ * what to do with columns and rows. Some default implementations of {@link ru.d_shap.csv.handler.IParserEventHandler}
+ * can be used. For example, {@link DimensionEventHandler} can define row and column count
+ * for CSV, if CSV has the same number of rows and columns. {@link ListEventHandler} stores
+ * the whole CSV in memory as list of rows, each row is a list of columns. {@link ColumnCountEventHandler}
+ * can define column count for each row. {@link ListEventHandler} is used in methods without
+ * {@link ru.d_shap.csv.handler.IParserEventHandler} parameter.
  *
  * @author Dmitry Shapovalov
  */
@@ -47,7 +56,7 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parseCsv(final CharSequence charSequence) {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
+        ListEventHandler listParserEventHandler = new ListEventHandler();
         parseCsv(charSequence, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
     }
@@ -60,7 +69,7 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parseCsv(final CharSequence charSequence, final boolean checkRectangular) {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
+        ListEventHandler listParserEventHandler = new ListEventHandler();
         parseCsv(charSequence, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
     }
@@ -86,6 +95,7 @@ public final class CsvParser {
         if (charSequence == null) {
             return;
         }
+
         String str;
         if (charSequence instanceof String) {
             str = (String) charSequence;
@@ -103,7 +113,7 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parseCsv(final Reader reader) {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
+        ListEventHandler listParserEventHandler = new ListEventHandler();
         parseCsv(reader, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
     }
@@ -116,7 +126,7 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parseCsv(final Reader reader, final boolean checkRectangular) {
-        ListParserEventHandler listParserEventHandler = new ListParserEventHandler();
+        ListEventHandler listParserEventHandler = new ListEventHandler();
         parseCsv(reader, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
     }
