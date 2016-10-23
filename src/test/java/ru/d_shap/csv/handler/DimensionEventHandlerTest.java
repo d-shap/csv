@@ -23,25 +23,25 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link DimensionParserEventHandler}.
+ * Tests for {@link DimensionEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class DimensionParserEventHandlerTest {
+public final class DimensionEventHandlerTest {
 
     /**
      * Test class constructor.
      */
-    public DimensionParserEventHandlerTest() {
+    public DimensionEventHandlerTest() {
         super();
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void newObjectTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         Assert.assertEquals(0, eventHandler.getMaxColumnLength());
         Assert.assertFalse(eventHandler.checkMaxColumnLength());
         Assert.assertEquals(0, eventHandler.getColumnCount());
@@ -49,22 +49,22 @@ public final class DimensionParserEventHandlerTest {
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void pushColumnTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
         Assert.assertEquals(1, eventHandler.getColumnCount());
         Assert.assertEquals(0, eventHandler.getRowCount());
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void pushRowTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushRow();
         Assert.assertEquals(1, eventHandler.getColumnCount());
@@ -72,22 +72,22 @@ public final class DimensionParserEventHandlerTest {
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void skipPushColumnTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushRow();
         Assert.assertEquals(0, eventHandler.getColumnCount());
         Assert.assertEquals(1, eventHandler.getRowCount());
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void rectangularTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
@@ -105,11 +105,11 @@ public final class DimensionParserEventHandlerTest {
     }
 
     /**
-     * {@link DimensionParserEventHandler} class test.
+     * {@link DimensionEventHandler} class test.
      */
     @Test
     public void checkFirstRowColumnTest() {
-        DimensionParserEventHandler eventHandler = new DimensionParserEventHandler();
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();

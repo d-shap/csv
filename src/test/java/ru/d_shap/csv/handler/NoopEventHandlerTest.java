@@ -23,44 +23,44 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link EmptyParserEventHandler}.
+ * Tests for {@link NoopEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class EmptyParserEventHandlerTest {
+public final class NoopEventHandlerTest {
 
     /**
      * Test class constructor.
      */
-    public EmptyParserEventHandlerTest() {
+    public NoopEventHandlerTest() {
         super();
     }
 
     /**
-     * {@link EmptyParserEventHandler} class test.
+     * {@link NoopEventHandler} class test.
      */
     @Test
     public void newObjectTest() {
-        EmptyParserEventHandler eventHandler = new EmptyParserEventHandler();
+        NoopEventHandler eventHandler = new NoopEventHandler();
         Assert.assertEquals(0, eventHandler.getMaxColumnLength());
         Assert.assertFalse(eventHandler.checkMaxColumnLength());
     }
 
     /**
-     * {@link EmptyParserEventHandler} class test.
+     * {@link NoopEventHandler} class test.
      */
     @Test
     public void pushColumnTest() {
-        EmptyParserEventHandler eventHandler = new EmptyParserEventHandler();
+        NoopEventHandler eventHandler = new NoopEventHandler();
         eventHandler.pushColumn("a", 1);
     }
 
     /**
-     * {@link EmptyParserEventHandler} class test.
+     * {@link NoopEventHandler} class test.
      */
     @Test
     public void pushRowTest() {
-        EmptyParserEventHandler eventHandler = new EmptyParserEventHandler();
+        NoopEventHandler eventHandler = new NoopEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushRow();
     }

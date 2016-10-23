@@ -23,25 +23,25 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link SizeParserEventHandler}.
+ * Tests for {@link ColumnCountEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class SizeParserEventHandlerTest {
+public final class ColumnCountEventHandlerTest {
 
     /**
      * Test class constructor.
      */
-    public SizeParserEventHandlerTest() {
+    public ColumnCountEventHandlerTest() {
         super();
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void newObjectTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         Assert.assertEquals(0, eventHandler.getMaxColumnLength());
         Assert.assertFalse(eventHandler.checkMaxColumnLength());
         Assert.assertNotNull(eventHandler.getColumnCounts());
@@ -49,22 +49,22 @@ public final class SizeParserEventHandlerTest {
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void pushColumnTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
         Assert.assertNotNull(eventHandler.getColumnCounts());
         Assert.assertEquals(0, eventHandler.getColumnCounts().size());
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void pushRowTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushRow();
         Assert.assertNotNull(eventHandler.getColumnCounts());
@@ -73,11 +73,11 @@ public final class SizeParserEventHandlerTest {
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void skipPushColumnTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushRow();
         Assert.assertNotNull(eventHandler.getColumnCounts());
         Assert.assertEquals(1, eventHandler.getColumnCounts().size());
@@ -85,11 +85,11 @@ public final class SizeParserEventHandlerTest {
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void rectangularTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
@@ -111,11 +111,11 @@ public final class SizeParserEventHandlerTest {
     }
 
     /**
-     * {@link SizeParserEventHandler} class test.
+     * {@link ColumnCountEventHandler} class test.
      */
     @Test
     public void nonRectangularTest() {
-        SizeParserEventHandler eventHandler = new SizeParserEventHandler();
+        ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
