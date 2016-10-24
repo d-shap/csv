@@ -87,7 +87,11 @@ public final class RestrictedListEventHandler implements IParserEventHandler {
             _currentRow.add(column);
         } else {
             if (_moreSymbolsMark == null) {
-                _currentRow.add(column.substring(0, _trimToIndex));
+                if (column.length() <= _maxColumnLength) {
+                    _currentRow.add(column);
+                } else {
+                    _currentRow.add(column.substring(0, _trimToIndex));
+                }
             } else {
                 _currentRow.add(column.substring(0, _trimToIndex) + _moreSymbolsMark);
             }
