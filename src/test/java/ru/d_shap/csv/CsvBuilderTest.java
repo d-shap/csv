@@ -116,6 +116,19 @@ public final class CsvBuilderTest {
      * {@link CsvBuilder} class test.
      */
     @Test
+    public void addNullStringColumnTest() {
+        CsvBuilder builder = new CsvBuilder();
+        String str = null;
+        builder.addColumn(str);
+        builder.addRow();
+        String csv = builder.getCsv();
+        Assert.assertEquals("\r\n", csv);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
     public void addStringWithSpecialsColumnTest() {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn("a\"a,a;a\ra\na");
@@ -140,9 +153,23 @@ public final class CsvBuilderTest {
      * {@link CsvBuilder} class test.
      */
     @Test
+    public void addObjectStringColumnTest() {
+        CsvBuilder builder = new CsvBuilder();
+        Object obj = "aaa";
+        builder.addColumn(obj);
+        builder.addRow();
+        String csv = builder.getCsv();
+        Assert.assertEquals("aaa\r\n", csv);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
     public void addNullObjectColumnTest() {
         CsvBuilder builder = new CsvBuilder();
-        builder.addColumn(null);
+        Object obj = null;
+        builder.addColumn(obj);
         builder.addRow();
         String csv = builder.getCsv();
         Assert.assertEquals("\r\n", csv);
