@@ -287,6 +287,17 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
+    public CsvBuilder addColumn(final String column) {
+        doAddColumn(getColumnForCsv(column));
+        return this;
+    }
+
+    /**
+     * Add column value to the current row.
+     *
+     * @param column column value.
+     * @return current object for chaining.
+     */
     public CsvBuilder addColumn(final Object column) {
         doAddColumn(getColumnForCsv(column));
         return this;
@@ -304,6 +315,9 @@ public final class CsvBuilder {
     }
 
     private String getColumnForCsv(final String column) {
+        if (column == null) {
+            return "";
+        }
         boolean hasSpecial = false;
         for (int i = 0; i < SPECIAL.size(); i++) {
             if (column.contains(SPECIAL.get(i))) {
