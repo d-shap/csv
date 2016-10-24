@@ -22,8 +22,8 @@ package ru.d_shap.csv.handler;
 /**
  * Interface to configure CSV parser behaviour and to process events, pushed from CSV parser.
  * Interface defines, how CSV parser process column values, with methods {@link #getMaxColumnLength()}
- * and {@link #checkMaxColumnLength()}. This methods define, whether CSV parser store column value and pass this
- * value to {@link #pushColumn(String, int)} method, or just skip it. Skipping column value could be useful
+ * and {@link #checkMaxColumnLength()}. This methods define, whether CSV parser stores column value and passes this
+ * value to {@link #pushColumn(String, int)} method, or just skips it. Skipping column value could be useful
  * to check, if CSV is rectangular, or to define column and row count, without actual processing of CSV.
  * Parser events are handled by {@link #pushColumn(String, int)} and {@link #pushRow()} methods.
  *
