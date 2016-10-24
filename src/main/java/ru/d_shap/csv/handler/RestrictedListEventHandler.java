@@ -83,18 +83,10 @@ public final class RestrictedListEventHandler implements IParserEventHandler {
     @Override
     public void pushColumn(final String column, final int actualLength) {
         setCurrentRow();
-        if (actualLength <= _maxColumnLength) {
+        if (actualLength <= _maxColumnLength || _moreSymbolsMark == null) {
             _currentRow.add(column);
         } else {
-            if (_moreSymbolsMark == null) {
-                if (column.length() <= _maxColumnLength) {
-                    _currentRow.add(column);
-                } else {
-                    _currentRow.add(column.substring(0, _trimToIndex));
-                }
-            } else {
-                _currentRow.add(column.substring(0, _trimToIndex) + _moreSymbolsMark);
-            }
+            _currentRow.add(column.substring(0, _trimToIndex) + _moreSymbolsMark);
         }
     }
 

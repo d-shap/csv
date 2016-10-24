@@ -179,8 +179,8 @@ public final class RestrictedListEventHandlerTest {
     @Test
     public void addValueExceedsMaxLengthWithNoMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5);
-        eventHandler.pushColumn("abcdefg", 7);
-        eventHandler.pushColumn("12345678", 8);
+        eventHandler.pushColumn("abcde", 7);
+        eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
         Assert.assertNotNull(list);
@@ -196,8 +196,8 @@ public final class RestrictedListEventHandlerTest {
     @Test
     public void addValueExceedsMaxLengthWithMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "..");
-        eventHandler.pushColumn("abcdefg", 7);
-        eventHandler.pushColumn("12345678", 8);
+        eventHandler.pushColumn("abcde", 7);
+        eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
         Assert.assertNotNull(list);
@@ -213,8 +213,8 @@ public final class RestrictedListEventHandlerTest {
     @Test
     public void addValueExceedsMaxLengthWithTooLargeMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "......");
-        eventHandler.pushColumn("abcdefg", 7);
-        eventHandler.pushColumn("12345678", 8);
+        eventHandler.pushColumn("abcde", 7);
+        eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
         Assert.assertNotNull(list);
