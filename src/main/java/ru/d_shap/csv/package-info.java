@@ -19,7 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Classes to generate CSV and parse CSV.
+ * Classes to create CSV and parse CSV.
+ * </p>
+ * <p>
+ * CSV is a comma-separated values. It is a list of rows, separated with CRLF symbols. Each row
+ * is a list of columns, separated with commas. CSV ends with CRLF, but it is not mandatory.
+ * Sometimes semicolon is used instead of comma. And sometimes LF is used instead of CRLF. If
+ * column value contains comma, semicolon, CR, LF or double quotes, then the whole column is
+ * enclosed in double quotes. Double quotes are escaped with double quotes. CSV can have
+ * the same number of columns in each row, but sometimes it is not so.
+ * </p>
+ * <p>
+ * CSV  is fully described in RFC 4180.
  * </p>
  * <p>
  * To create CSV {@link ru.d_shap.csv.CsvBuilder} class should be used:
@@ -42,11 +53,65 @@
  * String csv = builder.getCsv();
  * }</pre>
  * <p>
+ * {@link ru.d_shap.csv.CsvBuilder} can write CSV directly to the output stream. Next example shows,
+ * how {@link ru.d_shap.csv.CsvBuilder} writes CSV to the file:
+ * </p>
+ * <pre>{@code
+ * try (FileOutputStream stream = new FileOutputStream("someFile.csv")) {
+ *     OutputStreamWriter writer = new OutputStreamWriter(stream);
+ *     CsvBuilder builder = new CsvBuilder(writer);
+ *     builder.addColumn("value1");
+ *     builder.addColumn("value2");
+ *     builder.addRow();
+ *     ...
+ * }
+ * }</pre>
+ * <p>
+ * {@link ru.d_shap.csv.CsvBuilder} can optionally check if each row has the same number of columns.
+ * </p>
+ * <p>
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
  * </p>
  * <pre>{@code
  * String csv = "value1,,false\r\nvalue2,true,\r\n\r\n,value3,value3\r\n";
  * List<List<String>> result = CsvParser.parseCsv(csv);
  * }</pre>
+ * <p>
+ * CSV parser is a push parser. It reads a source symbol by symbol and pushes events to the
+ * {@link ru.d_shap.csv.handler.IParserEventHandler} object. {@link ru.d_shap.csv.handler.IParserEventHandler}
+ * defines the result of CSV parser.
+ * </p>
+ * <p>
+ * Some predefined {@link ru.d_shap.csv.handler.IParserEventHandler} objects can be used.
+ * </p>
+ * <p>
+ * Next example shows, how to check if CSV is valid:
+ * </p>
+ * <pre>{@code
+ * String csv = "1,2,3\r\n4,5,6\r\n";
+ * CsvParser.parseCsv(csv, new NoopEventHandler());
+ * }</pre>
+ * <p>
+ * Next example shows, how to check if CSV is valid and rectangular (each row has the same number of columns):
+ * </p>
+ * <pre>{@code
+ * String csv = "1,2,3\r\n4,5,6\r\n";
+ * CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+ * }</pre>
+ * <p>
+ * Next example shows, how to define column and row count of rectangular CSV:
+ * </p>
+ * <pre>{@code
+ * String csv = "1,2,3\r\n4,5,6\r\n";
+ * DimensionEventHandler eventHandler = new DimensionEventHandler();
+ * CsvParser.parseCsv(csv, eventHandler, true);
+ * System.out.println("Row count: " + eventHandler.getRowCount());
+ * System.out.println("Column count: " + eventHandler.getColumnCount());
+ * }</pre>
+ * <p>
+ * The default {@link ru.d_shap.csv.handler.IParserEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
+ * This handler stores CSV in memory as List of rows, each row is a list of columns. This handler could be a memory
+ * consuming handler.
+ * </p>
  */
 package ru.d_shap.csv;
