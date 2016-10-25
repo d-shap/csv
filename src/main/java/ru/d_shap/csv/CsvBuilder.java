@@ -337,6 +337,9 @@ public final class CsvBuilder {
             }
             _writer.write(column);
             _currentColumnCount++;
+            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount > _firstRowColumnCount) {
+                throw new NotRectangularException();
+            }
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
