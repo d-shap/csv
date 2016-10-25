@@ -30,7 +30,7 @@
  * <ul>
  * <li><b>CR</b>, <b>CL</b> or <b>CRLF</b> - row separator</li>
  * <li><b>Comma</b> or <b>Semicolon</b> - column separator</li>
- * <li><b>Quotation</b> - column bounds, if column contains other special symbols</li>
+ * <li><b>Double quotes</b> - column bounds, if column contains other special symbols</li>
  * </ul>
  * <p>
  * After processing input symbol parser generates event and changes its internal state to process next symbol.
