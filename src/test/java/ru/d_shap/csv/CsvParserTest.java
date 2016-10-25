@@ -642,6 +642,34 @@ public final class CsvParserTest {
     }
 
     /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void notRectangularExceptionMessageTest() {
+        try {
+            String csv = "1,2,3\r\n4,5,6,7\r\n8,9";
+            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\\r\\n\".", ex.getMessage());
+        }
+        try {
+            String csv = "1,2,3\r\n4,5,6,7,8\r\n9,0";
+            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7,\".", ex.getMessage());
+        }
+        try {
+            String csv = "1,2,3\r\n4,5\r\n6,7,8,9";
+            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\\r\\n\".", ex.getMessage());
+        }
+    }
+
+    /**
      * Reader implementation, that throws exceptions.
      *
      * @author Dmitry Shapovalov
