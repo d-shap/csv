@@ -28,11 +28,10 @@ import java.util.List;
 import ru.d_shap.csv.state.AbstractState;
 
 /**
- * Class to create CSV from rows and columns. If object is created with writer parameter, then column values
- * and column and row separators are writen directly to the writer. If object is created without
- * writer parameter, then StringWriter is used. In this case everithing is stored in memory. Method
- * {@link #getCsv()} is a convenient method when StringWriter is used. This method returns generated CSV as String.
- * For all other writer objects this method returns null.
+ * Class to create CSV from rows and columns. If object is created with writer parameter, then CSV is writen
+ * directly to the writer. If object is created without writer parameter, then StringWriter is used. In this case
+ * everithing is stored in memory. Method {@link #getCsv()} is a convenient method when StringWriter is used.
+ * This method returns generated CSV as String. For all other writer objects this method returns null.
  *
  * @author Dmitry Shapovalov
  */

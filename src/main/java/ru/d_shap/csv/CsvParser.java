@@ -32,8 +32,8 @@ import ru.d_shap.csv.state.AbstractState;
 import ru.d_shap.csv.state.ParserEventHandler;
 
 /**
- * Class to parse CSV from source. CSV parser is a push parser. CSV parser reads source symbol by symbol and
- * pushes events to {@link ru.d_shap.csv.handler.IParserEventHandler} object. This object defines,
+ * Class to parse CSV from a source. CSV parser is a push parser. CSV parser reads a source symbol by symbol and
+ * pushes events to the {@link ru.d_shap.csv.handler.IParserEventHandler} object. This object defines,
  * what to do with columns and rows. Some default implementations of {@link ru.d_shap.csv.handler.IParserEventHandler}
  * can be used. For example, {@link DimensionEventHandler} can define row and column count
  * for CSV, if CSV has the same number of rows and columns. {@link ListEventHandler} stores
