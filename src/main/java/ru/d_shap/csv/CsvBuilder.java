@@ -332,14 +332,15 @@ public final class CsvBuilder {
 
     private void doAddColumn(final String column) {
         try {
+            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount + 1 > _firstRowColumnCount) {
+                throw new NotRectangularException();
+            }
+
             if (_currentColumnCount > 0) {
                 _writer.write(_columnSeparator);
             }
             _writer.write(column);
             _currentColumnCount++;
-            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount > _firstRowColumnCount) {
-                throw new NotRectangularException();
-            }
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
