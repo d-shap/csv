@@ -33,7 +33,7 @@ public interface IParserEventHandler {
 
     /**
      * Define maximum length of column value. If column value length is greater then defined by this method, then
-     * either the rest of column value is ignored, or an exception is thrown.
+     * either the rest of column value is skipped, or an exception is thrown.
      *
      * @return maximum length of column value, or negative number for no column value length restriction.
      */

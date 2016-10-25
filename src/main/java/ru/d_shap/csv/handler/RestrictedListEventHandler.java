@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CSV parser event handler, that accumulates columns and rows in memory. The length of column value is restricted
- * by constructor argument. If column value exceeds the specified maximum column length, then column value is trimmed.
+ * CSV parser event handler, that accumulates columns and rows in memory. The length of column value has the maximum
+ * value. If column value exceeds the specified maximum value, then column value is trimmed.
  *
  * @author Dmitry Shapovalov
  */

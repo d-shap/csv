@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * CSV parser event handler, that defines row count and column count for each row of CSV. CSV can NOT
- * be rectangular - each row can have different number of columns.
+ * be rectangular - each row can have a different number of columns.
  *
  * @author Dmitry Shapovalov
  */
