@@ -29,7 +29,7 @@ import ru.d_shap.csv.CsvParseException;
 final class State6 extends AbstractState {
 
     /*
-     * State after quot in quoted column.
+     * State after double quote in quoted column.
      */
 
     static final State6 INSTANCE = new State6();
