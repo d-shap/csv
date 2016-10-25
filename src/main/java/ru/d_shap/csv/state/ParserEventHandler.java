@@ -82,6 +82,9 @@ public final class ParserEventHandler {
         _parserEventHandler.pushColumn(column, actualLength);
         _currentColumn.clear();
         _currentColumnCount++;
+        if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount > _firstRowColumnCount) {
+            throw new NotRectangularException(_lastSymbols.toString());
+        }
     }
 
     void pushRow() {
