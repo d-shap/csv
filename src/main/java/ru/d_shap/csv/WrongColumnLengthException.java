@@ -20,7 +20,7 @@
 package ru.d_shap.csv;
 
 /**
- * Exception in thrown when column length exceeds maximum column length.
+ * Exception in thrown when column length exceeds the maximum column length.
  *
  * @author Dmitry Shapovalov
  */

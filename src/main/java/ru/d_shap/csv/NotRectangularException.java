@@ -20,7 +20,7 @@
 package ru.d_shap.csv;
 
 /**
- * Exception in thrown when CSV is not rectangular.
+ * Exception in thrown when CSV has different column count in different rows.
  *
  * @author Dmitry Shapovalov
  */
