@@ -61,7 +61,9 @@ public final class ParserEventHandler {
     }
 
     void addLastSymbol(final int symbol) {
-        _lastSymbols.append((char) symbol);
+        if (symbol != AbstractState.END_OF_INPUT) {
+            _lastSymbols.append((char) symbol);
+        }
     }
 
     String getLastSymbols() {
