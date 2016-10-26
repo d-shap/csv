@@ -342,7 +342,6 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('c');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushRow();
     }
 
     /**

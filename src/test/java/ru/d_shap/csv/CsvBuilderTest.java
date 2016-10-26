@@ -289,7 +289,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -321,7 +320,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -353,7 +351,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -391,7 +388,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -448,7 +444,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -482,7 +477,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -516,7 +510,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
@@ -556,7 +549,6 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addColumn("5");
-        builder.addRow();
     }
 
     /**
