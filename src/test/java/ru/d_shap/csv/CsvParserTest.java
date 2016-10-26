@@ -647,28 +647,42 @@ public final class CsvParserTest {
     @Test
     public void notRectangularExceptionMessageTest() {
         try {
-            String csv = "1,2,3\r\n4,5,6,7\r\n8,9";
+            String csv = "1,2,3\r\n4,5,6,7";
+            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\".", ex.getMessage());
+        }
+        try {
+            String csv = "1,2,3\r\n4,5,6,7\r\n";
             CsvParser.parseCsv(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\\r\\n\".", ex.getMessage());
         }
         try {
-            String csv = "1,2,3\r\n4,5,6,7,8\r\n9,0";
+            String csv = "1,2,3\r\n4,5,6,7,8\r\n";
             CsvParser.parseCsv(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7,\".", ex.getMessage());
         }
         try {
-            String csv = "1,2,3\r\n4,5\r\n6,7,8,9";
+            String csv = "1,2,3\r\n4,5";
+            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\".", ex.getMessage());
+        }
+        try {
+            String csv = "1,2,3\r\n4,5\r\n";
             CsvParser.parseCsv(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\\r\\n\".", ex.getMessage());
         }
         try {
-            String csv = "1,2,3\n4,5\n6,7,8,9";
+            String csv = "1,2,3\n4,5\n";
             CsvParser.parseCsv(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
