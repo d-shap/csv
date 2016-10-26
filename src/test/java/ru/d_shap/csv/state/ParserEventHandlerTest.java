@@ -112,6 +112,27 @@ public final class ParserEventHandlerTest {
      * {@link ParserEventHandler} class test.
      */
     @Test
+    public void addLastSymbolIgnoreEndOfInputTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
+
+        parserEventHandler.addLastSymbol('a');
+        Assert.assertEquals("a", parserEventHandler.getLastSymbols());
+
+        parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
+        Assert.assertEquals("a", parserEventHandler.getLastSymbols());
+
+        parserEventHandler.addLastSymbol('b');
+        Assert.assertEquals("ab", parserEventHandler.getLastSymbols());
+
+        parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
+        Assert.assertEquals("ab", parserEventHandler.getLastSymbols());
+    }
+
+    /**
+     * {@link ParserEventHandler} class test.
+     */
+    @Test
     public void pushSymbolTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false);
