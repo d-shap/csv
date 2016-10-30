@@ -6,7 +6,7 @@
 
     <!-- Headers -->
     <module name="Header">
-        <property name="headerFile" value="style-header.txt" />
+        <property name="headerFile" value="style-header-java.txt" />
         <property name="fileExtensions" value="java" />
     </module>
 
