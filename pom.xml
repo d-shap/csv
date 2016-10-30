@@ -44,7 +44,7 @@
                     <configLocation>style-strict.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <includeResources>false</includeResources>
+                    <includeResources>true</includeResources>
                 </configuration>
             </plugin>
             <plugin>
