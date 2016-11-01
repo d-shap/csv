@@ -55,9 +55,9 @@ public final class CsvParser {
      * @param charSequence CSV to parse.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final CharSequence charSequence) {
+    public static List<List<String>> parse(final CharSequence charSequence) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parseCsv(charSequence, listParserEventHandler, false);
+        parse(charSequence, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
     }
 
@@ -68,9 +68,9 @@ public final class CsvParser {
      * @param checkRectangular check if all rows should have the same column count.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final CharSequence charSequence, final boolean checkRectangular) {
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parseCsv(charSequence, listParserEventHandler, checkRectangular);
+        parse(charSequence, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
     }
 
@@ -80,8 +80,8 @@ public final class CsvParser {
      * @param charSequence       CSV to parse.
      * @param parserEventHandler event handler to process parser events.
      */
-    public static void parseCsv(final CharSequence charSequence, final IParserEventHandler parserEventHandler) {
-        parseCsv(charSequence, parserEventHandler, false);
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler) {
+        parse(charSequence, parserEventHandler, false);
     }
 
     /**
@@ -91,7 +91,7 @@ public final class CsvParser {
      * @param parserEventHandler event handler to process parser events.
      * @param checkRectangular   check if all rows should have the same column count.
      */
-    public static void parseCsv(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
         if (charSequence == null) {
             return;
         }
@@ -103,7 +103,7 @@ public final class CsvParser {
             str = charSequence.toString();
         }
         StringReader reader = new StringReader(str);
-        parseCsv(reader, parserEventHandler, checkRectangular);
+        parse(reader, parserEventHandler, checkRectangular);
     }
 
     /**
@@ -112,9 +112,9 @@ public final class CsvParser {
      * @param reader CSV to parse.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final Reader reader) {
+    public static List<List<String>> parse(final Reader reader) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parseCsv(reader, listParserEventHandler, false);
+        parse(reader, listParserEventHandler, false);
         return listParserEventHandler.getCsv();
     }
 
@@ -125,9 +125,9 @@ public final class CsvParser {
      * @param checkRectangular check if all rows should have the same column count.
      * @return list of rows, each row is a list of columns.
      */
-    public static List<List<String>> parseCsv(final Reader reader, final boolean checkRectangular) {
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parseCsv(reader, listParserEventHandler, checkRectangular);
+        parse(reader, listParserEventHandler, checkRectangular);
         return listParserEventHandler.getCsv();
     }
 
@@ -137,8 +137,8 @@ public final class CsvParser {
      * @param reader             CSV to parse.
      * @param parserEventHandler event handler to process parser events.
      */
-    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler) {
-        parseCsv(reader, parserEventHandler, false);
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler) {
+        parse(reader, parserEventHandler, false);
     }
 
     /**
@@ -148,7 +148,7 @@ public final class CsvParser {
      * @param parserEventHandler event handler to process parser events.
      * @param checkRectangular   check if all rows should have the same column count.
      */
-    public static void parseCsv(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
         if (reader == null) {
             return;
         }

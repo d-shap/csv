@@ -46,7 +46,7 @@ public final class State2Test {
     @Test
     public void processEndOfInputTest() {
         String csv = "\n";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -58,7 +58,7 @@ public final class State2Test {
     @Test
     public void processCommaTest() {
         String csv = "\n,";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -73,7 +73,7 @@ public final class State2Test {
     @Test
     public void processSemicolonTest() {
         String csv = "\n;";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -88,7 +88,7 @@ public final class State2Test {
     @Test
     public void processCrTest() {
         String csv = "\n\r";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -101,7 +101,7 @@ public final class State2Test {
     @Test
     public void processLfTest() {
         String csv = "\n\n";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -114,7 +114,7 @@ public final class State2Test {
     @Test
     public void processQuotTest() {
         String csv = "\n\"aa\"";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -128,7 +128,7 @@ public final class State2Test {
     @Test
     public void processDefaultTest() {
         String csv = "\naa";
-        List<List<String>> list = CsvParser.parseCsv(csv);
+        List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());

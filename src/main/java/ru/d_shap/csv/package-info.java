@@ -74,7 +74,7 @@
  * </p>
  * <pre>{@code
  * String csv = "value1,,false\r\nvalue2,true,\r\n\r\n,value3,value3\r\n";
- * List<List<String>> result = CsvParser.parseCsv(csv);
+ * List<List<String>> result = CsvParser.parse(csv);
  * }</pre>
  * <p>
  * CSV parser is a push parser. It reads a source symbol by symbol and pushes events to the
@@ -89,14 +89,14 @@
  * </p>
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
- * CsvParser.parseCsv(csv, new NoopEventHandler());
+ * CsvParser.parse(csv, new NoopEventHandler());
  * }</pre>
  * <p>
  * Next example shows, how to check if CSV is valid and rectangular (each row has the same number of columns):
  * </p>
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
- * CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+ * CsvParser.parse(csv, new NoopEventHandler(), true);
  * }</pre>
  * <p>
  * Next example shows, how to define column and row count of rectangular CSV:
@@ -104,7 +104,7 @@
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
  * DimensionEventHandler eventHandler = new DimensionEventHandler();
- * CsvParser.parseCsv(csv, eventHandler, true);
+ * CsvParser.parse(csv, eventHandler, true);
  * System.out.println("Row count: " + eventHandler.getRowCount());
  * System.out.println("Column count: " + eventHandler.getColumnCount());
  * }</pre>

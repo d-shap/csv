@@ -83,7 +83,7 @@ public final class CsvParserTest {
     @Test
     public void parseColumnsWithSemicolonsTest() {
         String csv = "true;1.0.1;5";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("true", result.get(0).get(0));
@@ -97,7 +97,7 @@ public final class CsvParserTest {
     @Test
     public void parseColumnsWithCommasTest() {
         String csv = "true,1.0.1,5";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("true", result.get(0).get(0));
@@ -111,7 +111,7 @@ public final class CsvParserTest {
     @Test
     public void parseColumnsWithSpecialsTest() {
         String csv = "true,\"aa,bb;\r\na\",\"5\"";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("true", result.get(0).get(0));
@@ -125,7 +125,7 @@ public final class CsvParserTest {
     @Test
     public void parseEmptyColumnsTest() {
         String csv = ";a;;b;;;c;";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(8, result.get(0).size());
         Assert.assertEquals("", result.get(0).get(0));
@@ -144,7 +144,7 @@ public final class CsvParserTest {
     @Test
     public void parseEmptySpecialColumnsTest() {
         String csv = "\"\",\"\",,\"\"";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(4, result.get(0).size());
         Assert.assertEquals("", result.get(0).get(0));
@@ -159,7 +159,7 @@ public final class CsvParserTest {
     @Test
     public void parseColumnsWithQuotsTest() {
         String csv = "\"a\"\"b\",ab;\"\"\"a\",\"b\"\"\"";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(4, result.get(0).size());
         Assert.assertEquals("a\"b", result.get(0).get(0));
@@ -174,7 +174,7 @@ public final class CsvParserTest {
     @Test(expected = CsvParseException.class)
     public void wrongQuotFailTest() {
         String csv = "aaa,bb,c\"c,dd";
-        CsvParser.parseCsv(csv);
+        CsvParser.parse(csv);
     }
 
     /**
@@ -183,7 +183,7 @@ public final class CsvParserTest {
     @Test(expected = CsvParseException.class)
     public void notClosedQuotFailTest() {
         String csv = "aaa,bb,\"ccc,dd";
-        CsvParser.parseCsv(csv);
+        CsvParser.parse(csv);
     }
 
     /**
@@ -192,7 +192,7 @@ public final class CsvParserTest {
     @Test(expected = CsvParseException.class)
     public void notOpenedQuotFailTest() {
         String csv = "aaa,bb,ccc\",dd";
-        CsvParser.parseCsv(csv);
+        CsvParser.parse(csv);
     }
 
     /**
@@ -201,7 +201,7 @@ public final class CsvParserTest {
     @Test(expected = CsvParseException.class)
     public void notAllColumnInQuotFailTest() {
         String csv = "aaa,bb,\"ccc\"cc,dd";
-        CsvParser.parseCsv(csv);
+        CsvParser.parse(csv);
     }
 
     /**
@@ -210,7 +210,7 @@ public final class CsvParserTest {
     @Test
     public void parseRowsWithCrTest() {
         String csv = "a\rb\rc";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(3, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("a", result.get(0).get(0));
@@ -226,7 +226,7 @@ public final class CsvParserTest {
     @Test
     public void parseRowsWithLfTest() {
         String csv = "a\nb\nc";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(3, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("a", result.get(0).get(0));
@@ -242,7 +242,7 @@ public final class CsvParserTest {
     @Test
     public void parseRowsWithCrLfTest() {
         String csv = "a\r\nb\r\nc";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(3, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("a", result.get(0).get(0));
@@ -258,7 +258,7 @@ public final class CsvParserTest {
     @Test
     public void parseEmptyRowsTest() {
         String csv = "\naaa\n\nbbb\n\n";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(5, result.size());
         Assert.assertEquals(0, result.get(0).size());
         Assert.assertEquals(1, result.get(1).size());
@@ -275,7 +275,7 @@ public final class CsvParserTest {
     @Test
     public void parseRowsWithSpecialsTest() {
         String csv = "\",\"\r\n\"\"\"\"\r\n\"aaa;bbb\"\r\n";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(3, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals(",", result.get(0).get(0));
@@ -291,7 +291,7 @@ public final class CsvParserTest {
     @Test
     public void parseTableTest() {
         String csv = "a,,false\nb,true,\n\n,c,d\n";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(4, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("a", result.get(0).get(0));
@@ -314,7 +314,7 @@ public final class CsvParserTest {
     @Test
     public void parseEmptyCsvTest() {
         String csv = "";
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(0, result.size());
     }
 
@@ -324,7 +324,7 @@ public final class CsvParserTest {
     @Test
     public void parseNullCsvTest() {
         String csv = null;
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(0, result.size());
     }
 
@@ -335,7 +335,7 @@ public final class CsvParserTest {
     public void parseCharSequenceCsvTest() {
         StringBuilder csv = new StringBuilder();
         csv.append("a,,false\nb,true,\n\n,c,d\n");
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(4, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("a", result.get(0).get(0));
@@ -358,7 +358,7 @@ public final class CsvParserTest {
     @Test(expected = CsvParseException.class)
     public void unquotedQuotFailTest() {
         String csv = "one;\"t\"wo\"\nthree;four";
-        CsvParser.parseCsv(csv);
+        CsvParser.parse(csv);
     }
 
     /**
@@ -367,7 +367,7 @@ public final class CsvParserTest {
     @Test
     public void checkRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
-        List<List<String>> result = CsvParser.parseCsv(csv, true);
+        List<List<String>> result = CsvParser.parse(csv, true);
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("1", result.get(0).get(0));
@@ -385,7 +385,7 @@ public final class CsvParserTest {
     @Test(expected = NotRectangularException.class)
     public void checkRectangularFailTest() {
         String csv = "1,2\r\n3,4,5\r\n";
-        CsvParser.parseCsv(csv, true);
+        CsvParser.parse(csv, true);
     }
 
     /**
@@ -395,7 +395,7 @@ public final class CsvParserTest {
     public void parseReaderTest() {
         String csv = ";,\n,aaa,bbb,\"a\"\"b\";\r";
         Reader reader = new StringReader(csv);
-        List<List<String>> result = CsvParser.parseCsv(reader);
+        List<List<String>> result = CsvParser.parse(reader);
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("", result.get(0).get(0));
@@ -415,7 +415,7 @@ public final class CsvParserTest {
     @Test
     public void parseNullReaderCsvTest() {
         Reader csv = null;
-        List<List<String>> result = CsvParser.parseCsv(csv);
+        List<List<String>> result = CsvParser.parse(csv);
         Assert.assertEquals(0, result.size());
     }
 
@@ -426,7 +426,7 @@ public final class CsvParserTest {
     public void readerCheckRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
-        List<List<String>> result = CsvParser.parseCsv(reader, true);
+        List<List<String>> result = CsvParser.parse(reader, true);
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(3, result.get(0).size());
         Assert.assertEquals("1", result.get(0).get(0));
@@ -445,7 +445,7 @@ public final class CsvParserTest {
     public void readerCheckRectangularFailTest() {
         String csv = "1,2\r\n3,4,5\r\n";
         Reader reader = new StringReader(csv);
-        CsvParser.parseCsv(reader, true);
+        CsvParser.parse(reader, true);
     }
 
     /**
@@ -454,8 +454,8 @@ public final class CsvParserTest {
     @Test
     public void parseNullHandlerTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
-        CsvParser.parseCsv(csv, null, true);
-        CsvParser.parseCsv(csv, null, false);
+        CsvParser.parse(csv, null, true);
+        CsvParser.parse(csv, null, false);
     }
 
     /**
@@ -464,7 +464,7 @@ public final class CsvParserTest {
     @Test
     public void noopHandlerCheckRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
-        CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+        CsvParser.parse(csv, new NoopEventHandler(), true);
     }
 
     /**
@@ -473,7 +473,7 @@ public final class CsvParserTest {
     @Test(expected = NotRectangularException.class)
     public void noopHandlerCheckRectangularFailTest() {
         String csv = "1,2\r\n3,4,5\r\n";
-        CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+        CsvParser.parse(csv, new NoopEventHandler(), true);
     }
 
     /**
@@ -483,7 +483,7 @@ public final class CsvParserTest {
     public void readerNoopHandlerCheckRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
-        CsvParser.parseCsv(reader, new NoopEventHandler(), true);
+        CsvParser.parse(reader, new NoopEventHandler(), true);
     }
 
     /**
@@ -493,7 +493,7 @@ public final class CsvParserTest {
     public void readerNoopHandlerCheckRectangularFailTest() {
         String csv = "1,2\r\n3,4,5\r\n";
         Reader reader = new StringReader(csv);
-        CsvParser.parseCsv(reader, new NoopEventHandler(), true);
+        CsvParser.parse(reader, new NoopEventHandler(), true);
     }
 
     /**
@@ -503,7 +503,7 @@ public final class CsvParserTest {
     public void dimensionHandlerTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        CsvParser.parseCsv(csv, eventHandler);
+        CsvParser.parse(csv, eventHandler);
         Assert.assertEquals(2, eventHandler.getRowCount());
         Assert.assertEquals(3, eventHandler.getColumnCount());
     }
@@ -516,7 +516,7 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        CsvParser.parseCsv(reader, eventHandler);
+        CsvParser.parse(reader, eventHandler);
         Assert.assertEquals(2, eventHandler.getRowCount());
         Assert.assertEquals(3, eventHandler.getColumnCount());
     }
@@ -528,7 +528,7 @@ public final class CsvParserTest {
     public void columnCountHandlerTest() {
         String csv = "1,2\r\n3,4,5\r\n6";
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        CsvParser.parseCsv(csv, eventHandler);
+        CsvParser.parse(csv, eventHandler);
         Assert.assertEquals(3, eventHandler.getColumnCounts().size());
         Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
         Assert.assertEquals(3, (int) eventHandler.getColumnCounts().get(1));
@@ -543,7 +543,7 @@ public final class CsvParserTest {
         String csv = "1,2\r\n3,4,5\r\n6";
         Reader reader = new StringReader(csv);
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        CsvParser.parseCsv(reader, eventHandler);
+        CsvParser.parse(reader, eventHandler);
         Assert.assertEquals(3, eventHandler.getColumnCounts().size());
         Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
         Assert.assertEquals(3, (int) eventHandler.getColumnCounts().get(1));
@@ -557,7 +557,7 @@ public final class CsvParserTest {
     public void columnLengthHandlerTest() {
         String csv = "aaa,bb\r\ncccc,dddd,eeeee\r\nf";
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        CsvParser.parseCsv(csv, eventHandler);
+        CsvParser.parse(csv, eventHandler);
         Assert.assertEquals(3, eventHandler.getColumnLengths().size());
         Assert.assertEquals(2, eventHandler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) eventHandler.getColumnLengths().get(0).get(0));
@@ -578,7 +578,7 @@ public final class CsvParserTest {
         String csv = "aaa,bb\r\ncccc,dddd,eeeee\r\nf";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        CsvParser.parseCsv(reader, eventHandler);
+        CsvParser.parse(reader, eventHandler);
         Assert.assertEquals(3, eventHandler.getColumnLengths().size());
         Assert.assertEquals(2, eventHandler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) eventHandler.getColumnLengths().get(0).get(0));
@@ -598,7 +598,7 @@ public final class CsvParserTest {
     public void restrictedListEventHandlerTest() {
         String csv = "long value 1,long value 2\r\nvalue,val,long value 3\r\nvalue";
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
-        CsvParser.parseCsv(csv, eventHandler);
+        CsvParser.parse(csv, eventHandler);
         Assert.assertEquals(3, eventHandler.getCsv().size());
         Assert.assertEquals(2, eventHandler.getCsv().get(0).size());
         Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
@@ -619,7 +619,7 @@ public final class CsvParserTest {
         String csv = "long value 1,long value 2\r\nvalue,val,long value 3\r\nvalue";
         Reader reader = new StringReader(csv);
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
-        CsvParser.parseCsv(reader, eventHandler);
+        CsvParser.parse(reader, eventHandler);
         Assert.assertEquals(3, eventHandler.getCsv().size());
         Assert.assertEquals(2, eventHandler.getCsv().get(0).size());
         Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
@@ -638,7 +638,7 @@ public final class CsvParserTest {
     @Test(expected = CsvIOException.class)
     public void parseReaderExceptionFailTest() {
         Reader reader = new ErrorReader();
-        CsvParser.parseCsv(reader);
+        CsvParser.parse(reader);
     }
 
     /**
@@ -648,42 +648,42 @@ public final class CsvParserTest {
     public void notRectangularExceptionMessageTest() {
         try {
             String csv = "1,2,3\r\n4,5,6,7";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\".", ex.getMessage());
         }
         try {
             String csv = "1,2,3\r\n4,5,6,7\r\n";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\\r\\n\".", ex.getMessage());
         }
         try {
             String csv = "1,2,3\r\n4,5,6,7,8\r\n";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7,\".", ex.getMessage());
         }
         try {
             String csv = "1,2,3\r\n4,5";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\".", ex.getMessage());
         }
         try {
             String csv = "1,2,3\r\n4,5\r\n";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\\r\\n\".", ex.getMessage());
         }
         try {
             String csv = "1,2,3\n4,5\n";
-            CsvParser.parseCsv(csv, new NoopEventHandler(), true);
+            CsvParser.parse(csv, new NoopEventHandler(), true);
             Assert.fail("Rectangular check fail");
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\n4,5\\n\".", ex.getMessage());
