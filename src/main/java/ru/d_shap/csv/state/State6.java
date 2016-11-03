@@ -47,17 +47,37 @@ final class State6 extends AbstractState {
                 parserEventHandler.pushRow();
                 return null;
             case COMMA:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isCommaSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case SEMICOLON:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isSemicolonSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case CR:
-                return State4.INSTANCE;
+                if (parserEventHandler.isCrLfSeparator()) {
+                    return State4.INSTANCE; // ERROR - new state
+                } else if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case LF:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return State2.INSTANCE;
+                if (parserEventHandler.isLfSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case QUOT:
                 parserEventHandler.pushSymbol(symbol);
                 return State5.INSTANCE;
