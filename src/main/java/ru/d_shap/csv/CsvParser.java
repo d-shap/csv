@@ -22,9 +22,9 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
@@ -58,8 +58,83 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parse(final CharSequence charSequence) {
+        Reader reader = createReader(charSequence);
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parse(charSequence, listParserEventHandler, false);
+        doParse(reader, listParserEventHandler, false);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence    CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final ColumnSeparators columnSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence CSV to parse.
+     * @param rowSeparator separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence  CSV to parse.
+     * @param rowSeparator1 separator between rows.
+     * @param rowSeparator2 separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, rowSeparator1, rowSeparator2);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence    CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @param rowSeparator    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence    CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @param rowSeparator1   separator between rows.
+     * @param rowSeparator2   separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator, rowSeparator1, rowSeparator2);
         return listParserEventHandler.getCsv();
     }
 
@@ -71,8 +146,88 @@ public final class CsvParser {
      * @return list of rows, each row is a list of columns.
      */
     public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular) {
+        Reader reader = createReader(charSequence);
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parse(charSequence, listParserEventHandler, checkRectangular);
+        doParse(reader, listParserEventHandler, checkRectangular);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence     CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence     CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param rowSeparator     separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence     CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param rowSeparator1    separator between rows.
+     * @param rowSeparator2    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, rowSeparator1, rowSeparator2);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence     CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @param rowSeparator     separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence     CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @param rowSeparator1    separator between rows.
+     * @param rowSeparator2    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final CharSequence charSequence, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator, rowSeparator1, rowSeparator2);
         return listParserEventHandler.getCsv();
     }
 
@@ -83,7 +238,72 @@ public final class CsvParser {
      * @param parserEventHandler event handler to process parser events.
      */
     public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler) {
-        parse(charSequence, parserEventHandler, false);
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false, columnSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false, rowSeparator1, rowSeparator2);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false, columnSeparator, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, false, columnSeparator, rowSeparator1, rowSeparator2);
     }
 
     /**
@@ -94,18 +314,77 @@ public final class CsvParser {
      * @param checkRectangular   check if all rows should have the same column count.
      */
     public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
-        if (charSequence == null) {
-            return;
-        }
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular);
+    }
 
-        String str;
-        if (charSequence instanceof String) {
-            str = (String) charSequence;
-        } else {
-            str = charSequence.toString();
-        }
-        StringReader reader = new StringReader(str);
-        parse(reader, parserEventHandler, checkRectangular);
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular, rowSeparator1, rowSeparator2);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence       CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final CharSequence charSequence, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Reader reader = createReader(charSequence);
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator, rowSeparator1, rowSeparator2);
     }
 
     /**
@@ -116,7 +395,76 @@ public final class CsvParser {
      */
     public static List<List<String>> parse(final Reader reader) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parse(reader, listParserEventHandler, false);
+        doParse(reader, listParserEventHandler, false);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader          CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final ColumnSeparators columnSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader       CSV to parse.
+     * @param rowSeparator separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final RowSeparators rowSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader        CSV to parse.
+     * @param rowSeparator1 separator between rows.
+     * @param rowSeparator2 separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, rowSeparator1, rowSeparator2);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader          CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @param rowSeparator    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader          CSV to parse.
+     * @param columnSeparator separator between columns in one row.
+     * @param rowSeparator1   separator between rows.
+     * @param rowSeparator2   separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, false, columnSeparator, rowSeparator1, rowSeparator2);
         return listParserEventHandler.getCsv();
     }
 
@@ -129,7 +477,81 @@ public final class CsvParser {
      */
     public static List<List<String>> parse(final Reader reader, final boolean checkRectangular) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        parse(reader, listParserEventHandler, checkRectangular);
+        doParse(reader, listParserEventHandler, checkRectangular);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader           CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader           CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param rowSeparator     separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular, final RowSeparators rowSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader           CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param rowSeparator1    separator between rows.
+     * @param rowSeparator2    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, rowSeparator1, rowSeparator2);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader           CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @param rowSeparator     separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator, rowSeparator);
+        return listParserEventHandler.getCsv();
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader           CSV to parse.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparator  separator between columns in one row.
+     * @param rowSeparator1    separator between rows.
+     * @param rowSeparator2    separator between rows.
+     * @return list of rows, each row is a list of columns.
+     */
+    public static List<List<String>> parse(final Reader reader, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        ListEventHandler listParserEventHandler = new ListEventHandler();
+        doParse(reader, listParserEventHandler, checkRectangular, columnSeparator, rowSeparator1, rowSeparator2);
         return listParserEventHandler.getCsv();
     }
 
@@ -140,7 +562,66 @@ public final class CsvParser {
      * @param parserEventHandler event handler to process parser events.
      */
     public static void parse(final Reader reader, final IParserEventHandler parserEventHandler) {
-        parse(reader, parserEventHandler, false);
+        doParse(reader, parserEventHandler, false);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator) {
+        doParse(reader, parserEventHandler, false, columnSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final RowSeparators rowSeparator) {
+        doParse(reader, parserEventHandler, false, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        doParse(reader, parserEventHandler, false, rowSeparator1, rowSeparator2);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        doParse(reader, parserEventHandler, false, columnSeparator, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        doParse(reader, parserEventHandler, false, columnSeparator, rowSeparator1, rowSeparator2);
     }
 
     /**
@@ -151,19 +632,156 @@ public final class CsvParser {
      * @param checkRectangular   check if all rows should have the same column count.
      */
     public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
-        Map<ColumnSeparators, Boolean> columnSeparators = new HashMap<ColumnSeparators, Boolean>();
-        columnSeparators.put(ColumnSeparators.COMMA, true);
-        columnSeparators.put(ColumnSeparators.SEMICOLON, true);
-
-        Map<RowSeparators, Boolean> rowSeparators = new HashMap<RowSeparators, Boolean>();
-        rowSeparators.put(RowSeparators.CR, true);
-        rowSeparators.put(RowSeparators.LF, true);
-        rowSeparators.put(RowSeparators.CRLF, true);
-
-        parse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+        doParse(reader, parserEventHandler, checkRectangular);
     }
 
-    private static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Map<ColumnSeparators, Boolean> columnSeparators, final Map<RowSeparators, Boolean> rowSeparators) {
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator) {
+        doParse(reader, parserEventHandler, checkRectangular, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        doParse(reader, parserEventHandler, checkRectangular, rowSeparator1, rowSeparator2);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator       separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator, rowSeparator);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader             CSV to parse.
+     * @param parserEventHandler event handler to process parser events.
+     * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparator    separator between columns in one row.
+     * @param rowSeparator1      separator between rows.
+     * @param rowSeparator2      separator between rows.
+     */
+    public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparator, rowSeparator1, rowSeparator2);
+    }
+
+    private static Reader createReader(final CharSequence charSequence) {
+        if (charSequence == null) {
+            return null;
+        }
+        String str;
+        if (charSequence instanceof String) {
+            str = (String) charSequence;
+        } else {
+            str = charSequence.toString();
+        }
+        return new StringReader(str);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(ColumnSeparators.COMMA);
+        columnSeparators.add(ColumnSeparators.SEMICOLON);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(RowSeparators.CR);
+        rowSeparators.add(RowSeparators.LF);
+        rowSeparators.add(RowSeparators.CRLF);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(columnSeparator);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(RowSeparators.CR);
+        rowSeparators.add(RowSeparators.LF);
+        rowSeparators.add(RowSeparators.CRLF);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(ColumnSeparators.COMMA);
+        columnSeparators.add(ColumnSeparators.SEMICOLON);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(rowSeparator);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(ColumnSeparators.COMMA);
+        columnSeparators.add(ColumnSeparators.SEMICOLON);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(rowSeparator1);
+        rowSeparators.add(rowSeparator2);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(columnSeparator);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(rowSeparator);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        columnSeparators.add(columnSeparator);
+
+        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        rowSeparators.add(rowSeparator1);
+        rowSeparators.add(rowSeparator2);
+
+        doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
         if (reader == null) {
             return;
         }
