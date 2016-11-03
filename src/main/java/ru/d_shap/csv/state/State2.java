@@ -43,16 +43,39 @@ final class State2 extends AbstractState {
             case END_OF_INPUT:
                 return null;
             case COMMA:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isCommaSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case SEMICOLON:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isSemicolonSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case CR:
-                return State3.INSTANCE;
+                if (parserEventHandler.isCrLfSeparator()) {
+                    return State3.INSTANCE;
+                } else if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case LF:
-                parserEventHandler.pushRow();
-                return State2.INSTANCE;
+                if (parserEventHandler.isLfSeparator()) {
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case QUOT:
                 return State5.INSTANCE;
             default:
