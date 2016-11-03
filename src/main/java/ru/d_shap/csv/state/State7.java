@@ -47,17 +47,41 @@ final class State7 extends AbstractState {
                 parserEventHandler.pushRow();
                 return null;
             case COMMA:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isCommaSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case SEMICOLON:
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isSemicolonSeparator()) {
+                    parserEventHandler.pushColumn();
+                    return State1.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case CR:
-                return State4.INSTANCE;
+                if (parserEventHandler.isCrLfSeparator()) {
+                    return State4.INSTANCE;
+                } else if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case LF:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return State2.INSTANCE;
+                if (parserEventHandler.isLfSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State2.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(symbol);
+                    return State7.INSTANCE;
+                }
             case QUOT:
                 throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
             default:
