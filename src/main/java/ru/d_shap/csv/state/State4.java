@@ -28,6 +28,7 @@ final class State4 extends AbstractState {
 
     /*
      * State after CR after column separator.
+     * State after CR after symbol.
      */
 
     static final State4 INSTANCE = new State4();
@@ -41,23 +42,67 @@ final class State4 extends AbstractState {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return null;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return null;
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return null;
+                }
             case COMMA:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    if (parserEventHandler.isCommaSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State7.INSTANCE;
+                    }
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    if (parserEventHandler.isCommaSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State7.INSTANCE;
+                    }
+                }
             case SEMICOLON:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    if (parserEventHandler.isSemicolonSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State7.INSTANCE;
+                    }
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    if (parserEventHandler.isSemicolonSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State7.INSTANCE;
+                    }
+                }
             case CR:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return State3.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State3.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    return State4.INSTANCE;
+                }
             case LF:
                 parserEventHandler.pushColumn();
                 parserEventHandler.pushRow();
