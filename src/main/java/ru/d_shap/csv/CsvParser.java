@@ -22,7 +22,9 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
@@ -149,6 +151,19 @@ public final class CsvParser {
      * @param checkRectangular   check if all rows should have the same column count.
      */
     public static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+        Map<ColumnSeparators, Boolean> columnSeparators = new HashMap<ColumnSeparators, Boolean>();
+        columnSeparators.put(ColumnSeparators.COMMA, true);
+        columnSeparators.put(ColumnSeparators.SEMICOLON, true);
+
+        Map<RowSeparators, Boolean> rowSeparators = new HashMap<RowSeparators, Boolean>();
+        rowSeparators.put(RowSeparators.CR, true);
+        rowSeparators.put(RowSeparators.LF, true);
+        rowSeparators.put(RowSeparators.CRLF, true);
+
+        parse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+    }
+
+    private static void parse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Map<ColumnSeparators, Boolean> columnSeparators, final Map<RowSeparators, Boolean> rowSeparators) {
         if (reader == null) {
             return;
         }
@@ -157,7 +172,7 @@ public final class CsvParser {
         }
 
         try {
-            ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular);
+            ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
             AbstractState state = AbstractState.getInitState();
             int symbol;
             while (true) {

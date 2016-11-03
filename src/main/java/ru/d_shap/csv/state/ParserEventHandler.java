@@ -19,7 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
+import java.util.Map;
+
+import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.NotRectangularException;
+import ru.d_shap.csv.RowSeparators;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.IParserEventHandler;
 
@@ -36,6 +40,16 @@ public final class ParserEventHandler {
 
     private final boolean _checkRectangular;
 
+    private final boolean _commaSeparator;
+
+    private final boolean _semicolonSeparator;
+
+    private final boolean _crSeparator;
+
+    private final boolean _lfSeparator;
+
+    private final boolean _crLfSeparator;
+
     private final CharStack _lastSymbols;
 
     private final CharBuffer _currentColumn;
@@ -49,15 +63,45 @@ public final class ParserEventHandler {
      *
      * @param parserEventHandler event handler to delegate event calls.
      * @param checkRectangular   check if all rows should have the same column count.
+     * @param columnSeparators   column separators, used by parser.
+     * @param rowSeparators      row separators, used by parser.
      */
-    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
+    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Map<ColumnSeparators, Boolean> columnSeparators, final Map<RowSeparators, Boolean> rowSeparators) {
         super();
         _parserEventHandler = parserEventHandler;
         _checkRectangular = checkRectangular;
+
+        _commaSeparator = columnSeparators.containsKey(ColumnSeparators.COMMA) && columnSeparators.get(ColumnSeparators.COMMA);
+        _semicolonSeparator = columnSeparators.containsKey(ColumnSeparators.SEMICOLON) && columnSeparators.get(ColumnSeparators.SEMICOLON);
+
+        _crSeparator = rowSeparators.containsKey(RowSeparators.CR) && rowSeparators.get(RowSeparators.CR);
+        _lfSeparator = rowSeparators.containsKey(RowSeparators.LF) && rowSeparators.get(RowSeparators.LF);
+        _crLfSeparator = rowSeparators.containsKey(RowSeparators.CRLF) && rowSeparators.get(RowSeparators.CRLF);
+
         _lastSymbols = new CharStack(LAST_SYMBOLS_COUNT);
         _currentColumn = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
         _firstRowColumnCount = -1;
         _currentColumnCount = 0;
+    }
+
+    boolean isCommaSeparator() {
+        return _commaSeparator;
+    }
+
+    boolean isSemicolonSeparator() {
+        return _semicolonSeparator;
+    }
+
+    boolean isCrSeparator() {
+        return _crSeparator;
+    }
+
+    boolean isLfSeparator() {
+        return _lfSeparator;
+    }
+
+    boolean isCrLfSeparator() {
+        return _crLfSeparator;
     }
 
     void addLastSymbol(final int symbol) {
