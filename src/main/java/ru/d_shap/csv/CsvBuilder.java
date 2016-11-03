@@ -332,15 +332,15 @@ public final class CsvBuilder {
 
     private void doAddColumn(final String column) {
         try {
-            _currentColumnCount++;
-            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount > _firstRowColumnCount) {
+            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount >= _firstRowColumnCount) {
                 throw new NotRectangularException();
             }
 
-            if (_currentColumnCount > 1) {
+            if (_currentColumnCount > 0) {
                 _writer.write(_columnSeparator);
             }
             _writer.write(column);
+            _currentColumnCount++;
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
@@ -352,20 +352,20 @@ public final class CsvBuilder {
      * @return current object for chaining.
      */
     public CsvBuilder addRow() {
-        if (_firstRowColumnCount < 0) {
-            _firstRowColumnCount = _currentColumnCount;
-        }
-        if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
-            throw new NotRectangularException();
-        }
-
         try {
+            if (_firstRowColumnCount < 0) {
+                _firstRowColumnCount = _currentColumnCount;
+            }
+            if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
+                throw new NotRectangularException();
+            }
+
             _writer.write(_rowSeparator);
+            _currentColumnCount = 0;
+            return this;
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
-        _currentColumnCount = 0;
-        return this;
     }
 
     /**
