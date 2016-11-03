@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import java.util.Map;
+import java.util.Set;
 
 import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.NotRectangularException;
@@ -66,17 +66,17 @@ public final class ParserEventHandler {
      * @param columnSeparators   column separators, used by parser.
      * @param rowSeparators      row separators, used by parser.
      */
-    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Map<ColumnSeparators, Boolean> columnSeparators, final Map<RowSeparators, Boolean> rowSeparators) {
+    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
         super();
         _parserEventHandler = parserEventHandler;
         _checkRectangular = checkRectangular;
 
-        _commaSeparator = columnSeparators.containsKey(ColumnSeparators.COMMA) && columnSeparators.get(ColumnSeparators.COMMA);
-        _semicolonSeparator = columnSeparators.containsKey(ColumnSeparators.SEMICOLON) && columnSeparators.get(ColumnSeparators.SEMICOLON);
+        _commaSeparator = columnSeparators.contains(ColumnSeparators.COMMA);
+        _semicolonSeparator = columnSeparators.contains(ColumnSeparators.SEMICOLON);
 
-        _crSeparator = rowSeparators.containsKey(RowSeparators.CR) && rowSeparators.get(RowSeparators.CR);
-        _lfSeparator = rowSeparators.containsKey(RowSeparators.LF) && rowSeparators.get(RowSeparators.LF);
-        _crLfSeparator = rowSeparators.containsKey(RowSeparators.CRLF) && rowSeparators.get(RowSeparators.CRLF);
+        _crSeparator = rowSeparators.contains(RowSeparators.CR);
+        _lfSeparator = rowSeparators.contains(RowSeparators.LF);
+        _crLfSeparator = rowSeparators.contains(RowSeparators.CRLF);
 
         _lastSymbols = new CharStack(LAST_SYMBOLS_COUNT);
         _currentColumn = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
@@ -123,8 +123,7 @@ public final class ParserEventHandler {
     }
 
     void pushColumn() {
-        _currentColumnCount++;
-        if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount > _firstRowColumnCount) {
+        if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount >= _firstRowColumnCount) {
             throw new NotRectangularException(_lastSymbols.toString());
         }
 
@@ -132,6 +131,7 @@ public final class ParserEventHandler {
         int actualLength = _currentColumn.getActualLength();
         _parserEventHandler.pushColumn(column, actualLength);
         _currentColumn.clear();
+        _currentColumnCount++;
     }
 
     void pushRow() {
