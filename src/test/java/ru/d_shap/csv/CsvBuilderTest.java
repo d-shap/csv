@@ -616,6 +616,38 @@ public final class CsvBuilderTest {
     }
 
     /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
+    public void restoreFromNotRectangularExceptionTest() {
+        CsvBuilder builder = new CsvBuilder(true);
+        builder.addColumn(1);
+        builder.addColumn(true);
+        builder.addRow();
+        builder.addColumn(2.2f);
+        builder.addColumn("aaa");
+        try {
+            builder.addColumn("a;a;a");
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+        }
+        builder.addRow();
+        builder.addColumn(5);
+        try {
+            builder.addRow();
+            Assert.fail("Rectangular check fail");
+        } catch (NotRectangularException ex) {
+            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+        }
+        builder.addColumn(5L);
+        builder.addRow();
+
+        String csv = builder.getCsv();
+        Assert.assertEquals("1,true\r\n2.2,aaa\r\n5,5\r\n", csv);
+    }
+
+    /**
      * Writer implementation, that throws exceptions.
      *
      * @author Dmitry Shapovalov
