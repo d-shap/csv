@@ -29,7 +29,7 @@ import ru.d_shap.csv.CsvParseException;
 final class State6 extends AbstractState {
 
     /*
-     * State after double quote in quoted column.
+     * State to process quoted column.
      */
 
     static final State6 INSTANCE = new State6();
@@ -43,46 +43,24 @@ final class State6 extends AbstractState {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return null;
-            case COMMA:
-                if (parserEventHandler.isCommaSeparator()) {
-                    parserEventHandler.pushColumn();
-                    return State1.INSTANCE;
-                } else {
-                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
-                }
-            case SEMICOLON:
-                if (parserEventHandler.isSemicolonSeparator()) {
-                    parserEventHandler.pushColumn();
-                    return State1.INSTANCE;
-                } else {
-                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
-                }
-            case CR:
-                if (parserEventHandler.isCrLfSeparator()) {
-                    return State4.INSTANCE; // ERROR - new state
-                } else if (parserEventHandler.isCrSeparator()) {
-                    parserEventHandler.pushColumn();
-                    parserEventHandler.pushRow();
-                    return State2.INSTANCE;
-                } else {
-                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
-                }
-            case LF:
-                if (parserEventHandler.isLfSeparator()) {
-                    parserEventHandler.pushColumn();
-                    parserEventHandler.pushRow();
-                    return State2.INSTANCE;
-                } else {
-                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
-                }
-            case QUOT:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
-            default:
                 throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            case COMMA:
+                parserEventHandler.pushSymbol(symbol);
+                return State6.INSTANCE;
+            case SEMICOLON:
+                parserEventHandler.pushSymbol(symbol);
+                return State6.INSTANCE;
+            case CR:
+                parserEventHandler.pushSymbol(symbol);
+                return State6.INSTANCE;
+            case LF:
+                parserEventHandler.pushSymbol(symbol);
+                return State6.INSTANCE;
+            case QUOT:
+                return State7.INSTANCE;
+            default:
+                parserEventHandler.pushSymbol(symbol);
+                return State6.INSTANCE;
         }
     }
 
