@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
+import ru.d_shap.csv.CsvParseException;
+
 /**
  * State of CSV parser state machine.
  *
@@ -103,12 +105,22 @@ final class State3 extends AbstractState {
                 parserEventHandler.pushRow();
                 return State2.INSTANCE;
             case QUOT:
-                parserEventHandler.pushRow();
-                return State6.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushRow();
+                    return State6.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             default:
-                parserEventHandler.pushRow();
-                parserEventHandler.pushSymbol(symbol);
-                return State8.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushRow();
+                    parserEventHandler.pushSymbol(symbol);
+                    return State8.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    parserEventHandler.pushSymbol(symbol);
+                    return State8.INSTANCE;
+                }
         }
     }
 
