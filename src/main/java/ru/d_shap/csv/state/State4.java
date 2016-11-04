@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
+import ru.d_shap.csv.CsvParseException;
+
 /**
  * State of CSV parser state machine.
  *
@@ -61,7 +63,7 @@ final class State4 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 } else {
                     parserEventHandler.pushSymbol(CR);
@@ -70,7 +72,7 @@ final class State4 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 }
             case SEMICOLON:
@@ -82,7 +84,7 @@ final class State4 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 } else {
                     parserEventHandler.pushSymbol(CR);
@@ -91,7 +93,7 @@ final class State4 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 }
             case CR:
@@ -108,14 +110,24 @@ final class State4 extends AbstractState {
                 parserEventHandler.pushRow();
                 return State2.INSTANCE;
             case QUOT:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return State5.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State6.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             default:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                parserEventHandler.pushSymbol(symbol);
-                return State7.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    parserEventHandler.pushSymbol(symbol);
+                    return State8.INSTANCE;
+                } else {
+                    parserEventHandler.pushSymbol(CR);
+                    parserEventHandler.pushSymbol(symbol);
+                    return State8.INSTANCE;
+                }
         }
     }
 
