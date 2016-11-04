@@ -29,7 +29,7 @@ import ru.d_shap.csv.CsvParseException;
 final class State5 extends AbstractState {
 
     /*
-     * State to process quoted column.
+     * State after CR after double quote in quoted column.
      */
 
     static final State5 INSTANCE = new State5();
@@ -43,24 +43,70 @@ final class State5 extends AbstractState {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return null;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case COMMA:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    if (parserEventHandler.isCommaSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State8.INSTANCE;
+                    }
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case SEMICOLON:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    if (parserEventHandler.isSemicolonSeparator()) {
+                        parserEventHandler.pushColumn();
+                        return State1.INSTANCE;
+                    } else {
+                        parserEventHandler.pushSymbol(symbol);
+                        return State8.INSTANCE;
+                    }
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case CR:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State3.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             case LF:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
+                parserEventHandler.pushColumn();
+                parserEventHandler.pushRow();
+                return State2.INSTANCE;
             case QUOT:
-                return State6.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    return State6.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
             default:
-                parserEventHandler.pushSymbol(symbol);
-                return State5.INSTANCE;
+                if (parserEventHandler.isCrSeparator()) {
+                    parserEventHandler.pushColumn();
+                    parserEventHandler.pushRow();
+                    parserEventHandler.pushSymbol(symbol);
+                    return State8.INSTANCE;
+                } else {
+                    throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+                }
         }
     }
 
