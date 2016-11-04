@@ -59,7 +59,7 @@ final class State3 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 } else {
                     parserEventHandler.pushSymbol(CR);
@@ -68,7 +68,7 @@ final class State3 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 }
             case SEMICOLON:
@@ -79,7 +79,7 @@ final class State3 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 } else {
                     parserEventHandler.pushSymbol(CR);
@@ -88,7 +88,7 @@ final class State3 extends AbstractState {
                         return State1.INSTANCE;
                     } else {
                         parserEventHandler.pushSymbol(symbol);
-                        return State7.INSTANCE;
+                        return State8.INSTANCE;
                     }
                 }
             case CR:
@@ -104,11 +104,11 @@ final class State3 extends AbstractState {
                 return State2.INSTANCE;
             case QUOT:
                 parserEventHandler.pushRow();
-                return State5.INSTANCE;
+                return State6.INSTANCE;
             default:
                 parserEventHandler.pushRow();
                 parserEventHandler.pushSymbol(symbol);
-                return State7.INSTANCE;
+                return State8.INSTANCE;
         }
     }
 
