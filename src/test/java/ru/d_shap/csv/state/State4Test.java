@@ -24,7 +24,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.csv.ColumnSeparators;
+import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
+import ru.d_shap.csv.RowSeparators;
 
 /**
  * Tests for {@link State4}.
@@ -44,28 +47,42 @@ public final class State4Test {
      * {@link State4} class test.
      */
     @Test
-    public void processEndOfInputTest() {
-        String csv = ",\r";
+    public void processEndOfInputCrSeparatorTest() {
+        String csv = ",a\r";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
     }
 
     /**
      * {@link State4} class test.
      */
     @Test
-    public void processCommaTest() {
-        String csv = ",\r,";
+    public void processEndOfInputCrTextTest() {
+        String csv = ",a\r";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(2, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("a\r", list.get(0).get(1));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processCommaAsSeparatorCrSeparatorTest() {
+        String csv = ",a\r,";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
         Assert.assertEquals(2, list.get(1).size());
         Assert.assertEquals("", list.get(1).get(0));
         Assert.assertEquals("", list.get(1).get(1));
@@ -75,14 +92,57 @@ public final class State4Test {
      * {@link State4} class test.
      */
     @Test
-    public void processSemicolonTest() {
-        String csv = ",\r;";
+    public void processCommaAsSeparatorCrTextTest() {
+        String csv = ",a\r,";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(3, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("a\r", list.get(0).get(1));
+        Assert.assertEquals("", list.get(0).get(2));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processCommaAsTextCrSeparatorTest() {
+        String csv = ",a\r,";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(",a", list.get(0).get(0));
+        Assert.assertEquals(1, list.get(1).size());
+        Assert.assertEquals(",", list.get(1).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processCommaAsTextCrTextTest() {
+        String csv = ",a\r,";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(",a\r,", list.get(0).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processSemicolonAsSeparatorCrSeparatorTest() {
+        String csv = ";a\r;";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
         Assert.assertEquals(2, list.get(1).size());
         Assert.assertEquals("", list.get(1).get(0));
         Assert.assertEquals("", list.get(1).get(1));
@@ -92,15 +152,74 @@ public final class State4Test {
      * {@link State4} class test.
      */
     @Test
-    public void processCrTest() {
-        String csv = ",\r\r";
-        List<List<String>> list = CsvParser.parse(csv);
+    public void processSemicolonAsSeparatorCrTextTest() {
+        String csv = ";a\r;";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(3, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("a\r", list.get(0).get(1));
+        Assert.assertEquals("", list.get(0).get(2));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processSemicolonAsTextCrSeparatorTest() {
+        String csv = ";a\r;";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(";a", list.get(0).get(0));
+        Assert.assertEquals(1, list.get(1).size());
+        Assert.assertEquals(";", list.get(1).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processSemicolonAsTextCrTextTest() {
+        String csv = ";a\r;";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(";a\r;", list.get(0).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processCrAsSeparatorTest() {
+        String csv = ",a\r\ra";
+        List<List<String>> list = CsvParser.parse(csv);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(3, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
         Assert.assertEquals(0, list.get(1).size());
+        Assert.assertEquals(1, list.get(2).size());
+        Assert.assertEquals("a", list.get(2).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processCrAsTextTest() {
+        String csv = ",a\r\ra";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(2, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("a\r\ra", list.get(0).get(1));
     }
 
     /**
@@ -108,45 +227,73 @@ public final class State4Test {
      */
     @Test
     public void processLfTest() {
-        String csv = ",\r\n";
+        String csv = ",a\r\n";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
     }
 
     /**
      * {@link State4} class test.
      */
     @Test
-    public void processQuotTest() {
-        String csv = ",\r\"aa\"";
+    public void processQuotCrSeparatorTest() {
+        String csv = ",a\r\"a\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
         Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("aa", list.get(1).get(0));
+        Assert.assertEquals("a", list.get(1).get(0));
     }
 
     /**
      * {@link State4} class test.
      */
     @Test
-    public void processDefaultTest() {
-        String csv = ",\raa";
+    public void processQuotCrTextTest() {
+        try {
+            String csv = ",a\r\"a\"";
+            CsvParser.parse(csv, RowSeparators.CRLF);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: '\"' (34). Last symbols: \",a\\r\"\".", ex.getMessage());
+        }
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processDefaultCrSeparatorTest() {
+        String csv = ",a\ra";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(2, list.get(0).size());
         Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals("a", list.get(0).get(1));
         Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("aa", list.get(1).get(0));
+        Assert.assertEquals("a", list.get(1).get(0));
+    }
+
+    /**
+     * {@link State4} class test.
+     */
+    @Test
+    public void processDefaultCrTextTest() {
+        String csv = ",a\ra";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(2, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("a\ra", list.get(0).get(1));
     }
 
 }
