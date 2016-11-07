@@ -39,10 +39,9 @@ final class State8 extends AbstractState {
     }
 
     @Override
-    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        return null;
     }
 
     @Override

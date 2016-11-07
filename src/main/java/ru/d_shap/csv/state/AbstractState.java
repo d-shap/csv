@@ -62,7 +62,8 @@ public abstract class AbstractState {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                return processEndOfInput(symbol, parserEventHandler);
+                processEndOfInput(symbol, parserEventHandler);
+                return null;
             case COMMA:
                 return processComma(symbol, parserEventHandler);
             case SEMICOLON:
@@ -78,7 +79,7 @@ public abstract class AbstractState {
         }
     }
 
-    abstract AbstractState processEndOfInput(int symbol, ParserEventHandler parserEventHandler);
+    abstract void processEndOfInput(int symbol, ParserEventHandler parserEventHandler);
 
     abstract AbstractState processComma(int symbol, ParserEventHandler parserEventHandler);
 

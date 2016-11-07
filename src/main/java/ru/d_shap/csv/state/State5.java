@@ -39,11 +39,10 @@ final class State5 extends AbstractState {
     }
 
     @Override
-    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return null;
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }

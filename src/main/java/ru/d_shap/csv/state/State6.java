@@ -39,7 +39,7 @@ final class State6 extends AbstractState {
     }
 
     @Override
-    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
         throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
     }
 

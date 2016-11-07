@@ -37,8 +37,8 @@ final class State0 extends AbstractState {
     }
 
     @Override
-    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
-        return null;
+    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+        // Ignore
     }
 
     @Override

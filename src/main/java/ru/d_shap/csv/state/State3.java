@@ -40,15 +40,13 @@ final class State3 extends AbstractState {
     }
 
     @Override
-    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             parserEventHandler.pushRow();
-            return null;
         } else {
             parserEventHandler.pushSymbol(CR);
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return null;
         }
     }
 
