@@ -114,10 +114,10 @@
  * consuming handler.
  * </p>
  * <p>
- * By default, CSV {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, CR, LF and
+ * By default, {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, CR, LF and
  * CRLF as row separators. Some editors can use semicolon as separator, but not comma. And this editors do NOT
  * enclose column values in double quots if column value contains comma. For example, this editors can produce a
- * CSV like this: <i>&quot;value;value_in_the same_column&quot;abc,123</i>. There are two columns in this CSV. The
+ * CSV like this: <i>&quot;value;value_in_the same_column&quot;;abc,123</i>. There are two columns in this CSV. The
  * first one is enclosed in double quotes and contains semicolon. The second one is NOT enclosed in double quotes and
  * contains comma, that is NOT column separator. To parse such a CSV overloaded methods with column and row separators
  * can be used. If methods with NO separators are used, then all separators are assumed.
