@@ -37,55 +37,69 @@ final class State1 extends AbstractState {
     }
 
     @Override
-    public AbstractState processInput(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.addLastSymbol(symbol);
-        switch (symbol) {
-            case END_OF_INPUT:
-                parserEventHandler.pushColumn();
-                parserEventHandler.pushRow();
-                return null;
-            case COMMA:
-                if (parserEventHandler.isCommaSeparator()) {
-                    parserEventHandler.pushColumn();
-                    return State1.INSTANCE;
-                } else {
-                    parserEventHandler.pushSymbol(symbol);
-                    return State8.INSTANCE;
-                }
-            case SEMICOLON:
-                if (parserEventHandler.isSemicolonSeparator()) {
-                    parserEventHandler.pushColumn();
-                    return State1.INSTANCE;
-                } else {
-                    parserEventHandler.pushSymbol(symbol);
-                    return State8.INSTANCE;
-                }
-            case CR:
-                if (parserEventHandler.isCrLfSeparator()) {
-                    return State4.INSTANCE;
-                } else if (parserEventHandler.isCrSeparator()) {
-                    parserEventHandler.pushColumn();
-                    parserEventHandler.pushRow();
-                    return State2.INSTANCE;
-                } else {
-                    parserEventHandler.pushSymbol(symbol);
-                    return State8.INSTANCE;
-                }
-            case LF:
-                if (parserEventHandler.isLfSeparator()) {
-                    parserEventHandler.pushColumn();
-                    parserEventHandler.pushRow();
-                    return State2.INSTANCE;
-                } else {
-                    parserEventHandler.pushSymbol(symbol);
-                    return State8.INSTANCE;
-                }
-            case QUOT:
-                return State6.INSTANCE;
-            default:
-                parserEventHandler.pushSymbol(symbol);
-                return State8.INSTANCE;
+    AbstractState processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+        return null;
+    }
+
+    @Override
+    AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isCommaSeparator()) {
+            parserEventHandler.pushColumn();
+            return State1.INSTANCE;
+        } else {
+            parserEventHandler.pushSymbol(symbol);
+            return State8.INSTANCE;
         }
+    }
+
+    @Override
+    AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isSemicolonSeparator()) {
+            parserEventHandler.pushColumn();
+            return State1.INSTANCE;
+        } else {
+            parserEventHandler.pushSymbol(symbol);
+            return State8.INSTANCE;
+        }
+    }
+
+    @Override
+    AbstractState processCr(final int symbol, final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isCrLfSeparator()) {
+            return State4.INSTANCE;
+        } else if (parserEventHandler.isCrSeparator()) {
+            parserEventHandler.pushColumn();
+            parserEventHandler.pushRow();
+            return State2.INSTANCE;
+        } else {
+            parserEventHandler.pushSymbol(symbol);
+            return State8.INSTANCE;
+        }
+    }
+
+    @Override
+    AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isLfSeparator()) {
+            parserEventHandler.pushColumn();
+            parserEventHandler.pushRow();
+            return State2.INSTANCE;
+        } else {
+            parserEventHandler.pushSymbol(symbol);
+            return State8.INSTANCE;
+        }
+    }
+
+    @Override
+    AbstractState processQuot(final int symbol, final ParserEventHandler parserEventHandler) {
+        return State6.INSTANCE;
+    }
+
+    @Override
+    AbstractState processDefault(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushSymbol(symbol);
+        return State8.INSTANCE;
     }
 
 }

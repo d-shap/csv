@@ -58,6 +58,38 @@ public abstract class AbstractState {
      * @param parserEventHandler event handler to process parser events.
      * @return next parser state.
      */
-    public abstract AbstractState processInput(int symbol, ParserEventHandler parserEventHandler);
+    public final AbstractState processInput(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.addLastSymbol(symbol);
+        switch (symbol) {
+            case END_OF_INPUT:
+                return processEndOfInput(symbol, parserEventHandler);
+            case COMMA:
+                return processComma(symbol, parserEventHandler);
+            case SEMICOLON:
+                return processSemicolon(symbol, parserEventHandler);
+            case CR:
+                return processCr(symbol, parserEventHandler);
+            case LF:
+                return processLf(symbol, parserEventHandler);
+            case QUOT:
+                return processQuot(symbol, parserEventHandler);
+            default:
+                return processDefault(symbol, parserEventHandler);
+        }
+    }
+
+    abstract AbstractState processEndOfInput(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processComma(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processSemicolon(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processCr(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processLf(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processQuot(int symbol, ParserEventHandler parserEventHandler);
+
+    abstract AbstractState processDefault(int symbol, ParserEventHandler parserEventHandler);
 
 }
