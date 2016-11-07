@@ -24,8 +24,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
+import ru.d_shap.csv.RowSeparators;
 
 /**
  * Tests for {@link State7}.
@@ -46,7 +48,7 @@ public final class State7Test {
      */
     @Test
     public void processEndOfInputTest() {
-        String csv = "a";
+        String csv = "\"a\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
@@ -58,9 +60,9 @@ public final class State7Test {
      * {@link State7} class test.
      */
     @Test
-    public void processCommaTest() {
-        String csv = "a,";
-        List<List<String>> list = CsvParser.parse(csv);
+    public void processCommaAsSeparatorTest() {
+        String csv = "\"a\",";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(2, list.get(0).size());
@@ -72,13 +74,27 @@ public final class State7Test {
      * {@link State7} class test.
      */
     @Test
-    public void processSemicolonTest() {
-        String csv = "a;";
-        List<List<String>> list = CsvParser.parse(csv);
+    public void processCommaAsTextTest() {
+        try {
+            String csv = "\"a\",";
+            CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: ',' (44). Last symbols: \"\"a\",\".", ex.getMessage());
+        }
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processSemicolonAsSeparatorTest() {
+        String csv = "\"\";";
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
+        Assert.assertEquals("", list.get(0).get(0));
         Assert.assertEquals("", list.get(0).get(1));
     }
 
@@ -86,49 +102,114 @@ public final class State7Test {
      * {@link State7} class test.
      */
     @Test
-    public void processCrTest() {
-        String csv = "a\r";
-        List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-
+    public void processSemicolonAsTextTest() {
+        try {
+            String csv = "\"\";";
+            CsvParser.parse(csv, ColumnSeparators.COMMA);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: ';' (59). Last symbols: \"\"\";\".", ex.getMessage());
+        }
     }
 
     /**
      * {@link State7} class test.
      */
     @Test
-    public void processLfTest() {
-        String csv = "a\n";
-        List<List<String>> list = CsvParser.parse(csv);
+    public void processCrAsSeparatorPartTest() {
+        String csv = "\"\"\r\na";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
         Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(2, list.size());
         Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-    }
-
-    /**
-     * {@link State7} class test.
-     */
-    @Test(expected = CsvParseException.class)
-    public void processQuotFailTest() {
-        String csv = "a\"\"";
-        CsvParser.parse(csv);
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals(1, list.get(1).size());
+        Assert.assertEquals("a", list.get(1).get(0));
     }
 
     /**
      * {@link State7} class test.
      */
     @Test
-    public void processDefaultTest() {
-        String csv = "aa";
+    public void processCrAsSeparatorTest() {
+        String csv = "\"\"\ra";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CR);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals(1, list.get(1).size());
+        Assert.assertEquals("a", list.get(1).get(0));
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processCrAsTextTest() {
+        try {
+            String csv = "\"\"\ra";
+            CsvParser.parse(csv, RowSeparators.LF);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: '\r' (13). Last symbols: \"\"\"\\r\".", ex.getMessage());
+        }
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processLfAsSeparatorTest() {
+        String csv = "\"\"\na";
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.LF);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals(1, list.get(1).size());
+        Assert.assertEquals("a", list.get(1).get(0));
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processLfAsTextTest() {
+        try {
+            String csv = "\"\"\na";
+            CsvParser.parse(csv, RowSeparators.CR);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: '\n' (10). Last symbols: \"\"\"\\n\".", ex.getMessage());
+        }
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processQuotTest() {
+        String csv = "\"\"\"\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("aa", list.get(0).get(0));
+        Assert.assertEquals("\"", list.get(0).get(0));
+    }
+
+    /**
+     * {@link State7} class test.
+     */
+    @Test
+    public void processDefaultFailTest() {
+        try {
+            String csv = "\"\"a\"";
+            CsvParser.parse(csv);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("Wrong symbol obtained: 'a' (97). Last symbols: \"\"\"a\".", ex.getMessage());
+        }
     }
 
 }
