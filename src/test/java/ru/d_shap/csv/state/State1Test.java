@@ -209,7 +209,7 @@ public final class State1Test {
      */
     @Test
     public void processDefaultTest() {
-        String csv = ";aa";
+        String csv = ";a";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
