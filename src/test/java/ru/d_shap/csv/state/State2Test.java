@@ -60,7 +60,7 @@ public final class State2Test {
     @Test
     public void processCommaAsSeparatorTest() {
         String csv = "\r\n,";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -89,7 +89,7 @@ public final class State2Test {
     @Test
     public void processSemicolonAsSeparatorTest() {
         String csv = "\r\n;";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
@@ -158,7 +158,7 @@ public final class State2Test {
     @Test
     public void processLfAsSeparatorTest() {
         String csv = "\r\n\n";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF, RowSeparators.LF);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
