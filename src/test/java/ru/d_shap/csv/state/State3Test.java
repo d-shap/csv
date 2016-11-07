@@ -195,14 +195,15 @@ public final class State3Test {
      */
     @Test
     public void processCrAsSeparatorTest() {
-        String csv = "\r\n\ra";
+        String csv = "\r\n\r\ra";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
-        Assert.assertEquals(3, list.size());
+        Assert.assertEquals(4, list.size());
         Assert.assertEquals(0, list.get(0).size());
         Assert.assertEquals(0, list.get(1).size());
-        Assert.assertEquals(1, list.get(2).size());
-        Assert.assertEquals("a", list.get(2).get(0));
+        Assert.assertEquals(0, list.get(2).size());
+        Assert.assertEquals(1, list.get(3).size());
+        Assert.assertEquals("a", list.get(3).get(0));
     }
 
     /**
@@ -210,13 +211,13 @@ public final class State3Test {
      */
     @Test
     public void processCrAsTextTest() {
-        String csv = "\r\n\ra";
+        String csv = "\r\n\r\ra";
         List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
         Assert.assertNotNull(list);
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(0, list.get(0).size());
         Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("\ra", list.get(1).get(0));
+        Assert.assertEquals("\r\ra", list.get(1).get(0));
     }
 
     /**
