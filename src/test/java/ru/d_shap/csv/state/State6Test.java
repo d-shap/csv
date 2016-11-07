@@ -45,13 +45,14 @@ public final class State6Test {
      * {@link State6} class test.
      */
     @Test
-    public void processEndOfInputTest() {
-        String csv = "\"\"";
-        List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
+    public void processEndOfInputFailTest() {
+        try {
+            String csv = "\"";
+            CsvParser.parse(csv);
+            Assert.fail("Parse csv fail");
+        } catch (CsvParseException ex) {
+            Assert.assertEquals("End of input obtained. Last symbols: \"\"\".", ex.getMessage());
+        }
     }
 
     /**
@@ -59,13 +60,12 @@ public final class State6Test {
      */
     @Test
     public void processCommaTest() {
-        String csv = "\"\",";
+        String csv = "\",\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(",", list.get(0).get(0));
     }
 
     /**
@@ -73,13 +73,12 @@ public final class State6Test {
      */
     @Test
     public void processSemicolonTest() {
-        String csv = "\"\";";
+        String csv = "\";\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals(";", list.get(0).get(0));
     }
 
     /**
@@ -87,12 +86,12 @@ public final class State6Test {
      */
     @Test
     public void processCrTest() {
-        String csv = "\"\"\r";
+        String csv = "\"\r\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("\r", list.get(0).get(0));
     }
 
     /**
@@ -100,12 +99,12 @@ public final class State6Test {
      */
     @Test
     public void processLfTest() {
-        String csv = "\"\"\n";
+        String csv = "\"\n\"";
         List<List<String>> list = CsvParser.parse(csv);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
+        Assert.assertEquals("\n", list.get(0).get(0));
     }
 
     /**
@@ -124,10 +123,14 @@ public final class State6Test {
     /**
      * {@link State6} class test.
      */
-    @Test(expected = CsvParseException.class)
-    public void processDefaultFailTest() {
-        String csv = "\"\"a\"";
-        CsvParser.parse(csv);
+    @Test
+    public void processDefaultTest() {
+        String csv = "\"a\"";
+        List<List<String>> list = CsvParser.parse(csv);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(1, list.get(0).size());
+        Assert.assertEquals("a", list.get(0).get(0));
     }
 
 }
