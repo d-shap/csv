@@ -22,6 +22,8 @@ package ru.d_shap.csv;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.csv.state.AbstractState;
+
 /**
  * Tests for {@link CsvParseException}.
  *
@@ -46,6 +48,9 @@ public final class CsvParseExceptionTest {
 
         CsvParseException exception2 = new CsvParseException('D', "ret5fD");
         Assert.assertEquals("Wrong symbol obtained: 'D' (68). Last symbols: \"ret5fD\".", exception2.getMessage());
+
+        CsvParseException exception3 = new CsvParseException(AbstractState.END_OF_INPUT, "xyz");
+        Assert.assertEquals("End of input obtained. Last symbols: \"xyz\".", exception3.getMessage());
     }
 
 }
