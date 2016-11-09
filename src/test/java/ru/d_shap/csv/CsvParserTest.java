@@ -332,7 +332,7 @@ public final class CsvParserTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseCharSequenceCsvTest() {
+    public void parseStringBuilderCsvTest() {
         StringBuilder csv = new StringBuilder();
         csv.append("a,,false\nb,true,\n\n,c,d\n");
         List<List<String>> result = CsvParser.parse(csv);
@@ -688,6 +688,168 @@ public final class CsvParserTest {
         } catch (NotRectangularException ex) {
             Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\n4,5\\n\".", ex.getMessage());
         }
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithColumnSeparatorsTest() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(1, result.get(0).size());
+        Assert.assertEquals("1,2,3", result.get(0).get(0));
+        Assert.assertEquals(1, result.get(1).size());
+        Assert.assertEquals("4,5,6", result.get(1).get(0));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithRowSeparatorsTest() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, RowSeparators.LF);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3\r", result.get(0).get(2));
+        Assert.assertEquals(3, result.get(1).size());
+        Assert.assertEquals("4", result.get(1).get(0));
+        Assert.assertEquals("5", result.get(1).get(1));
+        Assert.assertEquals("6\r", result.get(1).get(2));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithRowSeparators2Test() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, RowSeparators.CR, RowSeparators.LF);
+        Assert.assertEquals(4, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3", result.get(0).get(2));
+        Assert.assertEquals(0, result.get(1).size());
+        Assert.assertEquals(3, result.get(2).size());
+        Assert.assertEquals("4", result.get(2).get(0));
+        Assert.assertEquals("5", result.get(2).get(1));
+        Assert.assertEquals("6", result.get(2).get(2));
+        Assert.assertEquals(0, result.get(3).size());
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithColumnAndRowSeparatorsTest() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.LF);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(1, result.get(0).size());
+        Assert.assertEquals("1,2,3\r", result.get(0).get(0));
+        Assert.assertEquals(1, result.get(1).size());
+        Assert.assertEquals("4,5,6\r", result.get(1).get(0));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithColumnAndRowSeparators2Test() {
+        String csv = "1,2,3\r\n4,5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
+        Assert.assertEquals(4, result.size());
+        Assert.assertEquals(1, result.get(0).size());
+        Assert.assertEquals("1,2,3", result.get(0).get(0));
+        Assert.assertEquals(0, result.get(1).size());
+        Assert.assertEquals(1, result.get(2).size());
+        Assert.assertEquals("4,5,6", result.get(2).get(0));
+        Assert.assertEquals(0, result.get(3).size());
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithCheckAndColumnSeparatorsTest() {
+        String csv = "1,2;3\r\n4;5,6\r\n";
+        List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.COMMA);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(2, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2;3", result.get(0).get(1));
+        Assert.assertEquals(2, result.get(1).size());
+        Assert.assertEquals("4;5", result.get(1).get(0));
+        Assert.assertEquals("6", result.get(1).get(1));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithCheckAndRowSeparatorsTest() {
+        String csv = "1,2;3\n4;5,6\n";
+        List<List<String>> result = CsvParser.parse(csv, true, RowSeparators.CR);
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(5, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3\n4", result.get(0).get(2));
+        Assert.assertEquals("5", result.get(0).get(3));
+        Assert.assertEquals("6\n", result.get(0).get(4));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithCheckAndRowSeparators2Test() {
+        String csv = "1,2;3\n4;5,6\n";
+        List<List<String>> result = CsvParser.parse(csv, true, RowSeparators.CR, RowSeparators.LF);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3", result.get(0).get(2));
+        Assert.assertEquals(3, result.get(1).size());
+        Assert.assertEquals("4", result.get(1).get(0));
+        Assert.assertEquals("5", result.get(1).get(1));
+        Assert.assertEquals("6", result.get(1).get(2));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithCheckColumnAndRowSeparatorsTest() {
+        String csv = "1,2;3\n4;5,6\n";
+        List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.SEMICOLON, RowSeparators.CR);
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1,2", result.get(0).get(0));
+        Assert.assertEquals("3\n4", result.get(0).get(1));
+        Assert.assertEquals("5,6\n", result.get(0).get(2));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithCheckColumnAndRowSeparators2Test() {
+        String csv = "1,2;3\n4;5,6\n";
+        List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(2, result.get(0).size());
+        Assert.assertEquals("1,2", result.get(0).get(0));
+        Assert.assertEquals("3", result.get(0).get(1));
+        Assert.assertEquals(2, result.get(1).size());
+        Assert.assertEquals("4", result.get(1).get(0));
+        Assert.assertEquals("5,6", result.get(1).get(1));
     }
 
     /**
