@@ -1374,7 +1374,6 @@ public final class CsvParserTest {
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
     }
 
-
     /**
      * Reader implementation, that throws exceptions.
      *
