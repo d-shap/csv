@@ -128,6 +128,11 @@
                                             <minimum>1.0</minimum>
                                         </limit>
                                         <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>BRANCH</counter>
+                                            <value>MISSEDRATIO</value>
+                                            <maximum>0.0</maximum>
+                                        </limit>
+                                        <limit implementation="org.jacoco.report.check.Limit">
                                             <counter>CLASS</counter>
                                             <value>MISSEDCOUNT</value>
                                             <maximum>0</maximum>
