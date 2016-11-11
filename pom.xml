@@ -105,7 +105,6 @@
                     </execution>
                     <execution>
                         <id>report-jacoco</id>
-                        <phase>prepare-package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
