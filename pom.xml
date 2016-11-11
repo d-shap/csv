@@ -112,7 +112,6 @@
                     </execution>
                     <execution>
                         <id>check-jacoco</id>
-                        <phase>process-classes</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
