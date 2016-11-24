@@ -56,7 +56,7 @@ public final class CsvParserTest {
      * @throws InstantiationException exception in test.
      */
     @Test(expected = IllegalAccessException.class)
-    public void testConstructorPrivate() throws IllegalAccessException, InstantiationException {
+    public void constructorPrivateTest() throws IllegalAccessException, InstantiationException {
         CsvParser.class.newInstance();
     }
 
@@ -68,7 +68,7 @@ public final class CsvParserTest {
      * @throws InvocationTargetException exception in test.
      */
     @Test
-    public void constructorInaccessibilityTest() throws IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void constructorInaccessibleTest() throws IllegalAccessException, InstantiationException, InvocationTargetException {
         Constructor[] ctors = CsvParser.class.getDeclaredConstructors();
         Assert.assertEquals(1, ctors.length);
         Constructor ctor = ctors[0];
