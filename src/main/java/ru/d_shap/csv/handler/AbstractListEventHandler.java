@@ -19,33 +19,58 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * CSV parser event handler, that accumulates columns and rows in memory.
+ * Base class for CSV parser event handlers, that accumulate columns and rows in memory.
  *
  * @author Dmitry Shapovalov
  */
-public final class ListEventHandler extends AbstractListEventHandler {
+abstract class AbstractListEventHandler implements IParserEventHandler {
+
+    private final List<List<String>> _rows;
+
+    private List<String> _currentRow;
+
+    AbstractListEventHandler() {
+        super();
+        _rows = new ArrayList<>();
+        _currentRow = null;
+    }
+
+    @Override
+    public final void pushColumn(final String column, final int actualLength) {
+        setCurrentRow();
+        doPushColumn(column, actualLength);
+    }
+
+    abstract void doPushColumn(String column, int actualLength);
+
+    final void addColumnToCurrentRow(final String column) {
+        _currentRow.add(column);
+    }
+
+    @Override
+    public final void pushRow() {
+        setCurrentRow();
+        _rows.add(_currentRow);
+        _currentRow = null;
+    }
+
+    private void setCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<>();
+        }
+    }
 
     /**
-     * Create new object.
+     * Return parse result as list of rows, each row is a list of columns.
+     *
+     * @return parse result.
      */
-    public ListEventHandler() {
-        super();
-    }
-
-    @Override
-    public int getMaxColumnLength() {
-        return -1;
-    }
-
-    @Override
-    public boolean checkMaxColumnLength() {
-        return false;
-    }
-
-    @Override
-    public void doPushColumn(final String column, final int actualLength) {
-        addColumnToCurrentRow(column);
+    public final List<List<String>> getCsv() {
+        return _rows;
     }
 
 }

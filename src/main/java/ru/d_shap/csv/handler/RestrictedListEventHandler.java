@@ -19,26 +19,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * CSV parser event handler, that accumulates columns and rows in memory. The length of column value has the maximum
  * value. If column value exceeds the specified maximum value, then column value is trimmed.
  *
  * @author Dmitry Shapovalov
  */
-public final class RestrictedListEventHandler implements IParserEventHandler {
+public final class RestrictedListEventHandler extends AbstractListEventHandler {
 
     private final int _maxColumnLength;
 
     private final String _moreSymbolsMark;
 
     private final int _trimToIndex;
-
-    private final List<List<String>> _rows;
-
-    private List<String> _currentRow;
 
     /**
      * Create new object.
@@ -61,13 +54,9 @@ public final class RestrictedListEventHandler implements IParserEventHandler {
         _moreSymbolsMark = moreSymbolsMark;
         if (_moreSymbolsMark == null) {
             _trimToIndex = _maxColumnLength;
-        } else if (_maxColumnLength < _moreSymbolsMark.length()) {
-            _trimToIndex = 0;
         } else {
-            _trimToIndex = _maxColumnLength - _moreSymbolsMark.length();
+            _trimToIndex = Math.max(_maxColumnLength - _moreSymbolsMark.length(), 0);
         }
-        _rows = new ArrayList<>();
-        _currentRow = null;
     }
 
     @Override
@@ -81,35 +70,12 @@ public final class RestrictedListEventHandler implements IParserEventHandler {
     }
 
     @Override
-    public void pushColumn(final String column, final int actualLength) {
-        setCurrentRow();
+    public void doPushColumn(final String column, final int actualLength) {
         if (actualLength <= _maxColumnLength || _moreSymbolsMark == null) {
-            _currentRow.add(column);
+            addColumnToCurrentRow(column);
         } else {
-            _currentRow.add(column.substring(0, _trimToIndex) + _moreSymbolsMark);
+            addColumnToCurrentRow(column.substring(0, _trimToIndex) + _moreSymbolsMark);
         }
-    }
-
-    @Override
-    public void pushRow() {
-        setCurrentRow();
-        _rows.add(_currentRow);
-        _currentRow = null;
-    }
-
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
-        }
-    }
-
-    /**
-     * Return parse result as list of rows, each row is a list of columns.
-     *
-     * @return parse result.
-     */
-    public List<List<String>> getCsv() {
-        return _rows;
     }
 
 }
