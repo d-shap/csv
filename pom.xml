@@ -74,7 +74,7 @@
                     </rulesets>
                     <ignoreIdentifiers>false</ignoreIdentifiers>
                     <ignoreLiterals>true</ignoreLiterals>
-                    <minimumTokens>60</minimumTokens>
+                    <minimumTokens>200</minimumTokens>
                 </configuration>
             </plugin>
             <plugin>
