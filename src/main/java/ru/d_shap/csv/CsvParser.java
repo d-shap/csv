@@ -713,11 +713,11 @@ public final class CsvParser {
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(ColumnSeparators.COMMA);
         columnSeparators.add(ColumnSeparators.SEMICOLON);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(RowSeparators.CR);
         rowSeparators.add(RowSeparators.LF);
         rowSeparators.add(RowSeparators.CRLF);
@@ -726,10 +726,10 @@ public final class CsvParser {
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(columnSeparator);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(RowSeparators.CR);
         rowSeparators.add(RowSeparators.LF);
         rowSeparators.add(RowSeparators.CRLF);
@@ -738,22 +738,22 @@ public final class CsvParser {
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(ColumnSeparators.COMMA);
         columnSeparators.add(ColumnSeparators.SEMICOLON);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(rowSeparator);
 
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(ColumnSeparators.COMMA);
         columnSeparators.add(ColumnSeparators.SEMICOLON);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(rowSeparator1);
         rowSeparators.add(rowSeparator2);
 
@@ -761,20 +761,20 @@ public final class CsvParser {
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(columnSeparator);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(rowSeparator);
 
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
         columnSeparators.add(columnSeparator);
 
-        Set<RowSeparators> rowSeparators = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators = new HashSet<>();
         rowSeparators.add(rowSeparator1);
         rowSeparators.add(rowSeparator2);
 

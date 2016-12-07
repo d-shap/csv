@@ -66,11 +66,11 @@ public final class ParserEventHandlerTest {
     public void isCommaSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        Set<ColumnSeparators> columnSeparators1 = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
         Assert.assertFalse(parserEventHandler1.isCommaSeparator());
 
-        Set<ColumnSeparators> columnSeparators2 = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.COMMA);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
         Assert.assertTrue(parserEventHandler2.isCommaSeparator());
@@ -83,11 +83,11 @@ public final class ParserEventHandlerTest {
     public void isSemicolonSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        Set<ColumnSeparators> columnSeparators1 = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
         Assert.assertFalse(parserEventHandler1.isSemicolonSeparator());
 
-        Set<ColumnSeparators> columnSeparators2 = new HashSet<ColumnSeparators>();
+        Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.SEMICOLON);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
         Assert.assertTrue(parserEventHandler2.isSemicolonSeparator());
@@ -100,11 +100,11 @@ public final class ParserEventHandlerTest {
     public void isCrSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        Set<RowSeparators> rowSeparators1 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assert.assertFalse(parserEventHandler1.isCrSeparator());
 
-        Set<RowSeparators> rowSeparators2 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CR);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assert.assertTrue(parserEventHandler2.isCrSeparator());
@@ -117,11 +117,11 @@ public final class ParserEventHandlerTest {
     public void isLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        Set<RowSeparators> rowSeparators1 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assert.assertFalse(parserEventHandler1.isLfSeparator());
 
-        Set<RowSeparators> rowSeparators2 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.LF);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assert.assertTrue(parserEventHandler2.isLfSeparator());
@@ -134,11 +134,11 @@ public final class ParserEventHandlerTest {
     public void isCrLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        Set<RowSeparators> rowSeparators1 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assert.assertFalse(parserEventHandler1.isCrLfSeparator());
 
-        Set<RowSeparators> rowSeparators2 = new HashSet<RowSeparators>();
+        Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CRLF);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assert.assertTrue(parserEventHandler2.isCrLfSeparator());

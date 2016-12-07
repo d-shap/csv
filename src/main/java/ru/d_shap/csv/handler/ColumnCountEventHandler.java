@@ -39,7 +39,7 @@ public final class ColumnCountEventHandler implements IParserEventHandler {
      */
     public ColumnCountEventHandler() {
         super();
-        _columnCounts = new ArrayList<Integer>();
+        _columnCounts = new ArrayList<>();
         _currentColumnCount = 0;
     }
 

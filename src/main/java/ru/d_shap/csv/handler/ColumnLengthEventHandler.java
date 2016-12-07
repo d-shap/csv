@@ -38,7 +38,7 @@ public final class ColumnLengthEventHandler implements IParserEventHandler {
      */
     public ColumnLengthEventHandler() {
         super();
-        _rows = new ArrayList<List<Integer>>();
+        _rows = new ArrayList<>();
         _currentRow = null;
     }
 
@@ -67,7 +67,7 @@ public final class ColumnLengthEventHandler implements IParserEventHandler {
 
     private void setCurrentRow() {
         if (_currentRow == null) {
-            _currentRow = new ArrayList<Integer>();
+            _currentRow = new ArrayList<>();
         }
     }
 

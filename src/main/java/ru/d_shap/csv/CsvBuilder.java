@@ -40,7 +40,7 @@ public final class CsvBuilder {
     private static final List<String> SPECIAL;
 
     static {
-        SPECIAL = new LinkedList<String>();
+        SPECIAL = new LinkedList<>();
         SPECIAL.add(String.valueOf((char) AbstractState.QUOT));
         SPECIAL.add(ColumnSeparators.COMMA.getValue());
         SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());

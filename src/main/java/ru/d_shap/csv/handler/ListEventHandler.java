@@ -38,7 +38,7 @@ public final class ListEventHandler implements IParserEventHandler {
      */
     public ListEventHandler() {
         super();
-        _rows = new ArrayList<List<String>>();
+        _rows = new ArrayList<>();
         _currentRow = null;
     }
 
@@ -67,7 +67,7 @@ public final class ListEventHandler implements IParserEventHandler {
 
     private void setCurrentRow() {
         if (_currentRow == null) {
-            _currentRow = new ArrayList<String>();
+            _currentRow = new ArrayList<>();
         }
     }
 
