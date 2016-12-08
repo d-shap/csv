@@ -32,7 +32,7 @@ final class State6 extends AbstractState {
      * State to process quoted column.
      */
 
-    static final State6 INSTANCE = new State6();
+    static final AbstractState INSTANCE = new State6();
 
     private State6() {
         super();

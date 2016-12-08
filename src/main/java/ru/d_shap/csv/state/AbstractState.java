@@ -48,7 +48,7 @@ public abstract class AbstractState {
      * @return init state.
      */
     public static AbstractState getInitState() {
-        return State0.INSTANCE;
+        return State1.INSTANCE;
     }
 
     /**

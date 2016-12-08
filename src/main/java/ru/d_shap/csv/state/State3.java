@@ -33,7 +33,7 @@ final class State3 extends AbstractState {
      * State after CR after row separator.
      */
 
-    static final State3 INSTANCE = new State3();
+    static final AbstractState INSTANCE = new State3();
 
     private State3() {
         super();
@@ -56,7 +56,7 @@ final class State3 extends AbstractState {
             parserEventHandler.pushRow();
             if (parserEventHandler.isCommaSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -65,7 +65,7 @@ final class State3 extends AbstractState {
             parserEventHandler.pushSymbol(CR);
             if (parserEventHandler.isCommaSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -79,7 +79,7 @@ final class State3 extends AbstractState {
             parserEventHandler.pushRow();
             if (parserEventHandler.isSemicolonSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -88,7 +88,7 @@ final class State3 extends AbstractState {
             parserEventHandler.pushSymbol(CR);
             if (parserEventHandler.isSemicolonSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -110,7 +110,7 @@ final class State3 extends AbstractState {
     @Override
     AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
         parserEventHandler.pushRow();
-        return State2.INSTANCE;
+        return State1.INSTANCE;
     }
 
     @Override

@@ -32,7 +32,7 @@ final class State7 extends AbstractState {
      * State after double quote in quoted column.
      */
 
-    static final State7 INSTANCE = new State7();
+    static final AbstractState INSTANCE = new State7();
 
     private State7() {
         super();
@@ -48,7 +48,7 @@ final class State7 extends AbstractState {
     AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCommaSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }
@@ -58,7 +58,7 @@ final class State7 extends AbstractState {
     AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isSemicolonSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }
@@ -71,7 +71,7 @@ final class State7 extends AbstractState {
         } else if (parserEventHandler.isCrSeparator()) {
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }
@@ -82,7 +82,7 @@ final class State7 extends AbstractState {
         if (parserEventHandler.isLfSeparator()) {
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }

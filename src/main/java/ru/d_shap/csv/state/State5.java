@@ -32,7 +32,7 @@ final class State5 extends AbstractState {
      * State after CR after double quote in quoted column.
      */
 
-    static final State5 INSTANCE = new State5();
+    static final AbstractState INSTANCE = new State5();
 
     private State5() {
         super();
@@ -55,7 +55,7 @@ final class State5 extends AbstractState {
             parserEventHandler.pushRow();
             if (parserEventHandler.isCommaSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -72,7 +72,7 @@ final class State5 extends AbstractState {
             parserEventHandler.pushRow();
             if (parserEventHandler.isSemicolonSeparator()) {
                 parserEventHandler.pushColumn();
-                return State1.INSTANCE;
+                return State2.INSTANCE;
             } else {
                 parserEventHandler.pushSymbol(symbol);
                 return State8.INSTANCE;
@@ -97,7 +97,7 @@ final class State5 extends AbstractState {
     AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        return State2.INSTANCE;
+        return State1.INSTANCE;
     }
 
     @Override

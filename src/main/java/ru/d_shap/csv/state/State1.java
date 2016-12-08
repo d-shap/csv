@@ -27,10 +27,11 @@ package ru.d_shap.csv.state;
 final class State1 extends AbstractState {
 
     /*
-     * State after column separator.
+     * Init state.
+     * State after row separator.
      */
 
-    static final State1 INSTANCE = new State1();
+    static final AbstractState INSTANCE = new State1();
 
     private State1() {
         super();
@@ -38,15 +39,14 @@ final class State1 extends AbstractState {
 
     @Override
     void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushColumn();
-        parserEventHandler.pushRow();
+        // Ignore
     }
 
     @Override
     AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCommaSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -57,7 +57,7 @@ final class State1 extends AbstractState {
     AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isSemicolonSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -67,11 +67,10 @@ final class State1 extends AbstractState {
     @Override
     AbstractState processCr(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrLfSeparator()) {
-            return State4.INSTANCE;
+            return State3.INSTANCE;
         } else if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -81,9 +80,8 @@ final class State1 extends AbstractState {
     @Override
     AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isLfSeparator()) {
-            parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;

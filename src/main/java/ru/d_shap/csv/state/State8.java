@@ -32,7 +32,7 @@ final class State8 extends AbstractState {
      * State to process unquoted column.
      */
 
-    static final State8 INSTANCE = new State8();
+    static final AbstractState INSTANCE = new State8();
 
     private State8() {
         super();
@@ -48,7 +48,7 @@ final class State8 extends AbstractState {
     AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCommaSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -59,7 +59,7 @@ final class State8 extends AbstractState {
     AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isSemicolonSeparator()) {
             parserEventHandler.pushColumn();
-            return State1.INSTANCE;
+            return State2.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -73,7 +73,7 @@ final class State8 extends AbstractState {
         } else if (parserEventHandler.isCrSeparator()) {
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
@@ -85,7 +85,7 @@ final class State8 extends AbstractState {
         if (parserEventHandler.isLfSeparator()) {
             parserEventHandler.pushColumn();
             parserEventHandler.pushRow();
-            return State2.INSTANCE;
+            return State1.INSTANCE;
         } else {
             parserEventHandler.pushSymbol(symbol);
             return State8.INSTANCE;
