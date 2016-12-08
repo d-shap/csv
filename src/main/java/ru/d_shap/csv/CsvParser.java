@@ -699,85 +699,39 @@ public final class CsvParser {
         doParse(reader, parserEventHandler, checkRectangular, columnSeparator, rowSeparator1, rowSeparator2);
     }
 
-    private static Reader createReader(final CharSequence charSequence) {
-        if (charSequence == null) {
-            return null;
-        }
-        String str;
-        if (charSequence instanceof String) {
-            str = (String) charSequence;
-        } else {
-            str = charSequence.toString();
-        }
-        return new StringReader(str);
-    }
-
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(ColumnSeparators.COMMA);
-        columnSeparators.add(ColumnSeparators.SEMICOLON);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(RowSeparators.CR);
-        rowSeparators.add(RowSeparators.LF);
-        rowSeparators.add(RowSeparators.CRLF);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators();
+        Set<RowSeparators> rowSeparators = createRowSeparators();
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(columnSeparator);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(RowSeparators.CR);
-        rowSeparators.add(RowSeparators.LF);
-        rowSeparators.add(RowSeparators.CRLF);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators(columnSeparator);
+        Set<RowSeparators> rowSeparators = createRowSeparators();
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(ColumnSeparators.COMMA);
-        columnSeparators.add(ColumnSeparators.SEMICOLON);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(rowSeparator);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators();
+        Set<RowSeparators> rowSeparators = createRowSeparators(rowSeparator);
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(ColumnSeparators.COMMA);
-        columnSeparators.add(ColumnSeparators.SEMICOLON);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(rowSeparator1);
-        rowSeparators.add(rowSeparator2);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators();
+        Set<RowSeparators> rowSeparators = createRowSeparators(rowSeparator1, rowSeparator2);
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(columnSeparator);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(rowSeparator);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators(columnSeparator);
+        Set<RowSeparators> rowSeparators = createRowSeparators(rowSeparator);
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
     private static void doParse(final Reader reader, final IParserEventHandler parserEventHandler, final boolean checkRectangular, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
-        Set<ColumnSeparators> columnSeparators = new HashSet<>();
-        columnSeparators.add(columnSeparator);
-
-        Set<RowSeparators> rowSeparators = new HashSet<>();
-        rowSeparators.add(rowSeparator1);
-        rowSeparators.add(rowSeparator2);
-
+        Set<ColumnSeparators> columnSeparators = createColumnSeparators(columnSeparator);
+        Set<RowSeparators> rowSeparators = createRowSeparators(rowSeparator1, rowSeparator2);
         doParse(reader, parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
     }
 
@@ -804,6 +758,53 @@ public final class CsvParser {
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
+    }
+
+    private static Reader createReader(final CharSequence charSequence) {
+        if (charSequence == null) {
+            return null;
+        }
+        String str;
+        if (charSequence instanceof String) {
+            str = (String) charSequence;
+        } else {
+            str = charSequence.toString();
+        }
+        return new StringReader(str);
+    }
+
+    private static Set<ColumnSeparators> createColumnSeparators() {
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
+        columnSeparators.add(ColumnSeparators.COMMA);
+        columnSeparators.add(ColumnSeparators.SEMICOLON);
+        return columnSeparators;
+    }
+
+    private static Set<ColumnSeparators> createColumnSeparators(final ColumnSeparators columnSeparator) {
+        Set<ColumnSeparators> columnSeparators = new HashSet<>();
+        columnSeparators.add(columnSeparator);
+        return columnSeparators;
+    }
+
+    private static Set<RowSeparators> createRowSeparators() {
+        Set<RowSeparators> rowSeparators = new HashSet<>();
+        rowSeparators.add(RowSeparators.CR);
+        rowSeparators.add(RowSeparators.LF);
+        rowSeparators.add(RowSeparators.CRLF);
+        return rowSeparators;
+    }
+
+    private static Set<RowSeparators> createRowSeparators(final RowSeparators rowSeparator) {
+        Set<RowSeparators> rowSeparators = new HashSet<>();
+        rowSeparators.add(rowSeparator);
+        return rowSeparators;
+    }
+
+    private static Set<RowSeparators> createRowSeparators(final RowSeparators rowSeparator1, final RowSeparators rowSeparator2) {
+        Set<RowSeparators> rowSeparators = new HashSet<>();
+        rowSeparators.add(rowSeparator1);
+        rowSeparators.add(rowSeparator2);
+        return rowSeparators;
     }
 
 }
