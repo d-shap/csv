@@ -28,6 +28,7 @@ final class State0 extends AbstractState {
 
     /*
      * Init state.
+     * State after row separator.
      */
 
     static final AbstractState INSTANCE = new State0();
