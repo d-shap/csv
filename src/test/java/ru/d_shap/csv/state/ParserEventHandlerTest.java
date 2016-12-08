@@ -503,6 +503,36 @@ public final class ParserEventHandlerTest {
      * {@link ParserEventHandler} class test.
      */
     @Test
+    public void checkNoColumnRectangularRectangularTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        parserEventHandler.pushRow();
+        parserEventHandler.pushRow();
+        parserEventHandler.pushRow();
+
+        List<List<String>> list = listEventHandler.getCsv();
+        Assert.assertNotNull(list);
+        Assert.assertEquals(3, list.size());
+        Assert.assertEquals(0, list.get(0).size());
+        Assert.assertEquals(0, list.get(1).size());
+        Assert.assertEquals(0, list.get(2).size());
+    }
+
+    /**
+     * {@link ParserEventHandler} class test.
+     */
+    @Test(expected = NotRectangularException.class)
+    public void checkNoColumnRectangularRectangularFailTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        parserEventHandler.pushRow();
+        parserEventHandler.pushColumn();
+    }
+
+    /**
+     * {@link ParserEventHandler} class test.
+     */
+    @Test
     public void pushSymbolWithNoLengthAndNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, false);
         ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -598,11 +628,17 @@ public final class ParserEventHandlerTest {
     /**
      * {@link ParserEventHandler} class test.
      */
-    @Test(expected = WrongColumnLengthException.class)
+    @Test
     public void pushSymbolEmptyWithCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, true);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        try {
+            ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, true);
+            ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+            parserEventHandler.addLastSymbol('a');
+            parserEventHandler.pushSymbol('a');
+            Assert.fail("Column length check not processed");
+        } catch (WrongColumnLengthException ex) {
+            Assert.assertEquals("Maximum column length exceeded. Last symbols: \"a\".", ex.getMessage());
+        }
     }
 
     /**
@@ -640,14 +676,23 @@ public final class ParserEventHandlerTest {
     /**
      * {@link ParserEventHandler} class test.
      */
-    @Test(expected = WrongColumnLengthException.class)
+    @Test
     public void pushSymbolWithLengthAndCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, true);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
+        try {
+            ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, true);
+            ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+            parserEventHandler.addLastSymbol('a');
+            parserEventHandler.pushSymbol('a');
+            parserEventHandler.addLastSymbol('b');
+            parserEventHandler.pushSymbol('b');
+            parserEventHandler.addLastSymbol('c');
+            parserEventHandler.pushSymbol('c');
+            parserEventHandler.addLastSymbol('d');
+            parserEventHandler.pushSymbol('d');
+            Assert.fail("Column length check not processed");
+        } catch (WrongColumnLengthException ex) {
+            Assert.assertEquals("Maximum column length exceeded. Last symbols: \"abcd\".", ex.getMessage());
+        }
     }
 
     /**
