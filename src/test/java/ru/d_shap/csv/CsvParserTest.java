@@ -857,51 +857,16 @@ public final class CsvParserTest {
      */
     @Test
     public void parseCharSequenceWithHandlerAndColumnSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6;7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON);
         Assert.assertEquals(2, handler.getColumnLengths().size());
         Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test
-    public void parseCharSequenceWithHandlerAndRowSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
-        ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
-        CsvParser.parse(csv, handler, RowSeparators.CR);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
-        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test
-    public void parseCharSequenceWithHandlerAndRowSeparators2Test() {
-        String csv = "1,2;3\n4;5,6\n";
-        ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
-        CsvParser.parse(csv, handler, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
         Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
     }
 
@@ -909,15 +874,56 @@ public final class CsvParserTest {
      * {@link CsvParser} class test.
      */
     @Test
+    public void parseCharSequenceWithHandlerAndRowSeparatorsTest() {
+        String csv = "1,2;3\n4;5,6\n\r7\n";
+        ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
+        CsvParser.parse(csv, handler, RowSeparators.CR);
+        Assert.assertEquals(2, handler.getColumnLengths().size());
+        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
+        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
+        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
+        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(2, (int) handler.getColumnLengths().get(1).get(0));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithHandlerAndRowSeparators2Test() {
+        String csv = "1,2;3\n4;5,6,7\n";
+        ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
+        CsvParser.parse(csv, handler, RowSeparators.CR, RowSeparators.LF);
+        Assert.assertEquals(2, handler.getColumnLengths().size());
+        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
+        Assert.assertEquals(4, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(3));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
     public void parseCharSequenceWithHandlerColumnAndRowSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6\n\r7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
+        Assert.assertEquals(2, handler.getColumnLengths().size());
         Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
         Assert.assertEquals(4, (int) handler.getColumnLengths().get(0).get(2));
+        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(2, (int) handler.getColumnLengths().get(1).get(0));
     }
 
     /**
@@ -925,16 +931,17 @@ public final class CsvParserTest {
      */
     @Test
     public void parseCharSequenceWithHandlerColumnAndRowSeparators2Test() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6;7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
         Assert.assertEquals(2, handler.getColumnLengths().size());
         Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
     }
 
     /**
@@ -1027,14 +1034,15 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithColumnSeparatorsTest() {
-        String csv = "1,2,3\r\n4,5,6\r\n";
+        String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON);
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("1,2,3", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
+        Assert.assertEquals(2, result.get(1).size());
         Assert.assertEquals("4,5,6", result.get(1).get(0));
+        Assert.assertEquals("7", result.get(1).get(1));
     }
 
     /**
@@ -1042,7 +1050,7 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithRowSeparatorsTest() {
-        String csv = "1,2,3\r\n4,5,6\r\n";
+        String csv = "1,2,3\r\n4,5,6,7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, RowSeparators.LF);
         Assert.assertEquals(2, result.size());
@@ -1050,10 +1058,11 @@ public final class CsvParserTest {
         Assert.assertEquals("1", result.get(0).get(0));
         Assert.assertEquals("2", result.get(0).get(1));
         Assert.assertEquals("3\r", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
+        Assert.assertEquals(4, result.get(1).size());
         Assert.assertEquals("4", result.get(1).get(0));
         Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6\r", result.get(1).get(2));
+        Assert.assertEquals("6", result.get(1).get(2));
+        Assert.assertEquals("7\r", result.get(1).get(3));
     }
 
     /**
@@ -1061,7 +1070,7 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithRowSeparators2Test() {
-        String csv = "1,2,3\r\n4,5,6\r\n";
+        String csv = "1,2,3\r\n4,5,6,7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, RowSeparators.CR, RowSeparators.LF);
         Assert.assertEquals(4, result.size());
@@ -1070,10 +1079,11 @@ public final class CsvParserTest {
         Assert.assertEquals("2", result.get(0).get(1));
         Assert.assertEquals("3", result.get(0).get(2));
         Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(3, result.get(2).size());
+        Assert.assertEquals(4, result.get(2).size());
         Assert.assertEquals("4", result.get(2).get(0));
         Assert.assertEquals("5", result.get(2).get(1));
         Assert.assertEquals("6", result.get(2).get(2));
+        Assert.assertEquals("7", result.get(2).get(3));
         Assert.assertEquals(0, result.get(3).size());
     }
 
@@ -1082,14 +1092,15 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithColumnAndRowSeparatorsTest() {
-        String csv = "1,2,3\r\n4,5,6\r\n";
+        String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON, RowSeparators.LF);
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("1,2,3\r", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("4,5,6\r", result.get(1).get(0));
+        Assert.assertEquals(2, result.get(1).size());
+        Assert.assertEquals("4,5,6", result.get(1).get(0));
+        Assert.assertEquals("7\r", result.get(1).get(1));
     }
 
     /**
@@ -1097,15 +1108,16 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithColumnAndRowSeparators2Test() {
-        String csv = "1,2,3\r\n4,5,6\r\n";
+        String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
         Assert.assertEquals(4, result.size());
         Assert.assertEquals(1, result.get(0).size());
         Assert.assertEquals("1,2,3", result.get(0).get(0));
         Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(1, result.get(2).size());
+        Assert.assertEquals(2, result.get(2).size());
         Assert.assertEquals("4,5,6", result.get(2).get(0));
+        Assert.assertEquals("7", result.get(2).get(1));
         Assert.assertEquals(0, result.get(3).size());
     }
 
@@ -1199,17 +1211,19 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithHandlerAndColumnSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6\n7\n";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
+        Assert.assertEquals(3, handler.getColumnLengths().size());
         Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
         Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
+        Assert.assertEquals(1, handler.getColumnLengths().get(2).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(2).get(0));
     }
 
     /**
@@ -1217,17 +1231,19 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithHandlerAndRowSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6\n\r7\r";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, RowSeparators.CR);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
+        Assert.assertEquals(2, handler.getColumnLengths().size());
         Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
         Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
+        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
     }
 
     /**
@@ -1235,7 +1251,7 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithHandlerAndRowSeparators2Test() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6;7\n";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, RowSeparators.CR, RowSeparators.LF);
@@ -1244,10 +1260,11 @@ public final class CsvParserTest {
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(4, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(3));
     }
 
     /**
@@ -1255,15 +1272,17 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithHandlerColumnAndRowSeparatorsTest() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6\n\r7\r";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
+        Assert.assertEquals(2, handler.getColumnLengths().size());
         Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
         Assert.assertEquals(4, (int) handler.getColumnLengths().get(0).get(2));
+        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
     }
 
     /**
@@ -1271,7 +1290,7 @@ public final class CsvParserTest {
      */
     @Test
     public void parseReaderWithHandlerColumnAndRowSeparators2Test() {
-        String csv = "1,2;3\n4;5,6\n";
+        String csv = "1,2;3\n4;5,6;7\n";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
@@ -1279,9 +1298,10 @@ public final class CsvParserTest {
         Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
+        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
+        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
     }
 
     /**
@@ -1372,6 +1392,20 @@ public final class CsvParserTest {
         Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
         Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(0));
         Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseCharSequenceWithZeroCodeByteTest() {
+        String csv = "1,2,3\u00004\r\n";
+        List<List<String>> result = CsvParser.parse(csv);
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(3, result.get(0).size());
+        Assert.assertEquals("1", result.get(0).get(0));
+        Assert.assertEquals("2", result.get(0).get(1));
+        Assert.assertEquals("3\u00004", result.get(0).get(2));
     }
 
     /**
