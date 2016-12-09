@@ -56,6 +56,8 @@ public final class CsvBuilder {
 
     private final boolean _checkRectangular;
 
+    private boolean _firstRow;
+
     private int _firstRowColumnCount;
 
     private int _currentColumnCount;
@@ -221,7 +223,8 @@ public final class CsvBuilder {
         _columnSeparator = columnSeparator.getValue();
         _rowSeparator = rowSeparator.getValue();
         _checkRectangular = checkRectangular;
-        _firstRowColumnCount = -1;
+        _firstRow = true;
+        _firstRowColumnCount = 0;
         _currentColumnCount = 0;
     }
 
@@ -306,11 +309,7 @@ public final class CsvBuilder {
         if (column == null) {
             return "";
         }
-        if (column instanceof String) {
-            return getColumnForCsv((String) column);
-        } else {
-            return getColumnForCsv(column.toString());
-        }
+        return getColumnForCsv(column.toString());
     }
 
     private String getColumnForCsv(final String column) {
@@ -332,7 +331,7 @@ public final class CsvBuilder {
 
     private void doAddColumn(final String column) {
         try {
-            if (_checkRectangular && _firstRowColumnCount >= 0 && _currentColumnCount >= _firstRowColumnCount) {
+            if (_checkRectangular && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
                 throw new NotRectangularException();
             }
 
@@ -353,8 +352,9 @@ public final class CsvBuilder {
      */
     public CsvBuilder addRow() {
         try {
-            if (_firstRowColumnCount < 0) {
+            if (_firstRow) {
                 _firstRowColumnCount = _currentColumnCount;
+                _firstRow = false;
             }
             if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
                 throw new NotRectangularException();
