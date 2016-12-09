@@ -764,13 +764,7 @@ public final class CsvParser {
         if (charSequence == null) {
             return null;
         }
-        String str;
-        if (charSequence instanceof String) {
-            str = (String) charSequence;
-        } else {
-            str = charSequence.toString();
-        }
-        return new StringReader(str);
+        return new StringReader(charSequence.toString());
     }
 
     private static Set<ColumnSeparators> createColumnSeparators() {
