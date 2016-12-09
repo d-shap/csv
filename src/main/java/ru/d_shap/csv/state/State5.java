@@ -39,85 +39,65 @@ final class State5 extends AbstractState {
     }
 
     @Override
-    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
+            processPushColumnAndRow(parserEventHandler);
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw new CsvParseException(END_OF_INPUT, parserEventHandler.getLastSymbols());
         }
     }
 
     @Override
-    AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processComma(final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
-            if (parserEventHandler.isCommaSeparator()) {
-                parserEventHandler.pushColumn();
-                return State2.INSTANCE;
-            } else {
-                parserEventHandler.pushSymbol(symbol);
-                return State8.INSTANCE;
-            }
+            processPushColumnAndRow(parserEventHandler);
+            return processAllowedComma(parserEventHandler);
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw new CsvParseException(COMMA, parserEventHandler.getLastSymbols());
         }
     }
 
     @Override
-    AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
-            if (parserEventHandler.isSemicolonSeparator()) {
-                parserEventHandler.pushColumn();
-                return State2.INSTANCE;
-            } else {
-                parserEventHandler.pushSymbol(symbol);
-                return State8.INSTANCE;
-            }
+            processPushColumnAndRow(parserEventHandler);
+            return processAllowedSemicolon(parserEventHandler);
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw new CsvParseException(SEMICOLON, parserEventHandler.getLastSymbols());
         }
     }
 
     @Override
-    AbstractState processCr(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processCr(final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
+            processPushColumnAndRow(parserEventHandler);
             return State3.INSTANCE;
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw new CsvParseException(CR, parserEventHandler.getLastSymbols());
         }
     }
 
     @Override
-    AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushColumn();
-        parserEventHandler.pushRow();
+    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+        processPushColumnAndRow(parserEventHandler);
         return State1.INSTANCE;
     }
 
     @Override
-    AbstractState processQuot(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
+            processPushColumnAndRow(parserEventHandler);
             return State6.INSTANCE;
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw new CsvParseException(QUOT, parserEventHandler.getLastSymbols());
         }
     }
 
     @Override
-    AbstractState processDefault(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
-            parserEventHandler.pushColumn();
-            parserEventHandler.pushRow();
-            parserEventHandler.pushSymbol(symbol);
-            return State8.INSTANCE;
+            processPushColumnAndRow(parserEventHandler);
+            return processPushUnquotedSymbol(symbol, parserEventHandler);
         } else {
             throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
         }

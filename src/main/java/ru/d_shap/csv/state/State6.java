@@ -39,43 +39,38 @@ final class State6 extends AbstractState {
     }
 
     @Override
-    void processEndOfInput(final int symbol, final ParserEventHandler parserEventHandler) {
-        throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+    void processEndOfInput(final ParserEventHandler parserEventHandler) {
+        throw new CsvParseException(END_OF_INPUT, parserEventHandler.getLastSymbols());
     }
 
     @Override
-    AbstractState processComma(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushSymbol(symbol);
-        return State6.INSTANCE;
+    AbstractState processComma(final ParserEventHandler parserEventHandler) {
+        return processPushQuotedSymbol(COMMA, parserEventHandler);
     }
 
     @Override
-    AbstractState processSemicolon(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushSymbol(symbol);
-        return State6.INSTANCE;
+    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
+        return processPushQuotedSymbol(SEMICOLON, parserEventHandler);
     }
 
     @Override
-    AbstractState processCr(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushSymbol(symbol);
-        return State6.INSTANCE;
+    AbstractState processCr(final ParserEventHandler parserEventHandler) {
+        return processPushQuotedSymbol(CR, parserEventHandler);
     }
 
     @Override
-    AbstractState processLf(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushSymbol(symbol);
-        return State6.INSTANCE;
+    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+        return processPushQuotedSymbol(LF, parserEventHandler);
     }
 
     @Override
-    AbstractState processQuot(final int symbol, final ParserEventHandler parserEventHandler) {
+    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
         return State7.INSTANCE;
     }
 
     @Override
-    AbstractState processDefault(final int symbol, final ParserEventHandler parserEventHandler) {
-        parserEventHandler.pushSymbol(symbol);
-        return State6.INSTANCE;
+    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+        return processPushQuotedSymbol(symbol, parserEventHandler);
     }
 
 }

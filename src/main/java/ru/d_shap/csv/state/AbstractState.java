@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
+import ru.d_shap.csv.CsvParseException;
+
 /**
  * Base class for all state classes.
  *
@@ -62,35 +64,94 @@ public abstract class AbstractState {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
-                processEndOfInput(symbol, parserEventHandler);
+                processEndOfInput(parserEventHandler);
                 return null;
             case COMMA:
-                return processComma(symbol, parserEventHandler);
+                return processComma(parserEventHandler);
             case SEMICOLON:
-                return processSemicolon(symbol, parserEventHandler);
+                return processSemicolon(parserEventHandler);
             case CR:
-                return processCr(symbol, parserEventHandler);
+                return processCr(parserEventHandler);
             case LF:
-                return processLf(symbol, parserEventHandler);
+                return processLf(parserEventHandler);
             case QUOT:
-                return processQuot(symbol, parserEventHandler);
+                return processQuot(parserEventHandler);
             default:
-                return processDefault(symbol, parserEventHandler);
+                return processSymbol(symbol, parserEventHandler);
         }
     }
 
-    abstract void processEndOfInput(int symbol, ParserEventHandler parserEventHandler);
+    abstract void processEndOfInput(ParserEventHandler parserEventHandler);
 
-    abstract AbstractState processComma(int symbol, ParserEventHandler parserEventHandler);
+    abstract AbstractState processComma(ParserEventHandler parserEventHandler);
 
-    abstract AbstractState processSemicolon(int symbol, ParserEventHandler parserEventHandler);
+    final AbstractState processAllowedComma(final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isCommaSeparator()) {
+            parserEventHandler.pushColumn();
+            return State2.INSTANCE;
+        } else {
+            return processPushUnquotedSymbol(COMMA, parserEventHandler);
+        }
+    }
 
-    abstract AbstractState processCr(int symbol, ParserEventHandler parserEventHandler);
+    final AbstractState processDisallowedComma(final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isCommaSeparator()) {
+            parserEventHandler.pushColumn();
+            return State2.INSTANCE;
+        } else {
+            throw new CsvParseException(COMMA, parserEventHandler.getLastSymbols());
+        }
+    }
 
-    abstract AbstractState processLf(int symbol, ParserEventHandler parserEventHandler);
+    abstract AbstractState processSemicolon(ParserEventHandler parserEventHandler);
 
-    abstract AbstractState processQuot(int symbol, ParserEventHandler parserEventHandler);
+    final AbstractState processAllowedSemicolon(final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isSemicolonSeparator()) {
+            parserEventHandler.pushColumn();
+            return State2.INSTANCE;
+        } else {
+            return processPushUnquotedSymbol(SEMICOLON, parserEventHandler);
+        }
+    }
 
-    abstract AbstractState processDefault(int symbol, ParserEventHandler parserEventHandler);
+    final AbstractState processDisallowedSemicolon(final ParserEventHandler parserEventHandler) {
+        if (parserEventHandler.isSemicolonSeparator()) {
+            parserEventHandler.pushColumn();
+            return State2.INSTANCE;
+        } else {
+            throw new CsvParseException(SEMICOLON, parserEventHandler.getLastSymbols());
+        }
+    }
+
+    abstract AbstractState processCr(ParserEventHandler parserEventHandler);
+
+    final void processPushCr(final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushSymbol(CR);
+    }
+
+    abstract AbstractState processLf(ParserEventHandler parserEventHandler);
+
+    final void processPushColumnAndRow(final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushColumn();
+        parserEventHandler.pushRow();
+    }
+
+    final void processPushRow(final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushRow();
+    }
+
+    abstract AbstractState processQuot(ParserEventHandler parserEventHandler);
+
+    final AbstractState processPushQuotedSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushSymbol(symbol);
+        return State6.INSTANCE;
+    }
+
+    abstract AbstractState processSymbol(int symbol, ParserEventHandler parserEventHandler);
+
+    final AbstractState processPushUnquotedSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+        parserEventHandler.pushSymbol(symbol);
+        return State8.INSTANCE;
+    }
 
 }
