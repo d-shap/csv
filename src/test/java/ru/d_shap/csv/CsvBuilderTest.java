@@ -195,13 +195,20 @@ public final class CsvBuilderTest {
     @Test
     public void addMultipleColumnsWithSpecialsTest() {
         CsvBuilder builder = new CsvBuilder();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addColumn("aaa");
-        builder.addColumn("a,a;a");
+        builder.addColumn("a\"a");
+        builder.addRow();
+        builder.addColumn("a,a");
+        builder.addRow();
+        builder.addColumn("a;a");
+        builder.addRow();
+        builder.addColumn("a\ra");
+        builder.addRow();
+        builder.addColumn("a\na");
+        builder.addRow();
+        builder.addColumn("a\"a,a;a\ra\na");
         builder.addRow();
         String csv = builder.getCsv();
-        Assert.assertEquals("1,true,aaa,\"a,a;a\"\r\n", csv);
+        Assert.assertEquals("\"a\"\"a\"\r\n\"a,a\"\r\n\"a;a\"\r\n\"a\ra\"\r\n\"a\na\"\r\n\"a\"\"a,a;a\ra\na\"\r\n", csv);
     }
 
     /**
@@ -257,6 +264,29 @@ public final class CsvBuilderTest {
         builder.addColumn(4L);
         builder.addColumn(10.01);
         builder.addRow();
+        String csv = builder.getCsv();
+        Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
+    }
+
+    /**
+     * {@link CsvBuilder} class test.
+     */
+    @Test
+    public void chainedCallTest() {
+        CsvBuilder builder = new CsvBuilder();
+        builder = builder.addColumn(1);
+        builder = builder.addColumn(true);
+        builder = builder.addRow();
+        builder = builder.addColumn(2.2f);
+        builder = builder.addColumn("aaa");
+        builder = builder.addColumn(new StringBuilder("a;a;a"));
+        builder = builder.addColumn("");
+        builder = builder.addRow();
+        builder = builder.addColumn(false);
+        builder = builder.addRow();
+        builder = builder.addColumn(4L);
+        builder = builder.addColumn(10.01);
+        builder = builder.addRow();
         String csv = builder.getCsv();
         Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
     }
