@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link RowSeparators}.
@@ -40,18 +41,8 @@ public final class RowSeparatorsTest {
      * {@link RowSeparators} class test.
      */
     @Test
-    public void valuesTest() {
-        Assert.assertEquals(3, RowSeparators.values().length);
-    }
-
-    /**
-     * {@link RowSeparators} class test.
-     */
-    @Test
-    public void valueOfTest() {
-        Assert.assertEquals(RowSeparators.CR, RowSeparators.valueOf(RowSeparators.CR.name()));
-        Assert.assertEquals(RowSeparators.LF, RowSeparators.valueOf(RowSeparators.LF.name()));
-        Assert.assertEquals(RowSeparators.CRLF, RowSeparators.valueOf(RowSeparators.CRLF.name()));
+    public void valueCountTest() {
+        Assertions.assertThat(RowSeparators.class).asEnum().hasValueCount(3);
     }
 
 }

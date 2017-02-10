@@ -23,8 +23,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link CsvBuilder}.
@@ -48,8 +49,7 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(10);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("10\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isEqualTo("10\r\n");
     }
 
     /**
@@ -60,8 +60,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(Long.MAX_VALUE);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("9223372036854775807\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("9223372036854775807\r\n");
     }
 
     /**
@@ -72,8 +72,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(1.1f);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1.1\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1.1\r\n");
     }
 
     /**
@@ -84,8 +84,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(2.2);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("2.2\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("2.2\r\n");
     }
 
     /**
@@ -96,8 +96,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(true);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("true\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("true\r\n");
     }
 
     /**
@@ -108,8 +108,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn("aaa");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("aaa\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
     }
 
     /**
@@ -121,8 +121,8 @@ public final class CsvBuilderTest {
         String str = null;
         builder.addColumn(str);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("\r\n");
     }
 
     /**
@@ -133,8 +133,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn("a\"a,a;a\ra\na");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("\"a\"\"a,a;a\ra\na\"\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("\"a\"\"a,a;a\ra\na\"\r\n");
     }
 
     /**
@@ -145,8 +145,8 @@ public final class CsvBuilderTest {
         CsvBuilder builder = new CsvBuilder();
         builder.addColumn(new StringBuilder().append("aaa"));
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("aaa\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
     }
 
     /**
@@ -158,8 +158,8 @@ public final class CsvBuilderTest {
         Object obj = "aaa";
         builder.addColumn(obj);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("aaa\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
     }
 
     /**
@@ -171,8 +171,8 @@ public final class CsvBuilderTest {
         Object obj = null;
         builder.addColumn(obj);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("\r\n");
     }
 
     /**
@@ -185,8 +185,8 @@ public final class CsvBuilderTest {
         builder.addColumn(true);
         builder.addColumn("aaa");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,true,aaa\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true,aaa\r\n");
     }
 
     /**
@@ -207,8 +207,8 @@ public final class CsvBuilderTest {
         builder.addRow();
         builder.addColumn("a\"a,a;a\ra\na");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("\"a\"\"a\"\r\n\"a,a\"\r\n\"a;a\"\r\n\"a\ra\"\r\n\"a\na\"\r\n\"a\"\"a,a;a\ra\na\"\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("\"a\"\"a\"\r\n\"a,a\"\r\n\"a;a\"\r\n\"a\ra\"\r\n\"a\na\"\r\n\"a\"\"a,a;a\ra\na\"\r\n");
     }
 
     /**
@@ -223,8 +223,8 @@ public final class CsvBuilderTest {
         builder.addColumn(3);
         builder.addColumn(4);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,2\r\n3,4\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
     }
 
     /**
@@ -241,8 +241,8 @@ public final class CsvBuilderTest {
         builder.addColumn(2);
         builder.addColumn(false);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,true\r\n\r\n\r\n2,false\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n\r\n\r\n2,false\r\n");
     }
 
     /**
@@ -264,8 +264,8 @@ public final class CsvBuilderTest {
         builder.addColumn(4L);
         builder.addColumn(10.01);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
     }
 
     /**
@@ -287,8 +287,8 @@ public final class CsvBuilderTest {
         builder = builder.addColumn(4L);
         builder = builder.addColumn(10.01);
         builder = builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
     }
 
     /**
@@ -303,8 +303,8 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,2\r\n3,4\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
     }
 
     /**
@@ -334,8 +334,8 @@ public final class CsvBuilderTest {
         builder.addColumn(false);
         builder.addColumn("");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1;true\r\n2;false;\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
     }
 
     /**
@@ -365,8 +365,8 @@ public final class CsvBuilderTest {
         builder.addColumn(false);
         builder.addColumn("");
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1,true\n2,false,\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\n2,false,\n");
     }
 
     /**
@@ -402,8 +402,8 @@ public final class CsvBuilderTest {
         builder.addColumn(4L);
         builder.addColumn(10.01);
         builder.addRow();
-        String csv = builder.getCsv();
-        Assert.assertEquals("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n");
     }
 
     /**
@@ -440,8 +440,8 @@ public final class CsvBuilderTest {
         builder.addColumn(4L);
         builder.addColumn(10.01);
         builder.addRow();
-        String csv = writer.toString();
-        Assert.assertEquals("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
     }
 
     /**
@@ -457,8 +457,8 @@ public final class CsvBuilderTest {
         builder.addColumn("3");
         builder.addColumn("4");
         builder.addRow();
-        String csv = writer.toString();
-        Assert.assertEquals("1,2\r\n3,4\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
     }
 
     /**
@@ -490,8 +490,8 @@ public final class CsvBuilderTest {
         builder.addColumn(false);
         builder.addColumn("");
         builder.addRow();
-        String csv = writer.toString();
-        Assert.assertEquals("1;true\r\n2;false;\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
     }
 
     /**
@@ -523,8 +523,8 @@ public final class CsvBuilderTest {
         builder.addColumn(false);
         builder.addColumn("");
         builder.addRow();
-        String csv = writer.toString();
-        Assert.assertEquals("1,true\n2,false,\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\n2,false,\n");
     }
 
     /**
@@ -562,8 +562,8 @@ public final class CsvBuilderTest {
         builder.addColumn(4L);
         builder.addColumn(10.01);
         builder.addRow();
-        String csv = writer.toString();
-        Assert.assertEquals("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n");
     }
 
     /**
@@ -608,7 +608,7 @@ public final class CsvBuilderTest {
     public void getCsvForStreamTest() {
         ErrorWriter writer = new ErrorWriter();
         CsvBuilder builder = new CsvBuilder(writer);
-        Assert.assertNull(builder.getCsv());
+        Assertions.assertThat(builder.getCsv()).isNull();
     }
 
     /**
@@ -626,9 +626,9 @@ public final class CsvBuilderTest {
             builder.addColumn("5");
             builder.addColumn("6");
             builder.addColumn("7");
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvBuilder test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
         }
         try {
             CsvBuilder builder = new CsvBuilder(true);
@@ -639,9 +639,9 @@ public final class CsvBuilderTest {
             builder.addColumn("4");
             builder.addColumn("5");
             builder.addRow();
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvBuilder test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
         }
     }
 
@@ -658,23 +658,24 @@ public final class CsvBuilderTest {
         builder.addColumn("aaa");
         try {
             builder.addColumn("a;a;a");
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvBuilder test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
         }
         builder.addRow();
         builder.addColumn(5);
         try {
             builder.addRow();
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvBuilder test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular.", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
         }
         builder.addColumn(5L);
         builder.addRow();
 
         String csv = builder.getCsv();
-        Assert.assertEquals("1,true\r\n2.2,aaa\r\n5,5\r\n", csv);
+        Assertions.assertThat(builder.getCsv()).isNotNull();
+        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa\r\n5,5\r\n");
     }
 
     /**

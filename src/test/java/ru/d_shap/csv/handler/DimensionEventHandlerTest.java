@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link DimensionEventHandler}.
@@ -42,10 +43,10 @@ public final class DimensionEventHandlerTest {
     @Test
     public void newObjectTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        Assert.assertEquals(0, eventHandler.getMaxColumnLength());
-        Assert.assertFalse(eventHandler.checkMaxColumnLength());
-        Assert.assertEquals(0, eventHandler.getColumnCount());
-        Assert.assertEquals(0, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
     }
 
     /**
@@ -55,8 +56,8 @@ public final class DimensionEventHandlerTest {
     public void pushColumnTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
-        Assert.assertEquals(1, eventHandler.getColumnCount());
-        Assert.assertEquals(0, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
     }
 
     /**
@@ -67,8 +68,8 @@ public final class DimensionEventHandlerTest {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushRow();
-        Assert.assertEquals(1, eventHandler.getColumnCount());
-        Assert.assertEquals(1, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(1);
     }
 
     /**
@@ -78,8 +79,8 @@ public final class DimensionEventHandlerTest {
     public void skipPushColumnTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushRow();
-        Assert.assertEquals(0, eventHandler.getColumnCount());
-        Assert.assertEquals(1, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(1);
     }
 
     /**
@@ -100,8 +101,8 @@ public final class DimensionEventHandlerTest {
         eventHandler.pushColumn("j", 1);
         eventHandler.pushColumn("kl", 2);
         eventHandler.pushRow();
-        Assert.assertEquals(2, eventHandler.getColumnCount());
-        Assert.assertEquals(4, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(2);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(4);
     }
 
     /**
@@ -120,8 +121,8 @@ public final class DimensionEventHandlerTest {
         eventHandler.pushColumn("hi", 2);
         eventHandler.pushRow();
         eventHandler.pushRow();
-        Assert.assertEquals(2, eventHandler.getColumnCount());
-        Assert.assertEquals(4, eventHandler.getRowCount());
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(2);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(4);
     }
 
 }

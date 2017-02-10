@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link ColumnSeparators}.
@@ -40,17 +41,8 @@ public final class ColumnSeparatorsTest {
      * {@link ColumnSeparators} class test.
      */
     @Test
-    public void valuesTest() {
-        Assert.assertEquals(2, ColumnSeparators.values().length);
-    }
-
-    /**
-     * {@link ColumnSeparators} class test.
-     */
-    @Test
-    public void valueOfTest() {
-        Assert.assertEquals(ColumnSeparators.COMMA, ColumnSeparators.valueOf(ColumnSeparators.COMMA.name()));
-        Assert.assertEquals(ColumnSeparators.SEMICOLON, ColumnSeparators.valueOf(ColumnSeparators.SEMICOLON.name()));
+    public void valueCountTest() {
+        Assertions.assertThat(ColumnSeparators.class).asEnum().hasValueCount(2);
     }
 
 }

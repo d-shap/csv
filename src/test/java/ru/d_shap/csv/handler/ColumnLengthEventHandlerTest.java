@@ -21,8 +21,9 @@ package ru.d_shap.csv.handler;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link ColumnLengthEventHandler}.
@@ -44,10 +45,10 @@ public final class ColumnLengthEventHandlerTest {
     @Test
     public void newObjectTest() {
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        Assert.assertEquals(0, eventHandler.getMaxColumnLength());
-        Assert.assertFalse(eventHandler.checkMaxColumnLength());
-        Assert.assertNotNull(eventHandler.getColumnLengths());
-        Assert.assertTrue(eventHandler.getColumnLengths().isEmpty());
+        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isEmpty();
     }
 
     /**
@@ -55,20 +56,10 @@ public final class ColumnLengthEventHandlerTest {
      */
     @Test
     public void pushColumnTest() {
-        ColumnLengthEventHandler eventHandler1 = new ColumnLengthEventHandler();
-        eventHandler1.pushColumn("a", 1);
-        Assert.assertNotNull(eventHandler1.getColumnLengths());
-        Assert.assertTrue(eventHandler1.getColumnLengths().isEmpty());
-
-        ColumnLengthEventHandler eventHandler2 = new ColumnLengthEventHandler();
-        eventHandler2.pushColumn("b", 1);
-        Assert.assertNotNull(eventHandler2.getColumnLengths());
-        Assert.assertTrue(eventHandler2.getColumnLengths().isEmpty());
-
-        ColumnLengthEventHandler eventHandler3 = new ColumnLengthEventHandler();
-        eventHandler3.pushColumn("c", 1);
-        Assert.assertNotNull(eventHandler3.getColumnLengths());
-        Assert.assertTrue(eventHandler3.getColumnLengths().isEmpty());
+        ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+        eventHandler.pushColumn("a", 1);
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(0);
     }
 
     /**
@@ -80,21 +71,18 @@ public final class ColumnLengthEventHandlerTest {
         eventHandler1.pushColumn("a", 1);
         eventHandler1.pushRow();
         List<List<Integer>> list1 = eventHandler1.getColumnLengths();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(1, list1.get(0).size());
-        Assert.assertEquals(1, (int) list1.get(0).get(0));
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder(1);
 
         ColumnLengthEventHandler eventHandler2 = new ColumnLengthEventHandler();
         eventHandler2.pushColumn("b", 1);
         eventHandler2.pushColumn("c", 1);
         eventHandler2.pushRow();
         List<List<Integer>> list2 = eventHandler2.getColumnLengths();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(1, list2.size());
-        Assert.assertEquals(2, list2.get(0).size());
-        Assert.assertEquals(1, (int) list2.get(0).get(0));
-        Assert.assertEquals(1, (int) list2.get(0).get(1));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(1);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder(1, 1);
     }
 
     /**
@@ -105,9 +93,9 @@ public final class ColumnLengthEventHandlerTest {
         ColumnLengthEventHandler eventHandler1 = new ColumnLengthEventHandler();
         eventHandler1.pushRow();
         List<List<Integer>> list1 = eventHandler1.getColumnLengths();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(0, list1.get(0).size());
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
 
         ColumnLengthEventHandler eventHandler2 = new ColumnLengthEventHandler();
         eventHandler2.pushColumn("a", 1);
@@ -117,25 +105,22 @@ public final class ColumnLengthEventHandlerTest {
         eventHandler2.pushColumn("b", 1);
         eventHandler2.pushRow();
         List<List<Integer>> list2 = eventHandler2.getColumnLengths();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(4, list2.size());
-        Assert.assertEquals(1, list2.get(0).size());
-        Assert.assertEquals(1, (int) list2.get(0).get(0));
-        Assert.assertEquals(0, list2.get(1).size());
-        Assert.assertEquals(0, list2.get(2).size());
-        Assert.assertEquals(1, list2.get(3).size());
-        Assert.assertEquals(1, (int) list2.get(3).get(0));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(4);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder(1);
+        Assertions.assertThat(list2.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(3)).containsExactlyInOrder(1);
 
         ColumnLengthEventHandler eventHandler3 = new ColumnLengthEventHandler();
         eventHandler3.pushColumn("a", 1);
         eventHandler3.pushRow();
         eventHandler3.pushRow();
         List<List<Integer>> list3 = eventHandler3.getColumnLengths();
-        Assert.assertNotNull(list3);
-        Assert.assertEquals(2, list3.size());
-        Assert.assertEquals(1, list3.get(0).size());
-        Assert.assertEquals(1, (int) list3.get(0).get(0));
-        Assert.assertEquals(0, list3.get(1).size());
+        Assertions.assertThat(list3).isNotNull();
+        Assertions.assertThat(list3).hasSize(2);
+        Assertions.assertThat(list3.get(0)).containsExactlyInOrder(1);
+        Assertions.assertThat(list3.get(1)).containsExactlyInOrder();
     }
 
     /**
@@ -157,20 +142,12 @@ public final class ColumnLengthEventHandlerTest {
         eventHandler.pushColumn("klm", 3);
         eventHandler.pushRow();
         List<List<Integer>> list = eventHandler.getColumnLengths();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(4, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals(1, (int) list.get(0).get(0));
-        Assert.assertEquals(2, (int) list.get(0).get(1));
-        Assert.assertEquals(2, list.get(1).size());
-        Assert.assertEquals(1, (int) list.get(1).get(0));
-        Assert.assertEquals(2, (int) list.get(1).get(1));
-        Assert.assertEquals(2, list.get(2).size());
-        Assert.assertEquals(1, (int) list.get(2).get(0));
-        Assert.assertEquals(2, (int) list.get(2).get(1));
-        Assert.assertEquals(2, list.get(3).size());
-        Assert.assertEquals(1, (int) list.get(3).get(0));
-        Assert.assertEquals(3, (int) list.get(3).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(4);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(list.get(2)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(list.get(3)).containsExactlyInOrder(1, 3);
     }
 
 }

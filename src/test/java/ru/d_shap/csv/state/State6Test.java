@@ -21,9 +21,9 @@ package ru.d_shap.csv.state;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
 
@@ -49,9 +49,9 @@ public final class State6Test {
         try {
             String csv = "\"";
             CsvParser.parse(csv);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State6 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("End of input obtained. Last symbols: \"\"\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("End of input obtained. Last symbols: \"\"\".");
         }
     }
 
@@ -62,10 +62,9 @@ public final class State6Test {
     public void processCommaTest() {
         String csv = "\",\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals(",", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder(",");
     }
 
     /**
@@ -75,10 +74,9 @@ public final class State6Test {
     public void processSemicolonTest() {
         String csv = "\";\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals(";", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder(";");
     }
 
     /**
@@ -88,10 +86,9 @@ public final class State6Test {
     public void processCrTest() {
         String csv = "\"\r\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("\r", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("\r");
     }
 
     /**
@@ -101,10 +98,9 @@ public final class State6Test {
     public void processLfTest() {
         String csv = "\"\n\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("\n", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("\n");
     }
 
     /**
@@ -114,10 +110,9 @@ public final class State6Test {
     public void processQuotTest() {
         String csv = "\"\"\"\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("\"", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("\"");
     }
 
     /**
@@ -127,10 +122,9 @@ public final class State6Test {
     public void processDefaultTest() {
         String csv = "\"a\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
     }
 
 }

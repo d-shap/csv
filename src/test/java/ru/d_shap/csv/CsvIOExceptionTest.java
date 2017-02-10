@@ -21,8 +21,9 @@ package ru.d_shap.csv;
 
 import java.io.IOException;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link CsvIOException}.
@@ -45,12 +46,12 @@ public final class CsvIOExceptionTest {
     public void errorMessageTest() {
         IOException ioException1 = new IOException("IO message");
         CsvIOException exception1 = new CsvIOException(ioException1);
-        Assert.assertEquals("IO message", exception1.getMessage());
+        Assertions.assertThat(exception1).hasMessage("IO message");
 
         RuntimeException runtimeException = new RuntimeException("Runtime message");
         IOException ioException2 = new IOException(runtimeException);
         CsvIOException exception2 = new CsvIOException(ioException2);
-        Assert.assertEquals("java.lang.RuntimeException: Runtime message", exception2.getMessage());
+        Assertions.assertThat(exception2).hasMessage("java.lang.RuntimeException: Runtime message");
     }
 
 }

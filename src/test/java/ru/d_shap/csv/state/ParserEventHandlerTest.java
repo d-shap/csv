@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.NotRectangularException;
 import ru.d_shap.csv.RowSeparators;
@@ -54,9 +54,10 @@ public final class ParserEventHandlerTest {
     public void newObjectTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        Assert.assertEquals("", parserEventHandler.getLastSymbols());
-        Assert.assertNotNull(listEventHandler.getCsv());
-        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEmpty();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
 
     /**
@@ -68,12 +69,12 @@ public final class ParserEventHandlerTest {
 
         Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
-        Assert.assertFalse(parserEventHandler1.isCommaSeparator());
+        Assertions.assertThat(parserEventHandler1.isCommaSeparator()).isFalse();
 
         Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.COMMA);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
-        Assert.assertTrue(parserEventHandler2.isCommaSeparator());
+        Assertions.assertThat(parserEventHandler2.isCommaSeparator()).isTrue();
     }
 
     /**
@@ -85,12 +86,12 @@ public final class ParserEventHandlerTest {
 
         Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
-        Assert.assertFalse(parserEventHandler1.isSemicolonSeparator());
+        Assertions.assertThat(parserEventHandler1.isSemicolonSeparator()).isFalse();
 
         Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.SEMICOLON);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
-        Assert.assertTrue(parserEventHandler2.isSemicolonSeparator());
+        Assertions.assertThat(parserEventHandler2.isSemicolonSeparator()).isTrue();
     }
 
     /**
@@ -102,12 +103,12 @@ public final class ParserEventHandlerTest {
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
-        Assert.assertFalse(parserEventHandler1.isCrSeparator());
+        Assertions.assertThat(parserEventHandler1.isCrSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CR);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
-        Assert.assertTrue(parserEventHandler2.isCrSeparator());
+        Assertions.assertThat(parserEventHandler2.isCrSeparator()).isTrue();
     }
 
     /**
@@ -119,12 +120,12 @@ public final class ParserEventHandlerTest {
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
-        Assert.assertFalse(parserEventHandler1.isLfSeparator());
+        Assertions.assertThat(parserEventHandler1.isLfSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.LF);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
-        Assert.assertTrue(parserEventHandler2.isLfSeparator());
+        Assertions.assertThat(parserEventHandler2.isLfSeparator()).isTrue();
     }
 
     /**
@@ -136,12 +137,12 @@ public final class ParserEventHandlerTest {
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
-        Assert.assertFalse(parserEventHandler1.isCrLfSeparator());
+        Assertions.assertThat(parserEventHandler1.isCrLfSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CRLF);
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
-        Assert.assertTrue(parserEventHandler2.isCrLfSeparator());
+        Assertions.assertThat(parserEventHandler2.isCrLfSeparator()).isTrue();
     }
 
     /**
@@ -153,7 +154,8 @@ public final class ParserEventHandlerTest {
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
         parserEventHandler.addLastSymbol('a');
-        Assert.assertEquals("a", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
 
         parserEventHandler.addLastSymbol('b');
         parserEventHandler.addLastSymbol('c');
@@ -163,13 +165,16 @@ public final class ParserEventHandlerTest {
         parserEventHandler.addLastSymbol('g');
         parserEventHandler.addLastSymbol('h');
         parserEventHandler.addLastSymbol('i');
-        Assert.assertEquals("abcdefghi", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghi");
 
         parserEventHandler.addLastSymbol('j');
-        Assert.assertEquals("abcdefghij", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij");
 
         parserEventHandler.addLastSymbol('1');
-        Assert.assertEquals("abcdefghij1", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1");
 
         parserEventHandler.addLastSymbol('2');
         parserEventHandler.addLastSymbol('3');
@@ -179,22 +184,27 @@ public final class ParserEventHandlerTest {
         parserEventHandler.addLastSymbol('7');
         parserEventHandler.addLastSymbol('8');
         parserEventHandler.addLastSymbol('9');
-        Assert.assertEquals("abcdefghij123456789", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij123456789");
 
         parserEventHandler.addLastSymbol('0');
-        Assert.assertEquals("abcdefghij1234567890", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890");
 
         parserEventHandler.addLastSymbol('a');
-        Assert.assertEquals("abcdefghij1234567890a", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890a");
 
         parserEventHandler.addLastSymbol('b');
         parserEventHandler.addLastSymbol('c');
         parserEventHandler.addLastSymbol('d');
         parserEventHandler.addLastSymbol('e');
-        Assert.assertEquals("abcdefghij1234567890abcde", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890abcde");
 
         parserEventHandler.addLastSymbol('f');
-        Assert.assertEquals("bcdefghij1234567890abcdef", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("bcdefghij1234567890abcdef");
     }
 
     /**
@@ -206,16 +216,20 @@ public final class ParserEventHandlerTest {
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
         parserEventHandler.addLastSymbol('a');
-        Assert.assertEquals("a", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
 
         parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
-        Assert.assertEquals("a", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
 
         parserEventHandler.addLastSymbol('b');
-        Assert.assertEquals("ab", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
 
         parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
-        Assert.assertEquals("ab", parserEventHandler.getLastSymbols());
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
     }
 
     /**
@@ -226,8 +240,8 @@ public final class ParserEventHandlerTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
-        Assert.assertNotNull(listEventHandler.getCsv());
-        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
 
     /**
@@ -239,8 +253,8 @@ public final class ParserEventHandlerTest {
         ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
-        Assert.assertNotNull(listEventHandler.getCsv());
-        Assert.assertTrue(listEventHandler.getCsv().isEmpty());
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
 
     /**
@@ -254,10 +268,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(1, list1.get(0).size());
-        Assert.assertEquals("a", list1.get(0).get(0));
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -267,11 +280,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(1, list2.size());
-        Assert.assertEquals(2, list2.get(0).size());
-        Assert.assertEquals("b", list2.get(0).get(0));
-        Assert.assertEquals("c", list2.get(0).get(1));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(1);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("b", "c");
     }
 
     /**
@@ -284,10 +295,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(1, list1.get(0).size());
-        Assert.assertEquals("", list1.get(0).get(0));
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -298,12 +308,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(1, list2.size());
-        Assert.assertEquals(3, list2.get(0).size());
-        Assert.assertEquals("a", list2.get(0).get(0));
-        Assert.assertEquals("", list2.get(0).get(1));
-        Assert.assertEquals("b", list2.get(0).get(2));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(1);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a", "", "b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
         ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -312,11 +319,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
         List<List<String>> list3 = listEventHandler3.getCsv();
-        Assert.assertNotNull(list3);
-        Assert.assertEquals(1, list3.size());
-        Assert.assertEquals(2, list3.get(0).size());
-        Assert.assertEquals("a", list3.get(0).get(0));
-        Assert.assertEquals("", list3.get(0).get(1));
+        Assertions.assertThat(list3).isNotNull();
+        Assertions.assertThat(list3).hasSize(1);
+        Assertions.assertThat(list3.get(0)).containsExactlyInOrder("a", "");
     }
 
     /**
@@ -328,9 +333,9 @@ public final class ParserEventHandlerTest {
         ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(0, list1.get(0).size());
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -343,14 +348,12 @@ public final class ParserEventHandlerTest {
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(4, list2.size());
-        Assert.assertEquals(1, list2.get(0).size());
-        Assert.assertEquals("a", list2.get(0).get(0));
-        Assert.assertEquals(0, list2.get(1).size());
-        Assert.assertEquals(0, list2.get(2).size());
-        Assert.assertEquals(1, list2.get(3).size());
-        Assert.assertEquals("b", list2.get(3).get(0));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(4);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list2.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(3)).containsExactlyInOrder("b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
         ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
@@ -359,11 +362,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler3.pushRow();
         parserEventHandler3.pushRow();
         List<List<String>> list3 = listEventHandler3.getCsv();
-        Assert.assertNotNull(list3);
-        Assert.assertEquals(2, list3.size());
-        Assert.assertEquals(1, list3.get(0).size());
-        Assert.assertEquals("a", list3.get(0).get(0));
-        Assert.assertEquals(0, list3.get(1).size());
+        Assertions.assertThat(list3).isNotNull();
+        Assertions.assertThat(list3).hasSize(2);
+        Assertions.assertThat(list3.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list3.get(1)).containsExactlyInOrder();
     }
 
     /**
@@ -383,12 +385,9 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = listEventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(3, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals("bcde", list.get(0).get(1));
-        Assert.assertEquals("", list.get(0).get(2));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "bcde", "");
     }
 
     /**
@@ -409,12 +408,11 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = listEventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(3, list.size());
-        Assert.assertEquals(0, list.get(0).size());
-        Assert.assertEquals(0, list.get(1).size());
-        Assert.assertEquals(1, list.get(2).size());
-        Assert.assertEquals("f", list.get(2).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(3);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder();
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list.get(2)).containsExactlyInOrder("f");
     }
 
     /**
@@ -449,21 +447,18 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushSymbol('d');
         parserEventHandler.pushSymbol('e');
         List<List<String>> list1 = listEventHandler.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(1, list1.get(0).size());
-        Assert.assertEquals("a", list1.get(0).get(0));
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list2 = listEventHandler.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(2, list2.size());
-        Assert.assertEquals(1, list2.get(0).size());
-        Assert.assertEquals("a", list2.get(0).get(0));
-        Assert.assertEquals(1, list2.get(1).size());
-        Assert.assertEquals("bcdea", list2.get(1).get(0));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(2);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list2.get(1)).containsExactlyInOrder("bcdea");
     }
 
     /**
@@ -485,14 +480,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushRow();
 
         List<List<String>> list = listEventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals("b", list.get(0).get(1));
-        Assert.assertEquals(2, list.get(1).size());
-        Assert.assertEquals("c", list.get(1).get(0));
-        Assert.assertEquals("d", list.get(1).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "b");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("c", "d");
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
@@ -511,11 +502,11 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushRow();
 
         List<List<String>> list = listEventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(3, list.size());
-        Assert.assertEquals(0, list.get(0).size());
-        Assert.assertEquals(0, list.get(1).size());
-        Assert.assertEquals(0, list.get(2).size());
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(3);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder();
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list.get(2)).containsExactlyInOrder();
     }
 
     /**
@@ -552,13 +543,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("abcd", list.get(0).get(0));
-        Assert.assertEquals("12", list.get(0).get(1));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("efgh", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abcd", "12");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efgh");
     }
 
     /**
@@ -584,13 +572,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("abcd", list.get(0).get(0));
-        Assert.assertEquals("12", list.get(0).get(1));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("efgh", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abcd", "12");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efgh");
     }
 
     /**
@@ -616,13 +601,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("", list.get(0).get(0));
-        Assert.assertEquals("", list.get(0).get(1));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("", "");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("");
     }
 
     /**
@@ -635,9 +617,9 @@ public final class ParserEventHandlerTest {
             ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
             parserEventHandler.addLastSymbol('a');
             parserEventHandler.pushSymbol('a');
-            Assert.fail("Column length check not processed");
+            Assertions.fail("ParserEventHandler test fail");
         } catch (WrongColumnLengthException ex) {
-            Assert.assertEquals("Maximum column length exceeded. Last symbols: \"a\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"a\".");
         }
     }
 
@@ -664,13 +646,10 @@ public final class ParserEventHandlerTest {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("abc", list.get(0).get(0));
-        Assert.assertEquals("12", list.get(0).get(1));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("efg", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abc", "12");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efg");
     }
 
     /**
@@ -689,9 +668,9 @@ public final class ParserEventHandlerTest {
             parserEventHandler.pushSymbol('c');
             parserEventHandler.addLastSymbol('d');
             parserEventHandler.pushSymbol('d');
-            Assert.fail("Column length check not processed");
+            Assertions.fail("ParserEventHandler test fail");
         } catch (WrongColumnLengthException ex) {
-            Assert.assertEquals("Maximum column length exceeded. Last symbols: \"abcd\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"abcd\".");
         }
     }
 

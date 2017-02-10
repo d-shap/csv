@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link ColumnCountEventHandler}.
@@ -42,10 +43,10 @@ public final class ColumnCountEventHandlerTest {
     @Test
     public void newObjectTest() {
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        Assert.assertEquals(0, eventHandler.getMaxColumnLength());
-        Assert.assertFalse(eventHandler.checkMaxColumnLength());
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(0, eventHandler.getColumnCounts().size());
+        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).isEmpty();
     }
 
     /**
@@ -55,8 +56,8 @@ public final class ColumnCountEventHandlerTest {
     public void pushColumnTest() {
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(0, eventHandler.getColumnCounts().size());
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder();
     }
 
     /**
@@ -67,9 +68,8 @@ public final class ColumnCountEventHandlerTest {
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushColumn("a", 1);
         eventHandler.pushRow();
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(1, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(1, (int) eventHandler.getColumnCounts().get(0));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(1);
     }
 
     /**
@@ -79,9 +79,8 @@ public final class ColumnCountEventHandlerTest {
     public void skipPushColumnTest() {
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         eventHandler.pushRow();
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(1, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(0, (int) eventHandler.getColumnCounts().get(0));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(0);
     }
 
     /**
@@ -102,12 +101,8 @@ public final class ColumnCountEventHandlerTest {
         eventHandler.pushColumn("j", 1);
         eventHandler.pushColumn("kl", 2);
         eventHandler.pushRow();
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(4, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(1));
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(2));
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(3));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 2, 2, 2);
     }
 
     /**
@@ -126,12 +121,8 @@ public final class ColumnCountEventHandlerTest {
         eventHandler.pushColumn("hi", 2);
         eventHandler.pushRow();
         eventHandler.pushRow();
-        Assert.assertNotNull(eventHandler.getColumnCounts());
-        Assert.assertEquals(4, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
-        Assert.assertEquals(1, (int) eventHandler.getColumnCounts().get(1));
-        Assert.assertEquals(3, (int) eventHandler.getColumnCounts().get(2));
-        Assert.assertEquals(0, (int) eventHandler.getColumnCounts().get(3));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 1, 3, 0);
     }
 
 }

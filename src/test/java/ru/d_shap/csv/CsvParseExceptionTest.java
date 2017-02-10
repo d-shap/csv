@@ -19,9 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.state.AbstractState;
 
 /**
@@ -44,13 +44,13 @@ public final class CsvParseExceptionTest {
     @Test
     public void errorMessageTest() {
         CsvParseException exception1 = new CsvParseException('a', "bvda");
-        Assert.assertEquals("Wrong symbol obtained: 'a' (97). Last symbols: \"bvda\".", exception1.getMessage());
+        Assertions.assertThat(exception1).hasMessage("Wrong symbol obtained: 'a' (97). Last symbols: \"bvda\".");
 
         CsvParseException exception2 = new CsvParseException('D', "ret5fD");
-        Assert.assertEquals("Wrong symbol obtained: 'D' (68). Last symbols: \"ret5fD\".", exception2.getMessage());
+        Assertions.assertThat(exception2).hasMessage("Wrong symbol obtained: 'D' (68). Last symbols: \"ret5fD\".");
 
         CsvParseException exception3 = new CsvParseException(AbstractState.END_OF_INPUT, "xyz");
-        Assert.assertEquals("End of input obtained. Last symbols: \"xyz\".", exception3.getMessage());
+        Assertions.assertThat(exception3).hasMessage("End of input obtained. Last symbols: \"xyz\".");
     }
 
 }

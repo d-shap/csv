@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link NotRectangularException}.
@@ -42,10 +43,10 @@ public final class NotRectangularExceptionTest {
     @Test
     public void errorMessageTest() {
         NotRectangularException exception1 = new NotRectangularException();
-        Assert.assertEquals("CSV is not rectangular.", exception1.getMessage());
+        Assertions.assertThat(exception1).hasMessage("CSV is not rectangular.");
 
         NotRectangularException exception2 = new NotRectangularException("lastSymbols");
-        Assert.assertEquals("CSV is not rectangular. Last symbols: \"lastSymbols\".", exception2.getMessage());
+        Assertions.assertThat(exception2).hasMessage("CSV is not rectangular. Last symbols: \"lastSymbols\".");
     }
 
 }

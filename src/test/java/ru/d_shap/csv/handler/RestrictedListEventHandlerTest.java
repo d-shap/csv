@@ -21,8 +21,9 @@ package ru.d_shap.csv.handler;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link RestrictedListEventHandler}.
@@ -44,10 +45,10 @@ public final class RestrictedListEventHandlerTest {
     @Test
     public void newObjectTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5);
-        Assert.assertEquals(5, eventHandler.getMaxColumnLength());
-        Assert.assertFalse(eventHandler.checkMaxColumnLength());
-        Assert.assertNotNull(eventHandler.getCsv());
-        Assert.assertTrue(eventHandler.getCsv().isEmpty());
+        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(5);
+        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
+        Assertions.assertThat(eventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(eventHandler.getCsv()).isEmpty();
     }
 
     /**
@@ -55,20 +56,10 @@ public final class RestrictedListEventHandlerTest {
      */
     @Test
     public void pushColumnTest() {
-        RestrictedListEventHandler eventHandler1 = new RestrictedListEventHandler(5);
-        eventHandler1.pushColumn("a", 1);
-        Assert.assertNotNull(eventHandler1.getCsv());
-        Assert.assertTrue(eventHandler1.getCsv().isEmpty());
-
-        RestrictedListEventHandler eventHandler2 = new RestrictedListEventHandler(5);
-        eventHandler2.pushColumn("b", 1);
-        Assert.assertNotNull(eventHandler2.getCsv());
-        Assert.assertTrue(eventHandler2.getCsv().isEmpty());
-
-        RestrictedListEventHandler eventHandler3 = new RestrictedListEventHandler(5);
-        eventHandler3.pushColumn("c", 1);
-        Assert.assertNotNull(eventHandler3.getCsv());
-        Assert.assertTrue(eventHandler3.getCsv().isEmpty());
+        RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5);
+        eventHandler.pushColumn("a", 1);
+        Assertions.assertThat(eventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(eventHandler.getCsv()).hasSize(0);
     }
 
     /**
@@ -80,21 +71,18 @@ public final class RestrictedListEventHandlerTest {
         eventHandler1.pushColumn("a", 1);
         eventHandler1.pushRow();
         List<List<String>> list1 = eventHandler1.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(1, list1.get(0).size());
-        Assert.assertEquals("a", list1.get(0).get(0));
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
         RestrictedListEventHandler eventHandler2 = new RestrictedListEventHandler(5);
         eventHandler2.pushColumn("b", 1);
         eventHandler2.pushColumn("c", 1);
         eventHandler2.pushRow();
         List<List<String>> list2 = eventHandler2.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(1, list2.size());
-        Assert.assertEquals(2, list2.get(0).size());
-        Assert.assertEquals("b", list2.get(0).get(0));
-        Assert.assertEquals("c", list2.get(0).get(1));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(1);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("b", "c");
     }
 
     /**
@@ -105,9 +93,9 @@ public final class RestrictedListEventHandlerTest {
         RestrictedListEventHandler eventHandler1 = new RestrictedListEventHandler(5);
         eventHandler1.pushRow();
         List<List<String>> list1 = eventHandler1.getCsv();
-        Assert.assertNotNull(list1);
-        Assert.assertEquals(1, list1.size());
-        Assert.assertEquals(0, list1.get(0).size());
+        Assertions.assertThat(list1).isNotNull();
+        Assertions.assertThat(list1).hasSize(1);
+        Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
 
         RestrictedListEventHandler eventHandler2 = new RestrictedListEventHandler(5);
         eventHandler2.pushColumn("a", 1);
@@ -117,25 +105,22 @@ public final class RestrictedListEventHandlerTest {
         eventHandler2.pushColumn("b", 1);
         eventHandler2.pushRow();
         List<List<String>> list2 = eventHandler2.getCsv();
-        Assert.assertNotNull(list2);
-        Assert.assertEquals(4, list2.size());
-        Assert.assertEquals(1, list2.get(0).size());
-        Assert.assertEquals("a", list2.get(0).get(0));
-        Assert.assertEquals(0, list2.get(1).size());
-        Assert.assertEquals(0, list2.get(2).size());
-        Assert.assertEquals(1, list2.get(3).size());
-        Assert.assertEquals("b", list2.get(3).get(0));
+        Assertions.assertThat(list2).isNotNull();
+        Assertions.assertThat(list2).hasSize(4);
+        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list2.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(list2.get(3)).containsExactlyInOrder("b");
 
         RestrictedListEventHandler eventHandler3 = new RestrictedListEventHandler(5);
         eventHandler3.pushColumn("a", 1);
         eventHandler3.pushRow();
         eventHandler3.pushRow();
         List<List<String>> list3 = eventHandler3.getCsv();
-        Assert.assertNotNull(list3);
-        Assert.assertEquals(2, list3.size());
-        Assert.assertEquals(1, list3.get(0).size());
-        Assert.assertEquals("a", list3.get(0).get(0));
-        Assert.assertEquals(0, list3.get(1).size());
+        Assertions.assertThat(list3).isNotNull();
+        Assertions.assertThat(list3).hasSize(2);
+        Assertions.assertThat(list3.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list3.get(1)).containsExactlyInOrder();
     }
 
     /**
@@ -157,20 +142,12 @@ public final class RestrictedListEventHandlerTest {
         eventHandler.pushColumn("klm", 3);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(4, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals("bc", list.get(0).get(1));
-        Assert.assertEquals(2, list.get(1).size());
-        Assert.assertEquals("d", list.get(1).get(0));
-        Assert.assertEquals("ef", list.get(1).get(1));
-        Assert.assertEquals(2, list.get(2).size());
-        Assert.assertEquals("g", list.get(2).get(0));
-        Assert.assertEquals("hi", list.get(2).get(1));
-        Assert.assertEquals(2, list.get(3).size());
-        Assert.assertEquals("j", list.get(3).get(0));
-        Assert.assertEquals("klm", list.get(3).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(4);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "bc");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("d", "ef");
+        Assertions.assertThat(list.get(2)).containsExactlyInOrder("g", "hi");
+        Assertions.assertThat(list.get(3)).containsExactlyInOrder("j", "klm");
     }
 
     /**
@@ -183,11 +160,9 @@ public final class RestrictedListEventHandlerTest {
         eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("abcde", list.get(0).get(0));
-        Assert.assertEquals("12345", list.get(0).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abcde", "12345");
     }
 
     /**
@@ -200,11 +175,9 @@ public final class RestrictedListEventHandlerTest {
         eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("abc..", list.get(0).get(0));
-        Assert.assertEquals("123..", list.get(0).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abc..", "123..");
     }
 
     /**
@@ -217,11 +190,9 @@ public final class RestrictedListEventHandlerTest {
         eventHandler.pushColumn("12345", 8);
         eventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(2, list.get(0).size());
-        Assert.assertEquals("......", list.get(0).get(0));
-        Assert.assertEquals("......", list.get(0).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("......", "......");
     }
 
 }

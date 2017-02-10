@@ -21,9 +21,9 @@ package ru.d_shap.csv.state;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParser;
@@ -50,10 +50,9 @@ public final class State5Test {
     public void processEndOfInputCrSeparatorTest() {
         String csv = "\"a\"\r";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
     }
 
     /**
@@ -64,9 +63,9 @@ public final class State5Test {
         try {
             String csv = "\"a\"\r";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("End of input obtained. Last symbols: \"\"a\"\\r\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("End of input obtained. Last symbols: \"\"a\"\\r\".");
         }
     }
 
@@ -77,13 +76,10 @@ public final class State5Test {
     public void processCommaAsSeparatorCrSeparatorTest() {
         String csv = "\"a\"\r,";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(2, list.get(1).size());
-        Assert.assertEquals("", list.get(1).get(0));
-        Assert.assertEquals("", list.get(1).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("", "");
     }
 
     /**
@@ -94,9 +90,9 @@ public final class State5Test {
         try {
             String csv = "\"a\"\r,";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: ',' (44). Last symbols: \"\"a\"\\r,\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: ',' (44). Last symbols: \"\"a\"\\r,\".");
         }
     }
 
@@ -107,12 +103,10 @@ public final class State5Test {
     public void processCommaAsTextCrSeparatorTest() {
         String csv = "\"a\"\r,";
         List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals(",", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder(",");
     }
 
     /**
@@ -123,9 +117,9 @@ public final class State5Test {
         try {
             String csv = "\"a\"\r,";
             CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: ',' (44). Last symbols: \"\"a\"\\r,\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: ',' (44). Last symbols: \"\"a\"\\r,\".");
         }
     }
 
@@ -136,13 +130,10 @@ public final class State5Test {
     public void processSemicolonAsSeparatorCrSeparatorTest() {
         String csv = "\"a\"\r;";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(2, list.get(1).size());
-        Assert.assertEquals("", list.get(1).get(0));
-        Assert.assertEquals("", list.get(1).get(1));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("", "");
     }
 
     /**
@@ -153,9 +144,9 @@ public final class State5Test {
         try {
             String csv = "\"a\"\r;";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: ';' (59). Last symbols: \"\"a\"\\r;\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: ';' (59). Last symbols: \"\"a\"\\r;\".");
         }
     }
 
@@ -166,12 +157,10 @@ public final class State5Test {
     public void processSemicolonAsTextCrSeparatorTest() {
         String csv = "\"a\"\r;";
         List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals(";", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder(";");
     }
 
     /**
@@ -182,9 +171,9 @@ public final class State5Test {
         try {
             String csv = "\"a\"\r;";
             CsvParser.parse(csv, ColumnSeparators.COMMA, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: ';' (59). Last symbols: \"\"a\"\\r;\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: ';' (59). Last symbols: \"\"a\"\\r;\".");
         }
     }
 
@@ -193,15 +182,13 @@ public final class State5Test {
      */
     @Test
     public void processCrAsSeparatorTest() {
-        String csv = "\"a\"\r\ra";
+        String csv = "\"a\"\r\rb";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(3, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(0, list.get(1).size());
-        Assert.assertEquals(1, list.get(2).size());
-        Assert.assertEquals("a", list.get(2).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(3);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(list.get(2)).containsExactlyInOrder("b");
     }
 
     /**
@@ -210,11 +197,11 @@ public final class State5Test {
     @Test
     public void processCrAsTextTest() {
         try {
-            String csv = "\"a\"\r\ra";
+            String csv = "\"a\"\r\rb";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: '\r' (13). Last symbols: \"\"a\"\\r\\r\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: '\r' (13). Last symbols: \"\"a\"\\r\\r\".");
         }
     }
 
@@ -225,10 +212,9 @@ public final class State5Test {
     public void processLfTest() {
         String csv = "\"a\"\r\n";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(1);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
     }
 
     /**
@@ -236,14 +222,12 @@ public final class State5Test {
      */
     @Test
     public void processQuotCrSeparatorTest() {
-        String csv = "\"a\"\r\"a\"";
+        String csv = "\"a\"\r\"b\"";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("a", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("b");
     }
 
     /**
@@ -252,11 +236,11 @@ public final class State5Test {
     @Test
     public void processQuotCrTextTest() {
         try {
-            String csv = "\"a\"\r\"a\"";
+            String csv = "\"a\"\r\"b\"";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: '\"' (34). Last symbols: \"\"a\"\\r\"\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: '\"' (34). Last symbols: \"\"a\"\\r\"\".");
         }
     }
 
@@ -265,14 +249,12 @@ public final class State5Test {
      */
     @Test
     public void processDefaultCrSeparatorTest() {
-        String csv = "\"a\"\ra";
+        String csv = "\"a\"\rb";
         List<List<String>> list = CsvParser.parse(csv);
-        Assert.assertNotNull(list);
-        Assert.assertEquals(2, list.size());
-        Assert.assertEquals(1, list.get(0).size());
-        Assert.assertEquals("a", list.get(0).get(0));
-        Assert.assertEquals(1, list.get(1).size());
-        Assert.assertEquals("a", list.get(1).get(0));
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list).hasSize(2);
+        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(list.get(1)).containsExactlyInOrder("b");
     }
 
     /**
@@ -281,11 +263,11 @@ public final class State5Test {
     @Test
     public void processDefaultCrTextTest() {
         try {
-            String csv = "\"a\"\ra";
+            String csv = "\"a\"\rb";
             CsvParser.parse(csv, RowSeparators.CRLF);
-            Assert.fail("Parse csv fail");
+            Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
-            Assert.assertEquals("Wrong symbol obtained: 'a' (97). Last symbols: \"\"a\"\\ra\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("Wrong symbol obtained: 'b' (98). Last symbols: \"\"a\"\\rb\".");
         }
     }
 

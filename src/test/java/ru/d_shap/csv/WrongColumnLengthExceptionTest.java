@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link WrongColumnLengthException}.
@@ -42,10 +43,10 @@ public final class WrongColumnLengthExceptionTest {
     @Test
     public void errorMessageTest() {
         WrongColumnLengthException exception1 = new WrongColumnLengthException("bvda");
-        Assert.assertEquals("Maximum column length exceeded. Last symbols: \"bvda\".", exception1.getMessage());
+        Assertions.assertThat(exception1).hasMessage("Maximum column length exceeded. Last symbols: \"bvda\".");
 
         WrongColumnLengthException exception2 = new WrongColumnLengthException("ret5fD");
-        Assert.assertEquals("Maximum column length exceeded. Last symbols: \"ret5fD\".", exception2.getMessage());
+        Assertions.assertThat(exception2).hasMessage("Maximum column length exceeded. Last symbols: \"ret5fD\".");
     }
 
 }

@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 
 /**
  * Tests for {@link NoopEventHandler}.
@@ -42,8 +43,8 @@ public final class NoopEventHandlerTest {
     @Test
     public void newObjectTest() {
         NoopEventHandler eventHandler = new NoopEventHandler();
-        Assert.assertEquals(0, eventHandler.getMaxColumnLength());
-        Assert.assertFalse(eventHandler.checkMaxColumnLength());
+        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
     }
 
     /**

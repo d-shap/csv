@@ -22,13 +22,11 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.ColumnLengthEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
@@ -51,30 +49,10 @@ public final class CsvParserTest {
 
     /**
      * {@link CsvParser} class test.
-     *
-     * @throws IllegalAccessException exception in test.
-     * @throws InstantiationException exception in test.
-     */
-    @Test(expected = IllegalAccessException.class)
-    public void constructorPrivateTest() throws IllegalAccessException, InstantiationException {
-        CsvParser.class.newInstance();
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     *
-     * @throws IllegalAccessException    exception in test.
-     * @throws InstantiationException    exception in test.
-     * @throws InvocationTargetException exception in test.
      */
     @Test
-    public void constructorInaccessibleTest() throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        Constructor[] ctors = CsvParser.class.getDeclaredConstructors();
-        Assert.assertEquals(1, ctors.length);
-        Constructor ctor = ctors[0];
-        Assert.assertFalse(ctor.isAccessible());
-        ctor.setAccessible(true);
-        Assert.assertEquals(CsvParser.class, ctor.newInstance().getClass());
+    public void constructorTest() {
+        Assertions.assertThat(CsvParser.class).hasOnePrivateConstructor();
     }
 
     /**
@@ -84,11 +62,9 @@ public final class CsvParserTest {
     public void parseColumnsWithSemicolonsTest() {
         String csv = "true;1.0.1;5";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("true", result.get(0).get(0));
-        Assert.assertEquals("1.0.1", result.get(0).get(1));
-        Assert.assertEquals("5", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "1.0.1", "5");
     }
 
     /**
@@ -98,11 +74,9 @@ public final class CsvParserTest {
     public void parseColumnsWithCommasTest() {
         String csv = "true,1.0.1,5";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("true", result.get(0).get(0));
-        Assert.assertEquals("1.0.1", result.get(0).get(1));
-        Assert.assertEquals("5", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "1.0.1", "5");
     }
 
     /**
@@ -112,11 +86,9 @@ public final class CsvParserTest {
     public void parseColumnsWithSpecialsTest() {
         String csv = "true,\"aa,bb;\r\na\",\"5\"";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("true", result.get(0).get(0));
-        Assert.assertEquals("aa,bb;\r\na", result.get(0).get(1));
-        Assert.assertEquals("5", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "aa,bb;\r\na", "5");
     }
 
     /**
@@ -126,16 +98,9 @@ public final class CsvParserTest {
     public void parseEmptyColumnsTest() {
         String csv = ";a;;b;;;c;";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(8, result.get(0).size());
-        Assert.assertEquals("", result.get(0).get(0));
-        Assert.assertEquals("a", result.get(0).get(1));
-        Assert.assertEquals("", result.get(0).get(2));
-        Assert.assertEquals("b", result.get(0).get(3));
-        Assert.assertEquals("", result.get(0).get(4));
-        Assert.assertEquals("", result.get(0).get(5));
-        Assert.assertEquals("c", result.get(0).get(6));
-        Assert.assertEquals("", result.get(0).get(7));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("", "a", "", "b", "", "", "c", "");
     }
 
     /**
@@ -145,12 +110,9 @@ public final class CsvParserTest {
     public void parseEmptySpecialColumnsTest() {
         String csv = "\"\",\"\",,\"\"";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(4, result.get(0).size());
-        Assert.assertEquals("", result.get(0).get(0));
-        Assert.assertEquals("", result.get(0).get(1));
-        Assert.assertEquals("", result.get(0).get(2));
-        Assert.assertEquals("", result.get(0).get(3));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("", "", "", "");
     }
 
     /**
@@ -160,12 +122,9 @@ public final class CsvParserTest {
     public void parseColumnsWithQuotsTest() {
         String csv = "\"a\"\"b\",ab;\"\"\"a\",\"b\"\"\"";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(4, result.get(0).size());
-        Assert.assertEquals("a\"b", result.get(0).get(0));
-        Assert.assertEquals("ab", result.get(0).get(1));
-        Assert.assertEquals("\"a", result.get(0).get(2));
-        Assert.assertEquals("b\"", result.get(0).get(3));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a\"b", "ab", "\"a", "b\"");
     }
 
     /**
@@ -211,13 +170,11 @@ public final class CsvParserTest {
     public void parseRowsWithCrTest() {
         String csv = "a\rb\rc";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(3, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("a", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("b", result.get(1).get(0));
-        Assert.assertEquals(1, result.get(2).size());
-        Assert.assertEquals("c", result.get(2).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(3);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("b");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("c");
     }
 
     /**
@@ -227,13 +184,11 @@ public final class CsvParserTest {
     public void parseRowsWithLfTest() {
         String csv = "a\nb\nc";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(3, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("a", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("b", result.get(1).get(0));
-        Assert.assertEquals(1, result.get(2).size());
-        Assert.assertEquals("c", result.get(2).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(3);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("b");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("c");
     }
 
     /**
@@ -243,13 +198,11 @@ public final class CsvParserTest {
     public void parseRowsWithCrLfTest() {
         String csv = "a\r\nb\r\nc";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(3, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("a", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("b", result.get(1).get(0));
-        Assert.assertEquals(1, result.get(2).size());
-        Assert.assertEquals("c", result.get(2).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(3);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("b");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("c");
     }
 
     /**
@@ -259,14 +212,13 @@ public final class CsvParserTest {
     public void parseEmptyRowsTest() {
         String csv = "\naaa\n\nbbb\n\n";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(5, result.size());
-        Assert.assertEquals(0, result.get(0).size());
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("aaa", result.get(1).get(0));
-        Assert.assertEquals(0, result.get(2).size());
-        Assert.assertEquals(1, result.get(3).size());
-        Assert.assertEquals("bbb", result.get(3).get(0));
-        Assert.assertEquals(0, result.get(4).size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(5);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("aaa");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder("bbb");
+        Assertions.assertThat(result.get(4)).containsExactlyInOrder();
     }
 
     /**
@@ -276,13 +228,11 @@ public final class CsvParserTest {
     public void parseRowsWithSpecialsTest() {
         String csv = "\",\"\r\n\"\"\"\"\r\n\"aaa;bbb\"\r\n";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(3, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals(",", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("\"", result.get(1).get(0));
-        Assert.assertEquals(1, result.get(2).size());
-        Assert.assertEquals("aaa;bbb", result.get(2).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(3);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder(",");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("\"");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("aaa;bbb");
     }
 
     /**
@@ -292,20 +242,12 @@ public final class CsvParserTest {
     public void parseTableTest() {
         String csv = "a,,false\nb,true,\n\n,c,d\n";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("a", result.get(0).get(0));
-        Assert.assertEquals("", result.get(0).get(1));
-        Assert.assertEquals("false", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("b", result.get(1).get(0));
-        Assert.assertEquals("true", result.get(1).get(1));
-        Assert.assertEquals("", result.get(1).get(2));
-        Assert.assertEquals(0, result.get(2).size());
-        Assert.assertEquals(3, result.get(3).size());
-        Assert.assertEquals("", result.get(3).get(0));
-        Assert.assertEquals("c", result.get(3).get(1));
-        Assert.assertEquals("d", result.get(3).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a", "", "false");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("b", "true", "");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder("", "c", "d");
     }
 
     /**
@@ -315,7 +257,8 @@ public final class CsvParserTest {
     public void parseEmptyCsvTest() {
         String csv = "";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEmpty();
     }
 
     /**
@@ -325,7 +268,8 @@ public final class CsvParserTest {
     public void parseNullCsvTest() {
         String csv = null;
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEmpty();
     }
 
     /**
@@ -336,20 +280,12 @@ public final class CsvParserTest {
         StringBuilder csv = new StringBuilder();
         csv.append("a,,false\nb,true,\n\n,c,d\n");
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("a", result.get(0).get(0));
-        Assert.assertEquals("", result.get(0).get(1));
-        Assert.assertEquals("false", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("b", result.get(1).get(0));
-        Assert.assertEquals("true", result.get(1).get(1));
-        Assert.assertEquals("", result.get(1).get(2));
-        Assert.assertEquals(0, result.get(2).size());
-        Assert.assertEquals(3, result.get(3).size());
-        Assert.assertEquals("", result.get(3).get(0));
-        Assert.assertEquals("c", result.get(3).get(1));
-        Assert.assertEquals("d", result.get(3).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("a", "", "false");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("b", "true", "");
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder("", "c", "d");
     }
 
     /**
@@ -368,15 +304,10 @@ public final class CsvParserTest {
     public void checkRectangularTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, true);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6", result.get(1).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6");
     }
 
     /**
@@ -396,17 +327,22 @@ public final class CsvParserTest {
         String csv = ";,\n,aaa,bbb,\"a\"\"b\";\r";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("", result.get(0).get(0));
-        Assert.assertEquals("", result.get(0).get(1));
-        Assert.assertEquals("", result.get(0).get(2));
-        Assert.assertEquals(5, result.get(1).size());
-        Assert.assertEquals("", result.get(1).get(0));
-        Assert.assertEquals("aaa", result.get(1).get(1));
-        Assert.assertEquals("bbb", result.get(1).get(2));
-        Assert.assertEquals("a\"b", result.get(1).get(3));
-        Assert.assertEquals("", result.get(1).get(4));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("", "", "");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("", "aaa", "bbb", "a\"b", "");
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseEmptyReaderCsvTest() {
+        String csv = "";
+        Reader reader = new StringReader(csv);
+        List<List<String>> result = CsvParser.parse(csv);
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEmpty();
     }
 
     /**
@@ -416,7 +352,8 @@ public final class CsvParserTest {
     public void parseNullReaderCsvTest() {
         Reader csv = null;
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEmpty();
     }
 
     /**
@@ -427,15 +364,10 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6", result.get(1).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6");
     }
 
     /**
@@ -504,8 +436,8 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6\r\n";
         DimensionEventHandler eventHandler = new DimensionEventHandler();
         CsvParser.parse(csv, eventHandler);
-        Assert.assertEquals(2, eventHandler.getRowCount());
-        Assert.assertEquals(3, eventHandler.getColumnCount());
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(3);
     }
 
     /**
@@ -517,8 +449,8 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         DimensionEventHandler eventHandler = new DimensionEventHandler();
         CsvParser.parse(reader, eventHandler);
-        Assert.assertEquals(2, eventHandler.getRowCount());
-        Assert.assertEquals(3, eventHandler.getColumnCount());
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(3);
     }
 
     /**
@@ -529,10 +461,8 @@ public final class CsvParserTest {
         String csv = "1,2\r\n3,4,5\r\n6";
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         CsvParser.parse(csv, eventHandler);
-        Assert.assertEquals(3, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
-        Assert.assertEquals(3, (int) eventHandler.getColumnCounts().get(1));
-        Assert.assertEquals(1, (int) eventHandler.getColumnCounts().get(2));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 3, 1);
     }
 
     /**
@@ -544,10 +474,8 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
         CsvParser.parse(reader, eventHandler);
-        Assert.assertEquals(3, eventHandler.getColumnCounts().size());
-        Assert.assertEquals(2, (int) eventHandler.getColumnCounts().get(0));
-        Assert.assertEquals(3, (int) eventHandler.getColumnCounts().get(1));
-        Assert.assertEquals(1, (int) eventHandler.getColumnCounts().get(2));
+        Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 3, 1);
     }
 
     /**
@@ -558,16 +486,11 @@ public final class CsvParserTest {
         String csv = "aaa,bb\r\ncccc,dddd,eeeee\r\nf";
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, eventHandler);
-        Assert.assertEquals(3, eventHandler.getColumnLengths().size());
-        Assert.assertEquals(2, eventHandler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) eventHandler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(2, (int) eventHandler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, eventHandler.getColumnLengths().get(1).size());
-        Assert.assertEquals(4, (int) eventHandler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(4, (int) eventHandler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(5, (int) eventHandler.getColumnLengths().get(1).get(2));
-        Assert.assertEquals(1, eventHandler.getColumnLengths().get(2).size());
-        Assert.assertEquals(1, (int) eventHandler.getColumnLengths().get(2).get(0));
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(3);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsAllInOrder(3, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsAllInOrder(4, 4, 5);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(2)).containsAllInOrder(1);
     }
 
     /**
@@ -579,16 +502,11 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, eventHandler);
-        Assert.assertEquals(3, eventHandler.getColumnLengths().size());
-        Assert.assertEquals(2, eventHandler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) eventHandler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(2, (int) eventHandler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, eventHandler.getColumnLengths().get(1).size());
-        Assert.assertEquals(4, (int) eventHandler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(4, (int) eventHandler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(5, (int) eventHandler.getColumnLengths().get(1).get(2));
-        Assert.assertEquals(1, eventHandler.getColumnLengths().get(2).size());
-        Assert.assertEquals(1, (int) eventHandler.getColumnLengths().get(2).get(0));
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(3);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsAllInOrder(3, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsAllInOrder(4, 4, 5);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(2)).containsAllInOrder(1);
     }
 
     /**
@@ -599,16 +517,11 @@ public final class CsvParserTest {
         String csv = "long value 1,long value 2\r\nvalue,val,long value 3\r\nvalue";
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
         CsvParser.parse(csv, eventHandler);
-        Assert.assertEquals(3, eventHandler.getCsv().size());
-        Assert.assertEquals(2, eventHandler.getCsv().get(0).size());
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
-        Assert.assertEquals(3, eventHandler.getCsv().get(1).size());
-        Assert.assertEquals("value", eventHandler.getCsv().get(1).get(0));
-        Assert.assertEquals("val", eventHandler.getCsv().get(1).get(1));
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(1).get(2));
-        Assert.assertEquals(1, eventHandler.getCsv().get(2).size());
-        Assert.assertEquals("value", eventHandler.getCsv().get(2).get(0));
+        Assertions.assertThat(eventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(eventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsAllInOrder("lo...", "lo...");
+        Assertions.assertThat(eventHandler.getCsv().get(1)).containsAllInOrder("value", "val", "lo...");
+        Assertions.assertThat(eventHandler.getCsv().get(2)).containsAllInOrder("value");
     }
 
     /**
@@ -620,16 +533,11 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
         CsvParser.parse(reader, eventHandler);
-        Assert.assertEquals(3, eventHandler.getCsv().size());
-        Assert.assertEquals(2, eventHandler.getCsv().get(0).size());
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(0).get(0));
-        Assert.assertEquals(3, eventHandler.getCsv().get(1).size());
-        Assert.assertEquals("value", eventHandler.getCsv().get(1).get(0));
-        Assert.assertEquals("val", eventHandler.getCsv().get(1).get(1));
-        Assert.assertEquals("lo...", eventHandler.getCsv().get(1).get(2));
-        Assert.assertEquals(1, eventHandler.getCsv().get(2).size());
-        Assert.assertEquals("value", eventHandler.getCsv().get(2).get(0));
+        Assertions.assertThat(eventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(eventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsAllInOrder("lo...", "lo...");
+        Assertions.assertThat(eventHandler.getCsv().get(1)).containsAllInOrder("value", "val", "lo...");
+        Assertions.assertThat(eventHandler.getCsv().get(2)).containsAllInOrder("value");
     }
 
     /**
@@ -649,44 +557,44 @@ public final class CsvParserTest {
         try {
             String csv = "1,2,3\r\n4,5,6,7";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\".");
         }
         try {
             String csv = "1,2,3\r\n4,5,6,7\r\n";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\\r\\n\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7\\r\\n\".");
         }
         try {
             String csv = "1,2,3\r\n4,5,6,7,8\r\n";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7,\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5,6,7,\".");
         }
         try {
             String csv = "1,2,3\r\n4,5";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\".");
         }
         try {
             String csv = "1,2,3\r\n4,5\r\n";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\\r\\n\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\r\\n4,5\\r\\n\".");
         }
         try {
             String csv = "1,2,3\n4,5\n";
             CsvParser.parse(csv, new NoopEventHandler(), true);
-            Assert.fail("Rectangular check fail");
+            Assertions.fail("CsvParser test fail");
         } catch (NotRectangularException ex) {
-            Assert.assertEquals("CSV is not rectangular. Last symbols: \"1,2,3\\n4,5\\n\".", ex.getMessage());
+            Assertions.assertThat(ex).hasMessage("CSV is not rectangular. Last symbols: \"1,2,3\\n4,5\\n\".");
         }
     }
 
@@ -697,11 +605,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithColumnSeparatorsTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("4,5,6", result.get(1).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4,5,6");
     }
 
     /**
@@ -711,15 +618,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithRowSeparatorsTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3\r", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6\r", result.get(1).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\r");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6\r");
     }
 
     /**
@@ -729,17 +631,12 @@ public final class CsvParserTest {
     public void parseCharSequenceWithRowSeparators2Test() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(3, result.get(2).size());
-        Assert.assertEquals("4", result.get(2).get(0));
-        Assert.assertEquals("5", result.get(2).get(1));
-        Assert.assertEquals("6", result.get(2).get(2));
-        Assert.assertEquals(0, result.get(3).size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("4", "5", "6");
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder();
     }
 
     /**
@@ -749,11 +646,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithColumnAndRowSeparatorsTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3\r", result.get(0).get(0));
-        Assert.assertEquals(1, result.get(1).size());
-        Assert.assertEquals("4,5,6\r", result.get(1).get(0));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3\r");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4,5,6\r");
     }
 
     /**
@@ -763,13 +659,12 @@ public final class CsvParserTest {
     public void parseCharSequenceWithColumnAndRowSeparators2Test() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3", result.get(0).get(0));
-        Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(1, result.get(2).size());
-        Assert.assertEquals("4,5,6", result.get(2).get(0));
-        Assert.assertEquals(0, result.get(3).size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("4,5,6");
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder();
     }
 
     /**
@@ -779,13 +674,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithCheckAndColumnSeparatorsTest() {
         String csv = "1,2;3\r\n4;5,6\r\n";
         List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.COMMA);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(2, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2;3", result.get(0).get(1));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4;5", result.get(1).get(0));
-        Assert.assertEquals("6", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2;3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4;5", "6");
     }
 
     /**
@@ -795,13 +687,9 @@ public final class CsvParserTest {
     public void parseCharSequenceWithCheckAndRowSeparatorsTest() {
         String csv = "1,2;3\n4;5,6\n";
         List<List<String>> result = CsvParser.parse(csv, true, RowSeparators.CR);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(5, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3\n4", result.get(0).get(2));
-        Assert.assertEquals("5", result.get(0).get(3));
-        Assert.assertEquals("6\n", result.get(0).get(4));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\n4", "5", "6\n");
     }
 
     /**
@@ -811,15 +699,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithCheckAndRowSeparators2Test() {
         String csv = "1,2;3\n4;5,6\n";
         List<List<String>> result = CsvParser.parse(csv, true, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6", result.get(1).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6");
     }
 
     /**
@@ -829,11 +712,9 @@ public final class CsvParserTest {
     public void parseCharSequenceWithCheckColumnAndRowSeparatorsTest() {
         String csv = "1,2;3\n4;5,6\n";
         List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1,2", result.get(0).get(0));
-        Assert.assertEquals("3\n4", result.get(0).get(1));
-        Assert.assertEquals("5,6\n", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2", "3\n4", "5,6\n");
     }
 
     /**
@@ -843,13 +724,10 @@ public final class CsvParserTest {
     public void parseCharSequenceWithCheckColumnAndRowSeparators2Test() {
         String csv = "1,2;3\n4;5,6\n";
         List<List<String>> result = CsvParser.parse(csv, true, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(2, result.get(0).size());
-        Assert.assertEquals("1,2", result.get(0).get(0));
-        Assert.assertEquals("3", result.get(0).get(1));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5,6", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5,6");
     }
 
     /**
@@ -860,14 +738,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6;7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 3, 1);
     }
 
     /**
@@ -878,15 +752,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n\r7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, RowSeparators.CR);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
-        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(1).get(0));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 3, 1, 2);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(2);
     }
 
     /**
@@ -897,16 +766,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6,7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(4, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(3));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 1, 1, 1);
     }
 
     /**
@@ -917,13 +780,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n\r7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(4, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(1).get(0));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 3, 4);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(2);
     }
 
     /**
@@ -934,14 +794,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6;7\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 3, 1);
     }
 
     /**
@@ -952,13 +808,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, true, ColumnSeparators.COMMA);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(3, 1);
     }
 
     /**
@@ -969,13 +822,9 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, true, RowSeparators.CRLF);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
-        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 3, 1, 2);
     }
 
     /**
@@ -986,15 +835,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, true, RowSeparators.LF, RowSeparators.CRLF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 1, 1);
     }
 
     /**
@@ -1005,11 +849,9 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, true, ColumnSeparators.COMMA, RowSeparators.CRLF);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(7, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 7, 2);
     }
 
     /**
@@ -1020,13 +862,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(csv, handler, true, ColumnSeparators.COMMA, RowSeparators.LF, RowSeparators.CRLF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(3, 1);
     }
 
     /**
@@ -1037,12 +876,10 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3", result.get(0).get(0));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4,5,6", result.get(1).get(0));
-        Assert.assertEquals("7", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4,5,6", "7");
     }
 
     /**
@@ -1053,16 +890,10 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6,7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3\r", result.get(0).get(2));
-        Assert.assertEquals(4, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6", result.get(1).get(2));
-        Assert.assertEquals("7\r", result.get(1).get(3));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\r");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6", "7\r");
     }
 
     /**
@@ -1073,18 +904,12 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6,7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(4, result.get(2).size());
-        Assert.assertEquals("4", result.get(2).get(0));
-        Assert.assertEquals("5", result.get(2).get(1));
-        Assert.assertEquals("6", result.get(2).get(2));
-        Assert.assertEquals("7", result.get(2).get(3));
-        Assert.assertEquals(0, result.get(3).size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("4", "5", "6", "7");
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder();
     }
 
     /**
@@ -1095,12 +920,10 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3\r", result.get(0).get(0));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4,5,6", result.get(1).get(0));
-        Assert.assertEquals("7\r", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3\r");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4,5,6", "7\r");
     }
 
     /**
@@ -1111,14 +934,12 @@ public final class CsvParserTest {
         String csv = "1,2,3\r\n4,5,6;7\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(1, result.get(0).size());
-        Assert.assertEquals("1,2,3", result.get(0).get(0));
-        Assert.assertEquals(0, result.get(1).size());
-        Assert.assertEquals(2, result.get(2).size());
-        Assert.assertEquals("4,5,6", result.get(2).get(0));
-        Assert.assertEquals("7", result.get(2).get(1));
-        Assert.assertEquals(0, result.get(3).size());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(4);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2,3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("4,5,6", "7");
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder();
     }
 
     /**
@@ -1129,13 +950,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\r\n4;5,6\r\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true, ColumnSeparators.COMMA);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(2, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2;3", result.get(0).get(1));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4;5", result.get(1).get(0));
-        Assert.assertEquals("6", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2;3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4;5", "6");
     }
 
     /**
@@ -1146,13 +964,9 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true, RowSeparators.CR);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(5, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3\n4", result.get(0).get(2));
-        Assert.assertEquals("5", result.get(0).get(3));
-        Assert.assertEquals("6\n", result.get(0).get(4));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\n4", "5", "6\n");
     }
 
     /**
@@ -1163,15 +977,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3", result.get(0).get(2));
-        Assert.assertEquals(3, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5", result.get(1).get(1));
-        Assert.assertEquals("6", result.get(1).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5", "6");
     }
 
     /**
@@ -1182,11 +991,9 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1,2", result.get(0).get(0));
-        Assert.assertEquals("3\n4", result.get(0).get(1));
-        Assert.assertEquals("5,6\n", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2", "3\n4", "5,6\n");
     }
 
     /**
@@ -1197,13 +1004,10 @@ public final class CsvParserTest {
         String csv = "1,2;3\n4;5,6\n";
         Reader reader = new StringReader(csv);
         List<List<String>> result = CsvParser.parse(reader, true, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(2, result.get(0).size());
-        Assert.assertEquals("1,2", result.get(0).get(0));
-        Assert.assertEquals("3", result.get(0).get(1));
-        Assert.assertEquals(2, result.get(1).size());
-        Assert.assertEquals("4", result.get(1).get(0));
-        Assert.assertEquals("5,6", result.get(1).get(1));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1,2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder("4", "5,6");
     }
 
     /**
@@ -1215,15 +1019,11 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON);
-        Assert.assertEquals(3, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, handler.getColumnLengths().get(2).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(2).get(0));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(3);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(handler.getColumnLengths().get(2)).containsExactlyInOrder(1);
     }
 
     /**
@@ -1235,15 +1035,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, RowSeparators.CR);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
-        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 3, 1, 2);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1);
     }
 
     /**
@@ -1255,16 +1050,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(4, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(3));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 1, 1, 1);
     }
 
     /**
@@ -1276,13 +1065,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(4, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 3, 4);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1);
     }
 
     /**
@@ -1294,14 +1080,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, ColumnSeparators.SEMICOLON, RowSeparators.CR, RowSeparators.LF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(3, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 3, 1);
     }
 
     /**
@@ -1313,13 +1095,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, true, ColumnSeparators.COMMA);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(3, 1);
     }
 
     /**
@@ -1331,13 +1110,9 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, true, RowSeparators.CRLF);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
-        Assert.assertEquals(5, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(3));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(4));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 3, 1, 2);
     }
 
     /**
@@ -1349,15 +1124,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, true, RowSeparators.LF, RowSeparators.CRLF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(2));
-        Assert.assertEquals(3, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 1, 1);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(1, 1, 1);
     }
 
     /**
@@ -1369,11 +1139,9 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, true, ColumnSeparators.COMMA, RowSeparators.CRLF);
-        Assert.assertEquals(1, handler.getColumnLengths().size());
-        Assert.assertEquals(3, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(7, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, (int) handler.getColumnLengths().get(0).get(2));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 7, 2);
     }
 
     /**
@@ -1385,13 +1153,10 @@ public final class CsvParserTest {
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler handler = new ColumnLengthEventHandler();
         CsvParser.parse(reader, handler, true, ColumnSeparators.COMMA, RowSeparators.LF, RowSeparators.CRLF);
-        Assert.assertEquals(2, handler.getColumnLengths().size());
-        Assert.assertEquals(2, handler.getColumnLengths().get(0).size());
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(0).get(0));
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(0).get(1));
-        Assert.assertEquals(2, handler.getColumnLengths().get(1).size());
-        Assert.assertEquals(3, (int) handler.getColumnLengths().get(1).get(0));
-        Assert.assertEquals(1, (int) handler.getColumnLengths().get(1).get(1));
+        Assertions.assertThat(handler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(handler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(handler.getColumnLengths().get(0)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(handler.getColumnLengths().get(1)).containsExactlyInOrder(3, 1);
     }
 
     /**
@@ -1401,11 +1166,9 @@ public final class CsvParserTest {
     public void parseCharSequenceWithZeroCodeByteTest() {
         String csv = "1,2,3\u00004\r\n";
         List<List<String>> result = CsvParser.parse(csv);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(3, result.get(0).size());
-        Assert.assertEquals("1", result.get(0).get(0));
-        Assert.assertEquals("2", result.get(0).get(1));
-        Assert.assertEquals("3\u00004", result.get(0).get(2));
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\u00004");
     }
 
     /**
