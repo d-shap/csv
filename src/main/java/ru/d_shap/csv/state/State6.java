@@ -23,14 +23,11 @@ import ru.d_shap.csv.CsvParseException;
 
 /**
  * State of CSV parser state machine.
+ * State to process quoted column.
  *
  * @author Dmitry Shapovalov
  */
 final class State6 extends AbstractState {
-
-    /*
-     * State to process quoted column.
-     */
 
     static final AbstractState INSTANCE = new State6();
 

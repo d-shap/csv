@@ -23,15 +23,12 @@ import ru.d_shap.csv.CsvParseException;
 
 /**
  * State of CSV parser state machine.
+ * State after CR after column separator.
+ * State after CR after symbol.
  *
  * @author Dmitry Shapovalov
  */
 final class State4 extends AbstractState {
-
-    /*
-     * State after CR after column separator.
-     * State after CR after symbol.
-     */
 
     static final AbstractState INSTANCE = new State4();
 

@@ -21,14 +21,11 @@ package ru.d_shap.csv.state;
 
 /**
  * State of CSV parser state machine.
+ * State after column separator.
  *
  * @author Dmitry Shapovalov
  */
 final class State2 extends AbstractState {
-
-    /*
-     * State after column separator.
-     */
 
     static final AbstractState INSTANCE = new State2();
 

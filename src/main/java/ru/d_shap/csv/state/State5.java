@@ -23,14 +23,11 @@ import ru.d_shap.csv.CsvParseException;
 
 /**
  * State of CSV parser state machine.
+ * State after CR after double quote in quoted column.
  *
  * @author Dmitry Shapovalov
  */
 final class State5 extends AbstractState {
-
-    /*
-     * State after CR after double quote in quoted column.
-     */
 
     static final AbstractState INSTANCE = new State5();
 
