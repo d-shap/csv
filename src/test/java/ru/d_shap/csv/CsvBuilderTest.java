@@ -679,7 +679,7 @@ public final class CsvBuilderTest {
     }
 
     /**
-     * Writer implementation, that throws exceptions.
+     * Test class.
      *
      * @author Dmitry Shapovalov
      */

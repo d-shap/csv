@@ -1172,7 +1172,7 @@ public final class CsvParserTest {
     }
 
     /**
-     * Reader implementation, that throws exceptions.
+     * Test class.
      *
      * @author Dmitry Shapovalov
      */

@@ -675,7 +675,7 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * CSV parser event handler to test column restrictions.
+     * Test class.
      *
      * @author Dmitry Shapovalov
      */
