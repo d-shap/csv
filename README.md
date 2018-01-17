@@ -83,7 +83,7 @@ System.out.println("Column count: " + eventHandler.getColumnCount());
 
 The default IParserEventHandler is ListEventHandler.
 This handler stores CSV in memory as List of rows, each row is a list of columns.
-This handler could be a memory consuming handler.
+This handler could be a memory consuming one.
 
 By default, CsvParser treats commas and semicolons as column separators, CR, LF and CRLF as row separators.
 Some editors can use semicolon as separator, but not comma.

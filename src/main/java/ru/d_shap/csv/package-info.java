@@ -111,7 +111,7 @@
  * <p>
  * The default {@link ru.d_shap.csv.handler.IParserEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
  * This handler stores CSV in memory as List of rows, each row is a list of columns. This handler could be a memory
- * consuming handler.
+ * consuming one.
  * </p>
  * <p>
  * By default, {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, CR, LF and
