@@ -22,18 +22,18 @@
  * State machine for CSV parser.
  * </p>
  * <p>
- * CSV parser reads input symbols and defines, whether the symbol is a meaningful symbol or a special symbol.
+ * CSV parser reads input characters and defines, whether a character is a meaningful character or a special character.
  * </p>
  * <p>
- * The special symbols are:
+ * The special characters are:
  * </p>
  * <ul>
- * <li><b>CR</b>, <b>CL</b> or <b>CRLF</b> - row separator</li>
+ * <li><b>CR</b>, <b>LF</b> or <b>CRLF</b> - row separator</li>
  * <li><b>Comma</b> or <b>Semicolon</b> - column separator</li>
- * <li><b>Double quotes</b> - column bounds, if column contains other special symbols</li>
+ * <li><b>Double quotes</b> - column bounds, if column contains other special characters</li>
  * </ul>
  * <p>
- * After processing input symbol parser generates event and changes its internal state to process next symbol.
+ * After processing an input character parser generates event and changes its internal state to process next character.
  * </p>
  */
 package ru.d_shap.csv.state;
