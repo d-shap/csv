@@ -20,7 +20,7 @@
 package ru.d_shap.csv.state;
 
 /**
- * Last processed symbols for correct exception messages.
+ * Last processed characters for correct exception messages.
  *
  * @author Dmitry Shapovalov
  */
@@ -32,9 +32,9 @@ final class CharStack {
 
     private boolean _overflow;
 
-    CharStack(final int stackSize) {
+    CharStack(final int size) {
         super();
-        _buffer = new char[stackSize];
+        _buffer = new char[size];
         _index = 0;
         _overflow = false;
     }
@@ -67,10 +67,10 @@ final class CharStack {
         for (int i = 0; i < lng; i++) {
             char ch = str.charAt(i);
             switch (ch) {
-                case State.CR:
+                case SpecialCharacter.CR:
                     builder.append("\\r");
                     break;
-                case State.LF:
+                case SpecialCharacter.LF:
                     builder.append("\\n");
                     break;
                 default:
