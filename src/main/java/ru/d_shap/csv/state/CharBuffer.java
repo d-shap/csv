@@ -20,7 +20,7 @@
 package ru.d_shap.csv.state;
 
 /**
- * Buffer for readed characters.
+ * Buffer for characters.
  *
  * @author Dmitry Shapovalov
  */
@@ -28,9 +28,9 @@ final class CharBuffer {
 
     private static final int INITIAL_BUFFER_SIZE = 20;
 
-    private final int _maxColumnLength;
+    private final int _maxLength;
 
-    private final boolean _checkMaxColumnLength;
+    private final boolean _checkMaxLength;
 
     private char[] _buffer;
 
@@ -38,14 +38,14 @@ final class CharBuffer {
 
     private int _actualLength;
 
-    CharBuffer(final int maxColumnLength, final boolean checkMaxColumnLength) {
+    CharBuffer(final int maxLength, final boolean checkMaxLength) {
         super();
-        _maxColumnLength = maxColumnLength;
-        if (_maxColumnLength >= 0) {
-            _checkMaxColumnLength = checkMaxColumnLength;
-            _buffer = new char[_maxColumnLength];
+        _maxLength = maxLength;
+        if (_maxLength >= 0) {
+            _checkMaxLength = checkMaxLength;
+            _buffer = new char[_maxLength];
         } else {
-            _checkMaxColumnLength = false;
+            _checkMaxLength = false;
             _buffer = new char[INITIAL_BUFFER_SIZE];
         }
         _currentIndex = 0;
@@ -53,16 +53,16 @@ final class CharBuffer {
     }
 
     boolean canAppend() {
-        return !_checkMaxColumnLength || _currentIndex < _maxColumnLength;
+        return !_checkMaxLength || _currentIndex < _maxLength;
     }
 
     void append(final char ch) {
-        if (_maxColumnLength < 0 && _currentIndex >= _buffer.length) {
+        if (_maxLength < 0 && _currentIndex >= _buffer.length) {
             char[] newBuffer = new char[_buffer.length * 2];
             System.arraycopy(_buffer, 0, newBuffer, 0, _buffer.length);
             _buffer = newBuffer;
         }
-        if (_maxColumnLength < 0 || _currentIndex < _maxColumnLength) {
+        if (_maxLength < 0 || _currentIndex < _maxLength) {
             _buffer[_currentIndex] = ch;
             _currentIndex++;
         }
