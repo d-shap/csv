@@ -22,19 +22,20 @@ package ru.d_shap.csv.state;
 import java.util.Set;
 
 import ru.d_shap.csv.ColumnSeparators;
+import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.NotRectangularException;
 import ru.d_shap.csv.RowSeparators;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.IParserEventHandler;
 
 /**
- * Class obtains events from parser state machine and delegates them to {@link ru.d_shap.csv.handler.IParserEventHandler} object.
+ * Class obtains events from the parser state machine and delegates them to a {@link ru.d_shap.csv.handler.IParserEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
 public final class StateHandler {
 
-    private static final int LAST_SYMBOLS_COUNT = 25;
+    private static final int LAST_CHARACTERS_COUNT = 25;
 
     private final IParserEventHandler _parserEventHandler;
 
@@ -50,9 +51,9 @@ public final class StateHandler {
 
     private final boolean _crLfSeparator;
 
-    private final CharStack _lastSymbols;
+    private final CharStack _lastProcessedCharacters;
 
-    private final CharBuffer _currentColumn;
+    private final CharBuffer _currentColumnCharacters;
 
     private boolean _firstRow;
 
@@ -61,12 +62,12 @@ public final class StateHandler {
     private int _currentColumnCount;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param parserEventHandler event handler to delegate event calls.
+     * @param parserEventHandler an event handler to delegate event calls.
      * @param checkRectangular   check if all rows should have the same column count.
-     * @param columnSeparators   column separators, used by parser.
-     * @param rowSeparators      row separators, used by parser.
+     * @param columnSeparators   column separators, used by the parser.
+     * @param rowSeparators      row separators, used by the parser.
      */
     public StateHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
         super();
@@ -80,8 +81,8 @@ public final class StateHandler {
         _lfSeparator = rowSeparators.contains(RowSeparators.LF);
         _crLfSeparator = rowSeparators.contains(RowSeparators.CRLF);
 
-        _lastSymbols = new CharStack(LAST_SYMBOLS_COUNT);
-        _currentColumn = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
+        _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
+        _currentColumnCharacters = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -107,33 +108,37 @@ public final class StateHandler {
         return _crLfSeparator;
     }
 
-    void addLastSymbol(final int symbol) {
-        if (symbol != State.END_OF_INPUT) {
-            _lastSymbols.append((char) symbol);
+    void pushLastProcessedCharacter(final int character) {
+        if (character != SpecialCharacter.END_OF_INPUT) {
+            _lastProcessedCharacters.append((char) character);
         }
     }
 
-    String getLastSymbols() {
-        return _lastSymbols.toString();
+    String getLastProcessedCharacters() {
+        return _lastProcessedCharacters.toString();
     }
 
-    void pushSymbol(final int symbol) {
-        if (_currentColumn.canAppend()) {
-            _currentColumn.append((char) symbol);
+    CsvParseException createCsvParseException(final int character) {
+        return new CsvParseException(character, getLastProcessedCharacters());
+    }
+
+    void pushCharacter(final int character) {
+        if (_currentColumnCharacters.canAppend()) {
+            _currentColumnCharacters.append((char) character);
         } else {
-            throw new WrongColumnLengthException(_lastSymbols.toString());
+            throw new WrongColumnLengthException(getLastProcessedCharacters());
         }
     }
 
     void pushColumn() {
         if (_checkRectangular && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
-            throw new NotRectangularException(_lastSymbols.toString());
+            throw new NotRectangularException(getLastProcessedCharacters());
         }
 
-        String column = _currentColumn.toString();
-        int actualLength = _currentColumn.getActualLength();
+        String column = _currentColumnCharacters.toString();
+        int actualLength = _currentColumnCharacters.getActualLength();
         _parserEventHandler.pushColumn(column, actualLength);
-        _currentColumn.clear();
+        _currentColumnCharacters.clear();
         _currentColumnCount++;
     }
 
@@ -143,11 +148,11 @@ public final class StateHandler {
             _firstRow = false;
         }
         if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
-            throw new NotRectangularException(_lastSymbols.toString());
+            throw new NotRectangularException(getLastProcessedCharacters());
         }
 
         _parserEventHandler.pushRow();
-        _currentColumn.clear();
+        _currentColumnCharacters.clear();
         _currentColumnCount = 0;
     }
 
