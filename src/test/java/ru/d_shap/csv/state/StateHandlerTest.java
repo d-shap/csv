@@ -54,8 +54,8 @@ public final class StateHandlerTest {
     public void newObjectTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEmpty();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEmpty();
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
@@ -153,58 +153,58 @@ public final class StateHandlerTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
-        parserEventHandler.addLastSymbol('a');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
+        parserEventHandler.pushLastProcessedCharacter('a');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("a");
 
-        parserEventHandler.addLastSymbol('b');
-        parserEventHandler.addLastSymbol('c');
-        parserEventHandler.addLastSymbol('d');
-        parserEventHandler.addLastSymbol('e');
-        parserEventHandler.addLastSymbol('f');
-        parserEventHandler.addLastSymbol('g');
-        parserEventHandler.addLastSymbol('h');
-        parserEventHandler.addLastSymbol('i');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghi");
+        parserEventHandler.pushLastProcessedCharacter('b');
+        parserEventHandler.pushLastProcessedCharacter('c');
+        parserEventHandler.pushLastProcessedCharacter('d');
+        parserEventHandler.pushLastProcessedCharacter('e');
+        parserEventHandler.pushLastProcessedCharacter('f');
+        parserEventHandler.pushLastProcessedCharacter('g');
+        parserEventHandler.pushLastProcessedCharacter('h');
+        parserEventHandler.pushLastProcessedCharacter('i');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghi");
 
-        parserEventHandler.addLastSymbol('j');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij");
+        parserEventHandler.pushLastProcessedCharacter('j');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij");
 
-        parserEventHandler.addLastSymbol('1');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1");
+        parserEventHandler.pushLastProcessedCharacter('1');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij1");
 
-        parserEventHandler.addLastSymbol('2');
-        parserEventHandler.addLastSymbol('3');
-        parserEventHandler.addLastSymbol('4');
-        parserEventHandler.addLastSymbol('5');
-        parserEventHandler.addLastSymbol('6');
-        parserEventHandler.addLastSymbol('7');
-        parserEventHandler.addLastSymbol('8');
-        parserEventHandler.addLastSymbol('9');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij123456789");
+        parserEventHandler.pushLastProcessedCharacter('2');
+        parserEventHandler.pushLastProcessedCharacter('3');
+        parserEventHandler.pushLastProcessedCharacter('4');
+        parserEventHandler.pushLastProcessedCharacter('5');
+        parserEventHandler.pushLastProcessedCharacter('6');
+        parserEventHandler.pushLastProcessedCharacter('7');
+        parserEventHandler.pushLastProcessedCharacter('8');
+        parserEventHandler.pushLastProcessedCharacter('9');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij123456789");
 
-        parserEventHandler.addLastSymbol('0');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890");
+        parserEventHandler.pushLastProcessedCharacter('0');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij1234567890");
 
-        parserEventHandler.addLastSymbol('a');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890a");
+        parserEventHandler.pushLastProcessedCharacter('a');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij1234567890a");
 
-        parserEventHandler.addLastSymbol('b');
-        parserEventHandler.addLastSymbol('c');
-        parserEventHandler.addLastSymbol('d');
-        parserEventHandler.addLastSymbol('e');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("abcdefghij1234567890abcde");
+        parserEventHandler.pushLastProcessedCharacter('b');
+        parserEventHandler.pushLastProcessedCharacter('c');
+        parserEventHandler.pushLastProcessedCharacter('d');
+        parserEventHandler.pushLastProcessedCharacter('e');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("abcdefghij1234567890abcde");
 
-        parserEventHandler.addLastSymbol('f');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("bcdefghij1234567890abcdef");
+        parserEventHandler.pushLastProcessedCharacter('f');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("bcdefghij1234567890abcdef");
     }
 
     /**
@@ -215,31 +215,31 @@ public final class StateHandlerTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
-        parserEventHandler.addLastSymbol('a');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
+        parserEventHandler.pushLastProcessedCharacter('a');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("a");
 
-        parserEventHandler.addLastSymbol(State.END_OF_INPUT);
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
+        parserEventHandler.pushLastProcessedCharacter(SpecialCharacter.END_OF_INPUT);
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("a");
 
-        parserEventHandler.addLastSymbol('b');
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
+        parserEventHandler.pushLastProcessedCharacter('b');
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("ab");
 
-        parserEventHandler.addLastSymbol(State.END_OF_INPUT);
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
-        Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
+        parserEventHandler.pushLastProcessedCharacter(SpecialCharacter.END_OF_INPUT);
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isNotNull();
+        Assertions.assertThat(parserEventHandler.getLastProcessedCharacters()).isEqualTo("ab");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolTest() {
+    public void pushCharacterTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
@@ -251,7 +251,7 @@ public final class StateHandlerTest {
     public void pushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
@@ -264,7 +264,7 @@ public final class StateHandlerTest {
     public void pushRowTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
         StateHandler parserEventHandler1 = new StateHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler1.pushSymbol('a');
+        parserEventHandler1.pushCharacter('a');
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
@@ -274,9 +274,9 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler2.pushSymbol('b');
+        parserEventHandler2.pushCharacter('b');
         parserEventHandler2.pushColumn();
-        parserEventHandler2.pushSymbol('c');
+        parserEventHandler2.pushCharacter('c');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
@@ -301,10 +301,10 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler2.pushSymbol('a');
+        parserEventHandler2.pushCharacter('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushColumn();
-        parserEventHandler2.pushSymbol('b');
+        parserEventHandler2.pushCharacter('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
@@ -314,7 +314,7 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
         StateHandler parserEventHandler3 = new StateHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler3.pushSymbol('a');
+        parserEventHandler3.pushCharacter('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
@@ -339,12 +339,12 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler2.pushSymbol('a');
+        parserEventHandler2.pushCharacter('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         parserEventHandler2.pushRow();
         parserEventHandler2.pushRow();
-        parserEventHandler2.pushSymbol('b');
+        parserEventHandler2.pushCharacter('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
         List<List<String>> list2 = listEventHandler2.getCsv();
@@ -357,7 +357,7 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
         StateHandler parserEventHandler3 = new StateHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler3.pushSymbol('a');
+        parserEventHandler3.pushCharacter('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
         parserEventHandler3.pushRow();
@@ -375,12 +375,12 @@ public final class StateHandlerTest {
     public void putMultipleSymbolsTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
-        parserEventHandler.pushSymbol('e');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
+        parserEventHandler.pushCharacter('e');
         parserEventHandler.pushColumn();
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
@@ -397,14 +397,14 @@ public final class StateHandlerTest {
     public void skipPushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
-        parserEventHandler.pushSymbol('e');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
+        parserEventHandler.pushCharacter('e');
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('f');
+        parserEventHandler.pushCharacter('f');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = listEventHandler.getCsv();
@@ -422,12 +422,12 @@ public final class StateHandlerTest {
     public void checkRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('b');
+        parserEventHandler.pushCharacter('b');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('c');
+        parserEventHandler.pushCharacter('c');
         parserEventHandler.pushColumn();
     }
 
@@ -439,19 +439,19 @@ public final class StateHandlerTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
-        parserEventHandler.pushSymbol('e');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
+        parserEventHandler.pushCharacter('e');
         List<List<String>> list1 = listEventHandler.getCsv();
         Assertions.assertThat(list1).isNotNull();
         Assertions.assertThat(list1).hasSize(1);
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list2 = listEventHandler.getCsv();
@@ -468,14 +468,14 @@ public final class StateHandlerTest {
     public void notReusableRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('b');
+        parserEventHandler.pushCharacter('b');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('c');
+        parserEventHandler.pushCharacter('c');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('d');
+        parserEventHandler.pushCharacter('d');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
 
@@ -485,7 +485,7 @@ public final class StateHandlerTest {
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "b");
         Assertions.assertThat(list.get(1)).containsExactlyInOrder("c", "d");
 
-        parserEventHandler.pushSymbol('a');
+        parserEventHandler.pushCharacter('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
     }
@@ -524,22 +524,22 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolWithNoLengthAndNoCheckRestrictionTest() {
+    public void pushCharacterWithNoLengthAndNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
+        parserEventHandler.pushCharacter('a');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('1');
-        parserEventHandler.pushSymbol('2');
+        parserEventHandler.pushCharacter('1');
+        parserEventHandler.pushCharacter('2');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('e');
-        parserEventHandler.pushSymbol('f');
-        parserEventHandler.pushSymbol('g');
-        parserEventHandler.pushSymbol('h');
+        parserEventHandler.pushCharacter('e');
+        parserEventHandler.pushCharacter('f');
+        parserEventHandler.pushCharacter('g');
+        parserEventHandler.pushCharacter('h');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
@@ -553,22 +553,22 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolWithNoLengthAndCheckRestrictionTest() {
+    public void pushCharacterWithNoLengthAndCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, true);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
+        parserEventHandler.pushCharacter('a');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('1');
-        parserEventHandler.pushSymbol('2');
+        parserEventHandler.pushCharacter('1');
+        parserEventHandler.pushCharacter('2');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('e');
-        parserEventHandler.pushSymbol('f');
-        parserEventHandler.pushSymbol('g');
-        parserEventHandler.pushSymbol('h');
+        parserEventHandler.pushCharacter('e');
+        parserEventHandler.pushCharacter('f');
+        parserEventHandler.pushCharacter('g');
+        parserEventHandler.pushCharacter('h');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
@@ -582,22 +582,22 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolEmptyWithNoCheckRestrictionTest() {
+    public void pushCharacterEmptyWithNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
+        parserEventHandler.pushCharacter('a');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('1');
-        parserEventHandler.pushSymbol('2');
+        parserEventHandler.pushCharacter('1');
+        parserEventHandler.pushCharacter('2');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('e');
-        parserEventHandler.pushSymbol('f');
-        parserEventHandler.pushSymbol('g');
-        parserEventHandler.pushSymbol('h');
+        parserEventHandler.pushCharacter('e');
+        parserEventHandler.pushCharacter('f');
+        parserEventHandler.pushCharacter('g');
+        parserEventHandler.pushCharacter('h');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
@@ -611,12 +611,12 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolEmptyWithCheckRestrictionTest() {
+    public void pushCharacterEmptyWithCheckRestrictionTest() {
         try {
             ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, true);
             StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-            parserEventHandler.addLastSymbol('a');
-            parserEventHandler.pushSymbol('a');
+            parserEventHandler.pushLastProcessedCharacter('a');
+            parserEventHandler.pushCharacter('a');
             Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"a\".");
@@ -627,22 +627,22 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolWithLengthAndNoCheckRestrictionTest() {
+    public void pushCharacterWithLengthAndNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-        parserEventHandler.pushSymbol('a');
-        parserEventHandler.pushSymbol('b');
-        parserEventHandler.pushSymbol('c');
-        parserEventHandler.pushSymbol('d');
+        parserEventHandler.pushCharacter('a');
+        parserEventHandler.pushCharacter('b');
+        parserEventHandler.pushCharacter('c');
+        parserEventHandler.pushCharacter('d');
         parserEventHandler.pushColumn();
-        parserEventHandler.pushSymbol('1');
-        parserEventHandler.pushSymbol('2');
+        parserEventHandler.pushCharacter('1');
+        parserEventHandler.pushCharacter('2');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
-        parserEventHandler.pushSymbol('e');
-        parserEventHandler.pushSymbol('f');
-        parserEventHandler.pushSymbol('g');
-        parserEventHandler.pushSymbol('h');
+        parserEventHandler.pushCharacter('e');
+        parserEventHandler.pushCharacter('f');
+        parserEventHandler.pushCharacter('g');
+        parserEventHandler.pushCharacter('h');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
         List<List<String>> list = eventHandler.getCsv();
@@ -656,18 +656,18 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushSymbolWithLengthAndCheckRestrictionTest() {
+    public void pushCharacterWithLengthAndCheckRestrictionTest() {
         try {
             ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, true);
             StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
-            parserEventHandler.addLastSymbol('a');
-            parserEventHandler.pushSymbol('a');
-            parserEventHandler.addLastSymbol('b');
-            parserEventHandler.pushSymbol('b');
-            parserEventHandler.addLastSymbol('c');
-            parserEventHandler.pushSymbol('c');
-            parserEventHandler.addLastSymbol('d');
-            parserEventHandler.pushSymbol('d');
+            parserEventHandler.pushLastProcessedCharacter('a');
+            parserEventHandler.pushCharacter('a');
+            parserEventHandler.pushLastProcessedCharacter('b');
+            parserEventHandler.pushCharacter('b');
+            parserEventHandler.pushLastProcessedCharacter('c');
+            parserEventHandler.pushCharacter('c');
+            parserEventHandler.pushLastProcessedCharacter('d');
+            parserEventHandler.pushCharacter('d');
             Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"abcd\".");
