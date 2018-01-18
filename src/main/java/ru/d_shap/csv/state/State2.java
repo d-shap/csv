@@ -20,7 +20,7 @@
 package ru.d_shap.csv.state;
 
 /**
- * State of CSV parser state machine.
+ * State of the CSV parser state machine.
  * State after column separator.
  *
  * @author Dmitry Shapovalov
@@ -34,43 +34,43 @@ final class State2 extends State {
     }
 
     @Override
-    void processEndOfInput(final StateHandler parserEventHandler) {
-        processPushColumnAndRow(parserEventHandler);
+    void processEndOfInput(final StateHandler stateHandler) {
+        pushColumnAndRow(stateHandler);
     }
 
     @Override
-    State processComma(final StateHandler parserEventHandler) {
-        return processAllowedComma(parserEventHandler);
+    State processComma(final StateHandler stateHandler) {
+        return pushAllowedComma(stateHandler);
     }
 
     @Override
-    State processSemicolon(final StateHandler parserEventHandler) {
-        return processAllowedSemicolon(parserEventHandler);
+    State processSemicolon(final StateHandler stateHandler) {
+        return pushAllowedSemicolon(stateHandler);
     }
 
     @Override
-    State processCr(final StateHandler parserEventHandler) {
+    State processCr(final StateHandler stateHandler) {
         return State4.INSTANCE;
     }
 
     @Override
-    State processLf(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isLfSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+    State processLf(final StateHandler stateHandler) {
+        if (stateHandler.isLfSeparator()) {
+            pushColumnAndRow(stateHandler);
             return State1.INSTANCE;
         } else {
-            return processPushUnquotedSymbol(LF, parserEventHandler);
+            return pushUnquotedCharacter(SpecialCharacter.LF, stateHandler);
         }
     }
 
     @Override
-    State processQuot(final StateHandler parserEventHandler) {
+    State processQuot(final StateHandler stateHandler) {
         return State6.INSTANCE;
     }
 
     @Override
-    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
-        return processPushUnquotedSymbol(symbol, parserEventHandler);
+    State processDefault(final int character, final StateHandler stateHandler) {
+        return pushUnquotedCharacter(character, stateHandler);
     }
 
 }

@@ -19,10 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import ru.d_shap.csv.CsvParseException;
-
 /**
- * State of CSV parser state machine.
+ * State of the CSV parser state machine.
  * State to process quoted column.
  *
  * @author Dmitry Shapovalov
@@ -36,38 +34,38 @@ final class State6 extends State {
     }
 
     @Override
-    void processEndOfInput(final StateHandler parserEventHandler) {
-        throw new CsvParseException(END_OF_INPUT, parserEventHandler.getLastSymbols());
+    void processEndOfInput(final StateHandler stateHandler) {
+        throw stateHandler.createCsvParseException(SpecialCharacter.END_OF_INPUT);
     }
 
     @Override
-    State processComma(final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(COMMA, parserEventHandler);
+    State processComma(final StateHandler stateHandler) {
+        return pushQuotedCharacter(SpecialCharacter.COMMA, stateHandler);
     }
 
     @Override
-    State processSemicolon(final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(SEMICOLON, parserEventHandler);
+    State processSemicolon(final StateHandler stateHandler) {
+        return pushQuotedCharacter(SpecialCharacter.SEMICOLON, stateHandler);
     }
 
     @Override
-    State processCr(final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(CR, parserEventHandler);
+    State processCr(final StateHandler stateHandler) {
+        return pushQuotedCharacter(SpecialCharacter.CR, stateHandler);
     }
 
     @Override
-    State processLf(final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(LF, parserEventHandler);
+    State processLf(final StateHandler stateHandler) {
+        return pushQuotedCharacter(SpecialCharacter.LF, stateHandler);
     }
 
     @Override
-    State processQuot(final StateHandler parserEventHandler) {
+    State processQuot(final StateHandler stateHandler) {
         return State7.INSTANCE;
     }
 
     @Override
-    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(symbol, parserEventHandler);
+    State processDefault(final int character, final StateHandler stateHandler) {
+        return pushQuotedCharacter(character, stateHandler);
     }
 
 }

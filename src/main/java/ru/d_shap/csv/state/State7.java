@@ -19,10 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import ru.d_shap.csv.CsvParseException;
-
 /**
- * State of CSV parser state machine.
+ * State of the CSV parser state machine.
  * State after double quote in quoted column.
  *
  * @author Dmitry Shapovalov
@@ -36,50 +34,50 @@ final class State7 extends State {
     }
 
     @Override
-    void processEndOfInput(final StateHandler parserEventHandler) {
-        processPushColumnAndRow(parserEventHandler);
+    void processEndOfInput(final StateHandler stateHandler) {
+        pushColumnAndRow(stateHandler);
     }
 
     @Override
-    State processComma(final StateHandler parserEventHandler) {
-        return processDisallowedComma(parserEventHandler);
+    State processComma(final StateHandler stateHandler) {
+        return pushDisallowedComma(stateHandler);
     }
 
     @Override
-    State processSemicolon(final StateHandler parserEventHandler) {
-        return processDisallowedSemicolon(parserEventHandler);
+    State processSemicolon(final StateHandler stateHandler) {
+        return pushDisallowedSemicolon(stateHandler);
     }
 
     @Override
-    State processCr(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrLfSeparator()) {
+    State processCr(final StateHandler stateHandler) {
+        if (stateHandler.isCrLfSeparator()) {
             return State5.INSTANCE;
-        } else if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+        } else if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
             return State1.INSTANCE;
         } else {
-            throw new CsvParseException(CR, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.CR);
         }
     }
 
     @Override
-    State processLf(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isLfSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+    State processLf(final StateHandler stateHandler) {
+        if (stateHandler.isLfSeparator()) {
+            pushColumnAndRow(stateHandler);
             return State1.INSTANCE;
         } else {
-            throw new CsvParseException(LF, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.LF);
         }
     }
 
     @Override
-    State processQuot(final StateHandler parserEventHandler) {
-        return processPushQuotedSymbol(QUOT, parserEventHandler);
+    State processQuot(final StateHandler stateHandler) {
+        return pushQuotedCharacter(SpecialCharacter.QUOT, stateHandler);
     }
 
     @Override
-    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
-        throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+    State processDefault(final int character, final StateHandler stateHandler) {
+        throw stateHandler.createCsvParseException(character);
     }
 
 }

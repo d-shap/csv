@@ -19,10 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import ru.d_shap.csv.CsvParseException;
-
 /**
- * State of CSV parser state machine.
+ * State of the CSV parser state machine.
  * State after CR after double quote in quoted column.
  *
  * @author Dmitry Shapovalov
@@ -36,67 +34,67 @@ final class State5 extends State {
     }
 
     @Override
-    void processEndOfInput(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+    void processEndOfInput(final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
         } else {
-            throw new CsvParseException(END_OF_INPUT, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.END_OF_INPUT);
         }
     }
 
     @Override
-    State processComma(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
-            return processAllowedComma(parserEventHandler);
+    State processComma(final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
+            return pushAllowedComma(stateHandler);
         } else {
-            throw new CsvParseException(COMMA, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.COMMA);
         }
     }
 
     @Override
-    State processSemicolon(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
-            return processAllowedSemicolon(parserEventHandler);
+    State processSemicolon(final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
+            return pushAllowedSemicolon(stateHandler);
         } else {
-            throw new CsvParseException(SEMICOLON, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.SEMICOLON);
         }
     }
 
     @Override
-    State processCr(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+    State processCr(final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
             return State3.INSTANCE;
         } else {
-            throw new CsvParseException(CR, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.CR);
         }
     }
 
     @Override
-    State processLf(final StateHandler parserEventHandler) {
-        processPushColumnAndRow(parserEventHandler);
+    State processLf(final StateHandler stateHandler) {
+        pushColumnAndRow(stateHandler);
         return State1.INSTANCE;
     }
 
     @Override
-    State processQuot(final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
+    State processQuot(final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
             return State6.INSTANCE;
         } else {
-            throw new CsvParseException(QUOT, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(SpecialCharacter.QUOT);
         }
     }
 
     @Override
-    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
-        if (parserEventHandler.isCrSeparator()) {
-            processPushColumnAndRow(parserEventHandler);
-            return processPushUnquotedSymbol(symbol, parserEventHandler);
+    State processDefault(final int character, final StateHandler stateHandler) {
+        if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
+            return pushUnquotedCharacter(character, stateHandler);
         } else {
-            throw new CsvParseException(symbol, parserEventHandler.getLastSymbols());
+            throw stateHandler.createCsvParseException(character);
         }
     }
 
