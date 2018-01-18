@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import ru.d_shap.csv.state.AbstractState;
+import ru.d_shap.csv.state.State;
 
 /**
  * Available separators between rows.
@@ -28,9 +28,9 @@ import ru.d_shap.csv.state.AbstractState;
  */
 public enum RowSeparators {
 
-    CR(String.valueOf((char) AbstractState.CR)),
+    CR(String.valueOf((char) State.CR)),
 
-    LF(String.valueOf((char) AbstractState.LF)),
+    LF(String.valueOf((char) State.LF)),
 
     CRLF(CR.getValue() + LF.getValue());
 

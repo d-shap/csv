@@ -25,7 +25,7 @@ import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
 
-import ru.d_shap.csv.state.AbstractState;
+import ru.d_shap.csv.state.State;
 
 /**
  * Class to create CSV from rows and columns. If object is created with writer parameter, then CSV is writen
@@ -41,7 +41,7 @@ public final class CsvBuilder {
 
     static {
         SPECIAL = new LinkedList<>();
-        SPECIAL.add(String.valueOf((char) AbstractState.QUOT));
+        SPECIAL.add(String.valueOf((char) State.QUOT));
         SPECIAL.add(ColumnSeparators.COMMA.getValue());
         SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());
         SPECIAL.add(RowSeparators.CR.getValue());

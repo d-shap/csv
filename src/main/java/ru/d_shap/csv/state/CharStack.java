@@ -67,10 +67,10 @@ final class CharStack {
         for (int i = 0; i < lng; i++) {
             char ch = str.charAt(i);
             switch (ch) {
-                case AbstractState.CR:
+                case State.CR:
                     builder.append("\\r");
                     break;
-                case AbstractState.LF:
+                case State.LF:
                     builder.append("\\n");
                     break;
                 default:

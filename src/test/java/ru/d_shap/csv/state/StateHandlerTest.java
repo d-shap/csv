@@ -34,26 +34,26 @@ import ru.d_shap.csv.handler.IParserEventHandler;
 import ru.d_shap.csv.handler.ListEventHandler;
 
 /**
- * Tests for {@link ParserEventHandler}.
+ * Tests for {@link StateHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class ParserEventHandlerTest {
+public final class StateHandlerTest {
 
     /**
      * Test class constructor.
      */
-    public ParserEventHandlerTest() {
+    public StateHandlerTest() {
         super();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void newObjectTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isEmpty();
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
@@ -61,97 +61,97 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void isCommaSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
         Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
         Assertions.assertThat(parserEventHandler1.isCommaSeparator()).isFalse();
 
         Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.COMMA);
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
         Assertions.assertThat(parserEventHandler2.isCommaSeparator()).isTrue();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void isSemicolonSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
         Set<ColumnSeparators> columnSeparators1 = new HashSet<>();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler, false, columnSeparators1, new HashSet<RowSeparators>());
         Assertions.assertThat(parserEventHandler1.isSemicolonSeparator()).isFalse();
 
         Set<ColumnSeparators> columnSeparators2 = new HashSet<>();
         columnSeparators2.add(ColumnSeparators.SEMICOLON);
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler, false, columnSeparators2, new HashSet<RowSeparators>());
         Assertions.assertThat(parserEventHandler2.isSemicolonSeparator()).isTrue();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void isCrSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assertions.assertThat(parserEventHandler1.isCrSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CR);
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assertions.assertThat(parserEventHandler2.isCrSeparator()).isTrue();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void isLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assertions.assertThat(parserEventHandler1.isLfSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.LF);
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assertions.assertThat(parserEventHandler2.isLfSeparator()).isTrue();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void isCrLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
         Set<RowSeparators> rowSeparators1 = new HashSet<>();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators1);
         Assertions.assertThat(parserEventHandler1.isCrLfSeparator()).isFalse();
 
         Set<RowSeparators> rowSeparators2 = new HashSet<>();
         rowSeparators2.add(RowSeparators.CRLF);
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), rowSeparators2);
         Assertions.assertThat(parserEventHandler2.isCrLfSeparator()).isTrue();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void addLastSymbolTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
         parserEventHandler.addLastSymbol('a');
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
@@ -208,18 +208,18 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void addLastSymbolIgnoreEndOfInputTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
         parserEventHandler.addLastSymbol('a');
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
 
-        parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
+        parserEventHandler.addLastSymbol(State.END_OF_INPUT);
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("a");
 
@@ -227,30 +227,30 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
 
-        parserEventHandler.addLastSymbol(AbstractState.END_OF_INPUT);
+        parserEventHandler.addLastSymbol(State.END_OF_INPUT);
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isNotNull();
         Assertions.assertThat(parserEventHandler.getLastSymbols()).isEqualTo("ab");
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
@@ -258,12 +258,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushRowTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler1.pushSymbol('a');
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
@@ -273,7 +273,7 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler2.pushSymbol('b');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushSymbol('c');
@@ -286,12 +286,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushEmptyColumnTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler1.pushColumn();
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
@@ -300,7 +300,7 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder("");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler2.pushSymbol('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushColumn();
@@ -313,7 +313,7 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a", "", "b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
-        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler3 = new StateHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler3.pushSymbol('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushColumn();
@@ -325,12 +325,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushEmptyRowTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        ParserEventHandler parserEventHandler1 = new ParserEventHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler1 = new StateHandler(listEventHandler1, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
         Assertions.assertThat(list1).isNotNull();
@@ -338,7 +338,7 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        ParserEventHandler parserEventHandler2 = new ParserEventHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler2 = new StateHandler(listEventHandler2, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler2.pushSymbol('a');
         parserEventHandler2.pushColumn();
         parserEventHandler2.pushRow();
@@ -356,7 +356,7 @@ public final class ParserEventHandlerTest {
         Assertions.assertThat(list2.get(3)).containsExactlyInOrder("b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
-        ParserEventHandler parserEventHandler3 = new ParserEventHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler3 = new StateHandler(listEventHandler3, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler3.pushSymbol('a');
         parserEventHandler3.pushColumn();
         parserEventHandler3.pushRow();
@@ -369,12 +369,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void putMultipleSymbolsTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('b');
@@ -391,12 +391,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void skipPushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushRow();
         parserEventHandler.pushSymbol('b');
@@ -416,12 +416,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test(expected = NotRectangularException.class)
     public void checkRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
@@ -432,12 +432,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void notReusableTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
 
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
@@ -462,12 +462,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test(expected = NotRectangularException.class)
     public void notReusableRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushColumn();
         parserEventHandler.pushSymbol('b');
@@ -491,12 +491,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void checkNoColumnRectangularRectangularTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushRow();
         parserEventHandler.pushRow();
         parserEventHandler.pushRow();
@@ -510,23 +510,23 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test(expected = NotRectangularException.class)
     public void checkNoColumnRectangularRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        ParserEventHandler parserEventHandler = new ParserEventHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(listEventHandler, true, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushRow();
         parserEventHandler.pushColumn();
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolWithNoLengthAndNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, false);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushSymbol('b');
         parserEventHandler.pushSymbol('c');
@@ -550,12 +550,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolWithNoLengthAndCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, true);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushSymbol('b');
         parserEventHandler.pushSymbol('c');
@@ -579,12 +579,12 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolEmptyWithNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, false);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushSymbol('b');
         parserEventHandler.pushSymbol('c');
@@ -608,28 +608,28 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolEmptyWithCheckRestrictionTest() {
         try {
             ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, true);
-            ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+            StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
             parserEventHandler.addLastSymbol('a');
             parserEventHandler.pushSymbol('a');
-            Assertions.fail("ParserEventHandler test fail");
+            Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"a\".");
         }
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolWithLengthAndNoCheckRestrictionTest() {
         ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, false);
-        ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+        StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushSymbol('a');
         parserEventHandler.pushSymbol('b');
         parserEventHandler.pushSymbol('c');
@@ -653,13 +653,13 @@ public final class ParserEventHandlerTest {
     }
 
     /**
-     * {@link ParserEventHandler} class test.
+     * {@link StateHandler} class test.
      */
     @Test
     public void pushSymbolWithLengthAndCheckRestrictionTest() {
         try {
             ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, true);
-            ParserEventHandler parserEventHandler = new ParserEventHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
+            StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
             parserEventHandler.addLastSymbol('a');
             parserEventHandler.pushSymbol('a');
             parserEventHandler.addLastSymbol('b');
@@ -668,7 +668,7 @@ public final class ParserEventHandlerTest {
             parserEventHandler.pushSymbol('c');
             parserEventHandler.addLastSymbol('d');
             parserEventHandler.pushSymbol('d');
-            Assertions.fail("ParserEventHandler test fail");
+            Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"abcd\".");
         }

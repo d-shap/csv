@@ -28,16 +28,16 @@ import ru.d_shap.csv.CsvParseException;
  *
  * @author Dmitry Shapovalov
  */
-final class State4 extends AbstractState {
+final class State4 extends State {
 
-    static final AbstractState INSTANCE = new State4();
+    static final State INSTANCE = new State4();
 
     private State4() {
         super();
     }
 
     @Override
-    void processEndOfInput(final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
         } else {
@@ -47,7 +47,7 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    AbstractState processComma(final ParserEventHandler parserEventHandler) {
+    State processComma(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return processAllowedComma(parserEventHandler);
@@ -58,7 +58,7 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
+    State processSemicolon(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return processAllowedSemicolon(parserEventHandler);
@@ -69,7 +69,7 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    AbstractState processCr(final ParserEventHandler parserEventHandler) {
+    State processCr(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return State3.INSTANCE;
@@ -80,13 +80,13 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+    State processLf(final StateHandler parserEventHandler) {
         processPushColumnAndRow(parserEventHandler);
         return State1.INSTANCE;
     }
 
     @Override
-    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
+    State processQuot(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return State6.INSTANCE;
@@ -96,7 +96,7 @@ final class State4 extends AbstractState {
     }
 
     @Override
-    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return processPushUnquotedSymbol(symbol, parserEventHandler);

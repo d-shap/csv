@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import ru.d_shap.csv.state.AbstractState;
+import ru.d_shap.csv.state.State;
 
 /**
  * Available separators between columns in one row.
@@ -28,9 +28,9 @@ import ru.d_shap.csv.state.AbstractState;
  */
 public enum ColumnSeparators {
 
-    COMMA(String.valueOf((char) AbstractState.COMMA)),
+    COMMA(String.valueOf((char) State.COMMA)),
 
-    SEMICOLON(String.valueOf((char) AbstractState.SEMICOLON));
+    SEMICOLON(String.valueOf((char) State.SEMICOLON));
 
     private final String _value;
 

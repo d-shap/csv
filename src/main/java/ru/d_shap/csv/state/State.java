@@ -26,7 +26,7 @@ import ru.d_shap.csv.CsvParseException;
  *
  * @author Dmitry Shapovalov
  */
-public abstract class AbstractState {
+public abstract class State {
 
     public static final int END_OF_INPUT = -1;
 
@@ -40,7 +40,7 @@ public abstract class AbstractState {
 
     public static final int QUOT = '"';
 
-    AbstractState() {
+    State() {
         super();
     }
 
@@ -49,7 +49,7 @@ public abstract class AbstractState {
      *
      * @return init state.
      */
-    public static AbstractState getInitState() {
+    public static State getInitState() {
         return State1.INSTANCE;
     }
 
@@ -60,7 +60,7 @@ public abstract class AbstractState {
      * @param parserEventHandler event handler to process parser events.
      * @return next parser state.
      */
-    public final AbstractState processInput(final int symbol, final ParserEventHandler parserEventHandler) {
+    public final State processInput(final int symbol, final StateHandler parserEventHandler) {
         parserEventHandler.addLastSymbol(symbol);
         switch (symbol) {
             case END_OF_INPUT:
@@ -81,11 +81,11 @@ public abstract class AbstractState {
         }
     }
 
-    abstract void processEndOfInput(ParserEventHandler parserEventHandler);
+    abstract void processEndOfInput(StateHandler parserEventHandler);
 
-    abstract AbstractState processComma(ParserEventHandler parserEventHandler);
+    abstract State processComma(StateHandler parserEventHandler);
 
-    final AbstractState processAllowedComma(final ParserEventHandler parserEventHandler) {
+    final State processAllowedComma(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCommaSeparator()) {
             parserEventHandler.pushColumn();
             return State2.INSTANCE;
@@ -94,7 +94,7 @@ public abstract class AbstractState {
         }
     }
 
-    final AbstractState processDisallowedComma(final ParserEventHandler parserEventHandler) {
+    final State processDisallowedComma(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCommaSeparator()) {
             parserEventHandler.pushColumn();
             return State2.INSTANCE;
@@ -103,9 +103,9 @@ public abstract class AbstractState {
         }
     }
 
-    abstract AbstractState processSemicolon(ParserEventHandler parserEventHandler);
+    abstract State processSemicolon(StateHandler parserEventHandler);
 
-    final AbstractState processAllowedSemicolon(final ParserEventHandler parserEventHandler) {
+    final State processAllowedSemicolon(final StateHandler parserEventHandler) {
         if (parserEventHandler.isSemicolonSeparator()) {
             parserEventHandler.pushColumn();
             return State2.INSTANCE;
@@ -114,7 +114,7 @@ public abstract class AbstractState {
         }
     }
 
-    final AbstractState processDisallowedSemicolon(final ParserEventHandler parserEventHandler) {
+    final State processDisallowedSemicolon(final StateHandler parserEventHandler) {
         if (parserEventHandler.isSemicolonSeparator()) {
             parserEventHandler.pushColumn();
             return State2.INSTANCE;
@@ -123,33 +123,33 @@ public abstract class AbstractState {
         }
     }
 
-    abstract AbstractState processCr(ParserEventHandler parserEventHandler);
+    abstract State processCr(StateHandler parserEventHandler);
 
-    final void processPushCr(final ParserEventHandler parserEventHandler) {
+    final void processPushCr(final StateHandler parserEventHandler) {
         parserEventHandler.pushSymbol(CR);
     }
 
-    abstract AbstractState processLf(ParserEventHandler parserEventHandler);
+    abstract State processLf(StateHandler parserEventHandler);
 
-    final void processPushColumnAndRow(final ParserEventHandler parserEventHandler) {
+    final void processPushColumnAndRow(final StateHandler parserEventHandler) {
         parserEventHandler.pushColumn();
         parserEventHandler.pushRow();
     }
 
-    final void processPushRow(final ParserEventHandler parserEventHandler) {
+    final void processPushRow(final StateHandler parserEventHandler) {
         parserEventHandler.pushRow();
     }
 
-    abstract AbstractState processQuot(ParserEventHandler parserEventHandler);
+    abstract State processQuot(StateHandler parserEventHandler);
 
-    final AbstractState processPushQuotedSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    final State processPushQuotedSymbol(final int symbol, final StateHandler parserEventHandler) {
         parserEventHandler.pushSymbol(symbol);
         return State6.INSTANCE;
     }
 
-    abstract AbstractState processSymbol(int symbol, ParserEventHandler parserEventHandler);
+    abstract State processSymbol(int symbol, StateHandler parserEventHandler);
 
-    final AbstractState processPushUnquotedSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    final State processPushUnquotedSymbol(final int symbol, final StateHandler parserEventHandler) {
         parserEventHandler.pushSymbol(symbol);
         return State8.INSTANCE;
     }

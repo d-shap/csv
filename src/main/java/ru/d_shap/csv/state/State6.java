@@ -27,46 +27,46 @@ import ru.d_shap.csv.CsvParseException;
  *
  * @author Dmitry Shapovalov
  */
-final class State6 extends AbstractState {
+final class State6 extends State {
 
-    static final AbstractState INSTANCE = new State6();
+    static final State INSTANCE = new State6();
 
     private State6() {
         super();
     }
 
     @Override
-    void processEndOfInput(final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final StateHandler parserEventHandler) {
         throw new CsvParseException(END_OF_INPUT, parserEventHandler.getLastSymbols());
     }
 
     @Override
-    AbstractState processComma(final ParserEventHandler parserEventHandler) {
+    State processComma(final StateHandler parserEventHandler) {
         return processPushQuotedSymbol(COMMA, parserEventHandler);
     }
 
     @Override
-    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
+    State processSemicolon(final StateHandler parserEventHandler) {
         return processPushQuotedSymbol(SEMICOLON, parserEventHandler);
     }
 
     @Override
-    AbstractState processCr(final ParserEventHandler parserEventHandler) {
+    State processCr(final StateHandler parserEventHandler) {
         return processPushQuotedSymbol(CR, parserEventHandler);
     }
 
     @Override
-    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+    State processLf(final StateHandler parserEventHandler) {
         return processPushQuotedSymbol(LF, parserEventHandler);
     }
 
     @Override
-    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
+    State processQuot(final StateHandler parserEventHandler) {
         return State7.INSTANCE;
     }
 
     @Override
-    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
         return processPushQuotedSymbol(symbol, parserEventHandler);
     }
 

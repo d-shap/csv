@@ -25,36 +25,36 @@ package ru.d_shap.csv.state;
  *
  * @author Dmitry Shapovalov
  */
-final class State2 extends AbstractState {
+final class State2 extends State {
 
-    static final AbstractState INSTANCE = new State2();
+    static final State INSTANCE = new State2();
 
     private State2() {
         super();
     }
 
     @Override
-    void processEndOfInput(final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final StateHandler parserEventHandler) {
         processPushColumnAndRow(parserEventHandler);
     }
 
     @Override
-    AbstractState processComma(final ParserEventHandler parserEventHandler) {
+    State processComma(final StateHandler parserEventHandler) {
         return processAllowedComma(parserEventHandler);
     }
 
     @Override
-    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
+    State processSemicolon(final StateHandler parserEventHandler) {
         return processAllowedSemicolon(parserEventHandler);
     }
 
     @Override
-    AbstractState processCr(final ParserEventHandler parserEventHandler) {
+    State processCr(final StateHandler parserEventHandler) {
         return State4.INSTANCE;
     }
 
     @Override
-    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+    State processLf(final StateHandler parserEventHandler) {
         if (parserEventHandler.isLfSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return State1.INSTANCE;
@@ -64,12 +64,12 @@ final class State2 extends AbstractState {
     }
 
     @Override
-    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
+    State processQuot(final StateHandler parserEventHandler) {
         return State6.INSTANCE;
     }
 
     @Override
-    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
         return processPushUnquotedSymbol(symbol, parserEventHandler);
     }
 

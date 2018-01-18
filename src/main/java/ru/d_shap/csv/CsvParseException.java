@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import ru.d_shap.csv.state.AbstractState;
+import ru.d_shap.csv.state.State;
 
 /**
  * Exception in thrown when CSV source is in a wrong format.
@@ -41,7 +41,7 @@ public class CsvParseException extends CsvException {
     }
 
     private static String getErrorMessage(final int symbol) {
-        if (symbol == AbstractState.END_OF_INPUT) {
+        if (symbol == State.END_OF_INPUT) {
             return "End of input obtained.";
         } else {
             return "Wrong symbol obtained: '" + (char) symbol + "' (" + symbol + ").";

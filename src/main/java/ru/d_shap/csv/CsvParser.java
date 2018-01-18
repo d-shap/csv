@@ -30,8 +30,8 @@ import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
 import ru.d_shap.csv.handler.IParserEventHandler;
 import ru.d_shap.csv.handler.ListEventHandler;
-import ru.d_shap.csv.state.AbstractState;
-import ru.d_shap.csv.state.ParserEventHandler;
+import ru.d_shap.csv.state.State;
+import ru.d_shap.csv.state.StateHandler;
 
 /**
  * Class to parse CSV from a source. CSV parser is a push parser. CSV parser reads a source symbol by symbol and
@@ -744,8 +744,8 @@ public final class CsvParser {
         }
 
         try {
-            ParserEventHandler eventHandler = new ParserEventHandler(parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
-            AbstractState state = AbstractState.getInitState();
+            StateHandler eventHandler = new StateHandler(parserEventHandler, checkRectangular, columnSeparators, rowSeparators);
+            State state = State.getInitState();
             int symbol;
             while (true) {
                 symbol = reader.read();
@@ -754,7 +754,7 @@ public final class CsvParser {
                 }
                 state = state.processInput(symbol, eventHandler);
             }
-            state.processInput(AbstractState.END_OF_INPUT, eventHandler);
+            state.processInput(State.END_OF_INPUT, eventHandler);
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }

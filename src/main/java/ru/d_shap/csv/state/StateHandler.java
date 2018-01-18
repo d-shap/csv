@@ -32,7 +32,7 @@ import ru.d_shap.csv.handler.IParserEventHandler;
  *
  * @author Dmitry Shapovalov
  */
-public final class ParserEventHandler {
+public final class StateHandler {
 
     private static final int LAST_SYMBOLS_COUNT = 25;
 
@@ -68,7 +68,7 @@ public final class ParserEventHandler {
      * @param columnSeparators   column separators, used by parser.
      * @param rowSeparators      row separators, used by parser.
      */
-    public ParserEventHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
+    public StateHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
         super();
         _parserEventHandler = parserEventHandler;
         _checkRectangular = checkRectangular;
@@ -108,7 +108,7 @@ public final class ParserEventHandler {
     }
 
     void addLastSymbol(final int symbol) {
-        if (symbol != AbstractState.END_OF_INPUT) {
+        if (symbol != State.END_OF_INPUT) {
             _lastSymbols.append((char) symbol);
         }
     }

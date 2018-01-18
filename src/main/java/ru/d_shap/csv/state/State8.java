@@ -27,31 +27,31 @@ import ru.d_shap.csv.CsvParseException;
  *
  * @author Dmitry Shapovalov
  */
-final class State8 extends AbstractState {
+final class State8 extends State {
 
-    static final AbstractState INSTANCE = new State8();
+    static final State INSTANCE = new State8();
 
     private State8() {
         super();
     }
 
     @Override
-    void processEndOfInput(final ParserEventHandler parserEventHandler) {
+    void processEndOfInput(final StateHandler parserEventHandler) {
         processPushColumnAndRow(parserEventHandler);
     }
 
     @Override
-    AbstractState processComma(final ParserEventHandler parserEventHandler) {
+    State processComma(final StateHandler parserEventHandler) {
         return processAllowedComma(parserEventHandler);
     }
 
     @Override
-    AbstractState processSemicolon(final ParserEventHandler parserEventHandler) {
+    State processSemicolon(final StateHandler parserEventHandler) {
         return processAllowedSemicolon(parserEventHandler);
     }
 
     @Override
-    AbstractState processCr(final ParserEventHandler parserEventHandler) {
+    State processCr(final StateHandler parserEventHandler) {
         if (parserEventHandler.isCrLfSeparator()) {
             return State4.INSTANCE;
         } else if (parserEventHandler.isCrSeparator()) {
@@ -63,7 +63,7 @@ final class State8 extends AbstractState {
     }
 
     @Override
-    AbstractState processLf(final ParserEventHandler parserEventHandler) {
+    State processLf(final StateHandler parserEventHandler) {
         if (parserEventHandler.isLfSeparator()) {
             processPushColumnAndRow(parserEventHandler);
             return State1.INSTANCE;
@@ -73,12 +73,12 @@ final class State8 extends AbstractState {
     }
 
     @Override
-    AbstractState processQuot(final ParserEventHandler parserEventHandler) {
+    State processQuot(final StateHandler parserEventHandler) {
         throw new CsvParseException(QUOT, parserEventHandler.getLastSymbols());
     }
 
     @Override
-    AbstractState processSymbol(final int symbol, final ParserEventHandler parserEventHandler) {
+    State processSymbol(final int symbol, final StateHandler parserEventHandler) {
         return processPushUnquotedSymbol(symbol, parserEventHandler);
     }
 
