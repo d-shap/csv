@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import ru.d_shap.csv.state.State;
+import ru.d_shap.csv.state.SpecialCharacter;
 
 /**
  * Exception in thrown when CSV source is in a wrong format.
@@ -33,15 +33,15 @@ public class CsvParseException extends CsvException {
     /**
      * Create new object.
      *
-     * @param symbol      wrong symbol.
-     * @param lastSymbols last symbols processed by CSV parser.
+     * @param symbol               wrong symbol.
+     * @param lastProcessedSymbols last symbols processed by CSV parser.
      */
-    public CsvParseException(final int symbol, final String lastSymbols) {
-        super(getErrorMessage(symbol), lastSymbols);
+    public CsvParseException(final int symbol, final String lastProcessedSymbols) {
+        super(getErrorMessage(symbol), lastProcessedSymbols);
     }
 
     private static String getErrorMessage(final int symbol) {
-        if (symbol == State.END_OF_INPUT) {
+        if (symbol == SpecialCharacter.END_OF_INPUT) {
             return "End of input obtained.";
         } else {
             return "Wrong symbol obtained: '" + (char) symbol + "' (" + symbol + ").";

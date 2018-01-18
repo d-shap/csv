@@ -30,6 +30,7 @@ import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
 import ru.d_shap.csv.handler.IParserEventHandler;
 import ru.d_shap.csv.handler.ListEventHandler;
+import ru.d_shap.csv.state.SpecialCharacter;
 import ru.d_shap.csv.state.State;
 import ru.d_shap.csv.state.StateHandler;
 
@@ -752,9 +753,9 @@ public final class CsvParser {
                 if (symbol < 0) {
                     break;
                 }
-                state = state.processInput(symbol, eventHandler);
+                state = state.processCharacter(symbol, eventHandler);
             }
-            state.processInput(State.END_OF_INPUT, eventHandler);
+            state.processCharacter(SpecialCharacter.END_OF_INPUT, eventHandler);
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
