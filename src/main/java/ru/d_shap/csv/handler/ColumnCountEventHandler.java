@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnCountEventHandler implements IParserEventHandler {
+public final class ColumnCountEventHandler implements CsvEventHandler {
 
     private final List<Integer> _columnCounts;
 

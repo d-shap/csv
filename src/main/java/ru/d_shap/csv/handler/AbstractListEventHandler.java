@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Dmitry Shapovalov
  */
-abstract class AbstractListEventHandler implements IParserEventHandler {
+abstract class AbstractListEventHandler implements CsvEventHandler {
 
     private final List<List<String>> _rows;
 

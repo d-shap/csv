@@ -29,7 +29,7 @@ package ru.d_shap.csv.handler;
  *
  * @author Dmitry Shapovalov
  */
-public interface IParserEventHandler {
+public interface CsvEventHandler {
 
     /**
      * Define maximum length of column value. If column value length is greater then defined by this method, then

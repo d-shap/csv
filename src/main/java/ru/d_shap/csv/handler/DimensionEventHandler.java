@@ -26,7 +26,7 @@ package ru.d_shap.csv.handler;
  *
  * @author Dmitry Shapovalov
  */
-public final class DimensionEventHandler implements IParserEventHandler {
+public final class DimensionEventHandler implements CsvEventHandler {
 
     private boolean _firstRow;
 

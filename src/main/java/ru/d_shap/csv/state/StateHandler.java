@@ -26,10 +26,10 @@ import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.NotRectangularException;
 import ru.d_shap.csv.RowSeparators;
 import ru.d_shap.csv.WrongColumnLengthException;
-import ru.d_shap.csv.handler.IParserEventHandler;
+import ru.d_shap.csv.handler.CsvEventHandler;
 
 /**
- * Class obtains events from the parser state machine and delegates them to a {@link ru.d_shap.csv.handler.IParserEventHandler} object.
+ * Class obtains events from the parser state machine and delegates them to a {@link ru.d_shap.csv.handler.CsvEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
@@ -37,7 +37,7 @@ public final class StateHandler {
 
     private static final int LAST_CHARACTERS_COUNT = 25;
 
-    private final IParserEventHandler _parserEventHandler;
+    private final CsvEventHandler _csvEventHandler;
 
     private final boolean _checkRectangular;
 
@@ -64,14 +64,14 @@ public final class StateHandler {
     /**
      * Create a new object.
      *
-     * @param parserEventHandler an event handler to delegate event calls.
-     * @param checkRectangular   check if all rows should have the same column count.
-     * @param columnSeparators   column separators, used by the parser.
-     * @param rowSeparators      row separators, used by the parser.
+     * @param csvEventHandler  an event handler to delegate event calls.
+     * @param checkRectangular check if all rows should have the same column count.
+     * @param columnSeparators column separators, used by the parser.
+     * @param rowSeparators    row separators, used by the parser.
      */
-    public StateHandler(final IParserEventHandler parserEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
+    public StateHandler(final CsvEventHandler csvEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
         super();
-        _parserEventHandler = parserEventHandler;
+        _csvEventHandler = csvEventHandler;
         _checkRectangular = checkRectangular;
 
         _commaSeparator = columnSeparators.contains(ColumnSeparators.COMMA);
@@ -82,7 +82,7 @@ public final class StateHandler {
         _crLfSeparator = rowSeparators.contains(RowSeparators.CRLF);
 
         _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
-        _currentColumnCharacters = new CharBuffer(_parserEventHandler.getMaxColumnLength(), _parserEventHandler.checkMaxColumnLength());
+        _currentColumnCharacters = new CharBuffer(_csvEventHandler.getMaxColumnLength(), _csvEventHandler.checkMaxColumnLength());
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -137,7 +137,7 @@ public final class StateHandler {
 
         String column = _currentColumnCharacters.toString();
         int actualLength = _currentColumnCharacters.getActualLength();
-        _parserEventHandler.pushColumn(column, actualLength);
+        _csvEventHandler.pushColumn(column, actualLength);
         _currentColumnCharacters.clear();
         _currentColumnCount++;
     }
@@ -151,7 +151,7 @@ public final class StateHandler {
             throw new NotRectangularException(getLastProcessedCharacters());
         }
 
-        _parserEventHandler.pushRow();
+        _csvEventHandler.pushRow();
         _currentColumnCharacters.clear();
         _currentColumnCount = 0;
     }

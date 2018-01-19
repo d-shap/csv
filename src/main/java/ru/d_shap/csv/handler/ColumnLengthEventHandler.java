@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnLengthEventHandler implements IParserEventHandler {
+public final class ColumnLengthEventHandler implements CsvEventHandler {
 
     private final List<List<Integer>> _rows;
 

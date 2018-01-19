@@ -78,11 +78,11 @@
  * }</pre>
  * <p>
  * CSV parser is a push parser. It reads a source symbol by symbol and pushes events to the
- * {@link ru.d_shap.csv.handler.IParserEventHandler} object. {@link ru.d_shap.csv.handler.IParserEventHandler}
+ * {@link ru.d_shap.csv.handler.CsvEventHandler} object. {@link ru.d_shap.csv.handler.CsvEventHandler}
  * defines the result of CSV parser.
  * </p>
  * <p>
- * Some predefined {@link ru.d_shap.csv.handler.IParserEventHandler} objects can be used.
+ * Some predefined {@link ru.d_shap.csv.handler.CsvEventHandler} objects can be used.
  * </p>
  * <p>
  * Next example shows, how to check if CSV is valid:
@@ -109,7 +109,7 @@
  * System.out.println("Column count: " + eventHandler.getColumnCount());
  * }</pre>
  * <p>
- * The default {@link ru.d_shap.csv.handler.IParserEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
+ * The default {@link ru.d_shap.csv.handler.CsvEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
  * This handler stores CSV in memory as List of rows, each row is a list of columns. This handler could be a memory
  * consuming one.
  * </p>

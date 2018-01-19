@@ -24,7 +24,7 @@ package ru.d_shap.csv.handler;
  *
  * @author Dmitry Shapovalov
  */
-public final class NoopEventHandler implements IParserEventHandler {
+public final class NoopEventHandler implements CsvEventHandler {
 
     /**
      * Create new object.

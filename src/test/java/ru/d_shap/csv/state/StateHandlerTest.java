@@ -30,7 +30,7 @@ import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.NotRectangularException;
 import ru.d_shap.csv.RowSeparators;
 import ru.d_shap.csv.WrongColumnLengthException;
-import ru.d_shap.csv.handler.IParserEventHandler;
+import ru.d_shap.csv.handler.CsvEventHandler;
 import ru.d_shap.csv.handler.ListEventHandler;
 
 /**
@@ -525,7 +525,7 @@ public final class StateHandlerTest {
      */
     @Test
     public void pushCharacterWithNoLengthAndNoCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, false);
+        CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(-1, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushCharacter('a');
         parserEventHandler.pushCharacter('b');
@@ -554,7 +554,7 @@ public final class StateHandlerTest {
      */
     @Test
     public void pushCharacterWithNoLengthAndCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(-1, true);
+        CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(-1, true);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushCharacter('a');
         parserEventHandler.pushCharacter('b');
@@ -583,7 +583,7 @@ public final class StateHandlerTest {
      */
     @Test
     public void pushCharacterEmptyWithNoCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, false);
+        CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(0, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushCharacter('a');
         parserEventHandler.pushCharacter('b');
@@ -613,7 +613,7 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterEmptyWithCheckRestrictionTest() {
         try {
-            ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(0, true);
+            CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(0, true);
             StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
             parserEventHandler.pushLastProcessedCharacter('a');
             parserEventHandler.pushCharacter('a');
@@ -628,7 +628,7 @@ public final class StateHandlerTest {
      */
     @Test
     public void pushCharacterWithLengthAndNoCheckRestrictionTest() {
-        ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, false);
+        CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(3, false);
         StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
         parserEventHandler.pushCharacter('a');
         parserEventHandler.pushCharacter('b');
@@ -658,7 +658,7 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterWithLengthAndCheckRestrictionTest() {
         try {
-            ParserEventHandlerImpl eventHandler = new ParserEventHandlerImpl(3, true);
+            CsvEventHandlerImpl eventHandler = new CsvEventHandlerImpl(3, true);
             StateHandler parserEventHandler = new StateHandler(eventHandler, false, new HashSet<ColumnSeparators>(), new HashSet<RowSeparators>());
             parserEventHandler.pushLastProcessedCharacter('a');
             parserEventHandler.pushCharacter('a');
@@ -679,7 +679,7 @@ public final class StateHandlerTest {
      *
      * @author Dmitry Shapovalov
      */
-    private static final class ParserEventHandlerImpl implements IParserEventHandler {
+    private static final class CsvEventHandlerImpl implements CsvEventHandler {
 
         private final int _maxColumnLength;
 
@@ -687,7 +687,7 @@ public final class StateHandlerTest {
 
         private final ListEventHandler _eventHandler;
 
-        ParserEventHandlerImpl(final int maxColumnLength, final boolean checkMaxColumnLength) {
+        CsvEventHandlerImpl(final int maxColumnLength, final boolean checkMaxColumnLength) {
             super();
             _maxColumnLength = maxColumnLength;
             _checkMaxColumnLength = checkMaxColumnLength;
