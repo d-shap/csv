@@ -33,6 +33,7 @@ import ru.d_shap.csv.handler.ListEventHandler;
 import ru.d_shap.csv.state.SpecialCharacter;
 import ru.d_shap.csv.state.State;
 import ru.d_shap.csv.state.StateHandler;
+import ru.d_shap.csv.state.StateHandlerConfiguration;
 
 /**
  * Class to parse CSV from a source. CSV parser is a push parser. CSV parser reads a source symbol by symbol and
@@ -745,7 +746,16 @@ public final class CsvParser {
         }
 
         try {
-            StateHandler eventHandler = new StateHandler(csvEventHandler, checkRectangular, columnSeparators, rowSeparators);
+            StateHandlerConfiguration stateHandlerConfig = new StateHandlerConfiguration();
+            stateHandlerConfig.setCommaSeparator(columnSeparators.contains(ColumnSeparators.COMMA));
+            stateHandlerConfig.setSemicolonSeparator(columnSeparators.contains(ColumnSeparators.SEMICOLON));
+            stateHandlerConfig.setCrSeparator(rowSeparators.contains(RowSeparators.CR));
+            stateHandlerConfig.setLfSeparator(rowSeparators.contains(RowSeparators.LF));
+            stateHandlerConfig.setCrLfSeparator(rowSeparators.contains(RowSeparators.CRLF));
+            stateHandlerConfig.setRectangularCheckEnabled(checkRectangular);
+            stateHandlerConfig.setMaxColumnLength(csvEventHandler.getMaxColumnLength());
+            stateHandlerConfig.setMaxColumnLengthCheckEnabled(csvEventHandler.checkMaxColumnLength());
+            StateHandler eventHandler = new StateHandler(csvEventHandler, stateHandlerConfig);
             State state = State.getInitState();
             int symbol;
             while (true) {
