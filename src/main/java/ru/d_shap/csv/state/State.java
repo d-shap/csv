@@ -20,7 +20,7 @@
 package ru.d_shap.csv.state;
 
 /**
- * A CSV parser state abstraction.
+ * CSV parser state abstraction.
  *
  * @author Dmitry Shapovalov
  */
@@ -40,11 +40,11 @@ public abstract class State {
     }
 
     /**
-     * Process an input character and define a next parser state.
+     * Process an input character and define next CSV parser state.
      *
      * @param character    an input character.
-     * @param stateHandler handler to process parser events.
-     * @return a next parser state.
+     * @param stateHandler handler to process CSV parser events.
+     * @return next CSV parser state.
      */
     public final State processCharacter(final int character, final StateHandler stateHandler) {
         stateHandler.pushLastProcessedCharacter(character);
