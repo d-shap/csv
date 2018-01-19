@@ -19,17 +19,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import java.util.Set;
-
-import ru.d_shap.csv.ColumnSeparators;
 import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.NotRectangularException;
-import ru.d_shap.csv.RowSeparators;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.CsvEventHandler;
 
 /**
- * Class obtains events from the parser state machine and delegates them to a {@link ru.d_shap.csv.handler.CsvEventHandler} object.
+ * Class obtains events from the CSV parser state machine and delegates them to a {@link CsvEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
@@ -38,8 +34,6 @@ public final class StateHandler {
     private static final int LAST_CHARACTERS_COUNT = 25;
 
     private final CsvEventHandler _csvEventHandler;
-
-    private final boolean _checkRectangular;
 
     private final boolean _commaSeparator;
 
@@ -50,6 +44,8 @@ public final class StateHandler {
     private final boolean _lfSeparator;
 
     private final boolean _crLfSeparator;
+
+    private final boolean _rectangularCheckEnabled;
 
     private final CharStack _lastProcessedCharacters;
 
@@ -64,25 +60,21 @@ public final class StateHandler {
     /**
      * Create a new object.
      *
-     * @param csvEventHandler  an event handler to delegate event calls.
-     * @param checkRectangular check if all rows should have the same column count.
-     * @param columnSeparators column separators, used by the parser.
-     * @param rowSeparators    row separators, used by the parser.
+     * @param csvEventHandler    event handler to process CSV parser events.
+     * @param stateHandlerConfig CSV parser configuration.
      */
-    public StateHandler(final CsvEventHandler csvEventHandler, final boolean checkRectangular, final Set<ColumnSeparators> columnSeparators, final Set<RowSeparators> rowSeparators) {
+    public StateHandler(final CsvEventHandler csvEventHandler, final StateHandlerConfiguration stateHandlerConfig) {
         super();
         _csvEventHandler = csvEventHandler;
-        _checkRectangular = checkRectangular;
-
-        _commaSeparator = columnSeparators.contains(ColumnSeparators.COMMA);
-        _semicolonSeparator = columnSeparators.contains(ColumnSeparators.SEMICOLON);
-
-        _crSeparator = rowSeparators.contains(RowSeparators.CR);
-        _lfSeparator = rowSeparators.contains(RowSeparators.LF);
-        _crLfSeparator = rowSeparators.contains(RowSeparators.CRLF);
+        _commaSeparator = stateHandlerConfig.isCommaSeparator();
+        _semicolonSeparator = stateHandlerConfig.isSemicolonSeparator();
+        _crSeparator = stateHandlerConfig.isCrSeparator();
+        _lfSeparator = stateHandlerConfig.isLfSeparator();
+        _crLfSeparator = stateHandlerConfig.isCrLfSeparator();
+        _rectangularCheckEnabled = stateHandlerConfig.isRectangularCheckEnabled();
 
         _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
-        _currentColumnCharacters = new CharBuffer(_csvEventHandler.getMaxColumnLength(), _csvEventHandler.checkMaxColumnLength());
+        _currentColumnCharacters = new CharBuffer(stateHandlerConfig.getMaxColumnLength(), stateHandlerConfig.isMaxColumnLengthCheckEnabled());
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -131,7 +123,7 @@ public final class StateHandler {
     }
 
     void pushColumn() {
-        if (_checkRectangular && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+        if (_rectangularCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
             throw new NotRectangularException(getLastProcessedCharacters());
         }
 
@@ -147,7 +139,7 @@ public final class StateHandler {
             _firstRowColumnCount = _currentColumnCount;
             _firstRow = false;
         }
-        if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
+        if (_rectangularCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
             throw new NotRectangularException(getLastProcessedCharacters());
         }
 
