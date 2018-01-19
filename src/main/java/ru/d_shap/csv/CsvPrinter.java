@@ -35,7 +35,7 @@ import ru.d_shap.csv.state.SpecialCharacter;
  *
  * @author Dmitry Shapovalov
  */
-public final class CsvBuilder {
+public final class CsvPrinter {
 
     private static final List<String> SPECIAL;
 
@@ -65,7 +65,7 @@ public final class CsvBuilder {
     /**
      * Create new object.
      */
-    public CsvBuilder() {
+    public CsvPrinter() {
         this(new StringWriter(), ColumnSeparators.COMMA, RowSeparators.CRLF, false);
     }
 
@@ -74,7 +74,7 @@ public final class CsvBuilder {
      *
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final boolean checkRectangular) {
+    public CsvPrinter(final boolean checkRectangular) {
         this(new StringWriter(), ColumnSeparators.COMMA, RowSeparators.CRLF, checkRectangular);
     }
 
@@ -83,7 +83,7 @@ public final class CsvBuilder {
      *
      * @param columnSeparator separator between columns.
      */
-    public CsvBuilder(final ColumnSeparators columnSeparator) {
+    public CsvPrinter(final ColumnSeparators columnSeparator) {
         this(new StringWriter(), columnSeparator, RowSeparators.CRLF, false);
     }
 
@@ -93,7 +93,7 @@ public final class CsvBuilder {
      * @param columnSeparator  separator between columns.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final ColumnSeparators columnSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final ColumnSeparators columnSeparator, final boolean checkRectangular) {
         this(new StringWriter(), columnSeparator, RowSeparators.CRLF, checkRectangular);
     }
 
@@ -102,7 +102,7 @@ public final class CsvBuilder {
      *
      * @param rowSeparator separator between rows.
      */
-    public CsvBuilder(final RowSeparators rowSeparator) {
+    public CsvPrinter(final RowSeparators rowSeparator) {
         this(new StringWriter(), ColumnSeparators.COMMA, rowSeparator, false);
     }
 
@@ -112,7 +112,7 @@ public final class CsvBuilder {
      * @param rowSeparator     separator between rows.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final RowSeparators rowSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final RowSeparators rowSeparator, final boolean checkRectangular) {
         this(new StringWriter(), ColumnSeparators.COMMA, rowSeparator, checkRectangular);
     }
 
@@ -122,7 +122,7 @@ public final class CsvBuilder {
      * @param columnSeparator separator between columns.
      * @param rowSeparator    separator between rows.
      */
-    public CsvBuilder(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+    public CsvPrinter(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
         this(new StringWriter(), columnSeparator, rowSeparator, false);
     }
 
@@ -133,7 +133,7 @@ public final class CsvBuilder {
      * @param rowSeparator     separator between rows.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
         this(new StringWriter(), columnSeparator, rowSeparator, checkRectangular);
     }
 
@@ -142,7 +142,7 @@ public final class CsvBuilder {
      *
      * @param writer writer to write CSV.
      */
-    public CsvBuilder(final Writer writer) {
+    public CsvPrinter(final Writer writer) {
         this(writer, ColumnSeparators.COMMA, RowSeparators.CRLF, false);
     }
 
@@ -152,7 +152,7 @@ public final class CsvBuilder {
      * @param writer           writer to write CSV.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final Writer writer, final boolean checkRectangular) {
+    public CsvPrinter(final Writer writer, final boolean checkRectangular) {
         this(writer, ColumnSeparators.COMMA, RowSeparators.CRLF, checkRectangular);
     }
 
@@ -162,7 +162,7 @@ public final class CsvBuilder {
      * @param writer          writer to write CSV.
      * @param columnSeparator separator between columns.
      */
-    public CsvBuilder(final Writer writer, final ColumnSeparators columnSeparator) {
+    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator) {
         this(writer, columnSeparator, RowSeparators.CRLF, false);
     }
 
@@ -173,7 +173,7 @@ public final class CsvBuilder {
      * @param columnSeparator  separator between columns.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final Writer writer, final ColumnSeparators columnSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final boolean checkRectangular) {
         this(writer, columnSeparator, RowSeparators.CRLF, checkRectangular);
     }
 
@@ -183,7 +183,7 @@ public final class CsvBuilder {
      * @param writer       writer to write CSV.
      * @param rowSeparator separator between rows.
      */
-    public CsvBuilder(final Writer writer, final RowSeparators rowSeparator) {
+    public CsvPrinter(final Writer writer, final RowSeparators rowSeparator) {
         this(writer, ColumnSeparators.COMMA, rowSeparator, false);
     }
 
@@ -194,7 +194,7 @@ public final class CsvBuilder {
      * @param rowSeparator     separator between rows.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final Writer writer, final RowSeparators rowSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final Writer writer, final RowSeparators rowSeparator, final boolean checkRectangular) {
         this(writer, ColumnSeparators.COMMA, rowSeparator, checkRectangular);
     }
 
@@ -205,7 +205,7 @@ public final class CsvBuilder {
      * @param columnSeparator separator between columns.
      * @param rowSeparator    separator between rows.
      */
-    public CsvBuilder(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
+    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
         this(writer, columnSeparator, rowSeparator, false);
     }
 
@@ -217,7 +217,7 @@ public final class CsvBuilder {
      * @param rowSeparator     separator between rows.
      * @param checkRectangular check if all rows should have the same column count.
      */
-    public CsvBuilder(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
+    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
         super();
         _writer = writer;
         _columnSeparator = columnSeparator.getValue();
@@ -234,7 +234,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final int column) {
+    public CsvPrinter addColumn(final int column) {
         doAddColumn(String.valueOf(column));
         return this;
     }
@@ -245,7 +245,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final long column) {
+    public CsvPrinter addColumn(final long column) {
         doAddColumn(String.valueOf(column));
         return this;
     }
@@ -256,7 +256,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final float column) {
+    public CsvPrinter addColumn(final float column) {
         doAddColumn(String.valueOf(column));
         return this;
     }
@@ -267,7 +267,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final double column) {
+    public CsvPrinter addColumn(final double column) {
         doAddColumn(String.valueOf(column));
         return this;
     }
@@ -278,7 +278,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final boolean column) {
+    public CsvPrinter addColumn(final boolean column) {
         doAddColumn(String.valueOf(column));
         return this;
     }
@@ -289,7 +289,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final String column) {
+    public CsvPrinter addColumn(final String column) {
         doAddColumn(getColumnForCsv(column));
         return this;
     }
@@ -300,7 +300,7 @@ public final class CsvBuilder {
      * @param column column value.
      * @return current object for chaining.
      */
-    public CsvBuilder addColumn(final Object column) {
+    public CsvPrinter addColumn(final Object column) {
         doAddColumn(getColumnForCsv(column));
         return this;
     }
@@ -350,7 +350,7 @@ public final class CsvBuilder {
      *
      * @return current object for chaining.
      */
-    public CsvBuilder addRow() {
+    public CsvPrinter addRow() {
         try {
             if (_firstRow) {
                 _firstRowColumnCount = _currentColumnCount;

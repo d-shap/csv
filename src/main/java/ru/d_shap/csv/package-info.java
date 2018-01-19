@@ -33,10 +33,10 @@
  * CSV  is fully described in RFC 4180.
  * </p>
  * <p>
- * To create CSV {@link ru.d_shap.csv.CsvBuilder} class should be used:
+ * To create CSV {@link ru.d_shap.csv.CsvPrinter} class should be used:
  * </p>
  * <pre>{@code
- * CsvBuilder builder = new CsvBuilder();
+ * CsvPrinter builder = new CsvPrinter();
  * builder.addColumn(1);
  * builder.addColumn(true);
  * builder.addRow();
@@ -53,13 +53,13 @@
  * String csv = builder.getCsv();
  * }</pre>
  * <p>
- * {@link ru.d_shap.csv.CsvBuilder} can write CSV directly to the output stream. Next example shows,
- * how {@link ru.d_shap.csv.CsvBuilder} writes CSV to the file:
+ * {@link ru.d_shap.csv.CsvPrinter} can write CSV directly to the output stream. Next example shows,
+ * how {@link ru.d_shap.csv.CsvPrinter} writes CSV to the file:
  * </p>
  * <pre>{@code
  * try (FileOutputStream stream = new FileOutputStream("someFile.csv")) {
  *     OutputStreamWriter writer = new OutputStreamWriter(stream);
- *     CsvBuilder builder = new CsvBuilder(writer);
+ *     CsvPrinter builder = new CsvPrinter(writer);
  *     builder.addColumn("value1");
  *     builder.addColumn("value2");
  *     builder.addRow();
@@ -67,7 +67,7 @@
  * }
  * }</pre>
  * <p>
- * {@link ru.d_shap.csv.CsvBuilder} can optionally check if each row has the same number of columns.
+ * {@link ru.d_shap.csv.CsvPrinter} can optionally check if each row has the same number of columns.
  * </p>
  * <p>
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
