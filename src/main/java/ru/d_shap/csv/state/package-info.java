@@ -33,7 +33,8 @@
  * <li><b>Double quotes</b> - column bounds, if column contains other special characters</li>
  * </ul>
  * <p>
- * After processing an input character parser generates event and changes its internal state to process next character.
+ * After processing an input character CSV parser generates an event and changes its internal state
+ * to process next character.
  * </p>
  */
 package ru.d_shap.csv.state;
