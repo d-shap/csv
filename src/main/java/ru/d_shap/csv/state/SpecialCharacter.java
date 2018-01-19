@@ -20,7 +20,7 @@
 package ru.d_shap.csv.state;
 
 /**
- * Constants for special characters.
+ * Constants for the special characters.
  *
  * @author Dmitry Shapovalov
  */
