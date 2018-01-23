@@ -19,13 +19,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Event handlers for CSV parser.
+ * CSV parser event handlers.
  * </p>
  * <p>
- * CSV parser is a push parser. CSV parser reads symbols one by one and pushs events to
- * {@link ru.d_shap.csv.handler.CsvEventHandler} instance. Instance of
- * {@link ru.d_shap.csv.handler.CsvEventHandler} defines, what to do with pushed columns and rows.
- * Also instance of {@link ru.d_shap.csv.handler.CsvEventHandler} defines, how CSV parser processes column values.
+ * CSV parser is a push parser. CSV parser reads characters one by one and pushs events (columns and
+ * rows) to the {@link ru.d_shap.csv.handler.CsvEventHandler} object. The {@link ru.d_shap.csv.handler.CsvEventHandler}
+ * object defines, what to do with pushed columns and rows, for example to count them, or to store them in memory, etc.
+ * </p>
+ * <p>
+ * If the {@link ru.d_shap.csv.handler.CsvEventHandler} object also implements {@link ru.d_shap.csv.handler.CsvConfigurable}
+ * interface, then the {@link ru.d_shap.csv.handler.CsvEventHandler} object can modify CSV parser behaviour,
+ * for example add restrictions to the column value length, to the column count, etc.
  * </p>
  */
 package ru.d_shap.csv.handler;
