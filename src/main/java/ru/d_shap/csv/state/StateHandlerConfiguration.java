@@ -187,8 +187,8 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Get the maximum length of a column value. If a column value length is greater then the maximum length,
-     * then either the rest of column value is skipped, or an exception is thrown.
+     * Get the maximum length of a column value. If a column value length is greater then the maximum
+     * column value length, then either the rest of a column value is skipped, or an exception is thrown.
      *
      * @return the maximum length of a column value, or negative number for no column value length restriction.
      */
@@ -197,8 +197,8 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Set the maximum length of a column value. If a column value length is greater then the maximum length,
-     * then either the rest of column value is skipped, or an exception is thrown.
+     * Set the maximum length of a column value. If a column value length is greater then the maximum
+     * column value length, then either the rest of a column value is skipped, or an exception is thrown.
      *
      * @param maxColumnLength the maximum length of a column value, or negative number for no column value length restriction.
      */
@@ -207,7 +207,7 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Check if an excepton should be thrown if a column value length exceeds the maximum column value length or not.
+     * Check if an excepton should be thrown if a column value length exceeds the maximum column value length.
      *
      * @return true if an excepton should be thrown.
      */
