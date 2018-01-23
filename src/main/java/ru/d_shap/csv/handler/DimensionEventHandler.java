@@ -19,39 +19,37 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
+import ru.d_shap.csv.state.StateHandlerConfiguration;
+
 /**
- * CSV parser event handler, that defines row and column count of rectangular CSV. If CSV is not rectangular,
- * then column count is defined for the first row. Other rows could have another column count. That is why this
- * handler should be used with rectangular check on.
+ * CSV parser event handler, that defines row and column count of CSV. CSV should have the same
+ * column count in each row. Otherwise an exception will be thrown.
  *
  * @author Dmitry Shapovalov
  */
-public final class DimensionEventHandler implements CsvEventHandler {
+public final class DimensionEventHandler implements CsvConfigurable, CsvEventHandler {
 
     private boolean _firstRow;
 
-    private int _columnCount;
-
     private int _rowCount;
 
+    private int _columnCount;
+
     /**
-     * Create new object.
+     * Create a new object.
      */
     public DimensionEventHandler() {
         super();
         _firstRow = true;
-        _columnCount = 0;
         _rowCount = 0;
+        _columnCount = 0;
     }
 
     @Override
-    public int getMaxColumnLength() {
-        return 0;
-    }
-
-    @Override
-    public boolean checkMaxColumnLength() {
-        return false;
+    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
+        stateHandlerConfiguration.setMaxColumnLength(0);
+        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
@@ -68,21 +66,21 @@ public final class DimensionEventHandler implements CsvEventHandler {
     }
 
     /**
-     * Return CSV column count.
-     *
-     * @return column count.
-     */
-    public int getColumnCount() {
-        return _columnCount;
-    }
-
-    /**
-     * Return CSV row count.
+     * Get CSV row count.
      *
      * @return row count.
      */
     public int getRowCount() {
         return _rowCount;
+    }
+
+    /**
+     * Get CSV column count.
+     *
+     * @return column count.
+     */
+    public int getColumnCount() {
+        return _columnCount;
     }
 
 }
