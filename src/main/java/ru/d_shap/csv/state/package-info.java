@@ -28,8 +28,8 @@
  * The special characters are:
  * </p>
  * <ul>
- * <li><b>CR</b>, <b>LF</b> or <b>CRLF</b> - row separator</li>
  * <li><b>Comma</b> or <b>Semicolon</b> - column separator</li>
+ * <li><b>CR</b>, <b>LF</b> or <b>CRLF</b> - row separator</li>
  * <li><b>Double quotes</b> - column bounds, if column contains other special characters</li>
  * </ul>
  * <p>
