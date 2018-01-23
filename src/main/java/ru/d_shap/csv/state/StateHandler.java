@@ -20,12 +20,12 @@
 package ru.d_shap.csv.state;
 
 import ru.d_shap.csv.CsvParseException;
-import ru.d_shap.csv.NotRectangularException;
+import ru.d_shap.csv.WrongColumnCountException;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.CsvEventHandler;
 
 /**
- * Class obtains events from the CSV parser state machine and delegates them to a {@link CsvEventHandler} object.
+ * Class to process events from the CSV parser state machine and delegates them to a {@link CsvEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
@@ -45,7 +45,9 @@ public final class StateHandler {
 
     private final boolean _crLfSeparator;
 
-    private final boolean _rectangularCheckEnabled;
+    private final boolean _columnCountCheckEnabled;
+
+    private final boolean _skipEmptyRowsEnabled;
 
     private final CharStack _lastProcessedCharacters;
 
@@ -71,10 +73,12 @@ public final class StateHandler {
         _crSeparator = stateHandlerConfig.isCrSeparator();
         _lfSeparator = stateHandlerConfig.isLfSeparator();
         _crLfSeparator = stateHandlerConfig.isCrLfSeparator();
-        _rectangularCheckEnabled = stateHandlerConfig.isRectangularCheckEnabled();
+        _columnCountCheckEnabled = stateHandlerConfig.isColumnCountCheckEnabled();
+        _skipEmptyRowsEnabled = stateHandlerConfig.isSkipEmptyRowsEnabled();
 
         _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
         _currentColumnCharacters = new CharBuffer(stateHandlerConfig.getMaxColumnLength(), stateHandlerConfig.isMaxColumnLengthCheckEnabled());
+
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -123,8 +127,8 @@ public final class StateHandler {
     }
 
     void pushColumn() {
-        if (_rectangularCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
-            throw new NotRectangularException(getLastProcessedCharacters());
+        if (_columnCountCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+            throw new WrongColumnCountException(getLastProcessedCharacters());
         }
 
         String column = _currentColumnCharacters.toString();
@@ -135,12 +139,15 @@ public final class StateHandler {
     }
 
     void pushRow() {
+        if (_skipEmptyRowsEnabled && _currentColumnCount == 0) {
+            return;
+        }
+
         if (_firstRow) {
             _firstRowColumnCount = _currentColumnCount;
             _firstRow = false;
-        }
-        if (_rectangularCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
-            throw new NotRectangularException(getLastProcessedCharacters());
+        } else if (_columnCountCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
+            throw new WrongColumnCountException(getLastProcessedCharacters());
         }
 
         _csvEventHandler.pushRow();
