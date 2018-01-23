@@ -178,7 +178,7 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Specify whether if all empty rows should be skipped.
+     * Specify whether all empty rows should be skipped or not.
      *
      * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
      */
