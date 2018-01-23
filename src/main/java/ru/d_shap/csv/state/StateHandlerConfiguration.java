@@ -61,6 +61,25 @@ public final class StateHandlerConfiguration {
     }
 
     /**
+     * Create copy of the current object.
+     *
+     * @return copy of the current object.
+     */
+    public StateHandlerConfiguration copyOf() {
+        StateHandlerConfiguration copy = new StateHandlerConfiguration();
+        copy._commaSeparator = _commaSeparator;
+        copy._semicolonSeparator = _semicolonSeparator;
+        copy._crSeparator = _crSeparator;
+        copy._lfSeparator = _lfSeparator;
+        copy._crLfSeparator = _crLfSeparator;
+        copy._columnCountCheckEnabled = _columnCountCheckEnabled;
+        copy._skipEmptyRowsEnabled = _skipEmptyRowsEnabled;
+        copy._maxColumnLength = _maxColumnLength;
+        copy._maxColumnLengthCheckEnabled = _maxColumnLengthCheckEnabled;
+        return copy;
+    }
+
+    /**
      * Is comma a column separator.
      *
      * @return true if comma is a column separator.
