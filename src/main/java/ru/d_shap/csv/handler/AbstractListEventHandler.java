@@ -23,17 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Base class for CSV parser event handlers, that accumulate columns and rows in memory.
+ * Base class for all CSV parser event handlers, that accumulate columns and rows in memory.
  *
  * @author Dmitry Shapovalov
  */
-abstract class AbstractListEventHandler implements CsvEventHandler {
+public abstract class AbstractListEventHandler implements CsvEventHandler {
 
     private final List<List<String>> _rows;
 
     private List<String> _currentRow;
 
-    AbstractListEventHandler() {
+    /**
+     * Create a new object.
+     */
+    protected AbstractListEventHandler() {
         super();
         _rows = new ArrayList<>();
         _currentRow = null;
@@ -45,9 +48,26 @@ abstract class AbstractListEventHandler implements CsvEventHandler {
         doPushColumn(column, actualLength);
     }
 
-    abstract void doPushColumn(String column, int actualLength);
+    private void setCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<>();
+        }
+    }
 
-    final void addColumnToCurrentRow(final String column) {
+    /**
+     * Process column value, pushed from CSV parser.
+     *
+     * @param column       the actual column value.
+     * @param actualLength the actual column value length.
+     */
+    protected abstract void doPushColumn(String column, int actualLength);
+
+    /**
+     * Add processed column value to the current row.
+     *
+     * @param column processed column value.
+     */
+    protected final void addColumnToCurrentRow(final String column) {
         _currentRow.add(column);
     }
 
@@ -58,16 +78,10 @@ abstract class AbstractListEventHandler implements CsvEventHandler {
         _currentRow = null;
     }
 
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
-        }
-    }
-
     /**
-     * Return parse result as list of rows, each row is a list of columns.
+     * Get list of rows, each row is a list of columns of CSV.
      *
-     * @return parse result.
+     * @return list of rows, each row is a list of columns of CSV.
      */
     public final List<List<String>> getCsv() {
         return _rows;
