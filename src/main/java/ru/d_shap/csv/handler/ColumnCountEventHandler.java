@@ -22,20 +22,22 @@ package ru.d_shap.csv.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.d_shap.csv.state.StateHandlerConfiguration;
+
 /**
- * CSV parser event handler, that defines row count and column count for each row of CSV. CSV can NOT
- * be rectangular - each row can have a different number of columns.
+ * CSV parser event handler, that defines row count and column count for each row of CSV. CSV may have
+ * different column count in each row.
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnCountEventHandler implements CsvEventHandler {
+public final class ColumnCountEventHandler implements CsvConfigurable, CsvEventHandler {
 
     private final List<Integer> _columnCounts;
 
     private int _currentColumnCount;
 
     /**
-     * Create new object.
+     * Create a new object.
      */
     public ColumnCountEventHandler() {
         super();
@@ -44,13 +46,9 @@ public final class ColumnCountEventHandler implements CsvEventHandler {
     }
 
     @Override
-    public int getMaxColumnLength() {
-        return 0;
-    }
-
-    @Override
-    public boolean checkMaxColumnLength() {
-        return false;
+    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+        stateHandlerConfiguration.setMaxColumnLength(0);
+        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
@@ -65,7 +63,8 @@ public final class ColumnCountEventHandler implements CsvEventHandler {
     }
 
     /**
-     * Return parse result as list of rows, each row contains count of columns in this row.
+     * Get list of column counts of CSV. List size is a row count of CSV. Each element is a column
+     * count for corresponding row.
      *
      * @return parse result.
      */
