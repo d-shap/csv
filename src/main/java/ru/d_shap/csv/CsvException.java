@@ -20,7 +20,7 @@
 package ru.d_shap.csv;
 
 /**
- * Base class for all exceptions, thrown by CSV parser.
+ * Base class for all exceptions.
  *
  * @author Dmitry Shapovalov
  */
@@ -29,39 +29,39 @@ public class CsvException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
      * @param message exception message.
      */
-    CsvException(final String message) {
+    protected CsvException(final String message) {
         super(message);
     }
 
     /**
-     * Create new object.
+     * Create a new object.
      *
      * @param message exception message.
      * @param ex      root cause of the exception.
      */
-    CsvException(final String message, final Throwable ex) {
+    protected CsvException(final String message, final Throwable ex) {
         super(message, ex);
     }
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param message     exception message.
-     * @param lastSymbols last symbols processed by CSV parser.
+     * @param message                 exception message.
+     * @param lastProcessedCharacters last characters processed by CSV parser.
      */
-    CsvException(final String message, final String lastSymbols) {
-        super(getErrorMessage(message, lastSymbols));
+    protected CsvException(final String message, final String lastProcessedCharacters) {
+        super(getErrorMessage(message, lastProcessedCharacters));
     }
 
-    private static String getErrorMessage(final String message, final String lastSymbols) {
+    private static String getErrorMessage(final String message, final String lastProcessedCharacters) {
         StringBuilder builder = new StringBuilder(80);
         builder.append(message);
-        builder.append(" Last symbols: \"");
-        builder.append(lastSymbols);
+        builder.append(" Last characters: \"");
+        builder.append(lastProcessedCharacters);
         builder.append("\".");
         return builder.toString();
     }

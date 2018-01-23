@@ -20,28 +20,28 @@
 package ru.d_shap.csv;
 
 /**
- * Exception in thrown when CSV has different column count in different rows.
+ * Exception in thrown when CSV has rows with different column count.
  *
  * @author Dmitry Shapovalov
  */
-public class NotRectangularException extends CsvException {
+public class WrongColumnCountException extends CsvException {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create new object.
+     * Create a new object.
      */
-    public NotRectangularException() {
-        super("CSV is not rectangular.");
+    public WrongColumnCountException() {
+        super("CSV has rows with different column count.");
     }
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param lastSymbols last symbols processed by CSV parser.
+     * @param lastProcessedCharacters last characters processed by CSV parser.
      */
-    public NotRectangularException(final String lastSymbols) {
-        super("CSV is not rectangular.", lastSymbols);
+    public WrongColumnCountException(final String lastProcessedCharacters) {
+        super("CSV has rows with different column count.", lastProcessedCharacters);
     }
 
 }

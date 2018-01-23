@@ -31,20 +31,20 @@ public class CsvParseException extends CsvException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param symbol               wrong symbol.
-     * @param lastProcessedSymbols last symbols processed by CSV parser.
+     * @param character               wrong character.
+     * @param lastProcessedCharacters last characters processed by CSV parser.
      */
-    public CsvParseException(final int symbol, final String lastProcessedSymbols) {
-        super(getErrorMessage(symbol), lastProcessedSymbols);
+    public CsvParseException(final int character, final String lastProcessedCharacters) {
+        super(getErrorMessage(character), lastProcessedCharacters);
     }
 
-    private static String getErrorMessage(final int symbol) {
-        if (symbol == SpecialCharacter.END_OF_INPUT) {
+    private static String getErrorMessage(final int character) {
+        if (character == SpecialCharacter.END_OF_INPUT) {
             return "End of input obtained.";
         } else {
-            return "Wrong symbol obtained: '" + (char) symbol + "' (" + symbol + ").";
+            return "Wrong character obtained: '" + (char) character + "' (" + character + ").";
         }
     }
 

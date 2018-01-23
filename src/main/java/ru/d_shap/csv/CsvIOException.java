@@ -31,7 +31,7 @@ public class CsvIOException extends CsvException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
      * @param ex root cause of the exception.
      */

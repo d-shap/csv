@@ -29,12 +29,12 @@ public class WrongColumnLengthException extends CsvException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param lastSymbols last symbols processed by CSV parser.
+     * @param lastProcessedCharacters last characters processed by CSV parser.
      */
-    public WrongColumnLengthException(final String lastSymbols) {
-        super("Maximum column length exceeded.", lastSymbols);
+    public WrongColumnLengthException(final String lastProcessedCharacters) {
+        super("Maximum column length exceeded.", lastProcessedCharacters);
     }
 
 }
