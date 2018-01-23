@@ -22,19 +22,21 @@ package ru.d_shap.csv.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.d_shap.csv.state.StateHandlerConfiguration;
+
 /**
- * CSV parser event handler, that accumulates length of each column value in each row.
+ * CSV parser event handler, that accumulates the length of each column value in each row.
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnLengthEventHandler implements CsvEventHandler {
+public final class ColumnLengthEventHandler implements CsvConfigurable, CsvEventHandler {
 
     private final List<List<Integer>> _rows;
 
     private List<Integer> _currentRow;
 
     /**
-     * Create new object.
+     * Create a new object.
      */
     public ColumnLengthEventHandler() {
         super();
@@ -43,19 +45,21 @@ public final class ColumnLengthEventHandler implements CsvEventHandler {
     }
 
     @Override
-    public int getMaxColumnLength() {
-        return 0;
-    }
-
-    @Override
-    public boolean checkMaxColumnLength() {
-        return false;
+    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+        stateHandlerConfiguration.setMaxColumnLength(0);
+        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
     public void pushColumn(final String column, final int actualLength) {
         setCurrentRow();
         _currentRow.add(actualLength);
+    }
+
+    private void setCurrentRow() {
+        if (_currentRow == null) {
+            _currentRow = new ArrayList<>();
+        }
     }
 
     @Override
@@ -65,16 +69,10 @@ public final class ColumnLengthEventHandler implements CsvEventHandler {
         _currentRow = null;
     }
 
-    private void setCurrentRow() {
-        if (_currentRow == null) {
-            _currentRow = new ArrayList<>();
-        }
-    }
-
     /**
-     * Return parse result as list of rows, each row is a list of column lengths.
+     * Get list of length of each column value in each row of CSV.
      *
-     * @return parse result.
+     * @return list of length of each column value in each row of CSV.
      */
     public List<List<Integer>> getColumnLengths() {
         return _rows;
