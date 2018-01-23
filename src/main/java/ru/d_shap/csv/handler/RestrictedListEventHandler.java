@@ -19,62 +19,61 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
+import ru.d_shap.csv.state.StateHandlerConfiguration;
+
 /**
- * CSV parser event handler, that accumulates columns and rows in memory. The length of column value has the maximum
- * value. If column value exceeds the specified maximum value, then column value is trimmed.
+ * CSV parser event handler, that accumulates columns and rows in memory. The length of the actual column
+ * value is restricted. If the actual column value exceeds the specified maximum value, then the actual
+ * column value is trimmed.
  *
  * @author Dmitry Shapovalov
  */
-public final class RestrictedListEventHandler extends AbstractListEventHandler {
+public final class RestrictedListEventHandler extends AbstractListEventHandler implements CsvConfigurable {
 
     private final int _maxColumnLength;
 
-    private final String _moreSymbolsMark;
+    private final String _moreCharactersMark;
 
     private final int _trimToIndex;
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param maxColumnLength maximum number of symbols in column.
+     * @param maxColumnLength the maximum length of the actual column value.
      */
     public RestrictedListEventHandler(final int maxColumnLength) {
         this(maxColumnLength, null);
     }
 
     /**
-     * Create new object.
+     * Create a new object.
      *
-     * @param maxColumnLength maximum number of symbols in column.
-     * @param moreSymbolsMark text, added to the end of the trimmed column value.
+     * @param maxColumnLength    the maximum length of the actual column value.
+     * @param moreCharactersMark text, added to the end of the trimmed column value.
      */
-    public RestrictedListEventHandler(final int maxColumnLength, final String moreSymbolsMark) {
+    public RestrictedListEventHandler(final int maxColumnLength, final String moreCharactersMark) {
         super();
         _maxColumnLength = maxColumnLength;
-        _moreSymbolsMark = moreSymbolsMark;
-        if (_moreSymbolsMark == null) {
+        _moreCharactersMark = moreCharactersMark;
+        if (_moreCharactersMark == null) {
             _trimToIndex = _maxColumnLength;
         } else {
-            _trimToIndex = Math.max(_maxColumnLength - _moreSymbolsMark.length(), 0);
+            _trimToIndex = Math.max(_maxColumnLength - _moreCharactersMark.length(), 0);
         }
     }
 
     @Override
-    public int getMaxColumnLength() {
-        return _maxColumnLength;
+    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+        stateHandlerConfiguration.setMaxColumnLength(_maxColumnLength);
+        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
-    public boolean checkMaxColumnLength() {
-        return false;
-    }
-
-    @Override
-    public void doPushColumn(final String column, final int actualLength) {
-        if (actualLength <= _maxColumnLength || _moreSymbolsMark == null) {
+    protected void doPushColumn(final String column, final int actualLength) {
+        if (actualLength <= _maxColumnLength || _moreCharactersMark == null) {
             addColumnToCurrentRow(column);
         } else {
-            addColumnToCurrentRow(column.substring(0, _trimToIndex) + _moreSymbolsMark);
+            addColumnToCurrentRow(column.substring(0, _trimToIndex) + _moreCharactersMark);
         }
     }
 
