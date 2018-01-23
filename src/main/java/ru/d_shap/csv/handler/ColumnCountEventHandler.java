@@ -63,10 +63,10 @@ public final class ColumnCountEventHandler implements CsvConfigurable, CsvEventH
     }
 
     /**
-     * Get list of column counts of CSV. List size is a row count of CSV. Each element is a column
+     * Get list of column counts of CSV. List size is a row count of CSV. Each list element is a column
      * count for corresponding row.
      *
-     * @return parse result.
+     * @return list of column counts of CSV.
      */
     public List<Integer> getColumnCounts() {
         return _columnCounts;
