@@ -19,32 +19,30 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
+import ru.d_shap.csv.state.StateHandlerConfiguration;
+
 /**
  * CSV parser event handler, that accumulates columns and rows in memory.
  *
  * @author Dmitry Shapovalov
  */
-public final class ListEventHandler extends AbstractListEventHandler {
+public final class ListEventHandler extends AbstractListEventHandler implements CsvConfigurable {
 
     /**
-     * Create new object.
+     * Create a new object.
      */
     public ListEventHandler() {
         super();
     }
 
     @Override
-    public int getMaxColumnLength() {
-        return -1;
+    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+        stateHandlerConfiguration.setMaxColumnLength(-1);
+        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
-    public boolean checkMaxColumnLength() {
-        return false;
-    }
-
-    @Override
-    public void doPushColumn(final String column, final int actualLength) {
+    protected void doPushColumn(final String column, final int actualLength) {
         addColumnToCurrentRow(column);
     }
 
