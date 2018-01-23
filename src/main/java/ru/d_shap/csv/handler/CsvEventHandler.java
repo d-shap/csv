@@ -40,7 +40,7 @@ public interface CsvEventHandler {
 
     /**
      * Process row, pushed from CSV parser. If empty rows are skipped, then this method is not
-     * inviked for empty rows.
+     * invoked for empty rows.
      */
     void pushRow();
 
