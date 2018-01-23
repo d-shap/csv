@@ -21,26 +21,19 @@ package ru.d_shap.csv.handler;
 
 /**
  * CSV parser event handler, that skips all callback calls.
+ * This handler can be used for CSV validation. For example, has CSV source valid format or not,
+ * does CSV contain the same column count in all rows or not, does any column value length exceed the
+ * specified maximum column value length or not.
  *
  * @author Dmitry Shapovalov
  */
 public final class NoopEventHandler implements CsvEventHandler {
 
     /**
-     * Create new object.
+     * Create a new object.
      */
     public NoopEventHandler() {
         super();
-    }
-
-    @Override
-    public int getMaxColumnLength() {
-        return 0;
-    }
-
-    @Override
-    public boolean checkMaxColumnLength() {
-        return false;
     }
 
     @Override
