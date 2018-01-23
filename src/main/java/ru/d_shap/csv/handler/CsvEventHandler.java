@@ -20,43 +20,27 @@
 package ru.d_shap.csv.handler;
 
 /**
- * Interface to configure CSV parser behaviour and to process events, pushed from CSV parser.
- * Interface defines, how CSV parser process column values, with methods {@link #getMaxColumnLength()}
- * and {@link #checkMaxColumnLength()}. This methods define, whether CSV parser stores column value and passes this
- * value to {@link #pushColumn(String, int)} method, or just skips it. Skipping column value could be useful
- * to check, if CSV is rectangular, or to define column and row count, without actual processing of CSV.
- * Parser events are handled by {@link #pushColumn(String, int)} and {@link #pushRow()} methods.
+ * Interface to process events, pushed from CSV parser. If this object also implements {@link CsvConfigurable}
+ * interface, then this object can modify CSV parser behaviour.
  *
  * @author Dmitry Shapovalov
  */
 public interface CsvEventHandler {
 
     /**
-     * Define maximum length of column value. If column value length is greater then defined by this method, then
-     * either the rest of column value is skipped, or an exception is thrown.
+     * Process column value, pushed from CSV parser. If the maximum column value length is specified
+     * and the actual column value length exceeds the maximum column value length, then the actual
+     * column value would be trimmed. The actual column value length is not affected by the maximum
+     * column value length configuration.
      *
-     * @return maximum length of column value, or negative number for no column value length restriction.
-     */
-    int getMaxColumnLength();
-
-    /**
-     * Define, should parser throw an excepton if column value length exceeds maximum length or not.
-     *
-     * @return true if parser should throw an exception if column value length exceeds maximum length.
-     */
-    boolean checkMaxColumnLength();
-
-    /**
-     * Process column, pushed from the parser. If maximum length is specified and actual column value length
-     * exceeds maximum length, then column value would be trimmed.
-     *
-     * @param column       column value.
-     * @param actualLength actual column value length.
+     * @param column       the actual column value.
+     * @param actualLength the actual column value length.
      */
     void pushColumn(String column, int actualLength);
 
     /**
-     * Process row, pushed from the parser.
+     * Process row, pushed from CSV parser. If empty rows are skipped, then this method is not
+     * inviked for empty rows.
      */
     void pushRow();
 
