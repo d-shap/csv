@@ -36,7 +36,9 @@ public final class StateHandlerConfiguration {
 
     private boolean _crLfSeparator;
 
-    private boolean _rectangularCheckEnabled;
+    private boolean _columnCountCheckEnabled;
+
+    private boolean _skipEmptyRowsEnabled;
 
     private int _maxColumnLength;
 
@@ -52,7 +54,8 @@ public final class StateHandlerConfiguration {
         _crSeparator = false;
         _lfSeparator = true;
         _crLfSeparator = true;
-        _rectangularCheckEnabled = true;
+        _columnCountCheckEnabled = false;
+        _skipEmptyRowsEnabled = false;
         _maxColumnLength = -1;
         _maxColumnLengthCheckEnabled = false;
     }
@@ -152,17 +155,35 @@ public final class StateHandlerConfiguration {
      *
      * @return true if all rows should have the same column count.
      */
-    public boolean isRectangularCheckEnabled() {
-        return _rectangularCheckEnabled;
+    public boolean isColumnCountCheckEnabled() {
+        return _columnCountCheckEnabled;
     }
 
     /**
-     * Specify whether all rows should have the same column count.
+     * Specify whether all rows should have the same column count or not.
      *
-     * @param rectangularCheckEnabled true if all rows should have the same column count.
+     * @param columnCountCheckEnabled true if all rows should have the same column count.
      */
-    public void setRectangularCheckEnabled(final boolean rectangularCheckEnabled) {
-        _rectangularCheckEnabled = rectangularCheckEnabled;
+    public void setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
+        _columnCountCheckEnabled = columnCountCheckEnabled;
+    }
+
+    /**
+     * Check if all empty rows should be skipped.
+     *
+     * @return true if all empty rows should be skipped.
+     */
+    public boolean isSkipEmptyRowsEnabled() {
+        return _skipEmptyRowsEnabled;
+    }
+
+    /**
+     * Specify whether if all empty rows should be skipped.
+     *
+     * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
+     */
+    public void setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
+        _skipEmptyRowsEnabled = skipEmptyRowsEnabled;
     }
 
     /**
@@ -186,7 +207,7 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Check if an excepton should be thrown if a column value length exceeds the maximum length or not.
+     * Check if an excepton should be thrown if a column value length exceeds the maximum column value length or not.
      *
      * @return true if an excepton should be thrown.
      */
@@ -195,7 +216,7 @@ public final class StateHandlerConfiguration {
     }
 
     /**
-     * Specify whether an excepton should be thrown if a column value length exceeds the maximum length or not.
+     * Specify whether an excepton should be thrown if a column value length exceeds the maximum column value length or not.
      *
      * @param maxColumnLengthCheckEnabled true if an excepton should be thrown.
      */
