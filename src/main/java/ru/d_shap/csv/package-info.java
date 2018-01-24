@@ -79,13 +79,14 @@
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
  * </p>
  * <pre>{@code
- * String csv = "value1,,false\r\nvalue2,true,\r\n\r\n,value3,value3\r\n";
- * List<List<String>> result = CsvParser.parse(csv);
+ * String csv = "value1,,false\r\nvalue2,true,\r\n,value3,value3\r\n";
+ * List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
  * }</pre>
  * <p>
- * CSV parser is a push parser. It reads a source character by character and pushes events to the
- * {@link ru.d_shap.csv.handler.CsvEventHandler} object. {@link ru.d_shap.csv.handler.CsvEventHandler}
- * defines the result of CSV parser.
+ * CSV parser is a push parser. CSV parser reads characters one by one and pushs events (columns and
+ * rows) to the {@link ru.d_shap.csv.handler.CsvEventHandler} object. The {@link ru.d_shap.csv.handler.CsvEventHandler}
+ * object defines, what to do with pushed columns and rows, for example to count them, or to store
+ * them in memory, etc.
  * </p>
  * <p>
  * Some predefined {@link ru.d_shap.csv.handler.CsvEventHandler} objects can be used.
@@ -95,22 +96,22 @@
  * </p>
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
- * CsvParser.parse(csv, new NoopEventHandler());
+ * CsvParserBuilder.getInstance().build().parse(csv, new NoopEventHandler());
  * }</pre>
  * <p>
- * Next example shows, how to check if CSV is valid and rectangular (each row has the same number of columns):
+ * Next example shows, how to check if CSV is valid and each row has the same number of columns:
  * </p>
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
- * CsvParser.parse(csv, new NoopEventHandler(), true);
+ * CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).build().parse(csv, new NoopEventHandler());
  * }</pre>
  * <p>
- * Next example shows, how to define column and row count of rectangular CSV:
+ * Next example shows, how to define column and row count of CSV, that has the same number of columns in each row:
  * </p>
  * <pre>{@code
  * String csv = "1,2,3\r\n4,5,6\r\n";
  * DimensionEventHandler eventHandler = new DimensionEventHandler();
- * CsvParser.parse(csv, eventHandler, true);
+ * CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
  * System.out.println("Row count: " + eventHandler.getRowCount());
  * System.out.println("Column count: " + eventHandler.getColumnCount());
  * }</pre>
@@ -120,13 +121,13 @@
  * consuming one.
  * </p>
  * <p>
- * By default, {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, CR, LF and
+ * By default, {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, LF and
  * CRLF as row separators. Some editors can use semicolon as separator, but not comma. And this editors do NOT
  * enclose column values in double quots if column value contains comma. For example, this editors can produce a
  * CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>. There are two columns in this CSV. The
  * first one is enclosed in double quotes and contains semicolon. The second one is NOT enclosed in double quotes and
- * contains comma, that is NOT column separator. To parse such a CSV overloaded methods with column and row separators
- * can be used. If methods with NO separators are used, then all separators are assumed.
+ * contains comma, that is NOT column separator. {@link ru.d_shap.csv.CsvParserBuilder} has a number of
+ * settings that can be used to parse CSV like this.
  * </p>
  */
 package ru.d_shap.csv;
