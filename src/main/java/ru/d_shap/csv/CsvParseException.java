@@ -22,7 +22,7 @@ package ru.d_shap.csv;
 import ru.d_shap.csv.state.SpecialCharacter;
 
 /**
- * Exception in thrown when CSV source is in a wrong format.
+ * Exception in thrown when CSV source is not valid.
  *
  * @author Dmitry Shapovalov
  */
