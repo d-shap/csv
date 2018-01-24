@@ -51,6 +51,8 @@ public final class CsvPrinter implements AutoCloseable {
 
     private final boolean _columnCountCheckEnabled;
 
+    private final boolean _skipEmptyRowsEnabled;
+
     private final boolean _commaSeparator;
 
     private final boolean _semicolonSeparator;
@@ -67,12 +69,13 @@ public final class CsvPrinter implements AutoCloseable {
 
     private int _currentColumnCount;
 
-    CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean escapeAllSpecialCharactersEnabled) {
+    CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean skipEmptyRowsEnabled, final boolean escapeAllSpecialCharactersEnabled) {
         super();
         _writer = writer;
         _columnSeparator = columnSeparator;
         _rowSeparator = rowSeparator;
         _columnCountCheckEnabled = columnCountCheckEnabled;
+        _skipEmptyRowsEnabled = skipEmptyRowsEnabled;
         if (escapeAllSpecialCharactersEnabled) {
             _commaSeparator = true;
             _semicolonSeparator = true;
@@ -241,6 +244,10 @@ public final class CsvPrinter implements AutoCloseable {
      */
     public CsvPrinter addRow() {
         try {
+            if (_skipEmptyRowsEnabled && _currentColumnCount == 0) {
+                return this;
+            }
+
             if (_firstRow) {
                 _firstRowColumnCount = _currentColumnCount;
                 _firstRow = false;
