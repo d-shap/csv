@@ -35,6 +35,8 @@ public final class CsvPrinterBuilder {
 
     private boolean _columnCountCheckEnabled;
 
+    private boolean _skipEmptyRowsEnabled;
+
     private boolean _escapeAllSpecialCharactersEnabled;
 
     private CsvPrinterBuilder() {
@@ -116,6 +118,17 @@ public final class CsvPrinterBuilder {
     }
 
     /**
+     * Specify whether all empty rows should be skipped or not.
+     *
+     * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
+     * @return current object for the method chaining.
+     */
+    public CsvPrinterBuilder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
+        _skipEmptyRowsEnabled = skipEmptyRowsEnabled;
+        return this;
+    }
+
+    /**
      * Specify whether all column and row separators should be escaped, or only specified in this builder object.
      *
      * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (Comma,
@@ -143,7 +156,7 @@ public final class CsvPrinterBuilder {
      * @return {@link CsvPrinter} object.
      */
     public CsvPrinter build(final Writer writer) {
-        return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _escapeAllSpecialCharactersEnabled);
+        return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _skipEmptyRowsEnabled, _escapeAllSpecialCharactersEnabled);
     }
 
 }
