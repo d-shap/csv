@@ -44,6 +44,7 @@ public final class CsvPrinterBuilder {
         _columnSeparator = CsvPrinter.COMMA;
         _rowSeparator = CsvPrinter.CRLF;
         _columnCountCheckEnabled = true;
+        _skipEmptyRowsEnabled = false;
         _escapeAllSpecialCharactersEnabled = true;
     }
 
