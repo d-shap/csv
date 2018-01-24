@@ -28,9 +28,9 @@
  * The special characters are:
  * </p>
  * <ul>
- * <li><b>Comma</b> or <b>Semicolon</b> - column separator</li>
+ * <li><b>comma</b> or <b>semicolon</b> - column separator</li>
  * <li><b>CR</b>, <b>LF</b> or <b>CRLF</b> - row separator</li>
- * <li><b>Double quotes</b> - column bounds, if column contains other special characters</li>
+ * <li><b>double quotes</b> - column bounds, if column contains other special characters</li>
  * </ul>
  * <p>
  * After processing an input character CSV parser generates an event and changes its internal state

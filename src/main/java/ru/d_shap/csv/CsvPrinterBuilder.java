@@ -132,8 +132,8 @@ public final class CsvPrinterBuilder {
     /**
      * Specify whether all column and row separators should be escaped, or only specified in this builder object.
      *
-     * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (Comma,
-     *                                          Semicolon, CR, LF, CRLF), false if only specified in this builder object.
+     * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (comma,
+     *                                          semicolon, CR, LF, CRLF), false if only specified in this builder object.
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setEscapeAllSpecialCharactersEnabled(final boolean escapeAllSpecialCharactersEnabled) {
