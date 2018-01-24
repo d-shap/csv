@@ -120,17 +120,26 @@
  * }</pre>
  * <p>
  * The default {@link ru.d_shap.csv.handler.CsvEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
- * This handler stores CSV in memory as List of rows, each row is a list of columns. This handler could be a memory
+ * This handler stores CSV in memory as list of rows, each row is a list of columns. This handler could be a memory
  * consuming one.
  * </p>
  * <p>
- * By default, {@link ru.d_shap.csv.CsvParser} treats commas and semicolons as column separators, LF and
- * CRLF as row separators. Some editors can use semicolon as separator, but not comma. And this editors do NOT
- * enclose column values in double quots if column value contains comma. For example, this editors can produce a
- * CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>. There are two columns in this CSV. The
- * first one is enclosed in double quotes and contains semicolon. The second one is NOT enclosed in double quotes and
- * contains comma, that is NOT column separator. {@link ru.d_shap.csv.CsvParserBuilder} has a number of
- * settings that can be used to parse CSV like this.
+ * By default, {@link ru.d_shap.csv.CsvParser} object treats commas and semicolons as column separators, LF and
+ * CRLF as row separators.
+ * </p>
+ * <p>
+ * {@link ru.d_shap.csv.CsvParser} object has a number of settings, for example whether to skip empty
+ * lines or not, whether to check that each row has the same number of columns or not, and so on.
+ * This settings are specified in {@link ru.d_shap.csv.CsvParserBuilder} object, that is used to create
+ * {@link ru.d_shap.csv.CsvParser} object.
+ * </p>
+ * <p>
+ * This settings can be used in the following situation. Some editors can use semicolon as separator,
+ * but not comma. And this editors do NOT enclose column values in double quots if column value contains
+ * comma. For example, this editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
+ * There are two columns in this CSV. The first one is enclosed in double quotes and contains semicolon.
+ * The second one is NOT enclosed in double quotes and contains comma, that is NOT column separator.
+ * {@link ru.d_shap.csv.CsvParserBuilder} object can specify this behaviour.
  * </p>
  */
 package ru.d_shap.csv;
