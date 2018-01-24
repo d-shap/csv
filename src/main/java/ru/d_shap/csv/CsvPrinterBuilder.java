@@ -23,7 +23,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Builder class to create {@link CsvPrinter} instance.
+ * Builder class to create {@link CsvPrinter} object.
  *
  * @author Dmitry Shapovalov
  */
