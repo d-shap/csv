@@ -40,10 +40,10 @@ import ru.d_shap.csv.state.StateHandlerConfiguration;
  * rows) to the {@link CsvEventHandler} object. The {@link CsvEventHandler} object defines, what to
  * do with pushed columns and rows, for example to count them, or to store them in memory, etc.
  * Some default implementations of {@link CsvEventHandler} can be used.
- * For example, {@link DimensionEventHandler} can define row and column count of CSV, if CSV has
- * the same number of columns in each row. {@link ListEventHandler} stores the whole CSV in memory as
- * list of rows, each row is a list of columns. {@link ColumnCountEventHandler} can define column
- * count for each row.
+ * For example, {@link ListEventHandler} stores the whole CSV in memory as list of rows, each row
+ * is a list of columns. {@link DimensionEventHandler} can define row and column count of CSV, if CSV
+ * has the same number of columns in each row. {@link ColumnCountEventHandler} can define column count
+ * for each row.
  * {@link ListEventHandler} is a default {@link CsvEventHandler} object.
  *
  * @author Dmitry Shapovalov
@@ -75,7 +75,7 @@ public final class CsvParser {
     public List<List<String>> parse(final CharSequence charSequence) {
         Reader reader = createReader(charSequence);
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        doParse(reader, listParserEventHandler);
+        parse(reader, listParserEventHandler);
         return listParserEventHandler.getCsv();
     }
 
@@ -87,7 +87,7 @@ public final class CsvParser {
      */
     public void parse(final CharSequence charSequence, final CsvEventHandler csvEventHandler) {
         Reader reader = createReader(charSequence);
-        doParse(reader, csvEventHandler);
+        parse(reader, csvEventHandler);
     }
 
     /**
@@ -98,7 +98,7 @@ public final class CsvParser {
      */
     public List<List<String>> parse(final Reader reader) {
         ListEventHandler listParserEventHandler = new ListEventHandler();
-        doParse(reader, listParserEventHandler);
+        parse(reader, listParserEventHandler);
         return listParserEventHandler.getCsv();
     }
 
@@ -109,18 +109,6 @@ public final class CsvParser {
      * @param csvEventHandler event handler to process parser events.
      */
     public void parse(final Reader reader, final CsvEventHandler csvEventHandler) {
-        doParse(reader, csvEventHandler);
-    }
-
-    private Reader createReader(final CharSequence charSequence) {
-        if (charSequence == null) {
-            return null;
-        } else {
-            return new StringReader(charSequence.toString());
-        }
-    }
-
-    private void doParse(final Reader reader, final CsvEventHandler csvEventHandler) {
         try {
             StateHandlerConfiguration stateHandlerConfiguration;
             if (csvEventHandler instanceof CsvConfigurable) {
@@ -142,6 +130,14 @@ public final class CsvParser {
             state.processCharacter(SpecialCharacter.END_OF_INPUT, eventHandler);
         } catch (IOException ex) {
             throw new CsvIOException(ex);
+        }
+    }
+
+    private Reader createReader(final CharSequence charSequence) {
+        if (charSequence == null) {
+            return null;
+        } else {
+            return new StringReader(charSequence.toString());
         }
     }
 
