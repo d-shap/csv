@@ -27,22 +27,21 @@ import ru.d_shap.csv.state.SpecialCharacter;
 
 /**
  * Class to create CSV from rows and columns.
- * Method {@link #getCsv()} is a convenient method when StringWriter is used. This method returns
- * generated CSV as String. For all other writer objects this method returns null.
+ * Objects of this class are not reusable. After CSV is created, a new instance should be used.
  *
  * @author Dmitry Shapovalov
  */
-public final class CsvPrinter {
+public final class CsvPrinter implements AutoCloseable {
 
-    private static final String COMMA = String.valueOf((char) SpecialCharacter.COMMA);
+    static final String COMMA = String.valueOf((char) SpecialCharacter.COMMA);
 
-    private static final String SEMICOLON = String.valueOf((char) SpecialCharacter.SEMICOLON);
+    static final String SEMICOLON = String.valueOf((char) SpecialCharacter.SEMICOLON);
 
-    private static final String CR = String.valueOf((char) SpecialCharacter.CR);
+    static final String CR = String.valueOf((char) SpecialCharacter.CR);
 
-    private static final String LF = String.valueOf((char) SpecialCharacter.LF);
+    static final String LF = String.valueOf((char) SpecialCharacter.LF);
 
-    private static final String CRLF = CR + LF;
+    static final String CRLF = CR + LF;
 
     private final Writer _writer;
 
@@ -68,7 +67,7 @@ public final class CsvPrinter {
 
     private int _currentColumnCount;
 
-    private CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean escapeAllSpecialCharactersEnabled) {
+    CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean escapeAllSpecialCharactersEnabled) {
         super();
         _writer = writer;
         _columnSeparator = columnSeparator;
@@ -93,12 +92,14 @@ public final class CsvPrinter {
     }
 
     /**
-     * Get new builder instance to create CSV printer.
+     * Add column value to the current row.
      *
-     * @return new builder instance.
+     * @param column column value.
+     * @return current object for the method chaining.
      */
-    public static Builder createBuilder() {
-        return new Builder();
+    public CsvPrinter addColumn(final char column) {
+        doAddColumn(String.valueOf(column));
+        return this;
     }
 
     /**
@@ -256,8 +257,7 @@ public final class CsvPrinter {
     }
 
     /**
-     * Return created CSV, if StringWriter was used to create this object, implicitly or explicitly.
-     * Otherwise return null.
+     * Get created CSV, if StringWriter was used to create this object. Otherwise return null.
      *
      * @return created CSV or null, if NOT StringWriter was used to create this object.
      */
@@ -269,121 +269,13 @@ public final class CsvPrinter {
         }
     }
 
-    /**
-     * Builder class to create CSV printer instance.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class Builder {
-
-        private String _columnSeparator;
-
-        private String _rowSeparator;
-
-        private boolean _columnCountCheckEnabled;
-
-        private boolean _escapeAllSpecialCharactersEnabled;
-
-        private Builder() {
-            super();
-            _columnSeparator = COMMA;
-            _rowSeparator = CRLF;
-            _columnCountCheckEnabled = true;
-            _escapeAllSpecialCharactersEnabled = true;
+    @Override
+    public void close() {
+        try {
+            _writer.close();
+        } catch (IOException ex) {
+            throw new CsvIOException(ex);
         }
-
-        /**
-         * Set comma as a column separator.
-         *
-         * @return current object for the method chaining.
-         */
-        public Builder setCommaSeparator() {
-            _columnSeparator = COMMA;
-            return this;
-        }
-
-        /**
-         * Set semicolon as a column separator.
-         *
-         * @return current object for the method chaining.
-         */
-        public Builder setSemicolonSeparator() {
-            _columnSeparator = SEMICOLON;
-            return this;
-        }
-
-        /**
-         * Set CR as a row separator.
-         *
-         * @return current object for the method chaining.
-         */
-        public Builder setCrSeparator() {
-            _rowSeparator = CR;
-            return this;
-        }
-
-        /**
-         * Set LF as a row separator.
-         *
-         * @return current object for the method chaining.
-         */
-        public Builder setLfSeparator() {
-            _rowSeparator = LF;
-            return this;
-        }
-
-        /**
-         * Set CRLF as a row separator.
-         *
-         * @return current object for the method chaining.
-         */
-        public Builder setCrLfSeparator() {
-            _rowSeparator = CRLF;
-            return this;
-        }
-
-        /**
-         * Specify whether all rows should have the same column count or not.
-         *
-         * @param columnCountCheckEnabled true if all rows should have the same column count.
-         * @return current object for the method chaining.
-         */
-        public Builder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
-            _columnCountCheckEnabled = columnCountCheckEnabled;
-            return this;
-        }
-
-        /**
-         * Specify whether all column and row separators should be escaped, or only specified in this builder object.
-         *
-         * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (COMMA,
-         *                                          SEMICOLON, CR, LF, CRLF), false if only specified in this builder object.
-         * @return current object for the method chaining.
-         */
-        public Builder setEscapeAllSpecialCharactersEnabled(final boolean escapeAllSpecialCharactersEnabled) {
-            _escapeAllSpecialCharactersEnabled = escapeAllSpecialCharactersEnabled;
-            return this;
-        }
-
-        /**
-         * Create CSV printer.
-         *
-         * @return CSV printer.
-         */
-        public CsvPrinter build() {
-            return build(new StringWriter());
-        }
-
-        /**
-         * Create CSV printer.
-         *
-         * @param writer writer to write CSV.
-         * @return CSV printer.
-         */
-        public CsvPrinter build(final Writer writer) {
-            return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _escapeAllSpecialCharactersEnabled);
-        }
-
     }
 
 }
