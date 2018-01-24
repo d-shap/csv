@@ -27,7 +27,7 @@ import ru.d_shap.csv.state.SpecialCharacter;
 
 /**
  * Class to create CSV from rows and columns.
- * Objects of this class are not reusable. After CSV is created, a new object should be used.
+ * Objects of this class are NOT reusable. After CSV is created, a new object should be used.
  *
  * @author Dmitry Shapovalov
  */
