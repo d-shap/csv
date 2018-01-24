@@ -45,6 +45,7 @@ import ru.d_shap.csv.state.StateHandlerConfiguration;
  * has the same number of columns in each row. {@link ColumnCountEventHandler} can define column count
  * for each row.
  * {@link ListEventHandler} is a default {@link CsvEventHandler} object.
+ * Objects of this class are reusable.
  *
  * @author Dmitry Shapovalov
  */
@@ -52,18 +53,9 @@ public final class CsvParser {
 
     private final StateHandlerConfiguration _stateHandlerConfiguration;
 
-    private CsvParser(final StateHandlerConfiguration stateHandlerConfiguration) {
+    CsvParser(final StateHandlerConfiguration stateHandlerConfiguration) {
         super();
         _stateHandlerConfiguration = stateHandlerConfiguration;
-    }
-
-    /**
-     * Get new builder instance to create CSV parser.
-     *
-     * @return new builder instance.
-     */
-    public static Builder createBuilder() {
-        return new Builder();
     }
 
     /**
@@ -139,132 +131,6 @@ public final class CsvParser {
         } else {
             return new StringReader(charSequence.toString());
         }
-    }
-
-    /**
-     * Builder class to create CSV parser instance.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class Builder {
-
-        private final StateHandlerConfiguration _stateHandlerConfiguration;
-
-        private Builder() {
-            super();
-            _stateHandlerConfiguration = new StateHandlerConfiguration();
-        }
-
-        /**
-         * Set comma as a column separator.
-         *
-         * @param commaSeparator true if comma is a column separator.
-         * @return current object for the method chaining.
-         */
-        public Builder setCommaSeparator(final boolean commaSeparator) {
-            _stateHandlerConfiguration.setCommaSeparator(commaSeparator);
-            return this;
-        }
-
-        /**
-         * Set semicolon as a column separator.
-         *
-         * @param semicolonSeparator true if semicolon is a column separator.
-         * @return current object for the method chaining.
-         */
-        public Builder setSemicolonSeparator(final boolean semicolonSeparator) {
-            _stateHandlerConfiguration.setSemicolonSeparator(semicolonSeparator);
-            return this;
-        }
-
-        /**
-         * Set CR as a row separator.
-         *
-         * @param crSeparator true if CR is a row separator.
-         * @return current object for the method chaining.
-         */
-        public Builder setCrSeparator(final boolean crSeparator) {
-            _stateHandlerConfiguration.setCrSeparator(crSeparator);
-            return this;
-        }
-
-        /**
-         * Set LF as a row separator.
-         *
-         * @param lfSeparator true if LF is a row separator.
-         * @return current object for the method chaining.
-         */
-        public Builder setLfSeparator(final boolean lfSeparator) {
-            _stateHandlerConfiguration.setLfSeparator(lfSeparator);
-            return this;
-        }
-
-        /**
-         * Set CRLF as a row separator.
-         *
-         * @param crLfSeparator true if CRLF is a row separator.
-         * @return current object for the method chaining.
-         */
-        public Builder setCrLfSeparator(final boolean crLfSeparator) {
-            _stateHandlerConfiguration.setCrLfSeparator(crLfSeparator);
-            return this;
-        }
-
-        /**
-         * Specify whether all rows should have the same column count or not.
-         *
-         * @param columnCountCheckEnabled true if all rows should have the same column count.
-         * @return current object for the method chaining.
-         */
-        public Builder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
-            _stateHandlerConfiguration.setColumnCountCheckEnabled(columnCountCheckEnabled);
-            return this;
-        }
-
-        /**
-         * Specify whether all empty rows should be skipped or not.
-         *
-         * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
-         * @return current object for the method chaining.
-         */
-        public Builder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
-            _stateHandlerConfiguration.setSkipEmptyRowsEnabled(skipEmptyRowsEnabled);
-            return this;
-        }
-
-        /**
-         * Set the maximum length of a column value. If a column value length is greater then the maximum
-         * column value length, then either the rest of a column value is skipped, or an exception is thrown.
-         *
-         * @param maxColumnLength the maximum length of a column value, or negative number for no column value length restriction.
-         * @return current object for the method chaining.
-         */
-        public Builder setMaxColumnLength(final int maxColumnLength) {
-            _stateHandlerConfiguration.setMaxColumnLength(maxColumnLength);
-            return this;
-        }
-
-        /**
-         * Specify whether an excepton should be thrown if a column value length exceeds the maximum column value length or not.
-         *
-         * @param maxColumnLengthCheckEnabled true if an excepton should be thrown.
-         * @return current object for the method chaining.
-         */
-        public Builder setMaxColumnLengthCheckEnabled(final boolean maxColumnLengthCheckEnabled) {
-            _stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(maxColumnLengthCheckEnabled);
-            return this;
-        }
-
-        /**
-         * Create CSV parser.
-         *
-         * @return CSV parser.
-         */
-        public CsvParser build() {
-            StateHandlerConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
-            return new CsvParser(stateHandlerConfiguration);
-        }
-
     }
 
 }
