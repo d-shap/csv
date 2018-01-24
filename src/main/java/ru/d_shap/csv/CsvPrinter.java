@@ -22,31 +22,27 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.LinkedList;
-import java.util.List;
 
 import ru.d_shap.csv.state.SpecialCharacter;
 
 /**
- * Class to create CSV from rows and columns. If object is created with writer parameter, then CSV is writen
- * directly to the writer. If object is created without writer parameter, then StringWriter is used. In this case
- * everithing is stored in memory. Method {@link #getCsv()} is a convenient method when StringWriter is used.
- * This method returns generated CSV as String. For all other writer objects this method returns null.
+ * Class to create CSV from rows and columns.
+ * Method {@link #getCsv()} is a convenient method when StringWriter is used. This method returns
+ * generated CSV as String. For all other writer objects this method returns null.
  *
  * @author Dmitry Shapovalov
  */
 public final class CsvPrinter {
 
-    private static final List<String> SPECIAL;
+    private static final String COMMA = String.valueOf((char) SpecialCharacter.COMMA);
 
-    static {
-        SPECIAL = new LinkedList<>();
-        SPECIAL.add(String.valueOf((char) SpecialCharacter.QUOT));
-        SPECIAL.add(ColumnSeparators.COMMA.getValue());
-        SPECIAL.add(ColumnSeparators.SEMICOLON.getValue());
-        SPECIAL.add(RowSeparators.CR.getValue());
-        SPECIAL.add(RowSeparators.LF.getValue());
-    }
+    private static final String SEMICOLON = String.valueOf((char) SpecialCharacter.SEMICOLON);
+
+    private static final String CR = String.valueOf((char) SpecialCharacter.CR);
+
+    private static final String LF = String.valueOf((char) SpecialCharacter.LF);
+
+    private static final String CRLF = CR + LF;
 
     private final Writer _writer;
 
@@ -54,7 +50,17 @@ public final class CsvPrinter {
 
     private final String _rowSeparator;
 
-    private final boolean _checkRectangular;
+    private final boolean _columnCountCheckEnabled;
+
+    private final boolean _commaSeparator;
+
+    private final boolean _semicolonSeparator;
+
+    private final boolean _crSeparator;
+
+    private final boolean _lfSeparator;
+
+    private final boolean _crLfSeparator;
 
     private boolean _firstRow;
 
@@ -62,177 +68,44 @@ public final class CsvPrinter {
 
     private int _currentColumnCount;
 
-    /**
-     * Create new object.
-     */
-    public CsvPrinter() {
-        this(new StringWriter(), ColumnSeparators.COMMA, RowSeparators.CRLF, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final boolean checkRectangular) {
-        this(new StringWriter(), ColumnSeparators.COMMA, RowSeparators.CRLF, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param columnSeparator separator between columns.
-     */
-    public CsvPrinter(final ColumnSeparators columnSeparator) {
-        this(new StringWriter(), columnSeparator, RowSeparators.CRLF, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param columnSeparator  separator between columns.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final ColumnSeparators columnSeparator, final boolean checkRectangular) {
-        this(new StringWriter(), columnSeparator, RowSeparators.CRLF, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param rowSeparator separator between rows.
-     */
-    public CsvPrinter(final RowSeparators rowSeparator) {
-        this(new StringWriter(), ColumnSeparators.COMMA, rowSeparator, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param rowSeparator     separator between rows.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final RowSeparators rowSeparator, final boolean checkRectangular) {
-        this(new StringWriter(), ColumnSeparators.COMMA, rowSeparator, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param columnSeparator separator between columns.
-     * @param rowSeparator    separator between rows.
-     */
-    public CsvPrinter(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
-        this(new StringWriter(), columnSeparator, rowSeparator, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param columnSeparator  separator between columns.
-     * @param rowSeparator     separator between rows.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
-        this(new StringWriter(), columnSeparator, rowSeparator, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer writer to write CSV.
-     */
-    public CsvPrinter(final Writer writer) {
-        this(writer, ColumnSeparators.COMMA, RowSeparators.CRLF, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer           writer to write CSV.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final Writer writer, final boolean checkRectangular) {
-        this(writer, ColumnSeparators.COMMA, RowSeparators.CRLF, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer          writer to write CSV.
-     * @param columnSeparator separator between columns.
-     */
-    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator) {
-        this(writer, columnSeparator, RowSeparators.CRLF, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer           writer to write CSV.
-     * @param columnSeparator  separator between columns.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final boolean checkRectangular) {
-        this(writer, columnSeparator, RowSeparators.CRLF, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer       writer to write CSV.
-     * @param rowSeparator separator between rows.
-     */
-    public CsvPrinter(final Writer writer, final RowSeparators rowSeparator) {
-        this(writer, ColumnSeparators.COMMA, rowSeparator, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer           writer to write CSV.
-     * @param rowSeparator     separator between rows.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final Writer writer, final RowSeparators rowSeparator, final boolean checkRectangular) {
-        this(writer, ColumnSeparators.COMMA, rowSeparator, checkRectangular);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer          writer to write CSV.
-     * @param columnSeparator separator between columns.
-     * @param rowSeparator    separator between rows.
-     */
-    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator) {
-        this(writer, columnSeparator, rowSeparator, false);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param writer           writer to write CSV.
-     * @param columnSeparator  separator between columns.
-     * @param rowSeparator     separator between rows.
-     * @param checkRectangular check if all rows should have the same column count.
-     */
-    public CsvPrinter(final Writer writer, final ColumnSeparators columnSeparator, final RowSeparators rowSeparator, final boolean checkRectangular) {
+    private CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean escapeAllSpecialCharactersEnabled) {
         super();
         _writer = writer;
-        _columnSeparator = columnSeparator.getValue();
-        _rowSeparator = rowSeparator.getValue();
-        _checkRectangular = checkRectangular;
+        _columnSeparator = columnSeparator;
+        _rowSeparator = rowSeparator;
+        _columnCountCheckEnabled = columnCountCheckEnabled;
+        if (escapeAllSpecialCharactersEnabled) {
+            _commaSeparator = true;
+            _semicolonSeparator = true;
+            _crSeparator = true;
+            _lfSeparator = true;
+            _crLfSeparator = true;
+        } else {
+            _commaSeparator = _columnSeparator.equals(COMMA);
+            _semicolonSeparator = _columnSeparator.equals(SEMICOLON);
+            _crSeparator = _rowSeparator.equals(CR);
+            _lfSeparator = _rowSeparator.equals(LF);
+            _crLfSeparator = _rowSeparator.equals(CRLF);
+        }
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
     }
 
     /**
+     * Get new builder instance to create CSV printer.
+     *
+     * @return new builder instance.
+     */
+    public static Builder createBuilder() {
+        return new Builder();
+    }
+
+    /**
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final int column) {
         doAddColumn(String.valueOf(column));
@@ -243,7 +116,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final long column) {
         doAddColumn(String.valueOf(column));
@@ -254,7 +127,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final float column) {
         doAddColumn(String.valueOf(column));
@@ -265,7 +138,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final double column) {
         doAddColumn(String.valueOf(column));
@@ -276,7 +149,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final boolean column) {
         doAddColumn(String.valueOf(column));
@@ -287,7 +160,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final String column) {
         doAddColumn(getColumnForCsv(column));
@@ -298,7 +171,7 @@ public final class CsvPrinter {
      * Add column value to the current row.
      *
      * @param column column value.
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final Object column) {
         doAddColumn(getColumnForCsv(column));
@@ -308,31 +181,46 @@ public final class CsvPrinter {
     private String getColumnForCsv(final Object column) {
         if (column == null) {
             return "";
+        } else {
+            return getColumnForCsv(column.toString());
         }
-        return getColumnForCsv(column.toString());
     }
 
     private String getColumnForCsv(final String column) {
         if (column == null) {
             return "";
         }
-        boolean hasSpecial = false;
-        for (int i = 0; i < SPECIAL.size(); i++) {
-            if (column.contains(SPECIAL.get(i))) {
-                hasSpecial = true;
-            }
-        }
-        if (hasSpecial) {
+        boolean hasSpecialCharacters = hasSpecialCharacters(column);
+        if (hasSpecialCharacters) {
             return "\"" + column.replaceAll("\"", "\"\"") + "\"";
         } else {
             return column;
         }
     }
 
+    private boolean hasSpecialCharacters(final String column) {
+        if (_commaSeparator && column.indexOf(SpecialCharacter.COMMA) >= 0) {
+            return true;
+        }
+        if (_semicolonSeparator && column.indexOf(SpecialCharacter.SEMICOLON) >= 0) {
+            return true;
+        }
+        if (_crSeparator && column.indexOf(SpecialCharacter.CR) >= 0) {
+            return true;
+        }
+        if (_lfSeparator && column.indexOf(SpecialCharacter.LF) >= 0) {
+            return true;
+        }
+        if (_crLfSeparator && column.contains(CRLF)) {
+            return true;
+        }
+        return column.indexOf(SpecialCharacter.QUOT) >= 0;
+    }
+
     private void doAddColumn(final String column) {
         try {
-            if (_checkRectangular && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
-                throw new NotRectangularException();
+            if (_columnCountCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+                throw new WrongColumnCountException();
             }
 
             if (_currentColumnCount > 0) {
@@ -355,9 +243,8 @@ public final class CsvPrinter {
             if (_firstRow) {
                 _firstRowColumnCount = _currentColumnCount;
                 _firstRow = false;
-            }
-            if (_checkRectangular && _firstRowColumnCount != _currentColumnCount) {
-                throw new NotRectangularException();
+            } else if (_columnCountCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
+                throw new WrongColumnCountException();
             }
 
             _writer.write(_rowSeparator);
@@ -380,6 +267,123 @@ public final class CsvPrinter {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Builder class to create CSV printer instance.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class Builder {
+
+        private String _columnSeparator;
+
+        private String _rowSeparator;
+
+        private boolean _columnCountCheckEnabled;
+
+        private boolean _escapeAllSpecialCharactersEnabled;
+
+        private Builder() {
+            super();
+            _columnSeparator = COMMA;
+            _rowSeparator = CRLF;
+            _columnCountCheckEnabled = true;
+            _escapeAllSpecialCharactersEnabled = true;
+        }
+
+        /**
+         * Set comma as a column separator.
+         *
+         * @return current object for the method chaining.
+         */
+        public Builder setCommaSeparator() {
+            _columnSeparator = COMMA;
+            return this;
+        }
+
+        /**
+         * Set semicolon as a column separator.
+         *
+         * @return current object for the method chaining.
+         */
+        public Builder setSemicolonSeparator() {
+            _columnSeparator = SEMICOLON;
+            return this;
+        }
+
+        /**
+         * Set CR as a row separator.
+         *
+         * @return current object for the method chaining.
+         */
+        public Builder setCrSeparator() {
+            _rowSeparator = CR;
+            return this;
+        }
+
+        /**
+         * Set LF as a row separator.
+         *
+         * @return current object for the method chaining.
+         */
+        public Builder setLfSeparator() {
+            _rowSeparator = LF;
+            return this;
+        }
+
+        /**
+         * Set CRLF as a row separator.
+         *
+         * @return current object for the method chaining.
+         */
+        public Builder setCrLfSeparator() {
+            _rowSeparator = CRLF;
+            return this;
+        }
+
+        /**
+         * Specify whether all rows should have the same column count or not.
+         *
+         * @param columnCountCheckEnabled true if all rows should have the same column count.
+         * @return current object for the method chaining.
+         */
+        public Builder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
+            _columnCountCheckEnabled = columnCountCheckEnabled;
+            return this;
+        }
+
+        /**
+         * Specify whether all column and row separators should be escaped, or only specified in this builder object.
+         *
+         * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (COMMA,
+         *                                          SEMICOLON, CR, LF, CRLF), false if only specified in this builder object.
+         * @return current object for the method chaining.
+         */
+        public Builder setEscapeAllSpecialCharactersEnabled(final boolean escapeAllSpecialCharactersEnabled) {
+            _escapeAllSpecialCharactersEnabled = escapeAllSpecialCharactersEnabled;
+            return this;
+        }
+
+        /**
+         * Create CSV printer.
+         *
+         * @return CSV printer.
+         */
+        public CsvPrinter build() {
+            return build(new StringWriter());
+        }
+
+        /**
+         * Create CSV printer.
+         *
+         * @param writer writer to write CSV.
+         * @return CSV printer.
+         */
+        public CsvPrinter build(final Writer writer) {
+            return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _escapeAllSpecialCharactersEnabled);
+        }
+
     }
 
 }
