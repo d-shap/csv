@@ -134,12 +134,12 @@
  * {@link ru.d_shap.csv.CsvParser} object.
  * </p>
  * <p>
- * This settings can be used in the following situation. Some editors can use semicolon as separator,
+ * This settings can be used in the following situation. Some editors can use semicolon as column separator,
  * but not comma. And this editors do NOT enclose column values in double quots if column value contains
- * comma. For example, this editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
+ * commas. For example, this editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
  * There are two columns in this CSV. The first one is enclosed in double quotes and contains semicolon.
  * The second one is NOT enclosed in double quotes and contains comma, that is NOT column separator.
- * {@link ru.d_shap.csv.CsvParserBuilder} object can specify this behaviour.
+ * {@link ru.d_shap.csv.CsvParserBuilder} object can specify this behaviour of {@link ru.d_shap.csv.CsvParser} object.
  * </p>
  */
 package ru.d_shap.csv;
