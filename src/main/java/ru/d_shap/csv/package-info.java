@@ -33,7 +33,7 @@
  * CSV is fully described in RFC 4180.
  * </p>
  * <p>
- * To create CSV {@link ru.d_shap.csv.CsvPrinter} object should be used:
+ * To create CSV {@link ru.d_shap.csv.CsvPrinter} class should be used:
  * </p>
  * <pre>{@code
  * CsvPrinter printer = CsvPrinterBuilder.getInstance().build();
@@ -79,7 +79,7 @@
  * {@link ru.d_shap.csv.CsvPrinter} object.
  * </p>
  * <p>
- * To parse CSV {@link ru.d_shap.csv.CsvParser} object should be used:
+ * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
  * </p>
  * <pre>{@code
  * String csv = "value1,,false\r\nvalue2,true,\r\n,value3,value3\r\n";
