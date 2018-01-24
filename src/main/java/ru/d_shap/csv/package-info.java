@@ -22,7 +22,7 @@
  * Classes to create CSV and parse CSV.
  * </p>
  * <p>
- * CSV is a comma-separated values. It is a list of rows, separated with CRLF symbols. Each row
+ * CSV is a comma-separated values. It is a list of rows, separated with CRLF characters. Each row
  * is a list of columns, separated with commas. CSV ends with CRLF, but it is not mandatory.
  * Sometimes semicolon is used instead of comma. And sometimes LF is used instead of CRLF. If
  * column value contains comma, semicolon, CR, LF or double quotes, then the whole column is
@@ -30,44 +30,50 @@
  * the same number of columns in each row, but sometimes it is not so.
  * </p>
  * <p>
- * CSV  is fully described in RFC 4180.
+ * CSV is fully described in RFC 4180.
  * </p>
  * <p>
  * To create CSV {@link ru.d_shap.csv.CsvPrinter} class should be used:
  * </p>
  * <pre>{@code
- * CsvPrinter builder = new CsvPrinter();
- * builder.addColumn(1);
- * builder.addColumn(true);
- * builder.addRow();
- * builder.addColumn(2.2f);
- * builder.addColumn("value");
- * builder.addColumn("v;a;l;u;e");
- * builder.addColumn("");
- * builder.addRow();
- * builder.addColumn(false);
- * builder.addRow();
- * builder.addColumn(4L);
- * builder.addColumn(10.01);
- * builder.addRow();
- * String csv = builder.getCsv();
+ * CsvPrinter printer = CsvPrinterBuilder.getInstance().build();
+ * printer.addColumn(1);
+ * printer.addColumn(true);
+ * printer.addRow();
+ * printer.addColumn(2.2f);
+ * printer.addColumn("value");
+ * printer.addRow();
+ * printer.addColumn("v;a;l;u;e");
+ * printer.addColumn("");
+ * printer.addRow();
+ * printer.addColumn(4L);
+ * printer.addColumn('Z');
+ * printer.addRow();
+ * printer.addColumn(new Object());
+ * printer.addColumn(new Object());
+ * printer.addRow();
+ * ...
+ * String csv = printer.getCsv();
  * }</pre>
  * <p>
- * {@link ru.d_shap.csv.CsvPrinter} can write CSV directly to the output stream. Next example shows,
- * how {@link ru.d_shap.csv.CsvPrinter} writes CSV to the file:
+ * {@link ru.d_shap.csv.CsvPrinter} object can write CSV directly to the output stream. Next example
+ * shows, how {@link ru.d_shap.csv.CsvPrinter} object writes CSV to the file:
  * </p>
  * <pre>{@code
- * try (FileOutputStream stream = new FileOutputStream("someFile.csv")) {
- *     OutputStreamWriter writer = new OutputStreamWriter(stream);
- *     CsvPrinter builder = new CsvPrinter(writer);
- *     builder.addColumn("value1");
- *     builder.addColumn("value2");
- *     builder.addRow();
- *     ...
+ * try (FileOutputStream stream = new FileOutputStream("someFile.csv");
+ *      OutputStreamWriter writer = new OutputStreamWriter(stream);
+ *      CsvPrinter printer = CsvPrinterBuilder.getInstance().build(writer)) {
+ *     printer.addColumn("value1");
+ *     printer.addColumn("value2");
+ *     printer.addRow();
+ *     ....
  * }
  * }</pre>
  * <p>
- * {@link ru.d_shap.csv.CsvPrinter} can optionally check if each row has the same number of columns.
+ * {@link ru.d_shap.csv.CsvPrinter} object has a number of settings, for example whether to skip empty
+ * lines or not, whether to check that each row has the same number of columns or not, and so on.
+ * This settings are specified in {@link ru.d_shap.csv.CsvPrinterBuilder} object, that is used to create
+ * {@link ru.d_shap.csv.CsvPrinter} object.
  * </p>
  * <p>
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
@@ -77,7 +83,7 @@
  * List<List<String>> result = CsvParser.parse(csv);
  * }</pre>
  * <p>
- * CSV parser is a push parser. It reads a source symbol by symbol and pushes events to the
+ * CSV parser is a push parser. It reads a source character by character and pushes events to the
  * {@link ru.d_shap.csv.handler.CsvEventHandler} object. {@link ru.d_shap.csv.handler.CsvEventHandler}
  * defines the result of CSV parser.
  * </p>
