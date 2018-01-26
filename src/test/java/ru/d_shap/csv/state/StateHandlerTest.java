@@ -26,6 +26,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.CsvParseException;
 import ru.d_shap.csv.CsvParserConfiguration;
+import ru.d_shap.csv.CsvTest;
 import ru.d_shap.csv.WrongColumnCountException;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.ListEventHandler;
@@ -35,7 +36,7 @@ import ru.d_shap.csv.handler.ListEventHandler;
  *
  * @author Dmitry Shapovalov
  */
-public final class StateHandlerTest {
+public final class StateHandlerTest extends CsvTest {
 
     /**
      * Test class constructor.
@@ -50,13 +51,13 @@ public final class StateHandlerTest {
     @Test
     public void newObjectTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
-        Assertions.assertThat(stateHandler.isCommaSeparator()).isFalse();
-        Assertions.assertThat(stateHandler.isSemicolonSeparator()).isFalse();
-        Assertions.assertThat(stateHandler.isCrSeparator()).isFalse();
-        Assertions.assertThat(stateHandler.isLfSeparator()).isFalse();
-        Assertions.assertThat(stateHandler.isCrLfSeparator()).isFalse();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+        Assertions.assertThat(stateHandler.isCommaSeparator()).isTrue();
+        Assertions.assertThat(stateHandler.isSemicolonSeparator()).isTrue();
+        Assertions.assertThat(stateHandler.isCrSeparator()).isTrue();
+        Assertions.assertThat(stateHandler.isLfSeparator()).isTrue();
+        Assertions.assertThat(stateHandler.isCrLfSeparator()).isTrue();
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isNotNull();
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isEmpty();
     }
@@ -68,14 +69,14 @@ public final class StateHandlerTest {
     public void isCommaSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        stateHandlerConfiguration1.setCommaSeparator(false);
-        StateHandler stateHandler1 = new StateHandler(listEventHandler, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        csvParserConfiguration1.setCommaSeparator(false);
+        StateHandler stateHandler1 = new StateHandler(listEventHandler, csvParserConfiguration1);
         Assertions.assertThat(stateHandler1.isCommaSeparator()).isFalse();
 
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setCommaSeparator(true);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setCommaSeparator(true);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler, csvParserConfiguration2);
         Assertions.assertThat(stateHandler2.isCommaSeparator()).isTrue();
     }
 
@@ -86,14 +87,14 @@ public final class StateHandlerTest {
     public void isSemicolonSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        stateHandlerConfiguration1.setSemicolonSeparator(false);
-        StateHandler stateHandler1 = new StateHandler(listEventHandler, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        csvParserConfiguration1.setSemicolonSeparator(false);
+        StateHandler stateHandler1 = new StateHandler(listEventHandler, csvParserConfiguration1);
         Assertions.assertThat(stateHandler1.isSemicolonSeparator()).isFalse();
 
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setSemicolonSeparator(true);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setSemicolonSeparator(true);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler, csvParserConfiguration2);
         Assertions.assertThat(stateHandler2.isSemicolonSeparator()).isTrue();
     }
 
@@ -104,14 +105,14 @@ public final class StateHandlerTest {
     public void isCrSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        stateHandlerConfiguration1.setCrSeparator(false);
-        StateHandler stateHandler1 = new StateHandler(listEventHandler, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        csvParserConfiguration1.setCrSeparator(false);
+        StateHandler stateHandler1 = new StateHandler(listEventHandler, csvParserConfiguration1);
         Assertions.assertThat(stateHandler1.isCrSeparator()).isFalse();
 
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setCrSeparator(true);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setCrSeparator(true);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler, csvParserConfiguration2);
         Assertions.assertThat(stateHandler2.isCrSeparator()).isTrue();
     }
 
@@ -122,14 +123,14 @@ public final class StateHandlerTest {
     public void isLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        stateHandlerConfiguration1.setLfSeparator(false);
-        StateHandler stateHandler1 = new StateHandler(listEventHandler, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        csvParserConfiguration1.setLfSeparator(false);
+        StateHandler stateHandler1 = new StateHandler(listEventHandler, csvParserConfiguration1);
         Assertions.assertThat(stateHandler1.isLfSeparator()).isFalse();
 
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setLfSeparator(true);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setLfSeparator(true);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler, csvParserConfiguration2);
         Assertions.assertThat(stateHandler2.isLfSeparator()).isTrue();
     }
 
@@ -140,14 +141,14 @@ public final class StateHandlerTest {
     public void isCrLfSeparatorTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
 
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        stateHandlerConfiguration1.setCrLfSeparator(false);
-        StateHandler stateHandler1 = new StateHandler(listEventHandler, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        csvParserConfiguration1.setCrLfSeparator(false);
+        StateHandler stateHandler1 = new StateHandler(listEventHandler, csvParserConfiguration1);
         Assertions.assertThat(stateHandler1.isCrLfSeparator()).isFalse();
 
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setCrLfSeparator(true);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setCrLfSeparator(true);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler, csvParserConfiguration2);
         Assertions.assertThat(stateHandler2.isCrLfSeparator()).isTrue();
     }
 
@@ -157,8 +158,8 @@ public final class StateHandlerTest {
     @Test
     public void pushLastProcessedCharacterTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
         stateHandler.pushLastProcessedCharacter('a');
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isNotNull();
@@ -220,8 +221,8 @@ public final class StateHandlerTest {
     @Test
     public void pushLastProcessedCharacterIgnoreEndOfInputTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
         stateHandler.pushLastProcessedCharacter('a');
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isNotNull();
@@ -246,8 +247,8 @@ public final class StateHandlerTest {
     @Test
     public void createCsvParseExceptionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushLastProcessedCharacter('a');
         stateHandler.pushLastProcessedCharacter('b');
         stateHandler.pushLastProcessedCharacter('c');
@@ -268,8 +269,8 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
@@ -281,8 +282,8 @@ public final class StateHandlerTest {
     @Test
     public void pushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
@@ -295,8 +296,8 @@ public final class StateHandlerTest {
     @Test
     public void pushRowTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
         stateHandler1.pushCharacter('a');
         stateHandler1.pushColumn();
         stateHandler1.pushRow();
@@ -306,8 +307,8 @@ public final class StateHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
         stateHandler2.pushCharacter('b');
         stateHandler2.pushColumn();
         stateHandler2.pushCharacter('c');
@@ -325,8 +326,8 @@ public final class StateHandlerTest {
     @Test
     public void pushEmptyColumnTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
         stateHandler1.pushColumn();
         stateHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
@@ -335,8 +336,8 @@ public final class StateHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder("");
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
         stateHandler2.pushCharacter('a');
         stateHandler2.pushColumn();
         stateHandler2.pushColumn();
@@ -349,8 +350,8 @@ public final class StateHandlerTest {
         Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a", "", "b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration3 = new CsvParserConfiguration();
-        StateHandler stateHandler3 = new StateHandler(listEventHandler3, stateHandlerConfiguration3);
+        CsvParserConfiguration csvParserConfiguration3 = createCsvParserConfiguration();
+        StateHandler stateHandler3 = new StateHandler(listEventHandler3, csvParserConfiguration3);
         stateHandler3.pushCharacter('a');
         stateHandler3.pushColumn();
         stateHandler3.pushColumn();
@@ -367,8 +368,8 @@ public final class StateHandlerTest {
     @Test
     public void pushEmptyRowTest() {
         ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration1 = new CsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, stateHandlerConfiguration1);
+        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
+        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
         stateHandler1.pushRow();
         List<List<String>> list1 = listEventHandler1.getCsv();
         Assertions.assertThat(list1).isNotNull();
@@ -376,9 +377,9 @@ public final class StateHandlerTest {
         Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration2 = new CsvParserConfiguration();
-        stateHandlerConfiguration2.setColumnCountCheckEnabled(false);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, stateHandlerConfiguration2);
+        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
+        csvParserConfiguration2.setColumnCountCheckEnabled(false);
+        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
         stateHandler2.pushCharacter('a');
         stateHandler2.pushColumn();
         stateHandler2.pushRow();
@@ -396,9 +397,9 @@ public final class StateHandlerTest {
         Assertions.assertThat(list2.get(3)).containsExactlyInOrder("b");
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration3 = new CsvParserConfiguration();
-        stateHandlerConfiguration3.setColumnCountCheckEnabled(false);
-        StateHandler stateHandler3 = new StateHandler(listEventHandler3, stateHandlerConfiguration3);
+        CsvParserConfiguration csvParserConfiguration3 = createCsvParserConfiguration();
+        csvParserConfiguration3.setColumnCountCheckEnabled(false);
+        StateHandler stateHandler3 = new StateHandler(listEventHandler3, csvParserConfiguration3);
         stateHandler3.pushCharacter('a');
         stateHandler3.pushColumn();
         stateHandler3.pushRow();
@@ -416,8 +417,8 @@ public final class StateHandlerTest {
     @Test
     public void putMultipleCharactersInColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
         stateHandler.pushCharacter('b');
@@ -439,9 +440,9 @@ public final class StateHandlerTest {
     @Test
     public void skipPushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushRow();
         stateHandler.pushCharacter('b');
@@ -464,11 +465,11 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test(expected = WrongColumnCountException.class)
-    public void checkRectangularFailTest() {
+    public void checkColumnCountFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
         stateHandler.pushRow();
@@ -484,8 +485,8 @@ public final class StateHandlerTest {
     @Test
     public void notReusableTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
@@ -513,11 +514,11 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test(expected = WrongColumnCountException.class)
-    public void notReusableRectangularFailTest() {
+    public void notReusableCheckColumnCountFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
         stateHandler.pushCharacter('b');
@@ -544,11 +545,11 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void checkNoColumnRectangularRectangularTest() {
+    public void checkNoColumnColumnCountTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushRow();
         stateHandler.pushRow();
         stateHandler.pushRow();
@@ -565,11 +566,11 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test(expected = WrongColumnCountException.class)
-    public void checkNoColumnRectangularRectangularFailTest() {
+    public void checkNoColumnColumnCountFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushRow();
         stateHandler.pushColumn();
     }
@@ -580,11 +581,11 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterWithNoLengthAndNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
-        stateHandlerConfiguration.setMaxColumnLength(-1);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(-1);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushCharacter('b');
         stateHandler.pushCharacter('c');
@@ -613,11 +614,11 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterWithNoLengthAndCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
-        stateHandlerConfiguration.setMaxColumnLength(-1);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(-1);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushCharacter('b');
         stateHandler.pushCharacter('c');
@@ -646,11 +647,11 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterEmptyWithNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
-        stateHandlerConfiguration.setMaxColumnLength(0);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(0);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushCharacter('b');
         stateHandler.pushCharacter('c');
@@ -680,10 +681,10 @@ public final class StateHandlerTest {
     public void pushCharacterEmptyWithCheckRestrictionTest() {
         try {
             ListEventHandler listEventHandler = new ListEventHandler();
-            CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-            stateHandlerConfiguration.setMaxColumnLength(0);
-            stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(true);
-            StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setMaxColumnLength(0);
+            csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
             stateHandler.pushLastProcessedCharacter('a');
             stateHandler.pushCharacter('a');
             Assertions.fail("StateHandler test fail");
@@ -698,11 +699,11 @@ public final class StateHandlerTest {
     @Test
     public void pushCharacterWithLengthAndNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
-        stateHandlerConfiguration.setMaxColumnLength(3);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
-        StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(3);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushCharacter('b');
         stateHandler.pushCharacter('c');
@@ -732,10 +733,10 @@ public final class StateHandlerTest {
     public void pushCharacterWithLengthAndCheckRestrictionTest() {
         try {
             ListEventHandler listEventHandler = new ListEventHandler();
-            CsvParserConfiguration stateHandlerConfiguration = new CsvParserConfiguration();
-            stateHandlerConfiguration.setMaxColumnLength(3);
-            stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(true);
-            StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setMaxColumnLength(3);
+            csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
             stateHandler.pushLastProcessedCharacter('a');
             stateHandler.pushCharacter('a');
             stateHandler.pushLastProcessedCharacter('b');

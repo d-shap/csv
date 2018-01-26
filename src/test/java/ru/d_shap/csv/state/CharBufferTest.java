@@ -22,13 +22,14 @@ package ru.d_shap.csv.state;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.csv.CsvTest;
 
 /**
  * Tests for {@link CharBuffer}.
  *
  * @author Dmitry Shapovalov
  */
-public final class CharBufferTest {
+public final class CharBufferTest extends CsvTest {
 
     /**
      * Test class constructor.
