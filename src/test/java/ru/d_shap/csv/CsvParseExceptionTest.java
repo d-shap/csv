@@ -29,7 +29,7 @@ import ru.d_shap.csv.state.SpecialCharacter;
  *
  * @author Dmitry Shapovalov
  */
-public final class CsvParseExceptionTest {
+public final class CsvParseExceptionTest extends CsvTest {
 
     /**
      * Test class constructor.

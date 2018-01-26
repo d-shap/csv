@@ -28,7 +28,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class WrongColumnCountExceptionTest {
+public final class WrongColumnCountExceptionTest extends CsvTest {
 
     /**
      * Test class constructor.

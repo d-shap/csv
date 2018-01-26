@@ -30,7 +30,7 @@ import ru.d_shap.assertions.Assertions;
  *
  * @author Dmitry Shapovalov
  */
-public final class CsvIOExceptionTest {
+public final class CsvIOExceptionTest extends CsvTest {
 
     /**
      * Test class constructor.
