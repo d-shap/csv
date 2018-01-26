@@ -21,12 +21,14 @@ package ru.d_shap.csv.handler;
 
 import org.junit.Test;
 
+import ru.d_shap.csv.CsvTest;
+
 /**
  * Tests for {@link NoopEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class NoopEventHandlerTest {
+public final class NoopEventHandlerTest extends CsvTest {
 
     /**
      * Test class constructor.
@@ -39,26 +41,27 @@ public final class NoopEventHandlerTest {
      * {@link NoopEventHandler} class test.
      */
     @Test
-    public void newObjectTest() {
-        NoopEventHandler eventHandler = new NoopEventHandler();
-    }
-
-    /**
-     * {@link NoopEventHandler} class test.
-     */
-    @Test
     public void pushColumnTest() {
         NoopEventHandler eventHandler = new NoopEventHandler();
+
         eventHandler.pushColumn("a", 1);
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
     }
 
     /**
      * {@link NoopEventHandler} class test.
      */
     @Test
-    public void pushRowTest() {
+    public void pushColumnAndRowTest() {
         NoopEventHandler eventHandler = new NoopEventHandler();
+
         eventHandler.pushColumn("a", 1);
+        eventHandler.pushRow();
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
         eventHandler.pushRow();
     }
 
