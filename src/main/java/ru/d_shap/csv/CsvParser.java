@@ -35,17 +35,27 @@ import ru.d_shap.csv.state.StateHandler;
 import ru.d_shap.csv.state.StateHandlerConfiguration;
 
 /**
+ * <p>
  * Class to parse CSV source.
+ * </p>
+ * <p>
  * CSV parser is a push parser. CSV parser reads characters one by one and pushs events (columns and
  * rows) to the {@link CsvEventHandler} object. The {@link CsvEventHandler} object defines, what to
- * do with pushed columns and rows, for example to count them, or to store them in memory, etc.
+ * do with pushed columns and rows - to count them, to store them in memory, and so on.
+ * </p>
+ * <p>
  * Some default implementations of {@link CsvEventHandler} can be used.
  * For example, {@link ListEventHandler} stores the whole CSV in memory as list of rows, each row
  * is a list of columns. {@link DimensionEventHandler} can define row and column count of CSV, if CSV
  * has the same number of columns in each row. {@link ColumnCountEventHandler} can define column count
  * for each row.
+ * </p>
+ * <p>
  * {@link ListEventHandler} is a default {@link CsvEventHandler} object.
+ * </p>
+ * <p>
  * Objects of this class are reusable.
+ * </p>
  *
  * @author Dmitry Shapovalov
  */
