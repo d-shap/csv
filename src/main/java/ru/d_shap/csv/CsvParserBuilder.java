@@ -161,12 +161,6 @@ public final class CsvParserBuilder {
      * @return a {@link CsvParser} object.
      */
     public CsvParser build() {
-        if (!_stateHandlerConfiguration.isCommaSeparator() && !_stateHandlerConfiguration.isSemicolonSeparator()) {
-            throw new WrongColumnSeparatorException();
-        }
-        if (!_stateHandlerConfiguration.isCrSeparator() && !_stateHandlerConfiguration.isLfSeparator() && !_stateHandlerConfiguration.isCrLfSeparator()) {
-            throw new WrongRowSeparatorException();
-        }
         StateHandlerConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
         return new CsvParser(stateHandlerConfiguration);
     }
