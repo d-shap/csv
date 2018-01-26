@@ -58,7 +58,7 @@ public class CsvException extends RuntimeException {
     }
 
     private static String getErrorMessage(final String message, final String lastProcessedCharacters) {
-        StringBuilder builder = new StringBuilder(80);
+        StringBuilder builder = new StringBuilder(100);
         builder.append(message);
         builder.append(" Last characters: \"");
         builder.append(lastProcessedCharacters);
