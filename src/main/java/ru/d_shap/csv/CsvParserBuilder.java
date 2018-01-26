@@ -26,17 +26,17 @@ package ru.d_shap.csv;
  */
 public final class CsvParserBuilder {
 
-    private final CsvParserConfiguration _stateHandlerConfiguration;
+    private final CsvParserConfiguration _csvParserConfiguration;
 
     private CsvParserBuilder() {
         super();
-        _stateHandlerConfiguration = new CsvParserConfiguration();
+        _csvParserConfiguration = new CsvParserConfiguration();
     }
 
     /**
-     * Get new builder instance.
+     * Get a new builder instance.
      *
-     * @return new builder instance.
+     * @return a new builder instance.
      */
     public static CsvParserBuilder getInstance() {
         return new CsvParserBuilder().setFormat(CsvFormat.DEFAULT);
@@ -60,7 +60,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCommaSeparator(final boolean commaSeparator) {
-        _stateHandlerConfiguration.setCommaSeparator(commaSeparator);
+        _csvParserConfiguration.setCommaSeparator(commaSeparator);
         return this;
     }
 
@@ -71,7 +71,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setSemicolonSeparator(final boolean semicolonSeparator) {
-        _stateHandlerConfiguration.setSemicolonSeparator(semicolonSeparator);
+        _csvParserConfiguration.setSemicolonSeparator(semicolonSeparator);
         return this;
     }
 
@@ -82,7 +82,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCrSeparator(final boolean crSeparator) {
-        _stateHandlerConfiguration.setCrSeparator(crSeparator);
+        _csvParserConfiguration.setCrSeparator(crSeparator);
         return this;
     }
 
@@ -93,7 +93,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setLfSeparator(final boolean lfSeparator) {
-        _stateHandlerConfiguration.setLfSeparator(lfSeparator);
+        _csvParserConfiguration.setLfSeparator(lfSeparator);
         return this;
     }
 
@@ -104,7 +104,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCrLfSeparator(final boolean crLfSeparator) {
-        _stateHandlerConfiguration.setCrLfSeparator(crLfSeparator);
+        _csvParserConfiguration.setCrLfSeparator(crLfSeparator);
         return this;
     }
 
@@ -115,7 +115,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
-        _stateHandlerConfiguration.setColumnCountCheckEnabled(columnCountCheckEnabled);
+        _csvParserConfiguration.setColumnCountCheckEnabled(columnCountCheckEnabled);
         return this;
     }
 
@@ -126,7 +126,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
-        _stateHandlerConfiguration.setSkipEmptyRowsEnabled(skipEmptyRowsEnabled);
+        _csvParserConfiguration.setSkipEmptyRowsEnabled(skipEmptyRowsEnabled);
         return this;
     }
 
@@ -138,7 +138,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setMaxColumnLength(final int maxColumnLength) {
-        _stateHandlerConfiguration.setMaxColumnLength(maxColumnLength);
+        _csvParserConfiguration.setMaxColumnLength(maxColumnLength);
         return this;
     }
 
@@ -149,7 +149,7 @@ public final class CsvParserBuilder {
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setMaxColumnLengthCheckEnabled(final boolean maxColumnLengthCheckEnabled) {
-        _stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(maxColumnLengthCheckEnabled);
+        _csvParserConfiguration.setMaxColumnLengthCheckEnabled(maxColumnLengthCheckEnabled);
         return this;
     }
 
@@ -159,8 +159,8 @@ public final class CsvParserBuilder {
      * @return a {@link CsvParser} object.
      */
     public CsvParser build() {
-        CsvParserConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
-        return new CsvParser(stateHandlerConfiguration);
+        CsvParserConfiguration csvParserConfiguration = _csvParserConfiguration.copyOf();
+        return new CsvParser(csvParserConfiguration);
     }
 
 }
