@@ -29,24 +29,17 @@ import java.io.Writer;
  */
 public final class CsvPrinterBuilder {
 
-    private String _columnSeparator;
-
-    private String _rowSeparator;
-
-    private boolean _columnCountCheckEnabled;
-
-    private boolean _skipEmptyRowsEnabled;
-
-    private boolean _escapeAllSpecialCharactersEnabled;
+    private final CsvPrinterConfiguration _csvPrinterConfiguration;
 
     private CsvPrinterBuilder() {
         super();
+        _csvPrinterConfiguration = new CsvPrinterConfiguration();
     }
 
     /**
-     * Get new builder instance.
+     * Get a new builder instance.
      *
-     * @return new builder instance.
+     * @return a new builder instance.
      */
     public static CsvPrinterBuilder getInstance() {
         return new CsvPrinterBuilder().setFormat(CsvFormat.DEFAULT);
@@ -69,7 +62,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setCommaSeparator() {
-        _columnSeparator = CsvPrinter.COMMA;
+        _csvPrinterConfiguration.setCommaSeparator();
         return this;
     }
 
@@ -79,7 +72,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setSemicolonSeparator() {
-        _columnSeparator = CsvPrinter.SEMICOLON;
+        _csvPrinterConfiguration.setSemicolonSeparator();
         return this;
     }
 
@@ -89,7 +82,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setCrSeparator() {
-        _rowSeparator = CsvPrinter.CR;
+        _csvPrinterConfiguration.setCrSeparator();
         return this;
     }
 
@@ -99,7 +92,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setLfSeparator() {
-        _rowSeparator = CsvPrinter.LF;
+        _csvPrinterConfiguration.setLfSeparator();
         return this;
     }
 
@@ -109,7 +102,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setCrLfSeparator() {
-        _rowSeparator = CsvPrinter.CRLF;
+        _csvPrinterConfiguration.setCrLfSeparator();
         return this;
     }
 
@@ -120,7 +113,7 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
-        _columnCountCheckEnabled = columnCountCheckEnabled;
+        _csvPrinterConfiguration.setColumnCountCheckEnabled(columnCountCheckEnabled);
         return this;
     }
 
@@ -131,19 +124,18 @@ public final class CsvPrinterBuilder {
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
-        _skipEmptyRowsEnabled = skipEmptyRowsEnabled;
+        _csvPrinterConfiguration.setSkipEmptyRowsEnabled(skipEmptyRowsEnabled);
         return this;
     }
 
     /**
-     * Specify whether all column and row separators should be escaped, or only specified in this builder object.
+     * Specify whether all column and row separators should be escaped, or only separators specified in this object.
      *
-     * @param escapeAllSpecialCharactersEnabled true if all column and row separators should be escaped (comma,
-     *                                          semicolon, CR, LF, CRLF), false if only specified in this builder object.
+     * @param escapeAllSeparatorsEnabled true if all column and row separators should be escaped, false if only separators specified in this object.
      * @return current object for the method chaining.
      */
-    public CsvPrinterBuilder setEscapeAllSpecialCharactersEnabled(final boolean escapeAllSpecialCharactersEnabled) {
-        _escapeAllSpecialCharactersEnabled = escapeAllSpecialCharactersEnabled;
+    public CsvPrinterBuilder setEscapeAllSeparatorsEnabled(final boolean escapeAllSeparatorsEnabled) {
+        _csvPrinterConfiguration.setEscapeAllSeparatorsEnabled(escapeAllSeparatorsEnabled);
         return this;
     }
 
@@ -163,7 +155,8 @@ public final class CsvPrinterBuilder {
      * @return a {@link CsvPrinter} object.
      */
     public CsvPrinter build(final Writer writer) {
-        return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _skipEmptyRowsEnabled, _escapeAllSpecialCharactersEnabled);
+        CsvPrinterConfiguration csvPrinterConfiguration = _csvPrinterConfiguration.copyOf();
+        return new CsvPrinter(writer, csvPrinterConfiguration);
     }
 
 }
