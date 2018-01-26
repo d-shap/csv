@@ -36,19 +36,7 @@ public final class StateHandler {
 
     private final CsvEventHandler _csvEventHandler;
 
-    private final boolean _commaSeparator;
-
-    private final boolean _semicolonSeparator;
-
-    private final boolean _crSeparator;
-
-    private final boolean _lfSeparator;
-
-    private final boolean _crLfSeparator;
-
-    private final boolean _columnCountCheckEnabled;
-
-    private final boolean _skipEmptyRowsEnabled;
+    private final CsvParserConfiguration _csvParserConfiguration;
 
     private final CharStack _lastProcessedCharacters;
 
@@ -63,46 +51,39 @@ public final class StateHandler {
     /**
      * Create a new object.
      *
-     * @param csvEventHandler    event handler to process CSV parser events.
-     * @param stateHandlerConfig CSV parser configuration.
+     * @param csvEventHandler        event handler to process CSV parser events.
+     * @param csvParserConfiguration CSV parser configuration object.
      */
-    public StateHandler(final CsvEventHandler csvEventHandler, final CsvParserConfiguration stateHandlerConfig) {
+    public StateHandler(final CsvEventHandler csvEventHandler, final CsvParserConfiguration csvParserConfiguration) {
         super();
         _csvEventHandler = csvEventHandler;
-        _commaSeparator = stateHandlerConfig.isCommaSeparator();
-        _semicolonSeparator = stateHandlerConfig.isSemicolonSeparator();
-        _crSeparator = stateHandlerConfig.isCrSeparator();
-        _lfSeparator = stateHandlerConfig.isLfSeparator();
-        _crLfSeparator = stateHandlerConfig.isCrLfSeparator();
-        _columnCountCheckEnabled = stateHandlerConfig.isColumnCountCheckEnabled();
-        _skipEmptyRowsEnabled = stateHandlerConfig.isSkipEmptyRowsEnabled();
-
+        csvParserConfiguration.validate();
+        _csvParserConfiguration = csvParserConfiguration;
         _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
-        _currentColumnCharacters = new CharBuffer(stateHandlerConfig.getMaxColumnLength(), stateHandlerConfig.isMaxColumnLengthCheckEnabled());
-
+        _currentColumnCharacters = new CharBuffer(_csvParserConfiguration.getMaxColumnLength(), _csvParserConfiguration.isMaxColumnLengthCheckEnabled());
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
     }
 
     boolean isCommaSeparator() {
-        return _commaSeparator;
+        return _csvParserConfiguration.isCommaSeparator();
     }
 
     boolean isSemicolonSeparator() {
-        return _semicolonSeparator;
+        return _csvParserConfiguration.isSemicolonSeparator();
     }
 
     boolean isCrSeparator() {
-        return _crSeparator;
+        return _csvParserConfiguration.isCrSeparator();
     }
 
     boolean isLfSeparator() {
-        return _lfSeparator;
+        return _csvParserConfiguration.isLfSeparator();
     }
 
     boolean isCrLfSeparator() {
-        return _crLfSeparator;
+        return _csvParserConfiguration.isCrLfSeparator();
     }
 
     void pushLastProcessedCharacter(final int character) {
@@ -128,7 +109,7 @@ public final class StateHandler {
     }
 
     void pushColumn() {
-        if (_columnCountCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+        if (_csvParserConfiguration.isColumnCountCheckEnabled() && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
             throw new WrongColumnCountException(getLastProcessedCharacters());
         }
 
@@ -140,14 +121,14 @@ public final class StateHandler {
     }
 
     void pushRow() {
-        if (_skipEmptyRowsEnabled && _currentColumnCount == 0) {
+        if (_csvParserConfiguration.isSkipEmptyRowsEnabled() && _currentColumnCount == 0) {
             return;
         }
 
         if (_firstRow) {
             _firstRowColumnCount = _currentColumnCount;
             _firstRow = false;
-        } else if (_columnCountCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
+        } else if (_csvParserConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount != _currentColumnCount) {
             throw new WrongColumnCountException(getLastProcessedCharacters());
         }
 
