@@ -23,7 +23,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Builder class to create {@link CsvPrinter} object.
+ * Builder class to create a {@link CsvPrinter} object.
  *
  * @author Dmitry Shapovalov
  */
@@ -41,11 +41,6 @@ public final class CsvPrinterBuilder {
 
     private CsvPrinterBuilder() {
         super();
-        _columnSeparator = CsvPrinter.COMMA;
-        _rowSeparator = CsvPrinter.CRLF;
-        _columnCountCheckEnabled = false;
-        _skipEmptyRowsEnabled = false;
-        _escapeAllSpecialCharactersEnabled = true;
     }
 
     /**
@@ -54,7 +49,18 @@ public final class CsvPrinterBuilder {
      * @return new builder instance.
      */
     public static CsvPrinterBuilder getInstance() {
-        return new CsvPrinterBuilder();
+        return new CsvPrinterBuilder().setFormat(CsvFormat.DEFAULT);
+    }
+
+    /**
+     * Set current settings as defined in the specified format.
+     *
+     * @param format the specified format.
+     * @return current object for the method chaining.
+     */
+    public CsvPrinterBuilder setFormat(final CsvFormat format) {
+        format.configure(this);
+        return this;
     }
 
     /**
@@ -142,19 +148,19 @@ public final class CsvPrinterBuilder {
     }
 
     /**
-     * Create {@link CsvPrinter} object.
+     * Create a {@link CsvPrinter} object.
      *
-     * @return {@link CsvPrinter} object.
+     * @return a {@link CsvPrinter} object.
      */
     public CsvPrinter build() {
         return build(new StringWriter());
     }
 
     /**
-     * Create {@link CsvPrinter} object.
+     * Create a {@link CsvPrinter} object.
      *
      * @param writer writer to write CSV.
-     * @return {@link CsvPrinter} object.
+     * @return a {@link CsvPrinter} object.
      */
     public CsvPrinter build(final Writer writer) {
         return new CsvPrinter(writer, _columnSeparator, _rowSeparator, _columnCountCheckEnabled, _skipEmptyRowsEnabled, _escapeAllSpecialCharactersEnabled);
