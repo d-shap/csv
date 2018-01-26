@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * <p>
- * Classes to create CSV and parse CSV.
+ * Classes to print CSV and to parse CSV.
  * </p>
  * <p>
  * CSV is a comma-separated values. It is a list of rows, separated with CRLF characters. Each row
@@ -33,7 +33,7 @@
  * CSV is fully described in RFC 4180.
  * </p>
  * <p>
- * To create CSV {@link ru.d_shap.csv.CsvPrinter} class should be used:
+ * To print CSV {@link ru.d_shap.csv.CsvPrinter} class should be used:
  * </p>
  * <pre>{@code
  * CsvPrinter printer = CsvPrinterBuilder.getInstance().build();
@@ -56,7 +56,7 @@
  * String csv = printer.getCsv();
  * }</pre>
  * <p>
- * In this example CSV is written to the StringWriter. This could be a memory consuming operation.
+ * In this example CSV is written to the {@link java.io.StringWriter}. This could be a memory consuming operation.
  * </p>
  * <p>
  * {@link ru.d_shap.csv.CsvPrinter} object can write CSV directly to the output stream. Next example
@@ -73,10 +73,10 @@
  * }
  * }</pre>
  * <p>
- * {@link ru.d_shap.csv.CsvPrinter} object has a number of settings, for example whether to skip empty
+ * A {@link ru.d_shap.csv.CsvPrinter} object has a number of settings, for example whether to skip empty
  * lines or not, whether to check that each row has the same number of columns or not, and so on.
- * This settings are specified in {@link ru.d_shap.csv.CsvPrinterBuilder} object, that is used to create
- * {@link ru.d_shap.csv.CsvPrinter} object.
+ * This settings are specified in a {@link ru.d_shap.csv.CsvPrinterBuilder} object, that is used to create
+ * a {@link ru.d_shap.csv.CsvPrinter} object.
  * </p>
  * <p>
  * To parse CSV {@link ru.d_shap.csv.CsvParser} class should be used:
@@ -88,8 +88,7 @@
  * <p>
  * CSV parser is a push parser. CSV parser reads characters one by one and pushs events (columns and
  * rows) to the {@link ru.d_shap.csv.handler.CsvEventHandler} object. The {@link ru.d_shap.csv.handler.CsvEventHandler}
- * object defines, what to do with pushed columns and rows, for example to count them, or to store
- * them in memory, etc.
+ * object defines, what to do with pushed columns and rows - to count them, to store them in memory, and so on.
  * </p>
  * <p>
  * Some predefined {@link ru.d_shap.csv.handler.CsvEventHandler} objects can be used.
@@ -119,7 +118,7 @@
  * System.out.println("Column count: " + eventHandler.getColumnCount());
  * }</pre>
  * <p>
- * The default {@link ru.d_shap.csv.handler.CsvEventHandler} is {@link ru.d_shap.csv.handler.ListEventHandler}.
+ * The default {@link ru.d_shap.csv.handler.CsvEventHandler} is a {@link ru.d_shap.csv.handler.ListEventHandler}.
  * This handler stores CSV in memory as list of rows, each row is a list of columns. This handler could be a memory
  * consuming one.
  * </p>
@@ -128,10 +127,10 @@
  * CRLF as row separators.
  * </p>
  * <p>
- * {@link ru.d_shap.csv.CsvParser} object has a number of settings, for example whether to skip empty
+ * A {@link ru.d_shap.csv.CsvParser} object has a number of settings, for example whether to skip empty
  * lines or not, whether to check that each row has the same number of columns or not, and so on.
- * This settings are specified in {@link ru.d_shap.csv.CsvParserBuilder} object, that is used to create
- * {@link ru.d_shap.csv.CsvParser} object.
+ * This settings are specified in a {@link ru.d_shap.csv.CsvParserBuilder} object, that is used to create
+ * a {@link ru.d_shap.csv.CsvParser} object.
  * </p>
  * <p>
  * This settings can be used in the following situation. Some editors can use semicolon as column separator,
