@@ -19,18 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.csv.CsvParserConfiguration;
+import ru.d_shap.csv.CsvTest;
 
 /**
  * Tests for {@link ColumnLengthEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnLengthEventHandlerTest {
+public final class ColumnLengthEventHandlerTest extends CsvTest {
 
     /**
      * Test class constructor.
@@ -43,10 +43,49 @@ public final class ColumnLengthEventHandlerTest {
      * {@link ColumnLengthEventHandler} class test.
      */
     @Test
-    public void newObjectTest() {
+    public void configureTest() {
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
-        Assertions.assertThat(eventHandler.getColumnLengths()).isEmpty();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+
+        csvParserConfiguration.setCommaSeparator(false);
+        csvParserConfiguration.setSemicolonSeparator(false);
+        csvParserConfiguration.setCrSeparator(false);
+        csvParserConfiguration.setLfSeparator(false);
+        csvParserConfiguration.setCrLfSeparator(false);
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setSkipEmptyRowsEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(0);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
+        eventHandler.configure(csvParserConfiguration);
+        Assertions.assertThat(csvParserConfiguration.isCommaSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isSemicolonSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isColumnCountCheckEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isSkipEmptyRowsEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfiguration.isMaxColumnLengthCheckEnabled()).isFalse();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        csvParserConfiguration.setSkipEmptyRowsEnabled(true);
+        csvParserConfiguration.setMaxColumnLength(1);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
+        eventHandler.configure(csvParserConfiguration);
+        Assertions.assertThat(csvParserConfiguration.isCommaSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isSemicolonSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isCrSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isCrLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isColumnCountCheckEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isSkipEmptyRowsEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfiguration.isMaxColumnLengthCheckEnabled()).isFalse();
     }
 
     /**
@@ -55,7 +94,13 @@ public final class ColumnLengthEventHandlerTest {
     @Test
     public void pushColumnTest() {
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+
         eventHandler.pushColumn("a", 1);
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(0);
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
         Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(0);
     }
@@ -64,69 +109,57 @@ public final class ColumnLengthEventHandlerTest {
      * {@link ColumnLengthEventHandler} class test.
      */
     @Test
-    public void pushRowTest() {
-        ColumnLengthEventHandler eventHandler1 = new ColumnLengthEventHandler();
-        eventHandler1.pushColumn("a", 1);
-        eventHandler1.pushRow();
-        List<List<Integer>> list1 = eventHandler1.getColumnLengths();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder(1);
-
-        ColumnLengthEventHandler eventHandler2 = new ColumnLengthEventHandler();
-        eventHandler2.pushColumn("b", 1);
-        eventHandler2.pushColumn("c", 1);
-        eventHandler2.pushRow();
-        List<List<Integer>> list2 = eventHandler2.getColumnLengths();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(1);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder(1, 1);
-    }
-
-    /**
-     * {@link ColumnLengthEventHandler} class test.
-     */
-    @Test
-    public void pushEmptyRowTest() {
-        ColumnLengthEventHandler eventHandler1 = new ColumnLengthEventHandler();
-        eventHandler1.pushRow();
-        List<List<Integer>> list1 = eventHandler1.getColumnLengths();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
-
-        ColumnLengthEventHandler eventHandler2 = new ColumnLengthEventHandler();
-        eventHandler2.pushColumn("a", 1);
-        eventHandler2.pushRow();
-        eventHandler2.pushRow();
-        eventHandler2.pushRow();
-        eventHandler2.pushColumn("b", 1);
-        eventHandler2.pushRow();
-        List<List<Integer>> list2 = eventHandler2.getColumnLengths();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(4);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder(1);
-        Assertions.assertThat(list2.get(1)).containsExactlyInOrder();
-        Assertions.assertThat(list2.get(2)).containsExactlyInOrder();
-        Assertions.assertThat(list2.get(3)).containsExactlyInOrder(1);
-
-        ColumnLengthEventHandler eventHandler3 = new ColumnLengthEventHandler();
-        eventHandler3.pushColumn("a", 1);
-        eventHandler3.pushRow();
-        eventHandler3.pushRow();
-        List<List<Integer>> list3 = eventHandler3.getColumnLengths();
-        Assertions.assertThat(list3).isNotNull();
-        Assertions.assertThat(list3).hasSize(2);
-        Assertions.assertThat(list3.get(0)).containsExactlyInOrder(1);
-        Assertions.assertThat(list3.get(1)).containsExactlyInOrder();
-    }
-
-    /**
-     * {@link ColumnLengthEventHandler} class test.
-     */
-    @Test
-    public void rectangularTest() {
+    public void pushColumnAndRowTest() {
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+
+        eventHandler.pushColumn("a", 1);
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder(1);
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder(1);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsExactlyInOrder(2, 3);
+    }
+
+    /**
+     * {@link ColumnLengthEventHandler} class test.
+     */
+    @Test
+    public void pushRowTest() {
+        ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(1);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder();
+
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsExactlyInOrder();
+
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(3);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsExactlyInOrder();
+        Assertions.assertThat(eventHandler.getColumnLengths().get(2)).containsExactlyInOrder();
+    }
+
+    /**
+     * {@link ColumnLengthEventHandler} class test.
+     */
+    @Test
+    public void pushRowsWithSameColumnCountTest() {
+        ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
@@ -139,13 +172,37 @@ public final class ColumnLengthEventHandlerTest {
         eventHandler.pushColumn("j", 1);
         eventHandler.pushColumn("klm", 3);
         eventHandler.pushRow();
-        List<List<Integer>> list = eventHandler.getColumnLengths();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(4);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder(1, 2);
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder(1, 2);
-        Assertions.assertThat(list.get(2)).containsExactlyInOrder(1, 2);
-        Assertions.assertThat(list.get(3)).containsExactlyInOrder(1, 3);
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(4);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(2)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(3)).containsExactlyInOrder(1, 3);
+    }
+
+    /**
+     * {@link ColumnLengthEventHandler} class test.
+     */
+    @Test
+    public void pushRowsWithDifferentColumnCountTest() {
+        ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
+
+        eventHandler.pushColumn("a", 1);
+        eventHandler.pushColumn("bc", 2);
+        eventHandler.pushRow();
+        eventHandler.pushColumn("d", 1);
+        eventHandler.pushRow();
+        eventHandler.pushColumn("e", 1);
+        eventHandler.pushColumn("fg", 2);
+        eventHandler.pushColumn("hij", 3);
+        eventHandler.pushRow();
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
+        Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(4);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsExactlyInOrder(1, 2);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(1)).containsExactlyInOrder(1);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(2)).containsExactlyInOrder(1, 2, 3);
+        Assertions.assertThat(eventHandler.getColumnLengths().get(3)).containsExactlyInOrder();
     }
 
 }
