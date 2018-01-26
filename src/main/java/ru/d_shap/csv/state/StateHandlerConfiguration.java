@@ -49,15 +49,7 @@ public final class StateHandlerConfiguration {
      */
     public StateHandlerConfiguration() {
         super();
-        _commaSeparator = true;
-        _semicolonSeparator = true;
-        _crSeparator = false;
-        _lfSeparator = true;
-        _crLfSeparator = true;
-        _columnCountCheckEnabled = false;
-        _skipEmptyRowsEnabled = false;
         _maxColumnLength = -1;
-        _maxColumnLengthCheckEnabled = false;
     }
 
     /**
