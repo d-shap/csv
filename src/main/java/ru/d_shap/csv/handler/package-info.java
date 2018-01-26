@@ -24,12 +24,18 @@
  * <p>
  * CSV parser is a push parser. CSV parser reads characters one by one and pushs events (columns and
  * rows) to the {@link ru.d_shap.csv.handler.CsvEventHandler} object. The {@link ru.d_shap.csv.handler.CsvEventHandler}
- * object defines, what to do with pushed columns and rows, for example to count them, or to store them in memory, etc.
+ * object defines, what to do with pushed columns and rows - to count them, to store them in memory, and so on.
  * </p>
  * <p>
  * If the {@link ru.d_shap.csv.handler.CsvEventHandler} object also implements {@link ru.d_shap.csv.handler.CsvConfigurable}
- * interface, then the {@link ru.d_shap.csv.handler.CsvEventHandler} object can modify CSV parser behaviour,
- * for example add restrictions to the column value length, to the column count, etc.
+ * interface, then the {@link ru.d_shap.csv.handler.CsvEventHandler} object can modify CSV parser behaviour.
+ * For example add restriction to the column value length, add restriction to the column count, and so on.
+ * </p>
+ * <p>
+ * CSV parser behaviour is specified in the {@link ru.d_shap.csv.CsvParserBuilder} object. And then
+ * this behaviour is altered by the {@link ru.d_shap.csv.handler.CsvEventHandler} object. There is
+ * no way to cancel {@link ru.d_shap.csv.handler.CsvEventHandler} modification in CSV parser behaviour.
+ * In this case another {@link ru.d_shap.csv.handler.CsvEventHandler} should be used.
  * </p>
  */
 package ru.d_shap.csv.handler;

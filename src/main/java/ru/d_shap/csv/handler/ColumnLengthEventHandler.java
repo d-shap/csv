@@ -70,9 +70,9 @@ public final class ColumnLengthEventHandler implements CsvConfigurable, CsvEvent
     }
 
     /**
-     * Get list of length of each column value in each row of CSV.
+     * Get list of column value lengths of each row.
      *
-     * @return list of length of each column value in each row of CSV.
+     * @return list of column value lengths of each row.
      */
     public List<List<Integer>> getColumnLengths() {
         return _rows;

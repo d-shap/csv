@@ -79,9 +79,9 @@ public abstract class AbstractListEventHandler implements CsvEventHandler {
     }
 
     /**
-     * Get list of rows, each row is a list of columns of CSV.
+     * Get list of rows, each row is a list of columns.
      *
-     * @return list of rows, each row is a list of columns of CSV.
+     * @return list of rows, each row is a list of columns.
      */
     public final List<List<String>> getCsv() {
         return _rows;

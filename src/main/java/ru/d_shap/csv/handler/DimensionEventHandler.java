@@ -22,8 +22,8 @@ package ru.d_shap.csv.handler;
 import ru.d_shap.csv.state.StateHandlerConfiguration;
 
 /**
- * CSV parser event handler, that defines row and column count of CSV. CSV should have the same
- * column count in each row. Otherwise an exception will be thrown.
+ * CSV parser event handler, that defines row and column count. Each row should have the same column
+ * count. Otherwise an exception will be thrown.
  *
  * @author Dmitry Shapovalov
  */
@@ -66,7 +66,7 @@ public final class DimensionEventHandler implements CsvConfigurable, CsvEventHan
     }
 
     /**
-     * Get CSV row count.
+     * Get row count.
      *
      * @return row count.
      */
@@ -75,7 +75,7 @@ public final class DimensionEventHandler implements CsvConfigurable, CsvEventHan
     }
 
     /**
-     * Get CSV column count.
+     * Get column count.
      *
      * @return column count.
      */

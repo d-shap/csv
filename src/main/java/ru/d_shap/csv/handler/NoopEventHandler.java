@@ -21,9 +21,9 @@ package ru.d_shap.csv.handler;
 
 /**
  * CSV parser event handler, that skips all callback calls.
- * This handler can be used for CSV validation. For example, has CSV source valid format or not,
- * does CSV contain the same column count in all rows or not, does any column value length exceed the
- * specified maximum column value length or not.
+ * This handler can be used for CSV validation. For example, whether CSV source has valid format or not,
+ * whether CSV contains the same column count in all rows or not, whether any column value length exceeds
+ * the specified maximum column value length or not.
  *
  * @author Dmitry Shapovalov
  */
