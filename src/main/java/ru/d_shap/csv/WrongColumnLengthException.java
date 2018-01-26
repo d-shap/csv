@@ -20,7 +20,7 @@
 package ru.d_shap.csv;
 
 /**
- * Exception in thrown when column length exceeds the maximum column length.
+ * Exception in thrown when the actual column value length exceeds the maximum column value length.
  *
  * @author Dmitry Shapovalov
  */
@@ -34,7 +34,7 @@ public class WrongColumnLengthException extends CsvException {
      * @param lastProcessedCharacters last characters processed by CSV parser.
      */
     public WrongColumnLengthException(final String lastProcessedCharacters) {
-        super("Maximum column length exceeded.", lastProcessedCharacters);
+        super("Maximum column value length exceeded.", lastProcessedCharacters);
     }
 
 }
