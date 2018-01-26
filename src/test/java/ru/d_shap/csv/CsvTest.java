@@ -24,9 +24,9 @@ package ru.d_shap.csv;
  *
  * @author Dmitry Shapovalov
  */
-public final class Builder {
+public final class CsvTest {
 
-    private Builder() {
+    private CsvTest() {
         super();
     }
 
