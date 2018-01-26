@@ -46,10 +46,10 @@ public final class DimensionEventHandler implements CsvConfigurable, CsvEventHan
     }
 
     @Override
-    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
-        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
-        stateHandlerConfiguration.setMaxColumnLength(0);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
+    public void configure(final CsvParserConfiguration csvParserConfiguration) {
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        csvParserConfiguration.setMaxColumnLength(0);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override

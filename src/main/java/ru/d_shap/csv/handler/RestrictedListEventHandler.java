@@ -63,9 +63,9 @@ public final class RestrictedListEventHandler extends AbstractListEventHandler i
     }
 
     @Override
-    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
-        stateHandlerConfiguration.setMaxColumnLength(_maxColumnLength);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
+    public void configure(final CsvParserConfiguration csvParserConfiguration) {
+        csvParserConfiguration.setMaxColumnLength(_maxColumnLength);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override

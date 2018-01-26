@@ -32,8 +32,8 @@ public interface CsvConfigurable {
     /**
      * Configure CSV parser.
      *
-     * @param stateHandlerConfiguration CSV parser configuration object.
+     * @param csvParserConfiguration CSV parser configuration object.
      */
-    void configure(CsvParserConfiguration stateHandlerConfiguration);
+    void configure(CsvParserConfiguration csvParserConfiguration);
 
 }

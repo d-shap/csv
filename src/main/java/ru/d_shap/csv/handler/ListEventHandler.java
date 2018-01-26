@@ -36,9 +36,9 @@ public final class ListEventHandler extends AbstractListEventHandler implements 
     }
 
     @Override
-    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
-        stateHandlerConfiguration.setMaxColumnLength(-1);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
+    public void configure(final CsvParserConfiguration csvParserConfiguration) {
+        csvParserConfiguration.setMaxColumnLength(-1);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override

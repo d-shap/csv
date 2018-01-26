@@ -45,9 +45,9 @@ public final class ColumnLengthEventHandler implements CsvConfigurable, CsvEvent
     }
 
     @Override
-    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
-        stateHandlerConfiguration.setMaxColumnLength(0);
-        stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
+    public void configure(final CsvParserConfiguration csvParserConfiguration) {
+        csvParserConfiguration.setMaxColumnLength(0);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
     }
 
     @Override
