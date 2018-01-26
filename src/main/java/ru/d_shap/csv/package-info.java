@@ -27,7 +27,7 @@
  * Sometimes semicolon is used instead of comma. And sometimes LF is used instead of CRLF. If
  * column value contains comma, semicolon, CR, LF or double quotes, then the whole column is
  * enclosed in double quotes. Double quotes are escaped with double quotes. CSV can have
- * the same number of columns in each row, but sometimes it is not so.
+ * the same number of columns in each row, but sometimes it has not.
  * </p>
  * <p>
  * CSV is fully described in RFC 4180.
@@ -133,12 +133,19 @@
  * a {@link ru.d_shap.csv.CsvParser} object.
  * </p>
  * <p>
- * This settings can be used in the following situation. Some editors can use semicolon as column separator,
- * but not comma. And this editors do NOT enclose column values in double quots if column value contains
- * commas. For example, this editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
+ * This settings can be used in many different situations.
+ * </p>
+ * <p>
+ * For example, some editors can use semicolon as column separator, but not comma. And this editors
+ * do NOT enclose column values in double quots if column value contains commas. For example, this
+ * editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
  * There are two columns in this CSV. The first one is enclosed in double quotes and contains semicolon.
  * The second one is NOT enclosed in double quotes and contains comma, that is NOT column separator.
- * {@link ru.d_shap.csv.CsvParserBuilder} object can specify this behaviour of {@link ru.d_shap.csv.CsvParser} object.
+ * The following code is an example of how to deal with CSV like this:
  * </p>
+ * <pre>{@code
+ * String csv = "\"value;value_in_the same_column\";abc,123";
+ * List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).build().parse(csv);
+ * }</pre>
  */
 package ru.d_shap.csv;
