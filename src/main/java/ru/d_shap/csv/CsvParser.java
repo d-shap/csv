@@ -60,17 +60,12 @@ import ru.d_shap.csv.state.StateHandler;
  */
 public final class CsvParser {
 
-    private final CsvParserConfiguration _stateHandlerConfiguration;
+    private final CsvParserConfiguration _csvParserConfiguration;
 
-    CsvParser(final CsvParserConfiguration stateHandlerConfiguration) {
+    CsvParser(final CsvParserConfiguration csvParserConfiguration) {
         super();
-        _stateHandlerConfiguration = stateHandlerConfiguration;
-        if (!_stateHandlerConfiguration.isCommaSeparator() && !_stateHandlerConfiguration.isSemicolonSeparator()) {
-            throw new WrongColumnSeparatorException();
-        }
-        if (!_stateHandlerConfiguration.isCrSeparator() && !_stateHandlerConfiguration.isLfSeparator() && !_stateHandlerConfiguration.isCrLfSeparator()) {
-            throw new WrongRowSeparatorException();
-        }
+        csvParserConfiguration.validate();
+        _csvParserConfiguration = csvParserConfiguration;
     }
 
     /**
@@ -117,14 +112,14 @@ public final class CsvParser {
      */
     public void parse(final Reader reader, final CsvEventHandler csvEventHandler) {
         try {
-            CsvParserConfiguration stateHandlerConfiguration;
+            CsvParserConfiguration csvParserConfiguration;
             if (csvEventHandler instanceof CsvConfigurable) {
-                stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
-                ((CsvConfigurable) csvEventHandler).configure(stateHandlerConfiguration);
+                csvParserConfiguration = _csvParserConfiguration.copyOf();
+                ((CsvConfigurable) csvEventHandler).configure(csvParserConfiguration);
             } else {
-                stateHandlerConfiguration = _stateHandlerConfiguration;
+                csvParserConfiguration = _csvParserConfiguration;
             }
-            StateHandler eventHandler = new StateHandler(csvEventHandler, stateHandlerConfiguration);
+            StateHandler eventHandler = new StateHandler(csvEventHandler, csvParserConfiguration);
             State state = State.getInitState();
             int character;
             while (true) {
