@@ -44,20 +44,12 @@ public final class CsvParserConfiguration {
 
     private boolean _maxColumnLengthCheckEnabled;
 
-    /**
-     * Create a new object.
-     */
-    public CsvParserConfiguration() {
+    CsvParserConfiguration() {
         super();
         _maxColumnLength = -1;
     }
 
-    /**
-     * Create copy of the current object.
-     *
-     * @return copy of the current object.
-     */
-    public CsvParserConfiguration copyOf() {
+    CsvParserConfiguration copyOf() {
         CsvParserConfiguration copy = new CsvParserConfiguration();
         copy._commaSeparator = _commaSeparator;
         copy._semicolonSeparator = _semicolonSeparator;
@@ -69,6 +61,18 @@ public final class CsvParserConfiguration {
         copy._maxColumnLength = _maxColumnLength;
         copy._maxColumnLengthCheckEnabled = _maxColumnLengthCheckEnabled;
         return copy;
+    }
+
+    /**
+     * Validate current CSV parser configuration.
+     */
+    public void validate() {
+        if (!_commaSeparator && !_semicolonSeparator) {
+            throw new WrongColumnSeparatorException();
+        }
+        if (!_crSeparator && !_lfSeparator && !_crLfSeparator) {
+            throw new WrongRowSeparatorException();
+        }
     }
 
     /**
