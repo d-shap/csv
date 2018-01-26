@@ -22,7 +22,7 @@
  * State machine for CSV parser.
  * </p>
  * <p>
- * CSV parser reads input characters and defines, whether a character is a meaningful character or a special character.
+ * CSV parser reads input characters and defines, whether a character is a special one or not.
  * </p>
  * <p>
  * The special characters are:
