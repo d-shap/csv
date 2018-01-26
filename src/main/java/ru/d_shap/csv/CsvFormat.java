@@ -52,7 +52,7 @@ public enum CsvFormat {
             csvPrinterBuilder.setCrLfSeparator();
             csvPrinterBuilder.setColumnCountCheckEnabled(false);
             csvPrinterBuilder.setSkipEmptyRowsEnabled(false);
-            csvPrinterBuilder.setEscapeAllSpecialCharactersEnabled(true);
+            csvPrinterBuilder.setEscapeAllSeparatorsEnabled(true);
         }
     },
 
@@ -79,7 +79,7 @@ public enum CsvFormat {
             csvPrinterBuilder.setCrLfSeparator();
             csvPrinterBuilder.setColumnCountCheckEnabled(true);
             csvPrinterBuilder.setSkipEmptyRowsEnabled(false);
-            csvPrinterBuilder.setEscapeAllSpecialCharactersEnabled(false);
+            csvPrinterBuilder.setEscapeAllSeparatorsEnabled(false);
         }
     },
 
@@ -107,7 +107,7 @@ public enum CsvFormat {
             csvPrinterBuilder.setCrLfSeparator();
             csvPrinterBuilder.setColumnCountCheckEnabled(true);
             csvPrinterBuilder.setSkipEmptyRowsEnabled(false);
-            csvPrinterBuilder.setEscapeAllSpecialCharactersEnabled(false);
+            csvPrinterBuilder.setEscapeAllSeparatorsEnabled(false);
         }
     };
 
