@@ -89,6 +89,12 @@ public final class CsvPrinter implements AutoCloseable {
             _lfSeparator = _rowSeparator.equals(LF);
             _crLfSeparator = _rowSeparator.equals(CRLF);
         }
+        if (!_commaSeparator && !_semicolonSeparator) {
+            throw new WrongColumnSeparatorException();
+        }
+        if (!_crSeparator && !_lfSeparator && _crLfSeparator) {
+            throw new WrongRowSeparatorException();
+        }
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -264,9 +270,9 @@ public final class CsvPrinter implements AutoCloseable {
     }
 
     /**
-     * Get created CSV, if StringWriter was used to create this object. Otherwise return null.
+     * Get created CSV, if {@link StringWriter} was used to create this object. Otherwise return null.
      *
-     * @return created CSV or null, if NOT StringWriter was used to create this object.
+     * @return created CSV or null, if NOT {@link StringWriter} was used to create this object.
      */
     public String getCsv() {
         if (_writer instanceof StringWriter) {
