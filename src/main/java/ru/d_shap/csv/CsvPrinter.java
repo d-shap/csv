@@ -22,8 +22,7 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-
-import ru.d_shap.csv.state.SpecialCharacter;
+import java.util.List;
 
 /**
  * Class to create CSV from rows and columns.
@@ -33,35 +32,9 @@ import ru.d_shap.csv.state.SpecialCharacter;
  */
 public final class CsvPrinter implements AutoCloseable {
 
-    static final String COMMA = String.valueOf((char) SpecialCharacter.COMMA);
-
-    static final String SEMICOLON = String.valueOf((char) SpecialCharacter.SEMICOLON);
-
-    static final String CR = String.valueOf((char) SpecialCharacter.CR);
-
-    static final String LF = String.valueOf((char) SpecialCharacter.LF);
-
-    static final String CRLF = CR + LF;
-
     private final Writer _writer;
 
-    private final String _columnSeparator;
-
-    private final String _rowSeparator;
-
-    private final boolean _columnCountCheckEnabled;
-
-    private final boolean _skipEmptyRowsEnabled;
-
-    private final boolean _commaSeparator;
-
-    private final boolean _semicolonSeparator;
-
-    private final boolean _crSeparator;
-
-    private final boolean _lfSeparator;
-
-    private final boolean _crLfSeparator;
+    private final CsvPrinterConfiguration _csvPrinterConfiguration;
 
     private boolean _firstRow;
 
@@ -69,32 +42,11 @@ public final class CsvPrinter implements AutoCloseable {
 
     private int _currentColumnCount;
 
-    CsvPrinter(final Writer writer, final String columnSeparator, final String rowSeparator, final boolean columnCountCheckEnabled, final boolean skipEmptyRowsEnabled, final boolean escapeAllSpecialCharactersEnabled) {
+    CsvPrinter(final Writer writer, final CsvPrinterConfiguration csvPrinterConfiguration) {
         super();
         _writer = writer;
-        _columnSeparator = columnSeparator;
-        _rowSeparator = rowSeparator;
-        _columnCountCheckEnabled = columnCountCheckEnabled;
-        _skipEmptyRowsEnabled = skipEmptyRowsEnabled;
-        if (escapeAllSpecialCharactersEnabled) {
-            _commaSeparator = true;
-            _semicolonSeparator = true;
-            _crSeparator = true;
-            _lfSeparator = true;
-            _crLfSeparator = true;
-        } else {
-            _commaSeparator = _columnSeparator.equals(COMMA);
-            _semicolonSeparator = _columnSeparator.equals(SEMICOLON);
-            _crSeparator = _rowSeparator.equals(CR);
-            _lfSeparator = _rowSeparator.equals(LF);
-            _crLfSeparator = _rowSeparator.equals(CRLF);
-        }
-        if (!_commaSeparator && !_semicolonSeparator) {
-            throw new WrongColumnSeparatorException();
-        }
-        if (!_crSeparator && !_lfSeparator && _crLfSeparator) {
-            throw new WrongRowSeparatorException();
-        }
+        csvPrinterConfiguration.validate();
+        _csvPrinterConfiguration = csvPrinterConfiguration;
         _firstRow = true;
         _firstRowColumnCount = 0;
         _currentColumnCount = 0;
@@ -200,7 +152,7 @@ public final class CsvPrinter implements AutoCloseable {
         if (column == null) {
             return "";
         }
-        boolean hasSpecialCharacters = hasSpecialCharacters(column);
+        boolean hasSpecialCharacters = _csvPrinterConfiguration.hasSpecialCharacters(column);
         if (hasSpecialCharacters) {
             return "\"" + column.replaceAll("\"", "\"\"") + "\"";
         } else {
@@ -208,33 +160,14 @@ public final class CsvPrinter implements AutoCloseable {
         }
     }
 
-    private boolean hasSpecialCharacters(final String column) {
-        if (_commaSeparator && column.indexOf(SpecialCharacter.COMMA) >= 0) {
-            return true;
-        }
-        if (_semicolonSeparator && column.indexOf(SpecialCharacter.SEMICOLON) >= 0) {
-            return true;
-        }
-        if (_crSeparator && column.indexOf(SpecialCharacter.CR) >= 0) {
-            return true;
-        }
-        if (_lfSeparator && column.indexOf(SpecialCharacter.LF) >= 0) {
-            return true;
-        }
-        if (_crLfSeparator && column.contains(CRLF)) {
-            return true;
-        }
-        return column.indexOf(SpecialCharacter.QUOT) >= 0;
-    }
-
     private void doAddColumn(final String column) {
         try {
-            if (_columnCountCheckEnabled && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+            if (_csvPrinterConfiguration.isColumnCountCheckEnabled() && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
                 throw new WrongColumnCountException();
             }
 
             if (_currentColumnCount > 0) {
-                _writer.write(_columnSeparator);
+                _writer.write(_csvPrinterConfiguration.getColumnSeparator());
             }
             _writer.write(column);
             _currentColumnCount++;
@@ -246,27 +179,54 @@ public final class CsvPrinter implements AutoCloseable {
     /**
      * Add row separator and start a new row.
      *
-     * @return current object for chaining.
+     * @return current object for the method chaining.
      */
     public CsvPrinter addRow() {
         try {
-            if (_skipEmptyRowsEnabled && _currentColumnCount == 0) {
+            if (_csvPrinterConfiguration.isSkipEmptyRowsEnabled() && _currentColumnCount == 0) {
                 return this;
             }
 
             if (_firstRow) {
                 _firstRowColumnCount = _currentColumnCount;
                 _firstRow = false;
-            } else if (_columnCountCheckEnabled && _firstRowColumnCount != _currentColumnCount) {
+            } else if (_csvPrinterConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount != _currentColumnCount) {
                 throw new WrongColumnCountException();
             }
 
-            _writer.write(_rowSeparator);
+            _writer.write(_csvPrinterConfiguration.getRowSeparator());
             _currentColumnCount = 0;
             return this;
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
+    }
+
+    /**
+     * Add column values from the specified list and then add row separator and start a new row.
+     *
+     * @param columns the specified list of column values.
+     * @return current object for the method chaining.
+     */
+    public CsvPrinter addRow(final List<?> columns) {
+        for (Object column : columns) {
+            addColumn(column);
+        }
+        addRow();
+        return this;
+    }
+
+    /**
+     * Add all rows in the specified list of rows, where each row is a list of columns.
+     *
+     * @param rows the specified list of rows, where each row is a list of columns.
+     * @return current object for the method chaining.
+     */
+    public CsvPrinter addRows(final List<List<?>> rows) {
+        for (List<?> row : rows) {
+            addRow(row);
+        }
+        return this;
     }
 
     /**
