@@ -43,10 +43,10 @@ public final class WrongColumnLengthExceptionTest {
     @Test
     public void errorMessageTest() {
         WrongColumnLengthException exception1 = new WrongColumnLengthException("bvda");
-        Assertions.assertThat(exception1).hasMessage("Maximum column length exceeded. Last symbols: \"bvda\".");
+        Assertions.assertThat(exception1).hasMessage("Maximum column value length exceeded. Last characters: \"bvda\".");
 
         WrongColumnLengthException exception2 = new WrongColumnLengthException("ret5fD");
-        Assertions.assertThat(exception2).hasMessage("Maximum column length exceeded. Last symbols: \"ret5fD\".");
+        Assertions.assertThat(exception2).hasMessage("Maximum column value length exceeded. Last characters: \"ret5fD\".");
     }
 
 }

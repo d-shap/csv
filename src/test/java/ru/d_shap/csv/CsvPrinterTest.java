@@ -46,7 +46,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addIntColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(10);
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isEqualTo("10\r\n");
@@ -57,7 +57,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addLongColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(Long.MAX_VALUE);
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -69,7 +69,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addFloatColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(1.1f);
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -81,7 +81,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addDoubleColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(2.2);
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -93,7 +93,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addBooleanColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(true);
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -105,7 +105,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addStringColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn("aaa");
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -117,7 +117,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addNullStringColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         String str = null;
         builder.addColumn(str);
         builder.addRow();
@@ -130,7 +130,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addStringWithSpecialsColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn("a\"a,a;a\ra\na");
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -142,7 +142,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addObjectColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(new StringBuilder().append("aaa"));
         builder.addRow();
         Assertions.assertThat(builder.getCsv()).isNotNull();
@@ -154,7 +154,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addObjectStringColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         Object obj = "aaa";
         builder.addColumn(obj);
         builder.addRow();
@@ -167,7 +167,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addNullObjectColumnTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         Object obj = null;
         builder.addColumn(obj);
         builder.addRow();
@@ -180,7 +180,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addMultipleColumnsTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addColumn("aaa");
@@ -194,7 +194,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addMultipleColumnsWithSpecialsTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn("a\"a");
         builder.addRow();
         builder.addColumn("a,a");
@@ -216,7 +216,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addRowTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(1);
         builder.addColumn(2);
         builder.addRow();
@@ -232,7 +232,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void addEmptyRowTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -250,7 +250,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void tableCsvTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -273,7 +273,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void chainedCallTest() {
-        CsvPrinter builder = new CsvPrinter();
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
         builder = builder.addColumn(1);
         builder = builder.addColumn(true);
         builder = builder.addRow();
@@ -296,7 +296,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void checkRectangularTest() {
-        CsvPrinter builder = new CsvPrinter(true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -310,9 +310,9 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void checkRectangularFailTest() {
-        CsvPrinter builder = new CsvPrinter(true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -326,7 +326,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void changeColumnSeparatorTest() {
-        CsvPrinter builder = new CsvPrinter(ColumnSeparators.SEMICOLON);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -341,9 +341,9 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void changeColumnSeparatorCheckRectangularFailTest() {
-        CsvPrinter builder = new CsvPrinter(ColumnSeparators.SEMICOLON, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setColumnCountCheckEnabled(true).build();
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -357,7 +357,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void changeRowSeparatorTest() {
-        CsvPrinter builder = new CsvPrinter(RowSeparators.LF);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -372,9 +372,9 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void changeRowSeparatorCheckRectangularFailTest() {
-        CsvPrinter builder = new CsvPrinter(RowSeparators.LF, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().setColumnCountCheckEnabled(true).build();
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -388,7 +388,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void changeSeparatorsTest() {
-        CsvPrinter builder = new CsvPrinter(ColumnSeparators.SEMICOLON, RowSeparators.LF);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -409,9 +409,9 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void changeSeparatorsCheckRectangularFailTest() {
-        CsvPrinter builder = new CsvPrinter(ColumnSeparators.SEMICOLON, RowSeparators.LF, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build();
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -426,7 +426,7 @@ public final class CsvPrinterTest {
     @Test
     public void writerTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -450,7 +450,7 @@ public final class CsvPrinterTest {
     @Test
     public void writerCheckRectangularTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(writer);
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -464,10 +464,10 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void writerCheckRectangularFailTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(writer);
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -482,7 +482,7 @@ public final class CsvPrinterTest {
     @Test
     public void writerChangeColumnSeparatorTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, ColumnSeparators.SEMICOLON);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().build(writer);
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -497,10 +497,10 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void writerChangeColumnSeparatorCheckRectangularFailTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, ColumnSeparators.SEMICOLON, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setColumnCountCheckEnabled(true).build(writer);
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -515,7 +515,7 @@ public final class CsvPrinterTest {
     @Test
     public void writerChangeRowSeparatorTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, RowSeparators.LF);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().build(writer);
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -530,10 +530,10 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void writerChangeRowSeparatorCheckRectangularFailTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, RowSeparators.LF, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().setColumnCountCheckEnabled(true).build(writer);
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -548,7 +548,8 @@ public final class CsvPrinterTest {
     @Test
     public void writerChangeSeparatorsTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, ColumnSeparators.SEMICOLON, RowSeparators.LF);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().build(writer);
+
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -569,10 +570,10 @@ public final class CsvPrinterTest {
     /**
      * {@link CsvPrinter} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void writerChangeSeparatorsCheckRectangularFailTest() {
         StringWriter writer = new StringWriter();
-        CsvPrinter builder = new CsvPrinter(writer, ColumnSeparators.SEMICOLON, RowSeparators.LF, true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build(writer);
         builder.addColumn("1");
         builder.addColumn("2");
         builder.addRow();
@@ -587,7 +588,7 @@ public final class CsvPrinterTest {
     @Test(expected = CsvIOException.class)
     public void writeColumnExceptionFailTest() {
         ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = new CsvPrinter(writer);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
         builder.addColumn("value");
     }
 
@@ -597,7 +598,7 @@ public final class CsvPrinterTest {
     @Test(expected = CsvIOException.class)
     public void writeRowExceptionFailTest() {
         ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = new CsvPrinter(writer);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
         builder.addRow();
     }
 
@@ -607,7 +608,7 @@ public final class CsvPrinterTest {
     @Test
     public void getCsvForStreamTest() {
         ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = new CsvPrinter(writer);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
         Assertions.assertThat(builder.getCsv()).isNull();
     }
 
@@ -617,7 +618,7 @@ public final class CsvPrinterTest {
     @Test
     public void notRectangularExceptionMessageTest() {
         try {
-            CsvPrinter builder = new CsvPrinter(true);
+            CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
             builder.addColumn("1");
             builder.addColumn("2");
             builder.addColumn("3");
@@ -627,11 +628,11 @@ public final class CsvPrinterTest {
             builder.addColumn("6");
             builder.addColumn("7");
             Assertions.fail("CsvPrinter test fail");
-        } catch (NotRectangularException ex) {
-            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
         try {
-            CsvPrinter builder = new CsvPrinter(true);
+            CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
             builder.addColumn("1");
             builder.addColumn("2");
             builder.addColumn("3");
@@ -640,8 +641,8 @@ public final class CsvPrinterTest {
             builder.addColumn("5");
             builder.addRow();
             Assertions.fail("CsvPrinter test fail");
-        } catch (NotRectangularException ex) {
-            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
     }
 
@@ -650,7 +651,7 @@ public final class CsvPrinterTest {
      */
     @Test
     public void restoreFromNotRectangularExceptionTest() {
-        CsvPrinter builder = new CsvPrinter(true);
+        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
         builder.addColumn(1);
         builder.addColumn(true);
         builder.addRow();
@@ -659,16 +660,16 @@ public final class CsvPrinterTest {
         try {
             builder.addColumn("a;a;a");
             Assertions.fail("CsvPrinter test fail");
-        } catch (NotRectangularException ex) {
-            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
         builder.addRow();
         builder.addColumn(5);
         try {
             builder.addRow();
             Assertions.fail("CsvPrinter test fail");
-        } catch (NotRectangularException ex) {
-            Assertions.assertThat(ex).hasMessage("CSV is not rectangular.");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
         builder.addColumn(5L);
         builder.addRow();

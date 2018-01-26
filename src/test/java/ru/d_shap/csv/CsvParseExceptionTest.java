@@ -44,13 +44,13 @@ public final class CsvParseExceptionTest {
     @Test
     public void errorMessageTest() {
         CsvParseException exception1 = new CsvParseException('a', "bvda");
-        Assertions.assertThat(exception1).hasMessage("Wrong symbol obtained: 'a' (97). Last symbols: \"bvda\".");
+        Assertions.assertThat(exception1).hasMessage("Wrong character obtained: 'a' (97). Last characters: \"bvda\".");
 
         CsvParseException exception2 = new CsvParseException('D', "ret5fD");
-        Assertions.assertThat(exception2).hasMessage("Wrong symbol obtained: 'D' (68). Last symbols: \"ret5fD\".");
+        Assertions.assertThat(exception2).hasMessage("Wrong character obtained: 'D' (68). Last characters: \"ret5fD\".");
 
         CsvParseException exception3 = new CsvParseException(SpecialCharacter.END_OF_INPUT, "xyz");
-        Assertions.assertThat(exception3).hasMessage("End of input obtained. Last symbols: \"xyz\".");
+        Assertions.assertThat(exception3).hasMessage("End of input obtained. Last characters: \"xyz\".");
     }
 
 }

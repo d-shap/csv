@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.CsvParseException;
-import ru.d_shap.csv.NotRectangularException;
+import ru.d_shap.csv.WrongColumnCountException;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.ListEventHandler;
 
@@ -51,6 +51,11 @@ public final class StateHandlerTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
+        Assertions.assertThat(stateHandler.isCommaSeparator()).isFalse();
+        Assertions.assertThat(stateHandler.isSemicolonSeparator()).isFalse();
+        Assertions.assertThat(stateHandler.isCrSeparator()).isFalse();
+        Assertions.assertThat(stateHandler.isLfSeparator()).isFalse();
+        Assertions.assertThat(stateHandler.isCrLfSeparator()).isFalse();
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isNotNull();
         Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isEmpty();
     }
@@ -149,7 +154,7 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void addLastSymbolTest() {
+    public void pushLastProcessedCharacterTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -212,7 +217,7 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void addLastSymbolIgnoreEndOfInputTest() {
+    public void pushLastProcessedCharacterIgnoreEndOfInputTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -247,13 +252,13 @@ public final class StateHandlerTest {
         stateHandler.pushLastProcessedCharacter('c');
 
         CsvParseException csvParseException1 = stateHandler.createCsvParseException('x');
-        Assertions.assertThat(csvParseException1).hasMessage("Wrong symbol obtained: 'x' (120). Last symbols: \"abc\".");
+        Assertions.assertThat(csvParseException1).hasMessage("Wrong character obtained: 'x' (120). Last characters: \"abc\".");
 
         CsvParseException csvParseException2 = stateHandler.createCsvParseException('y');
-        Assertions.assertThat(csvParseException2).hasMessage("Wrong symbol obtained: 'y' (121). Last symbols: \"abc\".");
+        Assertions.assertThat(csvParseException2).hasMessage("Wrong character obtained: 'y' (121). Last characters: \"abc\".");
 
         CsvParseException csvParseException3 = stateHandler.createCsvParseException(SpecialCharacter.END_OF_INPUT);
-        Assertions.assertThat(csvParseException3).hasMessage("End of input obtained. Last symbols: \"abc\".");
+        Assertions.assertThat(csvParseException3).hasMessage("End of input obtained. Last characters: \"abc\".");
     }
 
     /**
@@ -371,7 +376,7 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler2 = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration2 = new StateHandlerConfiguration();
-        stateHandlerConfiguration2.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration2.setColumnCountCheckEnabled(false);
         StateHandler stateHandler2 = new StateHandler(listEventHandler2, stateHandlerConfiguration2);
         stateHandler2.pushCharacter('a');
         stateHandler2.pushColumn();
@@ -391,7 +396,7 @@ public final class StateHandlerTest {
 
         ListEventHandler listEventHandler3 = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration3 = new StateHandlerConfiguration();
-        stateHandlerConfiguration3.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration3.setColumnCountCheckEnabled(false);
         StateHandler stateHandler3 = new StateHandler(listEventHandler3, stateHandlerConfiguration3);
         stateHandler3.pushCharacter('a');
         stateHandler3.pushColumn();
@@ -408,7 +413,7 @@ public final class StateHandlerTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void putMultipleSymbolsTest() {
+    public void putMultipleCharactersInColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -434,7 +439,7 @@ public final class StateHandlerTest {
     public void skipPushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushRow();
@@ -457,11 +462,11 @@ public final class StateHandlerTest {
     /**
      * {@link StateHandler} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void checkRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(true);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
@@ -506,11 +511,11 @@ public final class StateHandlerTest {
     /**
      * {@link StateHandler} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void notReusableRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(true);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
         stateHandler.pushCharacter('a');
         stateHandler.pushColumn();
@@ -541,7 +546,7 @@ public final class StateHandlerTest {
     public void checkNoColumnRectangularRectangularTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(true);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
         stateHandler.pushRow();
         stateHandler.pushRow();
@@ -558,11 +563,11 @@ public final class StateHandlerTest {
     /**
      * {@link StateHandler} class test.
      */
-    @Test(expected = NotRectangularException.class)
+    @Test(expected = WrongColumnCountException.class)
     public void checkNoColumnRectangularRectangularFailTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(true);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
         stateHandler.pushRow();
         stateHandler.pushColumn();
@@ -575,7 +580,7 @@ public final class StateHandlerTest {
     public void pushCharacterWithNoLengthAndNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
         stateHandlerConfiguration.setMaxColumnLength(-1);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -608,7 +613,7 @@ public final class StateHandlerTest {
     public void pushCharacterWithNoLengthAndCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
         stateHandlerConfiguration.setMaxColumnLength(-1);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -641,7 +646,7 @@ public final class StateHandlerTest {
     public void pushCharacterEmptyWithNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
         stateHandlerConfiguration.setMaxColumnLength(0);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -682,7 +687,7 @@ public final class StateHandlerTest {
             stateHandler.pushCharacter('a');
             Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
-            Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"a\".");
+            Assertions.assertThat(ex).hasMessage("Maximum column value length exceeded. Last characters: \"a\".");
         }
     }
 
@@ -693,7 +698,7 @@ public final class StateHandlerTest {
     public void pushCharacterWithLengthAndNoCheckRestrictionTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
         stateHandlerConfiguration.setMaxColumnLength(3);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, stateHandlerConfiguration);
@@ -740,7 +745,7 @@ public final class StateHandlerTest {
             stateHandler.pushCharacter('d');
             Assertions.fail("StateHandler test fail");
         } catch (WrongColumnLengthException ex) {
-            Assertions.assertThat(ex).hasMessage("Maximum column length exceeded. Last symbols: \"abcd\".");
+            Assertions.assertThat(ex).hasMessage("Maximum column value length exceeded. Last characters: \"abcd\".");
         }
     }
 

@@ -45,8 +45,6 @@ public final class RestrictedListEventHandlerTest {
     @Test
     public void newObjectTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5);
-        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(5);
-        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).isEmpty();
     }

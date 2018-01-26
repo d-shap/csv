@@ -43,8 +43,6 @@ public final class DimensionEventHandlerTest {
     @Test
     public void newObjectTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
-        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
     }

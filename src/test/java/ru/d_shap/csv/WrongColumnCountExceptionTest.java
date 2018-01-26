@@ -24,25 +24,29 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 
 /**
- * Tests for {@link ColumnSeparators}.
+ * Tests for {@link WrongColumnCountException}.
  *
  * @author Dmitry Shapovalov
  */
-public final class ColumnSeparatorsTest {
+public final class WrongColumnCountExceptionTest {
 
     /**
      * Test class constructor.
      */
-    public ColumnSeparatorsTest() {
+    public WrongColumnCountExceptionTest() {
         super();
     }
 
     /**
-     * {@link ColumnSeparators} class test.
+     * {@link WrongColumnCountException} class test.
      */
     @Test
-    public void valueCountTest() {
-        Assertions.assertThat(ColumnSeparators.class).asEnum().hasValueCount(2);
+    public void errorMessageTest() {
+        WrongColumnCountException exception1 = new WrongColumnCountException();
+        Assertions.assertThat(exception1).hasMessage("CSV has rows with different column count.");
+
+        WrongColumnCountException exception2 = new WrongColumnCountException("last characters");
+        Assertions.assertThat(exception2).hasMessage("CSV has rows with different column count. Last characters: \"last characters\".");
     }
 
 }

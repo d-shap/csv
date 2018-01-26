@@ -24,9 +24,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
-import ru.d_shap.csv.ColumnSeparators;
-import ru.d_shap.csv.CsvParser;
-import ru.d_shap.csv.RowSeparators;
+import ru.d_shap.csv.Builder;
 
 /**
  * Tests for {@link State1}.
@@ -48,7 +46,7 @@ public final class State1Test {
     @Test
     public void processEndOfInputTest() {
         String csv = "";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = Builder.createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(0);
     }
@@ -59,7 +57,7 @@ public final class State1Test {
     @Test
     public void processCommaAsSeparatorTest() {
         String csv = ",a";
-        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
+        List<List<String>> list = Builder.createCsvParser(true, false, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("", "a");
@@ -71,7 +69,7 @@ public final class State1Test {
     @Test
     public void processCommaAsTextTest() {
         String csv = ",a";
-        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
+        List<List<String>> list = Builder.createCsvParser(false, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder(",a");
@@ -83,7 +81,7 @@ public final class State1Test {
     @Test
     public void processSemicolonAsSeparatorTest() {
         String csv = ";a";
-        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.SEMICOLON);
+        List<List<String>> list = Builder.createCsvParser(false, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("", "a");
@@ -95,7 +93,7 @@ public final class State1Test {
     @Test
     public void processSemicoloAsTextTest() {
         String csv = ";a";
-        List<List<String>> list = CsvParser.parse(csv, ColumnSeparators.COMMA);
+        List<List<String>> list = Builder.createCsvParser(true, false, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder(";a");
@@ -107,7 +105,7 @@ public final class State1Test {
     @Test
     public void processCrAsSeparatorPartTest() {
         String csv = "\r\na";
-        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CRLF);
+        List<List<String>> list = Builder.createCsvParser(true, true, false, false, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -120,7 +118,7 @@ public final class State1Test {
     @Test
     public void processCrAsSeparatorTest() {
         String csv = "\ra";
-        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CR);
+        List<List<String>> list = Builder.createCsvParser(true, true, true, false, false).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -133,7 +131,7 @@ public final class State1Test {
     @Test
     public void processCrAsTextTest() {
         String csv = "\ra";
-        List<List<String>> list = CsvParser.parse(csv, RowSeparators.LF);
+        List<List<String>> list = Builder.createCsvParser(true, true, false, true, false).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("\ra");
@@ -145,7 +143,7 @@ public final class State1Test {
     @Test
     public void processLfAsSeparatorTest() {
         String csv = "\na";
-        List<List<String>> list = CsvParser.parse(csv, RowSeparators.LF);
+        List<List<String>> list = Builder.createCsvParser(true, true, false, true, false).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -158,7 +156,7 @@ public final class State1Test {
     @Test
     public void processLfAsTextTest() {
         String csv = "\na";
-        List<List<String>> list = CsvParser.parse(csv, RowSeparators.CR);
+        List<List<String>> list = Builder.createCsvParser(true, true, true, false, false).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("\na");
@@ -170,7 +168,7 @@ public final class State1Test {
     @Test
     public void processQuotTest() {
         String csv = "\"a\"";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = Builder.createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");
@@ -182,7 +180,7 @@ public final class State1Test {
     @Test
     public void processDefaultTest() {
         String csv = "a";
-        List<List<String>> list = CsvParser.parse(csv);
+        List<List<String>> list = Builder.createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("a");

@@ -45,8 +45,6 @@ public final class ColumnLengthEventHandlerTest {
     @Test
     public void newObjectTest() {
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
-        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
         Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnLengths()).isEmpty();
     }

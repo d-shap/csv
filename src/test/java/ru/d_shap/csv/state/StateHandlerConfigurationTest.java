@@ -43,7 +43,7 @@ public final class StateHandlerConfigurationTest {
     @Test
     public void commaSeparatorTest() {
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        Assertions.assertThat(stateHandlerConfiguration.isCommaSeparator()).isTrue();
+        Assertions.assertThat(stateHandlerConfiguration.isCommaSeparator()).isFalse();
         stateHandlerConfiguration.setCommaSeparator(false);
         Assertions.assertThat(stateHandlerConfiguration.isCommaSeparator()).isFalse();
         stateHandlerConfiguration.setCommaSeparator(true);
@@ -56,7 +56,7 @@ public final class StateHandlerConfigurationTest {
     @Test
     public void semicolonSeparatorTest() {
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        Assertions.assertThat(stateHandlerConfiguration.isSemicolonSeparator()).isTrue();
+        Assertions.assertThat(stateHandlerConfiguration.isSemicolonSeparator()).isFalse();
         stateHandlerConfiguration.setSemicolonSeparator(false);
         Assertions.assertThat(stateHandlerConfiguration.isSemicolonSeparator()).isFalse();
         stateHandlerConfiguration.setSemicolonSeparator(true);
@@ -82,7 +82,7 @@ public final class StateHandlerConfigurationTest {
     @Test
     public void lfSeparatorTest() {
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        Assertions.assertThat(stateHandlerConfiguration.isLfSeparator()).isTrue();
+        Assertions.assertThat(stateHandlerConfiguration.isLfSeparator()).isFalse();
         stateHandlerConfiguration.setLfSeparator(false);
         Assertions.assertThat(stateHandlerConfiguration.isLfSeparator()).isFalse();
         stateHandlerConfiguration.setLfSeparator(true);
@@ -95,7 +95,7 @@ public final class StateHandlerConfigurationTest {
     @Test
     public void crLfSeparatorTest() {
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        Assertions.assertThat(stateHandlerConfiguration.isCrLfSeparator()).isTrue();
+        Assertions.assertThat(stateHandlerConfiguration.isCrLfSeparator()).isFalse();
         stateHandlerConfiguration.setCrLfSeparator(false);
         Assertions.assertThat(stateHandlerConfiguration.isCrLfSeparator()).isFalse();
         stateHandlerConfiguration.setCrLfSeparator(true);
@@ -106,13 +106,26 @@ public final class StateHandlerConfigurationTest {
      * {@link StateHandlerConfiguration} class test.
      */
     @Test
-    public void rectangularCheckEnabledTest() {
+    public void columnCountCheckEnabledTest() {
         StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
-        Assertions.assertThat(stateHandlerConfiguration.isRectangularCheckEnabled()).isTrue();
-        stateHandlerConfiguration.setRectangularCheckEnabled(false);
-        Assertions.assertThat(stateHandlerConfiguration.isRectangularCheckEnabled()).isFalse();
-        stateHandlerConfiguration.setRectangularCheckEnabled(true);
-        Assertions.assertThat(stateHandlerConfiguration.isRectangularCheckEnabled()).isTrue();
+        Assertions.assertThat(stateHandlerConfiguration.isColumnCountCheckEnabled()).isFalse();
+        stateHandlerConfiguration.setColumnCountCheckEnabled(false);
+        Assertions.assertThat(stateHandlerConfiguration.isColumnCountCheckEnabled()).isFalse();
+        stateHandlerConfiguration.setColumnCountCheckEnabled(true);
+        Assertions.assertThat(stateHandlerConfiguration.isColumnCountCheckEnabled()).isTrue();
+    }
+
+    /**
+     * {@link StateHandlerConfiguration} class test.
+     */
+    @Test
+    public void skipEmptyRowsEnabledTest() {
+        StateHandlerConfiguration stateHandlerConfiguration = new StateHandlerConfiguration();
+        Assertions.assertThat(stateHandlerConfiguration.isSkipEmptyRowsEnabled()).isFalse();
+        stateHandlerConfiguration.setSkipEmptyRowsEnabled(false);
+        Assertions.assertThat(stateHandlerConfiguration.isSkipEmptyRowsEnabled()).isFalse();
+        stateHandlerConfiguration.setSkipEmptyRowsEnabled(true);
+        Assertions.assertThat(stateHandlerConfiguration.isSkipEmptyRowsEnabled()).isTrue();
     }
 
     /**

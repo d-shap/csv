@@ -45,8 +45,6 @@ public final class ListEventHandlerTest {
     @Test
     public void newObjectTest() {
         ListEventHandler eventHandler = new ListEventHandler();
-        Assertions.assertThat(eventHandler.getMaxColumnLength()).isLessThan(0);
-        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).isEmpty();
     }

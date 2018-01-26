@@ -43,8 +43,6 @@ public final class ColumnCountEventHandlerTest {
     @Test
     public void newObjectTest() {
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        Assertions.assertThat(eventHandler.getMaxColumnLength()).isEqualTo(0);
-        Assertions.assertThat(eventHandler.checkMaxColumnLength()).isFalse();
         Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnCounts()).isEmpty();
     }
