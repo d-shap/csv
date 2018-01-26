@@ -25,7 +25,7 @@ import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.CsvEventHandler;
 
 /**
- * Class to process events from the CSV parser state machine and delegates them to a {@link CsvEventHandler} object.
+ * Class to process events from the CSV parser state machine and delegate them to a {@link CsvEventHandler} object.
  *
  * @author Dmitry Shapovalov
  */
