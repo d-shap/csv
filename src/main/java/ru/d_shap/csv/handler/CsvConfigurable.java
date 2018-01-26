@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import ru.d_shap.csv.state.StateHandlerConfiguration;
+import ru.d_shap.csv.CsvParserConfiguration;
 
 /**
  * Interface to configure CSV parser. If {@link CsvEventHandler} object also implements this interface,
@@ -34,6 +34,6 @@ public interface CsvConfigurable {
      *
      * @param stateHandlerConfiguration CSV parser configuration object.
      */
-    void configure(StateHandlerConfiguration stateHandlerConfiguration);
+    void configure(CsvParserConfiguration stateHandlerConfiguration);
 
 }

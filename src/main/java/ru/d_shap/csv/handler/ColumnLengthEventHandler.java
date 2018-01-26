@@ -22,7 +22,7 @@ package ru.d_shap.csv.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.d_shap.csv.state.StateHandlerConfiguration;
+import ru.d_shap.csv.CsvParserConfiguration;
 
 /**
  * CSV parser event handler, that accumulates the length of each column value in each row.
@@ -45,7 +45,7 @@ public final class ColumnLengthEventHandler implements CsvConfigurable, CsvEvent
     }
 
     @Override
-    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
         stateHandlerConfiguration.setMaxColumnLength(0);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
     }

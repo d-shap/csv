@@ -17,14 +17,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.csv.state;
+package ru.d_shap.csv;
 
 /**
  * CSV parser configuration.
  *
  * @author Dmitry Shapovalov
  */
-public final class StateHandlerConfiguration {
+public final class CsvParserConfiguration {
 
     private boolean _commaSeparator;
 
@@ -47,7 +47,7 @@ public final class StateHandlerConfiguration {
     /**
      * Create a new object.
      */
-    public StateHandlerConfiguration() {
+    public CsvParserConfiguration() {
         super();
         _maxColumnLength = -1;
     }
@@ -57,8 +57,8 @@ public final class StateHandlerConfiguration {
      *
      * @return copy of the current object.
      */
-    public StateHandlerConfiguration copyOf() {
-        StateHandlerConfiguration copy = new StateHandlerConfiguration();
+    public CsvParserConfiguration copyOf() {
+        CsvParserConfiguration copy = new CsvParserConfiguration();
         copy._commaSeparator = _commaSeparator;
         copy._semicolonSeparator = _semicolonSeparator;
         copy._crSeparator = _crSeparator;

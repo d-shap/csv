@@ -19,8 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import ru.d_shap.csv.state.StateHandlerConfiguration;
-
 /**
  * Builder class to create a {@link CsvParser} object.
  *
@@ -28,11 +26,11 @@ import ru.d_shap.csv.state.StateHandlerConfiguration;
  */
 public final class CsvParserBuilder {
 
-    private final StateHandlerConfiguration _stateHandlerConfiguration;
+    private final CsvParserConfiguration _stateHandlerConfiguration;
 
     private CsvParserBuilder() {
         super();
-        _stateHandlerConfiguration = new StateHandlerConfiguration();
+        _stateHandlerConfiguration = new CsvParserConfiguration();
     }
 
     /**
@@ -161,7 +159,7 @@ public final class CsvParserBuilder {
      * @return a {@link CsvParser} object.
      */
     public CsvParser build() {
-        StateHandlerConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
+        CsvParserConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
         return new CsvParser(stateHandlerConfiguration);
     }
 

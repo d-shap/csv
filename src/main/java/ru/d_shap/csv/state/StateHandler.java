@@ -20,6 +20,7 @@
 package ru.d_shap.csv.state;
 
 import ru.d_shap.csv.CsvParseException;
+import ru.d_shap.csv.CsvParserConfiguration;
 import ru.d_shap.csv.WrongColumnCountException;
 import ru.d_shap.csv.WrongColumnLengthException;
 import ru.d_shap.csv.handler.CsvEventHandler;
@@ -65,7 +66,7 @@ public final class StateHandler {
      * @param csvEventHandler    event handler to process CSV parser events.
      * @param stateHandlerConfig CSV parser configuration.
      */
-    public StateHandler(final CsvEventHandler csvEventHandler, final StateHandlerConfiguration stateHandlerConfig) {
+    public StateHandler(final CsvEventHandler csvEventHandler, final CsvParserConfiguration stateHandlerConfig) {
         super();
         _csvEventHandler = csvEventHandler;
         _commaSeparator = stateHandlerConfig.isCommaSeparator();

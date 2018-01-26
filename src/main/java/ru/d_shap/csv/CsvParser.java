@@ -32,7 +32,6 @@ import ru.d_shap.csv.handler.ListEventHandler;
 import ru.d_shap.csv.state.SpecialCharacter;
 import ru.d_shap.csv.state.State;
 import ru.d_shap.csv.state.StateHandler;
-import ru.d_shap.csv.state.StateHandlerConfiguration;
 
 /**
  * <p>
@@ -61,9 +60,9 @@ import ru.d_shap.csv.state.StateHandlerConfiguration;
  */
 public final class CsvParser {
 
-    private final StateHandlerConfiguration _stateHandlerConfiguration;
+    private final CsvParserConfiguration _stateHandlerConfiguration;
 
-    CsvParser(final StateHandlerConfiguration stateHandlerConfiguration) {
+    CsvParser(final CsvParserConfiguration stateHandlerConfiguration) {
         super();
         _stateHandlerConfiguration = stateHandlerConfiguration;
         if (!_stateHandlerConfiguration.isCommaSeparator() && !_stateHandlerConfiguration.isSemicolonSeparator()) {
@@ -118,7 +117,7 @@ public final class CsvParser {
      */
     public void parse(final Reader reader, final CsvEventHandler csvEventHandler) {
         try {
-            StateHandlerConfiguration stateHandlerConfiguration;
+            CsvParserConfiguration stateHandlerConfiguration;
             if (csvEventHandler instanceof CsvConfigurable) {
                 stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
                 ((CsvConfigurable) csvEventHandler).configure(stateHandlerConfiguration);

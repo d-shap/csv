@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.handler;
 
-import ru.d_shap.csv.state.StateHandlerConfiguration;
+import ru.d_shap.csv.CsvParserConfiguration;
 
 /**
  * CSV parser event handler, that defines row and column count. Each row should have the same column
@@ -46,7 +46,7 @@ public final class DimensionEventHandler implements CsvConfigurable, CsvEventHan
     }
 
     @Override
-    public void configure(final StateHandlerConfiguration stateHandlerConfiguration) {
+    public void configure(final CsvParserConfiguration stateHandlerConfiguration) {
         stateHandlerConfiguration.setColumnCountCheckEnabled(true);
         stateHandlerConfiguration.setMaxColumnLength(0);
         stateHandlerConfiguration.setMaxColumnLengthCheckEnabled(false);
