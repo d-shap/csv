@@ -22,13 +22,15 @@ package ru.d_shap.csv.handler;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.csv.CsvParserConfiguration;
+import ru.d_shap.csv.CsvTest;
 
 /**
  * Tests for {@link DimensionEventHandler}.
  *
  * @author Dmitry Shapovalov
  */
-public final class DimensionEventHandlerTest {
+public final class DimensionEventHandlerTest extends CsvTest {
 
     /**
      * Test class constructor.
@@ -41,10 +43,49 @@ public final class DimensionEventHandlerTest {
      * {@link DimensionEventHandler} class test.
      */
     @Test
-    public void newObjectTest() {
+    public void configureTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
-        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+
+        csvParserConfiguration.setCommaSeparator(false);
+        csvParserConfiguration.setSemicolonSeparator(false);
+        csvParserConfiguration.setCrSeparator(false);
+        csvParserConfiguration.setLfSeparator(false);
+        csvParserConfiguration.setCrLfSeparator(false);
+        csvParserConfiguration.setColumnCountCheckEnabled(false);
+        csvParserConfiguration.setSkipEmptyRowsEnabled(false);
+        csvParserConfiguration.setMaxColumnLength(0);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
+        eventHandler.configure(csvParserConfiguration);
+        Assertions.assertThat(csvParserConfiguration.isCommaSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isSemicolonSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isColumnCountCheckEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isSkipEmptyRowsEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfiguration.isMaxColumnLengthCheckEnabled()).isFalse();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        csvParserConfiguration.setSkipEmptyRowsEnabled(true);
+        csvParserConfiguration.setMaxColumnLength(1);
+        csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
+        eventHandler.configure(csvParserConfiguration);
+        Assertions.assertThat(csvParserConfiguration.isCommaSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isSemicolonSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isCrSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isCrLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isColumnCountCheckEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.isSkipEmptyRowsEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfiguration.isMaxColumnLengthCheckEnabled()).isFalse();
     }
 
     /**
@@ -53,9 +94,34 @@ public final class DimensionEventHandlerTest {
     @Test
     public void pushColumnTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
+
         eventHandler.pushColumn("a", 1);
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(3);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(0);
+    }
+
+    /**
+     * {@link DimensionEventHandler} class test.
+     */
+    @Test
+    public void pushColumnAndRowTest() {
+        DimensionEventHandler eventHandler = new DimensionEventHandler();
+
+        eventHandler.pushColumn("a", 1);
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(1);
+
+        eventHandler.pushColumn("bb", 2);
+        eventHandler.pushColumn("ccc", 3);
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
     }
 
     /**
@@ -64,29 +130,27 @@ public final class DimensionEventHandlerTest {
     @Test
     public void pushRowTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        eventHandler.pushColumn("a", 1);
-        eventHandler.pushRow();
-        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(1);
-        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(1);
-    }
 
-    /**
-     * {@link DimensionEventHandler} class test.
-     */
-    @Test
-    public void skipPushColumnTest() {
-        DimensionEventHandler eventHandler = new DimensionEventHandler();
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(1);
+
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
+
+        eventHandler.pushRow();
+        Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(0);
+        Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(3);
     }
 
     /**
      * {@link DimensionEventHandler} class test.
      */
     @Test
-    public void rectangularTest() {
+    public void pushRowsWithSameColumnCountTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
+
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
@@ -97,7 +161,7 @@ public final class DimensionEventHandlerTest {
         eventHandler.pushColumn("hi", 2);
         eventHandler.pushRow();
         eventHandler.pushColumn("j", 1);
-        eventHandler.pushColumn("kl", 2);
+        eventHandler.pushColumn("klm", 3);
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(2);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(4);
@@ -107,8 +171,9 @@ public final class DimensionEventHandlerTest {
      * {@link DimensionEventHandler} class test.
      */
     @Test
-    public void checkFirstRowColumnTest() {
+    public void pushRowsWithDifferentColumnCountTest() {
         DimensionEventHandler eventHandler = new DimensionEventHandler();
+
         eventHandler.pushColumn("a", 1);
         eventHandler.pushColumn("bc", 2);
         eventHandler.pushRow();
@@ -116,7 +181,7 @@ public final class DimensionEventHandlerTest {
         eventHandler.pushRow();
         eventHandler.pushColumn("e", 1);
         eventHandler.pushColumn("fg", 2);
-        eventHandler.pushColumn("hi", 2);
+        eventHandler.pushColumn("hij", 3);
         eventHandler.pushRow();
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(2);
