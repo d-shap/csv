@@ -22,7 +22,7 @@ package ru.d_shap.csv;
 import ru.d_shap.csv.state.StateHandlerConfiguration;
 
 /**
- * Builder class to create {@link CsvParser} object.
+ * Builder class to create a {@link CsvParser} object.
  *
  * @author Dmitry Shapovalov
  */
@@ -41,7 +41,18 @@ public final class CsvParserBuilder {
      * @return new builder instance.
      */
     public static CsvParserBuilder getInstance() {
-        return new CsvParserBuilder();
+        return new CsvParserBuilder().setFormat(CsvFormat.DEFAULT);
+    }
+
+    /**
+     * Set current settings as defined in the specified format.
+     *
+     * @param format the specified format.
+     * @return current object for the method chaining.
+     */
+    public CsvParserBuilder setFormat(final CsvFormat format) {
+        format.configure(this);
+        return this;
     }
 
     /**
@@ -145,11 +156,17 @@ public final class CsvParserBuilder {
     }
 
     /**
-     * Create {@link CsvParser} object.
+     * Create a {@link CsvParser} object.
      *
-     * @return {@link CsvParser} object.
+     * @return a {@link CsvParser} object.
      */
     public CsvParser build() {
+        if (!_stateHandlerConfiguration.isCommaSeparator() && !_stateHandlerConfiguration.isSemicolonSeparator()) {
+            throw new WrongColumnSeparatorException();
+        }
+        if (!_stateHandlerConfiguration.isCrSeparator() && !_stateHandlerConfiguration.isLfSeparator() && !_stateHandlerConfiguration.isCrLfSeparator()) {
+            throw new WrongRowSeparatorException();
+        }
         StateHandlerConfiguration stateHandlerConfiguration = _stateHandlerConfiguration.copyOf();
         return new CsvParser(stateHandlerConfiguration);
     }
