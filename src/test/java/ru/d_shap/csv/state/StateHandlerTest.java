@@ -19,8 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv.state;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
@@ -43,23 +41,6 @@ public final class StateHandlerTest extends CsvTest {
      */
     public StateHandlerTest() {
         super();
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test
-    public void newObjectTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-        Assertions.assertThat(stateHandler.isCommaSeparator()).isTrue();
-        Assertions.assertThat(stateHandler.isSemicolonSeparator()).isTrue();
-        Assertions.assertThat(stateHandler.isCrSeparator()).isTrue();
-        Assertions.assertThat(stateHandler.isLfSeparator()).isTrue();
-        Assertions.assertThat(stateHandler.isCrLfSeparator()).isTrue();
-        Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isNotNull();
-        Assertions.assertThat(stateHandler.getLastProcessedCharacters()).isEmpty();
     }
 
     /**
@@ -156,7 +137,7 @@ public final class StateHandlerTest extends CsvTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushLastProcessedCharacterTest() {
+    public void getLastProcessedCharactersTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -219,7 +200,7 @@ public final class StateHandlerTest extends CsvTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushLastProcessedCharacterIgnoreEndOfInputTest() {
+    public void getLastProcessedEndOfInputCharactersTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -271,7 +252,13 @@ public final class StateHandlerTest extends CsvTest {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
         stateHandler.pushCharacter('a');
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
+
+        stateHandler.pushCharacter('b');
+        stateHandler.pushCharacter('c');
         Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
         Assertions.assertThat(listEventHandler.getCsv()).isEmpty();
     }
@@ -295,29 +282,26 @@ public final class StateHandlerTest extends CsvTest {
      */
     @Test
     public void pushRowTest() {
-        ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
-        stateHandler1.pushCharacter('a');
-        stateHandler1.pushColumn();
-        stateHandler1.pushRow();
-        List<List<String>> list1 = listEventHandler1.getCsv();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
-        ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
-        stateHandler2.pushCharacter('b');
-        stateHandler2.pushColumn();
-        stateHandler2.pushCharacter('c');
-        stateHandler2.pushColumn();
-        stateHandler2.pushRow();
-        List<List<String>> list2 = listEventHandler2.getCsv();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(1);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("b", "c");
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(1);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+
+        stateHandler.pushCharacter('b');
+        stateHandler.pushColumn();
+        stateHandler.pushCharacter('c');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("b", "c");
     }
 
     /**
@@ -325,41 +309,137 @@ public final class StateHandlerTest extends CsvTest {
      */
     @Test
     public void pushEmptyColumnTest() {
-        ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
-        stateHandler1.pushColumn();
-        stateHandler1.pushRow();
-        List<List<String>> list1 = listEventHandler1.getCsv();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("");
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
-        ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
-        stateHandler2.pushCharacter('a');
-        stateHandler2.pushColumn();
-        stateHandler2.pushColumn();
-        stateHandler2.pushCharacter('b');
-        stateHandler2.pushColumn();
-        stateHandler2.pushRow();
-        List<List<String>> list2 = listEventHandler2.getCsv();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(1);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a", "", "b");
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(1);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("");
 
-        ListEventHandler listEventHandler3 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration3 = createCsvParserConfiguration();
-        StateHandler stateHandler3 = new StateHandler(listEventHandler3, csvParserConfiguration3);
-        stateHandler3.pushCharacter('a');
-        stateHandler3.pushColumn();
-        stateHandler3.pushColumn();
-        stateHandler3.pushRow();
-        List<List<String>> list3 = listEventHandler3.getCsv();
-        Assertions.assertThat(list3).isNotNull();
-        Assertions.assertThat(list3).hasSize(1);
-        Assertions.assertThat(list3.get(0)).containsExactlyInOrder("a", "");
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushColumn();
+        stateHandler.pushCharacter('b');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("a", "", "b");
+
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("a", "", "b");
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder("a", "");
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushColumnWithColumnCountCheckTest() {
+        try {
+            ListEventHandler listEventHandler = new ListEventHandler();
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setColumnCountCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+            stateHandler.pushCharacter('a');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('b');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('c');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('d');
+            stateHandler.pushColumn();
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"\".");
+        }
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushColumnWithColumnCountCheckNotReusableTest() {
+        try {
+            ListEventHandler listEventHandler = new ListEventHandler();
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setColumnCountCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+            stateHandler.pushCharacter('a');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('b');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('c');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('d');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+
+            Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+            Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+            Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a", "b");
+            Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("c", "d");
+
+            stateHandler.pushCharacter('a');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('b');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('c');
+            stateHandler.pushColumn();
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"\".");
+        }
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushRowWithNoPushColumnTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+        stateHandler.pushRow();
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("");
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushRowWithNoPushColumnWithColumnCountCheckTest() {
+        try {
+            ListEventHandler listEventHandler = new ListEventHandler();
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setColumnCountCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+            stateHandler.pushRow();
+            stateHandler.pushColumn();
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"\".");
+        }
     }
 
     /**
@@ -367,48 +447,197 @@ public final class StateHandlerTest extends CsvTest {
      */
     @Test
     public void pushEmptyRowTest() {
-        ListEventHandler listEventHandler1 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration1 = createCsvParserConfiguration();
-        StateHandler stateHandler1 = new StateHandler(listEventHandler1, csvParserConfiguration1);
-        stateHandler1.pushRow();
-        List<List<String>> list1 = listEventHandler1.getCsv();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder();
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
 
-        ListEventHandler listEventHandler2 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration2 = createCsvParserConfiguration();
-        csvParserConfiguration2.setColumnCountCheckEnabled(false);
-        StateHandler stateHandler2 = new StateHandler(listEventHandler2, csvParserConfiguration2);
-        stateHandler2.pushCharacter('a');
-        stateHandler2.pushColumn();
-        stateHandler2.pushRow();
-        stateHandler2.pushRow();
-        stateHandler2.pushRow();
-        stateHandler2.pushCharacter('b');
-        stateHandler2.pushColumn();
-        stateHandler2.pushRow();
-        List<List<String>> list2 = listEventHandler2.getCsv();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(4);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a");
-        Assertions.assertThat(list2.get(1)).containsExactlyInOrder();
-        Assertions.assertThat(list2.get(2)).containsExactlyInOrder();
-        Assertions.assertThat(list2.get(3)).containsExactlyInOrder("b");
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(1);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
 
-        ListEventHandler listEventHandler3 = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration3 = createCsvParserConfiguration();
-        csvParserConfiguration3.setColumnCountCheckEnabled(false);
-        StateHandler stateHandler3 = new StateHandler(listEventHandler3, csvParserConfiguration3);
-        stateHandler3.pushCharacter('a');
-        stateHandler3.pushColumn();
-        stateHandler3.pushRow();
-        stateHandler3.pushRow();
-        List<List<String>> list3 = listEventHandler3.getCsv();
-        Assertions.assertThat(list3).isNotNull();
-        Assertions.assertThat(list3).hasSize(2);
-        Assertions.assertThat(list3.get(0)).containsExactlyInOrder("a");
-        Assertions.assertThat(list3.get(1)).containsExactlyInOrder();
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        stateHandler.pushCharacter('b');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(5);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(3)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(4)).containsExactlyInOrder("b");
+
+        stateHandler.pushCharacter('c');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(7);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(3)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(4)).containsExactlyInOrder("b");
+        Assertions.assertThat(listEventHandler.getCsv().get(5)).containsExactlyInOrder("c");
+        Assertions.assertThat(listEventHandler.getCsv().get(6)).containsExactlyInOrder();
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushEmptyRowWithSkipEmptyRowsEnabledTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setSkipEmptyRowsEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(0);
+
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        stateHandler.pushCharacter('b');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("b");
+
+        stateHandler.pushCharacter('c');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("b");
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder("c");
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushRowWithColumnCountCheckTest() {
+        try {
+            ListEventHandler listEventHandler = new ListEventHandler();
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setColumnCountCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+            stateHandler.pushCharacter('a');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('b');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('c');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('d');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('e');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"\".");
+        }
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushRowWithColumnCountCheckNotReusableTest() {
+        try {
+            ListEventHandler listEventHandler = new ListEventHandler();
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setColumnCountCheckEnabled(true);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+            stateHandler.pushCharacter('a');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('b');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            stateHandler.pushCharacter('c');
+            stateHandler.pushColumn();
+            stateHandler.pushCharacter('d');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+
+            Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+            Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+            Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a", "b");
+            Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("c", "d");
+
+            stateHandler.pushCharacter('e');
+            stateHandler.pushColumn();
+            stateHandler.pushRow();
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"\".");
+        }
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void pushRowWithNoColumnsWithColumnCountCheckTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        csvParserConfiguration.setColumnCountCheckEnabled(true);
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+        stateHandler.pushRow();
+
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder();
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void notReusableTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        stateHandler.pushCharacter('b');
+        stateHandler.pushCharacter('c');
+        stateHandler.pushCharacter('d');
+        stateHandler.pushCharacter('e');
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(1);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+
+        stateHandler.pushCharacter('a');
+        stateHandler.pushColumn();
+        stateHandler.pushRow();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("bcdea");
     }
 
     /**
@@ -428,17 +657,16 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushColumn();
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(1);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "bcde", "");
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(1);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("a", "bcde", "");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void skipPushColumnTest() {
+    public void pushCharacterWithNoPushColumnTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
         csvParserConfiguration.setColumnCountCheckEnabled(false);
@@ -453,136 +681,20 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushCharacter('f');
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(3);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder();
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder();
-        Assertions.assertThat(list.get(2)).containsExactlyInOrder("f");
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void checkColumnCountFailTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-        stateHandler.pushCharacter('a');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-        stateHandler.pushCharacter('b');
-        stateHandler.pushColumn();
-        stateHandler.pushCharacter('c');
-        stateHandler.pushColumn();
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(3);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder();
+        Assertions.assertThat(listEventHandler.getCsv().get(2)).containsExactlyInOrder("f");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void notReusableTest() {
+    public void pushCharacterWithNoColumnLengthAndWithNoColumnLengthCheckTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-
-        stateHandler.pushCharacter('a');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-        stateHandler.pushCharacter('b');
-        stateHandler.pushCharacter('c');
-        stateHandler.pushCharacter('d');
-        stateHandler.pushCharacter('e');
-        List<List<String>> list1 = listEventHandler.getCsv();
-        Assertions.assertThat(list1).isNotNull();
-        Assertions.assertThat(list1).hasSize(1);
-        Assertions.assertThat(list1.get(0)).containsExactlyInOrder("a");
-
-        stateHandler.pushCharacter('a');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-        List<List<String>> list2 = listEventHandler.getCsv();
-        Assertions.assertThat(list2).isNotNull();
-        Assertions.assertThat(list2).hasSize(2);
-        Assertions.assertThat(list2.get(0)).containsExactlyInOrder("a");
-        Assertions.assertThat(list2.get(1)).containsExactlyInOrder("bcdea");
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void notReusableCheckColumnCountFailTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-        stateHandler.pushCharacter('a');
-        stateHandler.pushColumn();
-        stateHandler.pushCharacter('b');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-        stateHandler.pushCharacter('c');
-        stateHandler.pushColumn();
-        stateHandler.pushCharacter('d');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(2);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "b");
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder("c", "d");
-
-        stateHandler.pushCharacter('a');
-        stateHandler.pushColumn();
-        stateHandler.pushRow();
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test
-    public void checkNoColumnColumnCountTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-        stateHandler.pushRow();
-        stateHandler.pushRow();
-        stateHandler.pushRow();
-
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(3);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder();
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder();
-        Assertions.assertThat(list.get(2)).containsExactlyInOrder();
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void checkNoColumnColumnCountFailTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(true);
-        StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
-        stateHandler.pushRow();
-        stateHandler.pushColumn();
-    }
-
-    /**
-     * {@link StateHandler} class test.
-     */
-    @Test
-    public void pushCharacterWithNoLengthAndNoCheckRestrictionTest() {
-        ListEventHandler listEventHandler = new ListEventHandler();
-        CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(false);
         csvParserConfiguration.setMaxColumnLength(-1);
         csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -601,21 +713,19 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushCharacter('h');
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(2);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abcd", "12");
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efgh");
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("abcd", "12");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("efgh");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushCharacterWithNoLengthAndCheckRestrictionTest() {
+    public void pushCharacterWithNoColumnLengthAndWithColumnLengthCheckTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(false);
         csvParserConfiguration.setMaxColumnLength(-1);
         csvParserConfiguration.setMaxColumnLengthCheckEnabled(true);
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -634,21 +744,19 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushCharacter('h');
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(2);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abcd", "12");
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efgh");
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("abcd", "12");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("efgh");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushCharacterEmptyWithNoCheckRestrictionTest() {
+    public void pushCharacterWithColumnLength0AndWithNoColumnLengthCheckTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(false);
         csvParserConfiguration.setMaxColumnLength(0);
         csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -667,18 +775,17 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushCharacter('h');
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(2);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("", "");
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder("");
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("", "");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushCharacterEmptyWithCheckRestrictionTest() {
+    public void pushCharacterWithColumnLength0AndWithColumnLengthCheckTest() {
         try {
             ListEventHandler listEventHandler = new ListEventHandler();
             CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
@@ -697,10 +804,9 @@ public final class StateHandlerTest extends CsvTest {
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushCharacterWithLengthAndNoCheckRestrictionTest() {
+    public void pushCharacterWithColumnLength3AndWithNoColumnLengthCheckTest() {
         ListEventHandler listEventHandler = new ListEventHandler();
         CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
-        csvParserConfiguration.setColumnCountCheckEnabled(false);
         csvParserConfiguration.setMaxColumnLength(3);
         csvParserConfiguration.setMaxColumnLengthCheckEnabled(false);
         StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
@@ -719,18 +825,17 @@ public final class StateHandlerTest extends CsvTest {
         stateHandler.pushCharacter('h');
         stateHandler.pushColumn();
         stateHandler.pushRow();
-        List<List<String>> list = listEventHandler.getCsv();
-        Assertions.assertThat(list).isNotNull();
-        Assertions.assertThat(list).hasSize(2);
-        Assertions.assertThat(list.get(0)).containsExactlyInOrder("abc", "12");
-        Assertions.assertThat(list.get(1)).containsExactlyInOrder("efg");
+        Assertions.assertThat(listEventHandler.getCsv()).isNotNull();
+        Assertions.assertThat(listEventHandler.getCsv()).hasSize(2);
+        Assertions.assertThat(listEventHandler.getCsv().get(0)).containsExactlyInOrder("abc", "12");
+        Assertions.assertThat(listEventHandler.getCsv().get(1)).containsExactlyInOrder("efg");
     }
 
     /**
      * {@link StateHandler} class test.
      */
     @Test
-    public void pushCharacterWithLengthAndCheckRestrictionTest() {
+    public void pushCharacterWithColumnLength3AndWithColumnLengthCheckTest() {
         try {
             ListEventHandler listEventHandler = new ListEventHandler();
             CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
