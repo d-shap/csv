@@ -41,6 +41,23 @@ public final class CsvParserConfigurationTest extends CsvTest {
      * {@link CsvParserConfiguration} class test.
      */
     @Test
+    public void defaultValuesTest() {
+        CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+        Assertions.assertThat(csvParserConfiguration.isCommaSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isSemicolonSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isCrLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isColumnCountCheckEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.isSkipEmptyRowsEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfiguration.isMaxColumnLengthCheckEnabled()).isFalse();
+    }
+
+    /**
+     * {@link CsvParserConfiguration} class test.
+     */
+    @Test
     public void copyOfTest() {
         CsvParserConfiguration csvParserConfiguration1 = new CsvParserConfiguration();
         csvParserConfiguration1.setCommaSeparator(true);
@@ -50,7 +67,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
         csvParserConfiguration1.setCrLfSeparator(true);
         csvParserConfiguration1.setColumnCountCheckEnabled(true);
         csvParserConfiguration1.setSkipEmptyRowsEnabled(true);
-        csvParserConfiguration1.setMaxColumnLength(0);
+        csvParserConfiguration1.setMaxColumnLength(1);
         csvParserConfiguration1.setMaxColumnLengthCheckEnabled(true);
         CsvParserConfiguration csvParserConfigurationCopy1 = csvParserConfiguration1.copyOf();
         Assertions.assertThat(csvParserConfigurationCopy1.isCommaSeparator()).isTrue();
@@ -60,7 +77,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
         Assertions.assertThat(csvParserConfigurationCopy1.isCrLfSeparator()).isTrue();
         Assertions.assertThat(csvParserConfigurationCopy1.isColumnCountCheckEnabled()).isTrue();
         Assertions.assertThat(csvParserConfigurationCopy1.isSkipEmptyRowsEnabled()).isTrue();
-        Assertions.assertThat(csvParserConfigurationCopy1.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfigurationCopy1.getMaxColumnLength()).isEqualTo(1);
         Assertions.assertThat(csvParserConfigurationCopy1.isMaxColumnLengthCheckEnabled()).isTrue();
 
         CsvParserConfiguration csvParserConfiguration2 = new CsvParserConfiguration();
@@ -71,7 +88,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
         csvParserConfiguration2.setCrLfSeparator(false);
         csvParserConfiguration2.setColumnCountCheckEnabled(false);
         csvParserConfiguration2.setSkipEmptyRowsEnabled(false);
-        csvParserConfiguration2.setMaxColumnLength(1);
+        csvParserConfiguration2.setMaxColumnLength(-1);
         csvParserConfiguration2.setMaxColumnLengthCheckEnabled(false);
         CsvParserConfiguration csvParserConfigurationCopy2 = csvParserConfiguration2.copyOf();
         Assertions.assertThat(csvParserConfigurationCopy2.isCommaSeparator()).isFalse();
@@ -81,7 +98,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
         Assertions.assertThat(csvParserConfigurationCopy2.isCrLfSeparator()).isFalse();
         Assertions.assertThat(csvParserConfigurationCopy2.isColumnCountCheckEnabled()).isFalse();
         Assertions.assertThat(csvParserConfigurationCopy2.isSkipEmptyRowsEnabled()).isFalse();
-        Assertions.assertThat(csvParserConfigurationCopy2.getMaxColumnLength()).isEqualTo(1);
+        Assertions.assertThat(csvParserConfigurationCopy2.getMaxColumnLength()).isEqualTo(-1);
         Assertions.assertThat(csvParserConfigurationCopy2.isMaxColumnLengthCheckEnabled()).isFalse();
     }
 
