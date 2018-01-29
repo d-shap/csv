@@ -141,7 +141,7 @@
  * can produce a CSV like this:
  * </p>
  * <pre>{@code
- * &quot;value;value_in_the same_column&quot;;abc,123
+ * "value;value_in_the same_column";abc,123
  * }</pre>
  * <p>
  * There are two columns in this CSV. The first one is enclosed in double quotes and contains semicolon.
