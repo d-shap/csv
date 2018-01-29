@@ -169,7 +169,7 @@ public final class CsvParserBuilder {
     }
 
     /**
-     * Parse CSV and define rows and columns.
+     * Create a {@link CsvParser} object, then parse CSV and define rows and columns.
      *
      * @param charSequence CSV to parse.
      * @return list of rows, each row is a list of columns.
@@ -179,7 +179,7 @@ public final class CsvParserBuilder {
     }
 
     /**
-     * Parse CSV and push events to the specified event handler.
+     * Create a {@link CsvParser} object, then parse CSV and push events to the specified event handler.
      *
      * @param charSequence    CSV to parse.
      * @param csvEventHandler event handler to process parser events.
@@ -189,7 +189,7 @@ public final class CsvParserBuilder {
     }
 
     /**
-     * Parse CSV and define rows and columns.
+     * Create a {@link CsvParser} object, then parse CSV and define rows and columns.
      *
      * @param reader CSV to parse.
      * @return list of rows, each row is a list of columns.
@@ -199,7 +199,7 @@ public final class CsvParserBuilder {
     }
 
     /**
-     * Parse CSV and push events to the specified event handler.
+     * Create a {@link CsvParser} object, then parse CSV and push events to the specified event handler.
      *
      * @param reader          CSV to parse.
      * @param csvEventHandler event handler to process parser events.
