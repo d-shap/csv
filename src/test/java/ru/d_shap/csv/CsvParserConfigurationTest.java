@@ -24,7 +24,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 
 /**
- * Tests for {@link ru.d_shap.csv.CsvParserConfiguration}.
+ * Tests for {@link CsvParserConfiguration}.
  *
  * @author Dmitry Shapovalov
  */
@@ -38,7 +38,150 @@ public final class CsvParserConfigurationTest extends CsvTest {
     }
 
     /**
-     * {@link ru.d_shap.csv.CsvParserConfiguration} class test.
+     * {@link CsvParserConfiguration} class test.
+     */
+    @Test
+    public void copyOfTest() {
+        CsvParserConfiguration csvParserConfiguration1 = new CsvParserConfiguration();
+        csvParserConfiguration1.setCommaSeparator(true);
+        csvParserConfiguration1.setSemicolonSeparator(true);
+        csvParserConfiguration1.setCrSeparator(true);
+        csvParserConfiguration1.setLfSeparator(true);
+        csvParserConfiguration1.setCrLfSeparator(true);
+        csvParserConfiguration1.setColumnCountCheckEnabled(true);
+        csvParserConfiguration1.setSkipEmptyRowsEnabled(true);
+        csvParserConfiguration1.setMaxColumnLength(0);
+        csvParserConfiguration1.setMaxColumnLengthCheckEnabled(true);
+        CsvParserConfiguration csvParserConfigurationCopy1 = csvParserConfiguration1.copyOf();
+        Assertions.assertThat(csvParserConfigurationCopy1.isCommaSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isSemicolonSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isCrSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isCrLfSeparator()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isColumnCountCheckEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.isSkipEmptyRowsEnabled()).isTrue();
+        Assertions.assertThat(csvParserConfigurationCopy1.getMaxColumnLength()).isEqualTo(0);
+        Assertions.assertThat(csvParserConfigurationCopy1.isMaxColumnLengthCheckEnabled()).isTrue();
+
+        CsvParserConfiguration csvParserConfiguration2 = new CsvParserConfiguration();
+        csvParserConfiguration2.setCommaSeparator(false);
+        csvParserConfiguration2.setSemicolonSeparator(false);
+        csvParserConfiguration2.setCrSeparator(false);
+        csvParserConfiguration2.setLfSeparator(false);
+        csvParserConfiguration2.setCrLfSeparator(false);
+        csvParserConfiguration2.setColumnCountCheckEnabled(false);
+        csvParserConfiguration2.setSkipEmptyRowsEnabled(false);
+        csvParserConfiguration2.setMaxColumnLength(1);
+        csvParserConfiguration2.setMaxColumnLengthCheckEnabled(false);
+        CsvParserConfiguration csvParserConfigurationCopy2 = csvParserConfiguration2.copyOf();
+        Assertions.assertThat(csvParserConfigurationCopy2.isCommaSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isSemicolonSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isCrSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isCrLfSeparator()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isColumnCountCheckEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.isSkipEmptyRowsEnabled()).isFalse();
+        Assertions.assertThat(csvParserConfigurationCopy2.getMaxColumnLength()).isEqualTo(1);
+        Assertions.assertThat(csvParserConfigurationCopy2.isMaxColumnLengthCheckEnabled()).isFalse();
+    }
+
+    /**
+     * {@link CsvParserConfiguration} class test.
+     */
+    @Test
+    public void validateTest() {
+        CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(false);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(false);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        try {
+            csvParserConfiguration.setCommaSeparator(false);
+            csvParserConfiguration.setSemicolonSeparator(false);
+            csvParserConfiguration.setCrSeparator(true);
+            csvParserConfiguration.setLfSeparator(true);
+            csvParserConfiguration.setCrLfSeparator(true);
+            csvParserConfiguration.validate();
+            Assertions.fail("CsvParserConfiguration test fail");
+        } catch (WrongColumnSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+        }
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(false);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(false);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(false);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(true);
+        csvParserConfiguration.setLfSeparator(false);
+        csvParserConfiguration.setCrLfSeparator(false);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(false);
+        csvParserConfiguration.setLfSeparator(true);
+        csvParserConfiguration.setCrLfSeparator(false);
+        csvParserConfiguration.validate();
+
+        csvParserConfiguration.setCommaSeparator(true);
+        csvParserConfiguration.setSemicolonSeparator(true);
+        csvParserConfiguration.setCrSeparator(false);
+        csvParserConfiguration.setLfSeparator(false);
+        csvParserConfiguration.setCrLfSeparator(true);
+        csvParserConfiguration.validate();
+
+        try {
+            csvParserConfiguration.setCommaSeparator(true);
+            csvParserConfiguration.setSemicolonSeparator(true);
+            csvParserConfiguration.setCrSeparator(false);
+            csvParserConfiguration.setLfSeparator(false);
+            csvParserConfiguration.setCrLfSeparator(false);
+            csvParserConfiguration.validate();
+            Assertions.fail("CsvParserConfiguration test fail");
+        } catch (WrongRowSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+        }
+    }
+
+    /**
+     * {@link CsvParserConfiguration} class test.
      */
     @Test
     public void commaSeparatorTest() {
@@ -134,7 +277,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
     @Test
     public void maxColumnLengthTest() {
         CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
-        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isLessThan(0);
+        Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(0);
         csvParserConfiguration.setMaxColumnLength(1);
         Assertions.assertThat(csvParserConfiguration.getMaxColumnLength()).isEqualTo(1);
         csvParserConfiguration.setMaxColumnLength(2);
