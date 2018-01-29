@@ -19,6 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
+import java.io.Reader;
+import java.util.List;
+
+import ru.d_shap.csv.handler.CsvEventHandler;
+
 /**
  * Builder class to create a {@link CsvParser} object.
  *
@@ -161,6 +166,46 @@ public final class CsvParserBuilder {
     public CsvParser build() {
         CsvParserConfiguration csvParserConfiguration = _csvParserConfiguration.copyOf();
         return new CsvParser(csvParserConfiguration);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param charSequence CSV to parse.
+     * @return list of rows, each row is a list of columns.
+     */
+    public List<List<String>> parse(final CharSequence charSequence) {
+        return build().parse(charSequence);
+    }
+
+    /**
+     * Parse CSV and push events to the specified event handler.
+     *
+     * @param charSequence    CSV to parse.
+     * @param csvEventHandler event handler to process parser events.
+     */
+    public void parse(final CharSequence charSequence, final CsvEventHandler csvEventHandler) {
+        build().parse(charSequence, csvEventHandler);
+    }
+
+    /**
+     * Parse CSV and define rows and columns.
+     *
+     * @param reader CSV to parse.
+     * @return list of rows, each row is a list of columns.
+     */
+    public List<List<String>> parse(final Reader reader) {
+        return build().parse(reader);
+    }
+
+    /**
+     * Parse CSV and push events to the specified event handler.
+     *
+     * @param reader          CSV to parse.
+     * @param csvEventHandler event handler to process parser events.
+     */
+    public void parse(final Reader reader, final CsvEventHandler csvEventHandler) {
+        build().parse(reader, csvEventHandler);
     }
 
 }
