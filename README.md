@@ -58,7 +58,7 @@ This settings are specified in a `CsvPrinterBuilder` object, that is used to cre
 To parse CSV `CsvParser` class should be used:
 ```
 String csv = "value1,,false\r\nvalue2,true,\r\n,value3,value3\r\n";
-List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+List<List<String>> result = CsvParserBuilder.getInstance().parse(csv);
 ```
 
 CSV parser is a push parser.
@@ -70,20 +70,20 @@ Some predefined `CsvEventHandler` objects can be used.
 Next example shows, how to check if CSV is valid:
 ```
 String csv = "1,2,3\r\n4,5,6\r\n";
-CsvParserBuilder.getInstance().build().parse(csv, new NoopEventHandler());
+CsvParserBuilder.getInstance().parse(csv, new NoopEventHandler());
 ```
 
 Next example shows, how to check if CSV is valid and each row has the same number of columns:
 ```
 String csv = "1,2,3\r\n4,5,6\r\n";
-CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).build().parse(csv, new NoopEventHandler());
+CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).parse(csv, new NoopEventHandler());
 ```
 
 Next example shows, how to define column and row count of CSV, that has the same number of columns in each row:
 ```
 String csv = "1,2,3\r\n4,5,6\r\n";
 DimensionEventHandler eventHandler = new DimensionEventHandler();
-CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
+CsvParserBuilder.getInstance().parse(csv, eventHandler);
 System.out.println("Row count: " + eventHandler.getRowCount());
 System.out.println("Column count: " + eventHandler.getColumnCount());
 ```
@@ -108,5 +108,5 @@ The second one is NOT enclosed in double quotes and contains comma, that is NOT 
 The following code is an example of how to deal with CSV like this:
 ```
 String csv = "\"value;value_in_the same_column\";abc,123";
-List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).build().parse(csv);
+List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).parse(csv);
 ```
