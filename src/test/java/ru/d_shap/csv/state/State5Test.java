@@ -45,7 +45,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processEndOfInputCrSeparatorTest() {
+    public void processEndOfInputCrAsSeparatorTest() {
         String csv = "\"a\"\r";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -57,10 +57,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processEndOfInputCrTextTest() {
+    public void processEndOfInputCrAsTextTest() {
         try {
             String csv = "\"a\"\r";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("End of input obtained. Last characters: \"\"a\"\\r\".");
@@ -71,7 +71,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processCommaAsSeparatorCrSeparatorTest() {
+    public void processCommaAsSeparatorCrAsSeparatorTest() {
         String csv = "\"a\"\r,";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -84,10 +84,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processCommaAsSeparatorCrTextTest() {
+    public void processCommaAsSeparatorCrAsTextTest() {
         try {
             String csv = "\"a\"\r,";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: ',' (44). Last characters: \"\"a\"\\r,\".");
@@ -98,7 +98,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processCommaAsTextCrSeparatorTest() {
+    public void processCommaAsTextCrAsSeparatorTest() {
         String csv = "\"a\"\r,";
         List<List<String>> list = createCsvParser(false, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -111,10 +111,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processCommaAsTextCrTextTest() {
+    public void processCommaAsTextCrAsTextTest() {
         try {
             String csv = "\"a\"\r,";
-            createCsvParser(false, true, false, false, true).parse(csv);
+            createCsvParser(false, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: ',' (44). Last characters: \"\"a\"\\r,\".");
@@ -125,7 +125,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processSemicolonAsSeparatorCrSeparatorTest() {
+    public void processSemicolonAsSeparatorCrAsSeparatorTest() {
         String csv = "\"a\"\r;";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -138,10 +138,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processSemicolonAsSeparatorCrTextTest() {
+    public void processSemicolonAsSeparatorCrAsTextTest() {
         try {
             String csv = "\"a\"\r;";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: ';' (59). Last characters: \"\"a\"\\r;\".");
@@ -152,7 +152,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processSemicolonAsTextCrSeparatorTest() {
+    public void processSemicolonAsTextCrAsSeparatorTest() {
         String csv = "\"a\"\r;";
         List<List<String>> list = createCsvParser(true, false, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -165,10 +165,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processSemicolonAsTextCrTextTest() {
+    public void processSemicolonAsTextCrAsTextTest() {
         try {
             String csv = "\"a\"\r;";
-            createCsvParser(true, false, false, false, true).parse(csv);
+            createCsvParser(true, false, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: ';' (59). Last characters: \"\"a\"\\r;\".");
@@ -196,7 +196,7 @@ public final class State5Test extends CsvTest {
     public void processCrAsTextTest() {
         try {
             String csv = "\"a\"\r\rb";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: '\r' (13). Last characters: \"\"a\"\\r\\r\".");
@@ -219,7 +219,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processQuotCrSeparatorTest() {
+    public void processQuotCrAsSeparatorTest() {
         String csv = "\"a\"\r\"b\"";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -232,10 +232,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processQuotCrTextTest() {
+    public void processQuotCrAsTextTest() {
         try {
             String csv = "\"a\"\r\"b\"";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: '\"' (34). Last characters: \"\"a\"\\r\"\".");
@@ -246,7 +246,7 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processDefaultCrSeparatorTest() {
+    public void processDefaultCrAsSeparatorTest() {
         String csv = "\"a\"\rb";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -259,10 +259,10 @@ public final class State5Test extends CsvTest {
      * {@link State5} class test.
      */
     @Test
-    public void processDefaultCrTextTest() {
+    public void processDefaultCrAsTextTest() {
         try {
             String csv = "\"a\"\rb";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State5 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: 'b' (98). Last characters: \"\"a\"\\rb\".");

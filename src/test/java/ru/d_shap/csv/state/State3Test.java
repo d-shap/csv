@@ -45,7 +45,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processEndOfInputCrSeparatorTest() {
+    public void processEndOfInputCrAsSeparatorTest() {
         String csv = "\r\n\r";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -58,9 +58,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processEndOfInputCrTextTest() {
+    public void processEndOfInputCrAsTextTest() {
         String csv = "\r\n\r";
-        List<List<String>> list = createCsvParser(true, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -71,7 +71,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processCommaAsSeparatorCrSeparatorTest() {
+    public void processCommaAsSeparatorCrAsSeparatorTest() {
         String csv = "\r\n\r,";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -85,9 +85,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processCommaAsSeparatorCrTextTest() {
+    public void processCommaAsSeparatorCrAsTextTest() {
         String csv = "\r\n\r,";
-        List<List<String>> list = createCsvParser(true, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -98,7 +98,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processCommaAsTextCrSeparatorTest() {
+    public void processCommaAsTextCrAsSeparatorTest() {
         String csv = "\r\n\r,";
         List<List<String>> list = createCsvParser(false, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -112,9 +112,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processCommaAsTextCrTextTest() {
+    public void processCommaAsTextCrAsTextTest() {
         String csv = "\r\n\r,";
-        List<List<String>> list = createCsvParser(false, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(false, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -125,7 +125,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processSemicolonAsSeparatorCrSeparatorTest() {
+    public void processSemicolonAsSeparatorCrAsSeparatorTest() {
         String csv = "\r\n\r;";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -139,9 +139,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processSemicolonAsSeparatorCrTextTest() {
+    public void processSemicolonAsSeparatorCrAsTextTest() {
         String csv = "\r\n\r;";
-        List<List<String>> list = createCsvParser(true, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -152,7 +152,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processSemicolonAsTextCrSeparatorTest() {
+    public void processSemicolonAsTextCrAsSeparatorTest() {
         String csv = "\r\n\r;";
         List<List<String>> list = createCsvParser(true, false, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -166,9 +166,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processSemicolonAsTextCrTextTest() {
+    public void processSemicolonAsTextCrAsTextTest() {
         String csv = "\r\n\r;";
-        List<List<String>> list = createCsvParser(true, false, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, false, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -196,7 +196,7 @@ public final class State3Test extends CsvTest {
     @Test
     public void processCrAsTextTest() {
         String csv = "\r\n\r\ra";
-        List<List<String>> list = createCsvParser(true, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
@@ -220,7 +220,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processQuotCrSeparatorTest() {
+    public void processQuotCrAsSeparatorTest() {
         String csv = "\r\n\r\"a\"";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -234,10 +234,10 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processQuotCrTextTest() {
+    public void processQuotCrAsTextTest() {
         try {
             String csv = "\r\n\r\"a\"";
-            createCsvParser(true, true, false, false, true).parse(csv);
+            createCsvParser(true, true, false, true, true).parse(csv);
             Assertions.fail("State3 test fail");
         } catch (CsvParseException ex) {
             Assertions.assertThat(ex).hasMessage("Wrong character obtained: '\"' (34). Last characters: \"\\r\\n\\r\"\".");
@@ -248,7 +248,7 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processDefaultCrSeparatorTest() {
+    public void processDefaultCrAsSeparatorTest() {
         String csv = "\r\n\ra";
         List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
@@ -262,9 +262,9 @@ public final class State3Test extends CsvTest {
      * {@link State3} class test.
      */
     @Test
-    public void processDefaultCrTextTest() {
+    public void processDefaultCrAsTextTest() {
         String csv = "\r\n\ra";
-        List<List<String>> list = createCsvParser(true, true, false, false, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, false, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();

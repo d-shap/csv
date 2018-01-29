@@ -59,7 +59,7 @@ public final class State8Test extends CsvTest {
     @Test
     public void processCommaAsSeparatorTest() {
         String csv = "a,";
-        List<List<String>> list = createCsvParser(true, false, true, true, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "");
@@ -83,7 +83,7 @@ public final class State8Test extends CsvTest {
     @Test
     public void processSemicolonAsSeparatorTest() {
         String csv = "a;";
-        List<List<String>> list = createCsvParser(false, true, true, true, true).parse(csv);
+        List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(list).isNotNull();
         Assertions.assertThat(list).hasSize(1);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder("a", "");
