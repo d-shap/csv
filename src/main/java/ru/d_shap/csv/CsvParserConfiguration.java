@@ -46,7 +46,6 @@ public final class CsvParserConfiguration {
 
     CsvParserConfiguration() {
         super();
-        _maxColumnLength = -1;
     }
 
     CsvParserConfiguration copyOf() {
