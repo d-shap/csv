@@ -136,9 +136,14 @@
  * This settings can be used in many different situations.
  * </p>
  * <p>
- * For example, some editors can use semicolon as column separator, but not comma. And this editors
- * do NOT enclose column values in double quots if column value contains commas. For example, this
- * editors can produce a CSV like this: <b>&quot;value;value_in_the same_column&quot;;abc,123</b>.
+ * For example, some editors can use semicolon as column separator, but not comma. This editors do NOT
+ * enclose column values in double quots if column value contains commas. For example, this editors
+ * can produce a CSV like this:
+ * </p>
+ * <pre>{@code
+ * &quot;value;value_in_the same_column&quot;;abc,123
+ * }</pre>
+ * <p>
  * There are two columns in this CSV. The first one is enclosed in double quotes and contains semicolon.
  * The second one is NOT enclosed in double quotes and contains comma, that is NOT column separator.
  * The following code is an example of how to deal with CSV like this:
