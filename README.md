@@ -100,8 +100,12 @@ This settings are specified in a `CsvParserBuilder` object, that is used to crea
 This settings can be used in many different situations.
 
 For example, some editors can use semicolon as column separator, but not comma.
-And this editors do NOT enclose column values in double quots if column value contains commas.
-This editors can produce a CSV like this: **"value;value_in_the same_column";abc,123**.
+This editors do NOT enclose column values in double quots if column value contains commas.
+For example, this editors can produce a CSV like this:
+```
+"value;value_in_the same_column";abc,123
+```
+
 There are two columns in this CSV.
 The first one is enclosed in double quotes and contains semicolon.
 The second one is NOT enclosed in double quotes and contains comma, that is NOT column separator.
