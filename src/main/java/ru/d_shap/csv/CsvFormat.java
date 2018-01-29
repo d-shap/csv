@@ -85,9 +85,8 @@ public enum CsvFormat {
 
     /**
      * CSV format used by Excel. Column separator is locale dependent. In this format comma is used.
-     * If semicolon is used as a column separator, then this should be altered manually.
      */
-    EXCEL {
+    EXCEL_COMMA {
         @Override
         void configure(final CsvParserBuilder csvParserBuilder) {
             csvParserBuilder.setCommaSeparator(true);
@@ -104,6 +103,33 @@ public enum CsvFormat {
         @Override
         void configure(final CsvPrinterBuilder csvPrinterBuilder) {
             csvPrinterBuilder.setCommaSeparator();
+            csvPrinterBuilder.setCrLfSeparator();
+            csvPrinterBuilder.setColumnCountCheckEnabled(true);
+            csvPrinterBuilder.setSkipEmptyRowsEnabled(false);
+            csvPrinterBuilder.setEscapeAllSeparatorsEnabled(false);
+        }
+    },
+
+    /**
+     * CSV format used by Excel. Column separator is locale dependent. In this format semicolon is used.
+     */
+    EXCEL_SEMICOLON {
+        @Override
+        void configure(final CsvParserBuilder csvParserBuilder) {
+            csvParserBuilder.setCommaSeparator(false);
+            csvParserBuilder.setSemicolonSeparator(true);
+            csvParserBuilder.setCrSeparator(false);
+            csvParserBuilder.setLfSeparator(false);
+            csvParserBuilder.setCrLfSeparator(true);
+            csvParserBuilder.setColumnCountCheckEnabled(true);
+            csvParserBuilder.setSkipEmptyRowsEnabled(false);
+            csvParserBuilder.setMaxColumnLength(-1);
+            csvParserBuilder.setMaxColumnLengthCheckEnabled(false);
+        }
+
+        @Override
+        void configure(final CsvPrinterBuilder csvPrinterBuilder) {
+            csvPrinterBuilder.setSemicolonSeparator();
             csvPrinterBuilder.setCrLfSeparator();
             csvPrinterBuilder.setColumnCountCheckEnabled(true);
             csvPrinterBuilder.setSkipEmptyRowsEnabled(false);
