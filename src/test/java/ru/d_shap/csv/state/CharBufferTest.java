@@ -102,6 +102,12 @@ public final class CharBufferTest extends CsvTest {
 
         CharBuffer charBuffer4 = new CharBuffer(0, true);
         Assertions.assertThat(charBuffer4.canAppend()).isFalse();
+        charBuffer4.append('a');
+        charBuffer4.append('b');
+        charBuffer4.append('c');
+        Assertions.assertThat(charBuffer4.canAppend()).isFalse();
+        charBuffer4.append('d');
+        Assertions.assertThat(charBuffer4.canAppend()).isFalse();
 
         CharBuffer charBuffer5 = new CharBuffer(3, false);
         Assertions.assertThat(charBuffer5.canAppend()).isTrue();
@@ -117,6 +123,8 @@ public final class CharBufferTest extends CsvTest {
         charBuffer6.append('a');
         charBuffer6.append('b');
         charBuffer6.append('c');
+        Assertions.assertThat(charBuffer6.canAppend()).isFalse();
+        charBuffer6.append('d');
         Assertions.assertThat(charBuffer6.canAppend()).isFalse();
     }
 
@@ -214,7 +222,7 @@ public final class CharBufferTest extends CsvTest {
      * {@link CharBuffer} class test.
      */
     @Test
-    public void charBufferExtensionTest() {
+    public void appendWithExtensionTest() {
         CharBuffer charBuffer1 = new CharBuffer(-1, false);
         charBuffer1.append('1');
         charBuffer1.append('2');
@@ -272,6 +280,122 @@ public final class CharBufferTest extends CsvTest {
         charBuffer2.append('5');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(25);
         Assertions.assertThat(charBuffer2).isToStringEqualTo("1234567890123456789012345");
+
+        CharBuffer charBuffer3 = new CharBuffer(0, false);
+        charBuffer3.append('1');
+        charBuffer3.append('2');
+        charBuffer3.append('3');
+        charBuffer3.append('4');
+        charBuffer3.append('5');
+        charBuffer3.append('6');
+        charBuffer3.append('7');
+        charBuffer3.append('8');
+        charBuffer3.append('9');
+        charBuffer3.append('0');
+        charBuffer3.append('1');
+        charBuffer3.append('2');
+        charBuffer3.append('3');
+        charBuffer3.append('4');
+        charBuffer3.append('5');
+        charBuffer3.append('6');
+        charBuffer3.append('7');
+        charBuffer3.append('8');
+        charBuffer3.append('9');
+        charBuffer3.append('0');
+        charBuffer3.append('1');
+        charBuffer3.append('2');
+        charBuffer3.append('3');
+        charBuffer3.append('4');
+        charBuffer3.append('5');
+        Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(25);
+        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+
+        CharBuffer charBuffer4 = new CharBuffer(0, true);
+        charBuffer4.append('1');
+        charBuffer4.append('2');
+        charBuffer4.append('3');
+        charBuffer4.append('4');
+        charBuffer4.append('5');
+        charBuffer4.append('6');
+        charBuffer4.append('7');
+        charBuffer4.append('8');
+        charBuffer4.append('9');
+        charBuffer4.append('0');
+        charBuffer4.append('1');
+        charBuffer4.append('2');
+        charBuffer4.append('3');
+        charBuffer4.append('4');
+        charBuffer4.append('5');
+        charBuffer4.append('6');
+        charBuffer4.append('7');
+        charBuffer4.append('8');
+        charBuffer4.append('9');
+        charBuffer4.append('0');
+        charBuffer4.append('1');
+        charBuffer4.append('2');
+        charBuffer4.append('3');
+        charBuffer4.append('4');
+        charBuffer4.append('5');
+        Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(25);
+        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+
+        CharBuffer charBuffer5 = new CharBuffer(3, false);
+        charBuffer5.append('1');
+        charBuffer5.append('2');
+        charBuffer5.append('3');
+        charBuffer5.append('4');
+        charBuffer5.append('5');
+        charBuffer5.append('6');
+        charBuffer5.append('7');
+        charBuffer5.append('8');
+        charBuffer5.append('9');
+        charBuffer5.append('0');
+        charBuffer5.append('1');
+        charBuffer5.append('2');
+        charBuffer5.append('3');
+        charBuffer5.append('4');
+        charBuffer5.append('5');
+        charBuffer5.append('6');
+        charBuffer5.append('7');
+        charBuffer5.append('8');
+        charBuffer5.append('9');
+        charBuffer5.append('0');
+        charBuffer5.append('1');
+        charBuffer5.append('2');
+        charBuffer5.append('3');
+        charBuffer5.append('4');
+        charBuffer5.append('5');
+        Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(25);
+        Assertions.assertThat(charBuffer5).isToStringEqualTo("123");
+
+        CharBuffer charBuffer6 = new CharBuffer(3, true);
+        charBuffer6.append('1');
+        charBuffer6.append('2');
+        charBuffer6.append('3');
+        charBuffer6.append('4');
+        charBuffer6.append('5');
+        charBuffer6.append('6');
+        charBuffer6.append('7');
+        charBuffer6.append('8');
+        charBuffer6.append('9');
+        charBuffer6.append('0');
+        charBuffer6.append('1');
+        charBuffer6.append('2');
+        charBuffer6.append('3');
+        charBuffer6.append('4');
+        charBuffer6.append('5');
+        charBuffer6.append('6');
+        charBuffer6.append('7');
+        charBuffer6.append('8');
+        charBuffer6.append('9');
+        charBuffer6.append('0');
+        charBuffer6.append('1');
+        charBuffer6.append('2');
+        charBuffer6.append('3');
+        charBuffer6.append('4');
+        charBuffer6.append('5');
+        Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(25);
+        Assertions.assertThat(charBuffer6).isToStringEqualTo("123");
     }
 
     /**
