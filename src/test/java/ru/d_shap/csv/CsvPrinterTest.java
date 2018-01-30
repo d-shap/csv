@@ -22,6 +22,9 @@ package ru.d_shap.csv;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -45,134 +48,142 @@ public final class CsvPrinterTest extends CsvTest {
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addIntColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(10);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("10\r\n");
+    public void addColumnCharTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn('a');
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("a\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addLongColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(Long.MAX_VALUE);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("9223372036854775807\r\n");
+    public void addColumnIntTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(10);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("10\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addFloatColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(1.1f);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1.1\r\n");
+    public void addColumnLongTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(Long.MAX_VALUE);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("9223372036854775807\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addDoubleColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(2.2);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("2.2\r\n");
+    public void addColumnFloatTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(1.1f);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1.1\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addBooleanColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(true);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("true\r\n");
+    public void addColumnDoubleTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(2.2);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("2.2\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addStringColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn("aaa");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
+    public void addColumnBooleanTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("true\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addNullStringColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        String str = null;
-        builder.addColumn(str);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("\r\n");
+    public void addColumnStringTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn("value");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("value\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addStringWithSpecialsColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn("a\"a,a;a\ra\na");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("\"a\"\"a,a;a\ra\na\"\r\n");
+    public void addColumnNullStringTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(null);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addObjectColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(new StringBuilder().append("aaa"));
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
+    public void addColumnObjectTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(new StringBuilder().append("value"));
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("value\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addObjectStringColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        Object obj = "aaa";
-        builder.addColumn(obj);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("aaa\r\n");
+    public void addColumnStringObjectTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn((Object) "value");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("value\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addNullObjectColumnTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        Object obj = null;
-        builder.addColumn(obj);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("\r\n");
+    public void addColumnNullObjectTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn((Object) null);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addColumnStringWithSpecialCharactersTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn("a\"a,a;a\ra\na");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("\"a\"\"a,a;a\ra\na\"\r\n");
     }
 
     /**
@@ -180,35 +191,35 @@ public final class CsvPrinterTest extends CsvTest {
      */
     @Test
     public void addMultipleColumnsTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addColumn("aaa");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true,aaa\r\n");
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addColumn("value");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true,value\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addMultipleColumnsWithSpecialsTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn("a\"a");
-        builder.addRow();
-        builder.addColumn("a,a");
-        builder.addRow();
-        builder.addColumn("a;a");
-        builder.addRow();
-        builder.addColumn("a\ra");
-        builder.addRow();
-        builder.addColumn("a\na");
-        builder.addRow();
-        builder.addColumn("a\"a,a;a\ra\na");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("\"a\"\"a\"\r\n\"a,a\"\r\n\"a;a\"\r\n\"a\ra\"\r\n\"a\na\"\r\n\"a\"\"a,a;a\ra\na\"\r\n");
+    public void addMultipleColumnsWithSpecialCharactersTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn("a\"a");
+        csvPrinter.addRow();
+        csvPrinter.addColumn("a,a");
+        csvPrinter.addRow();
+        csvPrinter.addColumn("a;a");
+        csvPrinter.addRow();
+        csvPrinter.addColumn("a\ra");
+        csvPrinter.addRow();
+        csvPrinter.addColumn("a\na");
+        csvPrinter.addRow();
+        csvPrinter.addColumn("a\"a,a;a\ra\na");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("\"a\"\"a\"\r\n\"a,a\"\r\n\"a;a\"\r\n\"a\ra\"\r\n\"a\na\"\r\n\"a\"\"a,a;a\ra\na\"\r\n");
     }
 
     /**
@@ -216,434 +227,787 @@ public final class CsvPrinterTest extends CsvTest {
      */
     @Test
     public void addRowTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(1);
-        builder.addColumn(2);
-        builder.addRow();
-        builder.addColumn(3);
-        builder.addColumn(4);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(2);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(3);
+        csvPrinter.addColumn(4);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void addEmptyRowTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addRow();
-        builder.addRow();
-        builder.addColumn(2);
-        builder.addColumn(false);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n\r\n\r\n2,false\r\n");
+    public void addEmptyRowWithNoSkipEmptyRowsTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSkipEmptyRowsEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addRow();
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n\r\n\r\n2,false\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void tableCsvTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2.2f);
-        builder.addColumn("aaa");
-        builder.addColumn("a;a;a");
-        builder.addColumn("");
-        builder.addRow();
-        builder.addColumn(false);
-        builder.addRow();
-        builder.addColumn(4L);
-        builder.addColumn(10.01);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
+    public void addEmptyRowWithSkipEmptyRowsTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSkipEmptyRowsEnabled(true).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addRow();
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2,false\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void chainedCallTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build();
-        builder = builder.addColumn(1);
-        builder = builder.addColumn(true);
-        builder = builder.addRow();
-        builder = builder.addColumn(2.2f);
-        builder = builder.addColumn("aaa");
-        builder = builder.addColumn(new StringBuilder("a;a;a"));
-        builder = builder.addColumn("");
-        builder = builder.addRow();
-        builder = builder.addColumn(false);
-        builder = builder.addRow();
-        builder = builder.addColumn(4L);
-        builder = builder.addColumn(10.01);
-        builder = builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
+    public void addCsvWithNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2.2f);
+        csvPrinter.addColumn("aaa");
+        csvPrinter.addColumn("a;a;a");
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        csvPrinter.addColumn(false);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(4L);
+        csvPrinter.addColumn(10.01);
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
     }
 
     /**
      * {@link CsvPrinter} class test.
      */
     @Test
-    public void checkColumnCountTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void checkColumnCountFailTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void changeColumnSeparatorTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2);
-        builder.addColumn(false);
-        builder.addColumn("");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void changeColumnSeparatorCheckColumnCountFailTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setColumnCountCheckEnabled(true).build();
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void changeRowSeparatorTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2);
-        builder.addColumn(false);
-        builder.addColumn("");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\n2,false,\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void changeRowSeparatorCheckColumnCountFailTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().setColumnCountCheckEnabled(true).build();
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void changeSeparatorsTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2.2f);
-        builder.addColumn("aaa");
-        builder.addColumn("a;a;a");
-        builder.addColumn("");
-        builder.addRow();
-        builder.addColumn(false);
-        builder.addRow();
-        builder.addColumn(4L);
-        builder.addColumn(10.01);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void changeSeparatorsCheckColumnCountFailTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build();
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void writerTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2.2f);
-        builder.addColumn("aaa");
-        builder.addColumn("a;a;a");
-        builder.addColumn("");
-        builder.addRow();
-        builder.addColumn(false);
-        builder.addRow();
-        builder.addColumn(4L);
-        builder.addColumn(10.01);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void writerCheckColumnCountTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(writer);
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,2\r\n3,4\r\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void writerCheckColumnCountFailTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(writer);
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void writerChangeColumnSeparatorTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().build(writer);
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2);
-        builder.addColumn(false);
-        builder.addColumn("");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void writerChangeColumnSeparatorCheckColumnCountFailTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setColumnCountCheckEnabled(true).build(writer);
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void writerChangeRowSeparatorTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().build(writer);
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2);
-        builder.addColumn(false);
-        builder.addColumn("");
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\n2,false,\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void writerChangeRowSeparatorCheckColumnCountFailTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setLfSeparator().setColumnCountCheckEnabled(true).build(writer);
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void writerChangeSeparatorsTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().build(writer);
-
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2.2f);
-        builder.addColumn("aaa");
-        builder.addColumn("a;a;a");
-        builder.addColumn("");
-        builder.addRow();
-        builder.addColumn(false);
-        builder.addRow();
-        builder.addColumn(4L);
-        builder.addColumn(10.01);
-        builder.addRow();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1;true\n2.2;aaa;\"a;a;a\";\nfalse\n4;10.01\n");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = WrongColumnCountException.class)
-    public void writerChangeSeparatorsCheckColumnCountFailTest() {
-        StringWriter writer = new StringWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build(writer);
-        builder.addColumn("1");
-        builder.addColumn("2");
-        builder.addRow();
-        builder.addColumn("3");
-        builder.addColumn("4");
-        builder.addColumn("5");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = CsvIOException.class)
-    public void writeColumnExceptionFailTest() {
-        ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
-        builder.addColumn("value");
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test(expected = CsvIOException.class)
-    public void writeRowExceptionFailTest() {
-        ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
-        builder.addRow();
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void getCsvForStreamTest() {
-        ErrorWriter writer = new ErrorWriter();
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().build(writer);
-        Assertions.assertThat(builder.getCsv()).isNull();
-    }
-
-    /**
-     * {@link CsvPrinter} class test.
-     */
-    @Test
-    public void wrongColumnCountExceptionMessageTest() {
+    public void addCsvWithColumnCountCheckTest() {
         try {
-            CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
-            builder.addColumn("1");
-            builder.addColumn("2");
-            builder.addColumn("3");
-            builder.addRow();
-            builder.addColumn("4");
-            builder.addColumn("5");
-            builder.addColumn("6");
-            builder.addColumn("7");
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2.2f);
+            csvPrinter.addColumn("aaa");
+            csvPrinter.addColumn("a;a;a");
             Assertions.fail("CsvPrinter test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
         try {
-            CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
-            builder.addColumn("1");
-            builder.addColumn("2");
-            builder.addColumn("3");
-            builder.addRow();
-            builder.addColumn("4");
-            builder.addColumn("5");
-            builder.addRow();
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2.2f);
+            csvPrinter.addRow();
             Assertions.fail("CsvPrinter test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithNoColumnCountCheckAndChainedCallTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build();
+        csvPrinter = csvPrinter.addColumn(1);
+        csvPrinter = csvPrinter.addColumn('z');
+        csvPrinter = csvPrinter.addRow();
+        csvPrinter = csvPrinter.addColumn(2.2f);
+        csvPrinter = csvPrinter.addColumn("aaa");
+        csvPrinter = csvPrinter.addColumn(new StringBuilder("a;a;a"));
+        csvPrinter = csvPrinter.addColumn("");
+        csvPrinter = csvPrinter.addRow();
+        csvPrinter = csvPrinter.addColumn(false);
+        csvPrinter = csvPrinter.addRow();
+        csvPrinter = csvPrinter.addColumn(4L);
+        csvPrinter = csvPrinter.addColumn(10.01);
+        csvPrinter = csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,z\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndCrAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r2,false,\r");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndCrAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndCrAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\r2;false;\r");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndCrAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndLfAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\n2,false,\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndLfAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndLfAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\n2;false;\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndLfAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndCrLfAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2,false,\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithCommaAndCrLfAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndCrLfAndNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2);
+        csvPrinter.addColumn(false);
+        csvPrinter.addColumn("");
+        csvPrinter.addRow();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvWithSemicolonAndCrLfAndColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addColumn("1");
+            csvPrinter.addColumn("2");
+            csvPrinter.addRow();
+            csvPrinter.addColumn("3");
+            csvPrinter.addColumn("4");
+            csvPrinter.addColumn("5");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2.2f);
+            csvPrinter.addColumn("aaa");
+            csvPrinter.addColumn("a;a;a");
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            csvPrinter.addColumn(false);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(4L);
+            csvPrinter.addColumn(10.01);
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2.2,aaa,\"a;a;a\",\r\nfalse\r\n4,10.01\r\n");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn(1);
+                csvPrinter.addColumn(true);
+                csvPrinter.addRow();
+                csvPrinter.addColumn(2.2f);
+                csvPrinter.addColumn("aaa");
+                csvPrinter.addColumn("a;a;a");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn(1);
+                csvPrinter.addColumn(true);
+                csvPrinter.addRow();
+                csvPrinter.addColumn(2.2f);
+                csvPrinter.addRow();
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndCrAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r2,false,\r");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndCrAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndCrAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\r2;false;\r");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndCrAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndLfAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\n2,false,\n");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndLfAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndLfAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\n2;false;\n");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndLfAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndCrLfAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2,false,\r\n");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithCommaAndCrLfAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndCrLfAndNoColumnCountCheckTest() {
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setColumnCountCheckEnabled(false).build(new StringWriter())) {
+            csvPrinter.addColumn(1);
+            csvPrinter.addColumn(true);
+            csvPrinter.addRow();
+            csvPrinter.addColumn(2);
+            csvPrinter.addColumn(false);
+            csvPrinter.addColumn("");
+            csvPrinter.addRow();
+            Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+            Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1;true\r\n2;false;\r\n");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addCsvToWriterWithSemicolonAndCrLfAndColumnCountCheckTest() {
+        try {
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setColumnCountCheckEnabled(true).build(new StringWriter())) {
+                csvPrinter.addColumn("1");
+                csvPrinter.addColumn("2");
+                csvPrinter.addRow();
+                csvPrinter.addColumn("3");
+                csvPrinter.addColumn("4");
+                csvPrinter.addColumn("5");
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addSpecialCharactersWithNoEscapeAllSeparatorsEnabledTest() {
+        CsvPrinter csvPrinter1 = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter1.addColumn(" , ").addRow();
+        csvPrinter1.addColumn(" ; ").addRow();
+        csvPrinter1.addColumn(" \r ").addRow();
+        csvPrinter1.addColumn(" \n ").addRow();
+        csvPrinter1.addColumn(" \r\n ").addRow();
+        csvPrinter1.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter1.getCsv()).isEqualTo("\" , \"\r ; \r\" \r \"\r \n \r\" \r\n \"\r\" \"\" \"\r");
+
+        CsvPrinter csvPrinter2 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter2.addColumn(" , ").addRow();
+        csvPrinter2.addColumn(" ; ").addRow();
+        csvPrinter2.addColumn(" \r ").addRow();
+        csvPrinter2.addColumn(" \n ").addRow();
+        csvPrinter2.addColumn(" \r\n ").addRow();
+        csvPrinter2.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter2.getCsv()).isEqualTo(" , \r\" ; \"\r\" \r \"\r \n \r\" \r\n \"\r\" \"\" \"\r");
+
+        CsvPrinter csvPrinter3 = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter3.addColumn(" , ").addRow();
+        csvPrinter3.addColumn(" ; ").addRow();
+        csvPrinter3.addColumn(" \r ").addRow();
+        csvPrinter3.addColumn(" \n ").addRow();
+        csvPrinter3.addColumn(" \r\n ").addRow();
+        csvPrinter3.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter3.getCsv()).isEqualTo("\" , \"\n ; \n \r \n\" \n \"\n\" \r\n \"\n\" \"\" \"\n");
+
+        CsvPrinter csvPrinter4 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter4.addColumn(" , ").addRow();
+        csvPrinter4.addColumn(" ; ").addRow();
+        csvPrinter4.addColumn(" \r ").addRow();
+        csvPrinter4.addColumn(" \n ").addRow();
+        csvPrinter4.addColumn(" \r\n ").addRow();
+        csvPrinter4.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter4.getCsv()).isEqualTo(" , \n\" ; \"\n \r \n\" \n \"\n\" \r\n \"\n\" \"\" \"\n");
+
+        CsvPrinter csvPrinter5 = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter5.addColumn(" , ").addRow();
+        csvPrinter5.addColumn(" ; ").addRow();
+        csvPrinter5.addColumn(" \r ").addRow();
+        csvPrinter5.addColumn(" \n ").addRow();
+        csvPrinter5.addColumn(" \r\n ").addRow();
+        csvPrinter5.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter5.getCsv()).isEqualTo("\" , \"\r\n ; \r\n \r \r\n \n \r\n\" \r\n \"\r\n\" \"\" \"\r\n");
+
+        CsvPrinter csvPrinter6 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setEscapeAllSeparatorsEnabled(false).build();
+        csvPrinter6.addColumn(" , ").addRow();
+        csvPrinter6.addColumn(" ; ").addRow();
+        csvPrinter6.addColumn(" \r ").addRow();
+        csvPrinter6.addColumn(" \n ").addRow();
+        csvPrinter6.addColumn(" \r\n ").addRow();
+        csvPrinter6.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter6.getCsv()).isEqualTo(" , \r\n\" ; \"\r\n \r \r\n \n \r\n\" \r\n \"\r\n\" \"\" \"\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addSpecialCharactersWithEscapeAllSeparatorsEnabledTest() {
+        CsvPrinter csvPrinter1 = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter1.addColumn(" , ").addRow();
+        csvPrinter1.addColumn(" ; ").addRow();
+        csvPrinter1.addColumn(" \r ").addRow();
+        csvPrinter1.addColumn(" \n ").addRow();
+        csvPrinter1.addColumn(" \r\n ").addRow();
+        csvPrinter1.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter1.getCsv()).isEqualTo("\" , \"\r\" ; \"\r\" \r \"\r\" \n \"\r\" \r\n \"\r\" \"\" \"\r");
+
+        CsvPrinter csvPrinter2 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter2.addColumn(" , ").addRow();
+        csvPrinter2.addColumn(" ; ").addRow();
+        csvPrinter2.addColumn(" \r ").addRow();
+        csvPrinter2.addColumn(" \n ").addRow();
+        csvPrinter2.addColumn(" \r\n ").addRow();
+        csvPrinter2.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter2.getCsv()).isEqualTo("\" , \"\r\" ; \"\r\" \r \"\r\" \n \"\r\" \r\n \"\r\" \"\" \"\r");
+
+        CsvPrinter csvPrinter3 = CsvPrinterBuilder.getInstance().setCommaSeparator().setLfSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter3.addColumn(" , ").addRow();
+        csvPrinter3.addColumn(" ; ").addRow();
+        csvPrinter3.addColumn(" \r ").addRow();
+        csvPrinter3.addColumn(" \n ").addRow();
+        csvPrinter3.addColumn(" \r\n ").addRow();
+        csvPrinter3.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter3.getCsv()).isEqualTo("\" , \"\n\" ; \"\n\" \r \"\n\" \n \"\n\" \r\n \"\n\" \"\" \"\n");
+
+        CsvPrinter csvPrinter4 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setLfSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter4.addColumn(" , ").addRow();
+        csvPrinter4.addColumn(" ; ").addRow();
+        csvPrinter4.addColumn(" \r ").addRow();
+        csvPrinter4.addColumn(" \n ").addRow();
+        csvPrinter4.addColumn(" \r\n ").addRow();
+        csvPrinter4.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter4.getCsv()).isEqualTo("\" , \"\n\" ; \"\n\" \r \"\n\" \n \"\n\" \r\n \"\n\" \"\" \"\n");
+
+        CsvPrinter csvPrinter5 = CsvPrinterBuilder.getInstance().setCommaSeparator().setCrLfSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter5.addColumn(" , ").addRow();
+        csvPrinter5.addColumn(" ; ").addRow();
+        csvPrinter5.addColumn(" \r ").addRow();
+        csvPrinter5.addColumn(" \n ").addRow();
+        csvPrinter5.addColumn(" \r\n ").addRow();
+        csvPrinter5.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter5.getCsv()).isEqualTo("\" , \"\r\n\" ; \"\r\n\" \r \"\r\n\" \n \"\r\n\" \r\n \"\r\n\" \"\" \"\r\n");
+
+        CsvPrinter csvPrinter6 = CsvPrinterBuilder.getInstance().setSemicolonSeparator().setCrLfSeparator().setEscapeAllSeparatorsEnabled(true).build();
+        csvPrinter6.addColumn(" , ").addRow();
+        csvPrinter6.addColumn(" ; ").addRow();
+        csvPrinter6.addColumn(" \r ").addRow();
+        csvPrinter6.addColumn(" \n ").addRow();
+        csvPrinter6.addColumn(" \r\n ").addRow();
+        csvPrinter6.addColumn(" \" ").addRow();
+        Assertions.assertThat(csvPrinter6.getCsv()).isEqualTo("\" , \"\r\n\" ; \"\r\n\" \r \"\r\n\" \n \"\r\n\" \r\n \"\r\n\" \"\" \"\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void writeColumnToErrorWriterTest() {
+        try {
+            ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
+            csvPrinter.addColumn("value");
+            Assertions.fail("CsvPrinter test fail");
+        } catch (CsvIOException ex) {
+            Assertions.assertThat(ex).hasMessage("ERROR");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void writeRowToErrorWriterTest() {
+        try {
+            ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
+            csvPrinter.addRow();
+            Assertions.fail("CsvPrinter test fail");
+        } catch (CsvIOException ex) {
+            Assertions.assertThat(ex).hasMessage("ERROR");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void getNullCsvForStreamTest() {
+        ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
+        Assertions.assertThat(csvPrinter.getCsv()).isNull();
     }
 
     /**
@@ -651,32 +1015,144 @@ public final class CsvPrinterTest extends CsvTest {
      */
     @Test
     public void restoreFromWrongColumnCountExceptionTest() {
-        CsvPrinter builder = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
-        builder.addColumn(1);
-        builder.addColumn(true);
-        builder.addRow();
-        builder.addColumn(2.2f);
-        builder.addColumn("aaa");
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+        csvPrinter.addColumn(1);
+        csvPrinter.addColumn(true);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(2.2f);
+        csvPrinter.addColumn("aaa");
         try {
-            builder.addColumn("a;a;a");
+            csvPrinter.addColumn("a;a;a");
             Assertions.fail("CsvPrinter test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
-        builder.addRow();
-        builder.addColumn(5);
+        csvPrinter.addRow();
+        csvPrinter.addColumn(5);
         try {
-            builder.addRow();
+            csvPrinter.addRow();
             Assertions.fail("CsvPrinter test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
         }
-        builder.addColumn(5L);
-        builder.addRow();
+        csvPrinter.addColumn(5L);
+        csvPrinter.addRow();
 
-        String csv = builder.getCsv();
-        Assertions.assertThat(builder.getCsv()).isNotNull();
-        Assertions.assertThat(builder.getCsv()).isEqualTo("1,true\r\n2.2,aaa\r\n5,5\r\n");
+        String csv = csvPrinter.getCsv();
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("1,true\r\n2.2,aaa\r\n5,5\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addRowWithListAndhNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(false).build();
+        csvPrinter.addRow(Arrays.asList("a", "b", "c"));
+        csvPrinter.addRow(Arrays.asList("d", "e"));
+        csvPrinter.addRow(Arrays.asList("f", "g", "h", "i"));
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("a,b,c\r\nd,e\r\nf,g,h,i\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addRowWithListAndhColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addRow(Arrays.asList("a", "b", "c"));
+            csvPrinter.addRow(Arrays.asList("d", "e"));
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            csvPrinter.addRow(Arrays.asList("a", "b", "c"));
+            csvPrinter.addRow(Arrays.asList("d", "e", "f", "g"));
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addRowsWithListAndhNoColumnCountCheckTest() {
+        CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(false).build();
+        List<List<?>> rows1 = new ArrayList<>();
+        rows1.add(Arrays.asList("a", "b", "c"));
+        rows1.add(Arrays.asList("d", "e"));
+        csvPrinter.addRows(rows1);
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("a,b,c\r\nd,e\r\n");
+
+        List<List<?>> rows2 = new ArrayList<>();
+        rows2.add(Arrays.asList("f", "g", "h", "i"));
+        csvPrinter.addRows(rows2);
+        Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
+        Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("a,b,c\r\nd,e\r\nf,g,h,i\r\n");
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void addRowsWithListAndhColumnCountCheckTest() {
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            List<List<?>> rows = new ArrayList<>();
+            rows.add(Arrays.asList("a", "b", "c"));
+            rows.add(Arrays.asList("d", "e"));
+            csvPrinter.addRows(rows);
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+        try {
+            CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().setColumnCountCheckEnabled(true).build();
+            List<List<?>> rows = new ArrayList<>();
+            rows.add(Arrays.asList("a", "b", "c"));
+            rows.add(Arrays.asList("d", "e", "f", "g"));
+            csvPrinter.addRows(rows);
+            Assertions.fail("CsvPrinter test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count.");
+        }
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void closeWriterTest() {
+        IsClosedWriter writer = new IsClosedWriter();
+        Assertions.assertThat(writer.isClosed()).isFalse();
+        try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer)) {
+            csvPrinter.addColumn("1234567890").addRow();
+        }
+        Assertions.assertThat(writer.isClosed()).isTrue();
+    }
+
+    /**
+     * {@link CsvPrinter} class test.
+     */
+    @Test
+    public void errorOnCloseWriterTest() {
+        try {
+            ErrorOnCloseWriter writer = new ErrorOnCloseWriter();
+            try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer)) {
+                csvPrinter.addColumn("1234567890").addRow();
+            }
+            Assertions.fail("CsvPrinter test fail");
+        } catch (CsvIOException ex) {
+            Assertions.assertThat(ex).hasMessage("ERROR");
+        }
     }
 
     /**
@@ -684,9 +1160,9 @@ public final class CsvPrinterTest extends CsvTest {
      *
      * @author Dmitry Shapovalov
      */
-    private static final class ErrorWriter extends Writer {
+    private static final class ErrorOnWriteWriter extends Writer {
 
-        ErrorWriter() {
+        ErrorOnWriteWriter() {
             super();
         }
 
@@ -701,8 +1177,71 @@ public final class CsvPrinterTest extends CsvTest {
         }
 
         @Override
-        public void close() {
+        public void close() throws IOException {
             // Ignore
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class IsClosedWriter extends Writer {
+
+        private boolean _closed;
+
+        IsClosedWriter() {
+            super();
+            _closed = false;
+        }
+
+        @Override
+        public void write(final char[] cbuf, final int off, final int len) throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void flush() throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void close() throws IOException {
+            _closed = true;
+        }
+
+        boolean isClosed() {
+            return _closed;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class ErrorOnCloseWriter extends Writer {
+
+        ErrorOnCloseWriter() {
+            super();
+        }
+
+        @Override
+        public void write(final char[] cbuf, final int off, final int len) throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void flush() throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void close() throws IOException {
+            throw new IOException("ERROR");
         }
 
     }
