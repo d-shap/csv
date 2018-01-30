@@ -530,7 +530,7 @@ public final class CsvParserTest extends CsvTest {
      */
     @Test(expected = CsvIOException.class)
     public void parseReaderExceptionFailTest() {
-        Reader reader = new ErrorReader();
+        ErrorOnReadReader reader = new ErrorOnReadReader();
         CsvParserBuilder.getInstance().build().parse(reader);
     }
 
@@ -1157,13 +1157,38 @@ public final class CsvParserTest extends CsvTest {
     }
 
     /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void closeReaderTest() {
+        IsClosedReader reader = new IsClosedReader();
+        Assertions.assertThat(reader.isClosed()).isFalse();
+        CsvParserBuilder.getInstance().parse(reader);
+        Assertions.assertThat(reader.isClosed()).isTrue();
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void errorOnCloseReaderTest() {
+        try {
+            ErrorOnCloseReader reader = new ErrorOnCloseReader();
+            CsvParserBuilder.getInstance().parse(reader);
+            Assertions.fail("CsvParser test fail");
+        } catch (CsvIOException ex) {
+            Assertions.assertThat(ex).hasMessage("ERROR");
+        }
+    }
+
+    /**
      * Test class.
      *
      * @author Dmitry Shapovalov
      */
-    private static final class ErrorReader extends Reader {
+    private static final class ErrorOnReadReader extends Reader {
 
-        ErrorReader() {
+        ErrorOnReadReader() {
             super();
         }
 
@@ -1175,6 +1200,59 @@ public final class CsvParserTest extends CsvTest {
         @Override
         public void close() throws IOException {
             // Ignore
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class IsClosedReader extends Reader {
+
+        private boolean _closed;
+
+        IsClosedReader() {
+            super();
+            _closed = false;
+        }
+
+        @Override
+        public int read(final char[] cbuf, final int off, final int len) throws IOException {
+            return -1;
+        }
+
+        @Override
+        public void close() throws IOException {
+            _closed = true;
+        }
+
+        boolean isClosed() {
+            return _closed;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class ErrorOnCloseReader extends Reader {
+
+        ErrorOnCloseReader() {
+            super();
+        }
+
+        @Override
+        public int read(final char[] cbuf, final int off, final int len) throws IOException {
+            return -1;
+        }
+
+        @Override
+        public void close() throws IOException {
+            throw new IOException("ERROR");
         }
 
     }
