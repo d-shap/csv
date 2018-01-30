@@ -130,6 +130,7 @@ public final class CsvParser {
                 state = state.processCharacter(character, eventHandler);
             }
             state.processCharacter(SpecialCharacter.END_OF_INPUT, eventHandler);
+            reader.close();
         } catch (IOException ex) {
             throw new CsvIOException(ex);
         }
