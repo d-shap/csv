@@ -107,96 +107,128 @@ public final class CsvParserConfigurationTest extends CsvTest {
      */
     @Test
     public void validateTest() {
-        CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+        CsvParserConfiguration csvParserConfiguration01 = new CsvParserConfiguration();
         try {
-            csvParserConfiguration.validate();
+            csvParserConfiguration01.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
             Assertions.assertThat(ex).hasMessage("No column separator is specified");
         }
 
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
-
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(false);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
-
-        csvParserConfiguration.setCommaSeparator(false);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
-
+        CsvParserConfiguration csvParserConfiguration02 = new CsvParserConfiguration();
+        csvParserConfiguration02.setCommaSeparator(true);
+        csvParserConfiguration02.setSemicolonSeparator(true);
         try {
-            csvParserConfiguration.setCommaSeparator(false);
-            csvParserConfiguration.setSemicolonSeparator(false);
-            csvParserConfiguration.setCrSeparator(true);
-            csvParserConfiguration.setLfSeparator(true);
-            csvParserConfiguration.setCrLfSeparator(true);
-            csvParserConfiguration.validate();
+            csvParserConfiguration02.validate();
+            Assertions.fail("CsvParserConfiguration test fail");
+        } catch (WrongRowSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+        }
+
+        CsvParserConfiguration csvParserConfiguration03 = new CsvParserConfiguration();
+        csvParserConfiguration03.setCrSeparator(true);
+        csvParserConfiguration03.setLfSeparator(true);
+        csvParserConfiguration03.setCrLfSeparator(true);
+        try {
+            csvParserConfiguration03.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
             Assertions.assertThat(ex).hasMessage("No column separator is specified");
         }
 
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(false);
-        csvParserConfiguration.validate();
+        CsvParserConfiguration csvParserConfiguration04 = new CsvParserConfiguration();
+        csvParserConfiguration04.setCommaSeparator(true);
+        csvParserConfiguration04.setSemicolonSeparator(true);
+        csvParserConfiguration04.setCrSeparator(true);
+        csvParserConfiguration04.setLfSeparator(true);
+        csvParserConfiguration04.setCrLfSeparator(true);
+        csvParserConfiguration04.validate();
 
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(false);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
+        CsvParserConfiguration csvParserConfiguration05 = new CsvParserConfiguration();
+        csvParserConfiguration05.setCommaSeparator(true);
+        csvParserConfiguration05.setSemicolonSeparator(false);
+        csvParserConfiguration05.setCrSeparator(true);
+        csvParserConfiguration05.setLfSeparator(true);
+        csvParserConfiguration05.setCrLfSeparator(true);
+        csvParserConfiguration05.validate();
 
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(false);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
+        CsvParserConfiguration csvParserConfiguration06 = new CsvParserConfiguration();
+        csvParserConfiguration06.setCommaSeparator(false);
+        csvParserConfiguration06.setSemicolonSeparator(true);
+        csvParserConfiguration06.setCrSeparator(true);
+        csvParserConfiguration06.setLfSeparator(true);
+        csvParserConfiguration06.setCrLfSeparator(true);
+        csvParserConfiguration06.validate();
 
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(true);
-        csvParserConfiguration.setLfSeparator(false);
-        csvParserConfiguration.setCrLfSeparator(false);
-        csvParserConfiguration.validate();
-
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(false);
-        csvParserConfiguration.setLfSeparator(true);
-        csvParserConfiguration.setCrLfSeparator(false);
-        csvParserConfiguration.validate();
-
-        csvParserConfiguration.setCommaSeparator(true);
-        csvParserConfiguration.setSemicolonSeparator(true);
-        csvParserConfiguration.setCrSeparator(false);
-        csvParserConfiguration.setLfSeparator(false);
-        csvParserConfiguration.setCrLfSeparator(true);
-        csvParserConfiguration.validate();
-
+        CsvParserConfiguration csvParserConfiguration07 = new CsvParserConfiguration();
+        csvParserConfiguration07.setCommaSeparator(false);
+        csvParserConfiguration07.setSemicolonSeparator(false);
+        csvParserConfiguration07.setCrSeparator(true);
+        csvParserConfiguration07.setLfSeparator(true);
+        csvParserConfiguration07.setCrLfSeparator(true);
         try {
-            csvParserConfiguration.setCommaSeparator(true);
-            csvParserConfiguration.setSemicolonSeparator(true);
-            csvParserConfiguration.setCrSeparator(false);
-            csvParserConfiguration.setLfSeparator(false);
-            csvParserConfiguration.setCrLfSeparator(false);
-            csvParserConfiguration.validate();
+            csvParserConfiguration07.validate();
+            Assertions.fail("CsvParserConfiguration test fail");
+        } catch (WrongColumnSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+        }
+
+        CsvParserConfiguration csvParserConfiguration08 = new CsvParserConfiguration();
+        csvParserConfiguration08.setCommaSeparator(true);
+        csvParserConfiguration08.setSemicolonSeparator(true);
+        csvParserConfiguration08.setCrSeparator(true);
+        csvParserConfiguration08.setLfSeparator(true);
+        csvParserConfiguration08.setCrLfSeparator(false);
+        csvParserConfiguration08.validate();
+
+        CsvParserConfiguration csvParserConfiguration09 = new CsvParserConfiguration();
+        csvParserConfiguration09.setCommaSeparator(true);
+        csvParserConfiguration09.setSemicolonSeparator(true);
+        csvParserConfiguration09.setCrSeparator(true);
+        csvParserConfiguration09.setLfSeparator(false);
+        csvParserConfiguration09.setCrLfSeparator(true);
+        csvParserConfiguration09.validate();
+
+        CsvParserConfiguration csvParserConfiguration10 = new CsvParserConfiguration();
+        csvParserConfiguration10.setCommaSeparator(true);
+        csvParserConfiguration10.setSemicolonSeparator(true);
+        csvParserConfiguration10.setCrSeparator(false);
+        csvParserConfiguration10.setLfSeparator(true);
+        csvParserConfiguration10.setCrLfSeparator(true);
+        csvParserConfiguration10.validate();
+
+        CsvParserConfiguration csvParserConfiguration11 = new CsvParserConfiguration();
+        csvParserConfiguration11.setCommaSeparator(true);
+        csvParserConfiguration11.setSemicolonSeparator(true);
+        csvParserConfiguration11.setCrSeparator(true);
+        csvParserConfiguration11.setLfSeparator(false);
+        csvParserConfiguration11.setCrLfSeparator(false);
+        csvParserConfiguration11.validate();
+
+        CsvParserConfiguration csvParserConfiguration12 = new CsvParserConfiguration();
+        csvParserConfiguration12.setCommaSeparator(true);
+        csvParserConfiguration12.setSemicolonSeparator(true);
+        csvParserConfiguration12.setCrSeparator(false);
+        csvParserConfiguration12.setLfSeparator(true);
+        csvParserConfiguration12.setCrLfSeparator(false);
+        csvParserConfiguration12.validate();
+
+        CsvParserConfiguration csvParserConfiguration13 = new CsvParserConfiguration();
+        csvParserConfiguration13.setCommaSeparator(true);
+        csvParserConfiguration13.setSemicolonSeparator(true);
+        csvParserConfiguration13.setCrSeparator(false);
+        csvParserConfiguration13.setLfSeparator(false);
+        csvParserConfiguration13.setCrLfSeparator(true);
+        csvParserConfiguration13.validate();
+
+        CsvParserConfiguration csvParserConfiguration14 = new CsvParserConfiguration();
+        csvParserConfiguration14.setCommaSeparator(true);
+        csvParserConfiguration14.setSemicolonSeparator(true);
+        csvParserConfiguration14.setCrSeparator(false);
+        csvParserConfiguration14.setLfSeparator(false);
+        csvParserConfiguration14.setCrLfSeparator(false);
+        try {
+            csvParserConfiguration14.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongRowSeparatorException ex) {
             Assertions.assertThat(ex).hasMessage("No row separator is specified");
