@@ -108,6 +108,12 @@ public final class CsvParserConfigurationTest extends CsvTest {
     @Test
     public void validateTest() {
         CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+        try {
+            csvParserConfiguration.validate();
+            Assertions.fail("CsvParserConfiguration test fail");
+        } catch (WrongRowSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+        }
 
         csvParserConfiguration.setCommaSeparator(true);
         csvParserConfiguration.setSemicolonSeparator(true);
