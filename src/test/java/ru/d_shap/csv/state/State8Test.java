@@ -168,7 +168,7 @@ public final class State8Test extends CsvTest {
      * {@link State8} class test.
      */
     @Test
-    public void processQuotFailTest() {
+    public void processQuotTest() {
         try {
             String csv = "a\"\"";
             createCsvParser(true, true, true, true, true).parse(csv);

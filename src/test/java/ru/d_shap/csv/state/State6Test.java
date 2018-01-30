@@ -45,7 +45,7 @@ public final class State6Test extends CsvTest {
      * {@link State6} class test.
      */
     @Test
-    public void processEndOfInputFailTest() {
+    public void processEndOfInputTest() {
         try {
             String csv = "\"";
             List<List<String>> list = createCsvParser(true, true, true, true, true).parse(csv);
