@@ -28,6 +28,8 @@ final class CharStack {
 
     private final char[] _buffer;
 
+    private final int _stringBuilderSize;
+
     private int _index;
 
     private boolean _overflow;
@@ -35,6 +37,7 @@ final class CharStack {
     CharStack(final int size) {
         super();
         _buffer = new char[size];
+        _stringBuilderSize = size * 2;
         _index = 0;
         _overflow = false;
     }
@@ -62,7 +65,7 @@ final class CharStack {
     }
 
     private String replaceCrLf(final String str) {
-        StringBuilder builder = new StringBuilder(str.length() * 2);
+        StringBuilder builder = new StringBuilder(_stringBuilderSize);
         int lng = str.length();
         for (int i = 0; i < lng; i++) {
             char ch = str.charAt(i);
