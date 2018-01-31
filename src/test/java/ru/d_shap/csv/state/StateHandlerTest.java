@@ -27,6 +27,8 @@ import ru.d_shap.csv.CsvParserConfiguration;
 import ru.d_shap.csv.CsvTest;
 import ru.d_shap.csv.WrongColumnCountException;
 import ru.d_shap.csv.WrongColumnLengthException;
+import ru.d_shap.csv.WrongColumnSeparatorException;
+import ru.d_shap.csv.WrongRowSeparatorException;
 import ru.d_shap.csv.handler.ListEventHandler;
 
 /**
@@ -41,6 +43,35 @@ public final class StateHandlerTest extends CsvTest {
      */
     public StateHandlerTest() {
         super();
+    }
+
+    /**
+     * {@link StateHandler} class test.
+     */
+    @Test
+    public void validateTest() {
+        ListEventHandler listEventHandler = new ListEventHandler();
+
+        try {
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setCommaSeparator(false);
+            csvParserConfiguration.setSemicolonSeparator(false);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongColumnSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+        }
+
+        try {
+            CsvParserConfiguration csvParserConfiguration = createCsvParserConfiguration();
+            csvParserConfiguration.setCrSeparator(false);
+            csvParserConfiguration.setLfSeparator(false);
+            csvParserConfiguration.setCrLfSeparator(false);
+            StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
+            Assertions.fail("StateHandler test fail");
+        } catch (WrongRowSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+        }
     }
 
     /**
