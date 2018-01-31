@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.csv.handler.AbstractListEventHandler;
 import ru.d_shap.csv.handler.ListEventHandler;
 import ru.d_shap.csv.handler.NoopEventHandler;
 
@@ -93,17 +94,17 @@ public final class CsvParserBuilderTest extends CsvTest {
         Assertions.assertThat(result42.get(3)).containsExactlyInOrder();
         Assertions.assertThat(result42.get(4)).containsExactlyInOrder("c");
 
-        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler51 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("1234567890", eventHandler51);
+        List<List<String>> result51 = eventHandler51.getCsv();
         Assertions.assertThat(result51).hasSize(1);
         Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
 
-        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler52 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("1234567890", eventHandler52);
+        List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("1234567890", new NoopEventHandler());
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -157,17 +158,17 @@ public final class CsvParserBuilderTest extends CsvTest {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler51 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("1234567890", eventHandler51);
+        List<List<String>> result51 = eventHandler51.getCsv();
         Assertions.assertThat(result51).hasSize(1);
         Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
 
-        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler52 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("1234567890", eventHandler52);
+        List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("1234567890", new NoopEventHandler());
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -221,17 +222,17 @@ public final class CsvParserBuilderTest extends CsvTest {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler51 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", eventHandler51);
+        List<List<String>> result51 = eventHandler51.getCsv();
         Assertions.assertThat(result51).hasSize(1);
         Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
 
-        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler52 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", eventHandler52);
+        List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", new NoopEventHandler());
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -285,17 +286,17 @@ public final class CsvParserBuilderTest extends CsvTest {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler51 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", eventHandler51);
+        List<List<String>> result51 = eventHandler51.getCsv();
         Assertions.assertThat(result51).hasSize(1);
         Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
 
-        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890");
+        UnrestrictedListEventHandler eventHandler52 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", eventHandler52);
+        List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", new NoopEventHandler());
-
-        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -541,6 +542,27 @@ public final class CsvParserBuilderTest extends CsvTest {
         CsvParserBuilder.getInstance().parse(new StringReader("a,b"), eventHandler);
         Assertions.assertThat(eventHandler.getCsv()).hasSize(1);
         Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("a", "b");
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private static final class UnrestrictedListEventHandler extends AbstractListEventHandler {
+
+        /**
+         * Create a new object.
+         */
+        UnrestrictedListEventHandler() {
+            super();
+        }
+
+        @Override
+        protected void doPushColumn(final String column, final int actualLength) {
+            addColumnToCurrentRow(column);
+        }
+
     }
 
 }
