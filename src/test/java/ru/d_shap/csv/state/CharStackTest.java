@@ -22,6 +22,7 @@ package ru.d_shap.csv.state;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.Raw;
 import ru.d_shap.csv.CsvTest;
 
 /**
@@ -152,6 +153,16 @@ public final class CharStackTest extends CsvTest {
         charStack.append('\n');
         charStack.append('d');
         Assertions.assertThat(charStack).isToStringEqualTo("a\\rb\\nc\\r\\nd");
+    }
+
+    /**
+     * {@link CharStack} class test.
+     */
+    @Test
+    public void stringBuilderSizeTest() {
+        Assertions.assertThat(new CharStack(10), "_stringBuilderSize", Raw.intAssertion()).isEqualTo(20);
+        Assertions.assertThat(new CharStack(5), "_stringBuilderSize", Raw.intAssertion()).isEqualTo(10);
+        Assertions.assertThat(new CharStack(25), "_stringBuilderSize", Raw.intAssertion()).isEqualTo(50);
     }
 
 }
