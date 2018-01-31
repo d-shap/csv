@@ -47,34 +47,63 @@ public final class CsvParserBuilderTest extends CsvTest {
      */
     @Test
     public void setFormatDefaultTest() {
-        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance();
+        List<List<String>> result11 = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).setFormat(CsvFormat.DEFAULT).parse("a,b;c");
+        Assertions.assertThat(result11).hasSize(1);
+        Assertions.assertThat(result11.get(0)).containsExactlyInOrder("a", "b", "c");
 
-        List<List<String>> result1 = csvParserBuilder.parse("a,b;c");
-        Assertions.assertThat(result1).hasSize(1);
-        Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a", "b", "c");
+        List<List<String>> result12 = CsvParserBuilder.getInstance().setCommaSeparator(true).setSemicolonSeparator(false).setFormat(CsvFormat.DEFAULT).parse("a,b;c");
+        Assertions.assertThat(result12).hasSize(1);
+        Assertions.assertThat(result12.get(0)).containsExactlyInOrder("a", "b", "c");
 
-        List<List<String>> result2 = csvParserBuilder.parse("a\rb\nc\r\nd");
-        Assertions.assertThat(result2).hasSize(3);
-        Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\rb");
-        Assertions.assertThat(result2.get(1)).containsExactlyInOrder("c");
-        Assertions.assertThat(result2.get(2)).containsExactlyInOrder("d");
+        List<List<String>> result21 = CsvParserBuilder.getInstance().setCrSeparator(false).setLfSeparator(true).setCrLfSeparator(true).setFormat(CsvFormat.DEFAULT).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result21).hasSize(3);
+        Assertions.assertThat(result21.get(0)).containsExactlyInOrder("a\rb");
+        Assertions.assertThat(result21.get(1)).containsExactlyInOrder("c");
+        Assertions.assertThat(result21.get(2)).containsExactlyInOrder("d");
 
-        List<List<String>> result3 = csvParserBuilder.parse("a,b,c\r\nd,e\r\n");
-        Assertions.assertThat(result3).hasSize(2);
-        Assertions.assertThat(result3.get(0)).containsExactlyInOrder("a", "b", "c");
-        Assertions.assertThat(result3.get(1)).containsExactlyInOrder("d", "e");
+        List<List<String>> result22 = CsvParserBuilder.getInstance().setCrSeparator(true).setLfSeparator(false).setCrLfSeparator(false).setFormat(CsvFormat.DEFAULT).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result22).hasSize(3);
+        Assertions.assertThat(result22.get(0)).containsExactlyInOrder("a\rb");
+        Assertions.assertThat(result22.get(1)).containsExactlyInOrder("c");
+        Assertions.assertThat(result22.get(2)).containsExactlyInOrder("d");
 
-        List<List<String>> result4 = csvParserBuilder.parse("a\r\n\r\nb\r\n\r\nc");
-        Assertions.assertThat(result4).hasSize(5);
-        Assertions.assertThat(result4.get(0)).containsExactlyInOrder("a");
-        Assertions.assertThat(result4.get(1)).containsExactlyInOrder();
-        Assertions.assertThat(result4.get(2)).containsExactlyInOrder("b");
-        Assertions.assertThat(result4.get(3)).containsExactlyInOrder();
-        Assertions.assertThat(result4.get(4)).containsExactlyInOrder("c");
+        List<List<String>> result31 = CsvParserBuilder.getInstance().setColumnCountCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("a,b,c\r\nd,e\r\n");
+        Assertions.assertThat(result31).hasSize(2);
+        Assertions.assertThat(result31.get(0)).containsExactlyInOrder("a", "b", "c");
+        Assertions.assertThat(result31.get(1)).containsExactlyInOrder("d", "e");
 
-        List<List<String>> result5 = csvParserBuilder.parse("1234567890");
-        Assertions.assertThat(result5).hasSize(1);
-        Assertions.assertThat(result5.get(0)).containsExactlyInOrder("1234567890");
+        List<List<String>> result32 = CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("a,b,c\r\nd,e\r\n");
+        Assertions.assertThat(result32).hasSize(2);
+        Assertions.assertThat(result32.get(0)).containsExactlyInOrder("a", "b", "c");
+        Assertions.assertThat(result32.get(1)).containsExactlyInOrder("d", "e");
+
+        List<List<String>> result41 = CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(false).setFormat(CsvFormat.DEFAULT).parse("a\r\n\r\nb\r\n\r\nc");
+        Assertions.assertThat(result41).hasSize(5);
+        Assertions.assertThat(result41.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(result41.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result41.get(2)).containsExactlyInOrder("b");
+        Assertions.assertThat(result41.get(3)).containsExactlyInOrder();
+        Assertions.assertThat(result41.get(4)).containsExactlyInOrder("c");
+
+        List<List<String>> result42 = CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(true).setFormat(CsvFormat.DEFAULT).parse("a\r\n\r\nb\r\n\r\nc");
+        Assertions.assertThat(result42).hasSize(5);
+        Assertions.assertThat(result42.get(0)).containsExactlyInOrder("a");
+        Assertions.assertThat(result42.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result42.get(2)).containsExactlyInOrder("b");
+        Assertions.assertThat(result42.get(3)).containsExactlyInOrder();
+        Assertions.assertThat(result42.get(4)).containsExactlyInOrder("c");
+
+        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("1234567890");
+        Assertions.assertThat(result51).hasSize(1);
+        Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
+
+        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("1234567890");
+        Assertions.assertThat(result52).hasSize(1);
+        Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.DEFAULT).parse("1234567890", new NoopEventHandler());
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -82,34 +111,63 @@ public final class CsvParserBuilderTest extends CsvTest {
      */
     @Test
     public void setFormatRfc4180Test() {
-        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance().setFormat(CsvFormat.RFC4180);
+        List<List<String>> result11 = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).setFormat(CsvFormat.RFC4180).parse("a,b;c");
+        Assertions.assertThat(result11).hasSize(1);
+        Assertions.assertThat(result11.get(0)).containsExactlyInOrder("a", "b;c");
 
-        List<List<String>> result1 = csvParserBuilder.parse("a,b;c");
-        Assertions.assertThat(result1).hasSize(1);
-        Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a", "b;c");
+        List<List<String>> result12 = CsvParserBuilder.getInstance().setCommaSeparator(true).setSemicolonSeparator(false).setFormat(CsvFormat.RFC4180).parse("a,b;c");
+        Assertions.assertThat(result12).hasSize(1);
+        Assertions.assertThat(result12.get(0)).containsExactlyInOrder("a", "b;c");
 
-        List<List<String>> result2 = csvParserBuilder.parse("a\rb\nc\r\nd");
-        Assertions.assertThat(result2).hasSize(2);
-        Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\rb\nc");
-        Assertions.assertThat(result2.get(1)).containsExactlyInOrder("d");
+        List<List<String>> result21 = CsvParserBuilder.getInstance().setCrSeparator(false).setLfSeparator(true).setCrLfSeparator(true).setFormat(CsvFormat.RFC4180).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result21).hasSize(2);
+        Assertions.assertThat(result21.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result21.get(1)).containsExactlyInOrder("d");
+
+        List<List<String>> result22 = CsvParserBuilder.getInstance().setCrSeparator(true).setLfSeparator(false).setCrLfSeparator(false).setFormat(CsvFormat.RFC4180).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result22).hasSize(2);
+        Assertions.assertThat(result22.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result22.get(1)).containsExactlyInOrder("d");
 
         try {
-            csvParserBuilder.parse("a,b,c\r\nd,e\r\n");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("a,b,c\r\nd,e\r\n");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a,b,c\\r\\nd,e\\r\\n\".");
         }
 
         try {
-            csvParserBuilder.parse("a\r\n\r\nb\r\n\r\nc");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("a,b,c\r\nd,e\r\n");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a,b,c\\r\\nd,e\\r\\n\".");
+        }
+
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(false).setFormat(CsvFormat.RFC4180).parse("a\r\n\r\nb\r\n\r\nc");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result5 = csvParserBuilder.parse("1234567890");
-        Assertions.assertThat(result5).hasSize(1);
-        Assertions.assertThat(result5.get(0)).containsExactlyInOrder("1234567890");
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(true).setFormat(CsvFormat.RFC4180).parse("a\r\n\r\nb\r\n\r\nc");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
+        }
+
+        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("1234567890");
+        Assertions.assertThat(result51).hasSize(1);
+        Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
+
+        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("1234567890");
+        Assertions.assertThat(result52).hasSize(1);
+        Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.RFC4180).parse("1234567890", new NoopEventHandler());
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -117,34 +175,63 @@ public final class CsvParserBuilderTest extends CsvTest {
      */
     @Test
     public void setFormatExcelCommaTest() {
-        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance().setFormat(CsvFormat.EXCEL_COMMA);
+        List<List<String>> result11 = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).setFormat(CsvFormat.EXCEL_COMMA).parse("a,b;c");
+        Assertions.assertThat(result11).hasSize(1);
+        Assertions.assertThat(result11.get(0)).containsExactlyInOrder("a", "b;c");
 
-        List<List<String>> result1 = csvParserBuilder.parse("a,b;c");
-        Assertions.assertThat(result1).hasSize(1);
-        Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a", "b;c");
+        List<List<String>> result12 = CsvParserBuilder.getInstance().setCommaSeparator(true).setSemicolonSeparator(false).setFormat(CsvFormat.EXCEL_COMMA).parse("a,b;c");
+        Assertions.assertThat(result12).hasSize(1);
+        Assertions.assertThat(result12.get(0)).containsExactlyInOrder("a", "b;c");
 
-        List<List<String>> result2 = csvParserBuilder.parse("a\rb\nc\r\nd");
-        Assertions.assertThat(result2).hasSize(2);
-        Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\rb\nc");
-        Assertions.assertThat(result2.get(1)).containsExactlyInOrder("d");
+        List<List<String>> result21 = CsvParserBuilder.getInstance().setCrSeparator(false).setLfSeparator(true).setCrLfSeparator(true).setFormat(CsvFormat.EXCEL_COMMA).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result21).hasSize(2);
+        Assertions.assertThat(result21.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result21.get(1)).containsExactlyInOrder("d");
+
+        List<List<String>> result22 = CsvParserBuilder.getInstance().setCrSeparator(true).setLfSeparator(false).setCrLfSeparator(false).setFormat(CsvFormat.EXCEL_COMMA).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result22).hasSize(2);
+        Assertions.assertThat(result22.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result22.get(1)).containsExactlyInOrder("d");
 
         try {
-            csvParserBuilder.parse("a,b,c\r\nd,e\r\n");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("a,b,c\r\nd,e\r\n");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a,b,c\\r\\nd,e\\r\\n\".");
         }
 
         try {
-            csvParserBuilder.parse("a\r\n\r\nb\r\n\r\nc");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("a,b,c\r\nd,e\r\n");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a,b,c\\r\\nd,e\\r\\n\".");
+        }
+
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("a\r\n\r\nb\r\n\r\nc");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result5 = csvParserBuilder.parse("1234567890");
-        Assertions.assertThat(result5).hasSize(1);
-        Assertions.assertThat(result5.get(0)).containsExactlyInOrder("1234567890");
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("a\r\n\r\nb\r\n\r\nc");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
+        }
+
+        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890");
+        Assertions.assertThat(result51).hasSize(1);
+        Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
+
+        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890");
+        Assertions.assertThat(result52).hasSize(1);
+        Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", new NoopEventHandler());
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -152,34 +239,63 @@ public final class CsvParserBuilderTest extends CsvTest {
      */
     @Test
     public void setFormatExcelSemicolonTest() {
-        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance().setFormat(CsvFormat.EXCEL_SEMICOLON);
+        List<List<String>> result11 = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a,b;c");
+        Assertions.assertThat(result11).hasSize(1);
+        Assertions.assertThat(result11.get(0)).containsExactlyInOrder("a,b", "c");
 
-        List<List<String>> result1 = csvParserBuilder.parse("a,b;c");
-        Assertions.assertThat(result1).hasSize(1);
-        Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a,b", "c");
+        List<List<String>> result12 = CsvParserBuilder.getInstance().setCommaSeparator(true).setSemicolonSeparator(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a,b;c");
+        Assertions.assertThat(result12).hasSize(1);
+        Assertions.assertThat(result12.get(0)).containsExactlyInOrder("a,b", "c");
 
-        List<List<String>> result2 = csvParserBuilder.parse("a\rb\nc\r\nd");
-        Assertions.assertThat(result2).hasSize(2);
-        Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\rb\nc");
-        Assertions.assertThat(result2.get(1)).containsExactlyInOrder("d");
+        List<List<String>> result21 = CsvParserBuilder.getInstance().setCrSeparator(false).setLfSeparator(true).setCrLfSeparator(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result21).hasSize(2);
+        Assertions.assertThat(result21.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result21.get(1)).containsExactlyInOrder("d");
+
+        List<List<String>> result22 = CsvParserBuilder.getInstance().setCrSeparator(true).setLfSeparator(false).setCrLfSeparator(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a\rb\nc\r\nd");
+        Assertions.assertThat(result22).hasSize(2);
+        Assertions.assertThat(result22.get(0)).containsExactlyInOrder("a\rb\nc");
+        Assertions.assertThat(result22.get(1)).containsExactlyInOrder("d");
 
         try {
-            csvParserBuilder.parse("a;b;c\r\nd;e\r\n");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a;b;c\r\nd;e\r\n");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a;b;c\\r\\nd;e\\r\\n\".");
         }
 
         try {
-            csvParserBuilder.parse("a\r\n\r\nb\r\n\r\nc");
+            CsvParserBuilder.getInstance().setColumnCountCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a;b;c\r\nd;e\r\n");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a;b;c\\r\\nd;e\\r\\n\".");
+        }
+
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a\r\n\r\nb\r\n\r\nc");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
         }
 
-        List<List<String>> result5 = csvParserBuilder.parse("1234567890");
-        Assertions.assertThat(result5).hasSize(1);
-        Assertions.assertThat(result5.get(0)).containsExactlyInOrder("1234567890");
+        try {
+            CsvParserBuilder.getInstance().setSkipEmptyRowsEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("a\r\n\r\nb\r\n\r\nc");
+            Assertions.fail("CsvParserBuilder test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a\\r\\n\\r\\n\".");
+        }
+
+        List<List<String>> result51 = CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890");
+        Assertions.assertThat(result51).hasSize(1);
+        Assertions.assertThat(result51.get(0)).containsExactlyInOrder("1234567890");
+
+        List<List<String>> result52 = CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890");
+        Assertions.assertThat(result52).hasSize(1);
+        Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(0).setMaxColumnLengthCheckEnabled(false).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", new NoopEventHandler());
+
+        CsvParserBuilder.getInstance().setMaxColumnLength(-1).setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).parse("1234567890", new NoopEventHandler());
     }
 
     /**
@@ -193,12 +309,12 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setLfSeparator(true);
         csvParserBuilder.setCrLfSeparator(true);
 
-        csvParserBuilder.setCommaSeparator(true);
+        csvParserBuilder = csvParserBuilder.setCommaSeparator(true);
         List<List<String>> result1 = csvParserBuilder.parse("a,b");
         Assertions.assertThat(result1).hasSize(1);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a", "b");
 
-        csvParserBuilder.setCommaSeparator(false);
+        csvParserBuilder = csvParserBuilder.setCommaSeparator(false);
         List<List<String>> result2 = csvParserBuilder.parse("a,b");
         Assertions.assertThat(result2).hasSize(1);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a,b");
@@ -215,12 +331,12 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setLfSeparator(true);
         csvParserBuilder.setCrLfSeparator(true);
 
-        csvParserBuilder.setSemicolonSeparator(true);
+        csvParserBuilder = csvParserBuilder.setSemicolonSeparator(true);
         List<List<String>> result1 = csvParserBuilder.parse("a;b");
         Assertions.assertThat(result1).hasSize(1);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a", "b");
 
-        csvParserBuilder.setSemicolonSeparator(false);
+        csvParserBuilder = csvParserBuilder.setSemicolonSeparator(false);
         List<List<String>> result2 = csvParserBuilder.parse("a;b");
         Assertions.assertThat(result2).hasSize(1);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a;b");
@@ -237,13 +353,13 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setLfSeparator(true);
         csvParserBuilder.setCrLfSeparator(true);
 
-        csvParserBuilder.setCrSeparator(true);
+        csvParserBuilder = csvParserBuilder.setCrSeparator(true);
         List<List<String>> result1 = csvParserBuilder.parse("a\rb");
         Assertions.assertThat(result1).hasSize(2);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a");
         Assertions.assertThat(result1.get(1)).containsExactlyInOrder("b");
 
-        csvParserBuilder.setCrSeparator(false);
+        csvParserBuilder = csvParserBuilder.setCrSeparator(false);
         List<List<String>> result2 = csvParserBuilder.parse("a\rb");
         Assertions.assertThat(result2).hasSize(1);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\rb");
@@ -260,13 +376,13 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setCrSeparator(true);
         csvParserBuilder.setCrLfSeparator(true);
 
-        csvParserBuilder.setLfSeparator(true);
+        csvParserBuilder = csvParserBuilder.setLfSeparator(true);
         List<List<String>> result1 = csvParserBuilder.parse("a\nb");
         Assertions.assertThat(result1).hasSize(2);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a");
         Assertions.assertThat(result1.get(1)).containsExactlyInOrder("b");
 
-        csvParserBuilder.setLfSeparator(false);
+        csvParserBuilder = csvParserBuilder.setLfSeparator(false);
         List<List<String>> result2 = csvParserBuilder.parse("a\nb");
         Assertions.assertThat(result2).hasSize(1);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a\nb");
@@ -283,13 +399,13 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setCrSeparator(true);
         csvParserBuilder.setLfSeparator(true);
 
-        csvParserBuilder.setCrLfSeparator(true);
+        csvParserBuilder = csvParserBuilder.setCrLfSeparator(true);
         List<List<String>> result1 = csvParserBuilder.parse("a\r\nb");
         Assertions.assertThat(result1).hasSize(2);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a");
         Assertions.assertThat(result1.get(1)).containsExactlyInOrder("b");
 
-        csvParserBuilder.setCrLfSeparator(false);
+        csvParserBuilder = csvParserBuilder.setCrLfSeparator(false);
         List<List<String>> result2 = csvParserBuilder.parse("a\r\nb");
         Assertions.assertThat(result2).hasSize(3);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a");
@@ -305,14 +421,14 @@ public final class CsvParserBuilderTest extends CsvTest {
         CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance();
 
         try {
-            csvParserBuilder.setColumnCountCheckEnabled(true);
+            csvParserBuilder = csvParserBuilder.setColumnCountCheckEnabled(true);
             csvParserBuilder.parse("a,b\nc,d\ne,f,g");
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnCountException ex) {
             Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"a,b\\nc,d\\ne,f,g\".");
         }
 
-        csvParserBuilder.setColumnCountCheckEnabled(false);
+        csvParserBuilder = csvParserBuilder.setColumnCountCheckEnabled(false);
         List<List<String>> result2 = csvParserBuilder.parse("a,b\nc,d\ne,f,g");
         Assertions.assertThat(result2).hasSize(3);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a", "b");
@@ -328,14 +444,14 @@ public final class CsvParserBuilderTest extends CsvTest {
         CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance();
         csvParserBuilder.setColumnCountCheckEnabled(false);
 
-        csvParserBuilder.setSkipEmptyRowsEnabled(true);
+        csvParserBuilder = csvParserBuilder.setSkipEmptyRowsEnabled(true);
         List<List<String>> result1 = csvParserBuilder.parse("a\nb\n\nc\n\n");
         Assertions.assertThat(result1).hasSize(3);
         Assertions.assertThat(result1.get(0)).containsExactlyInOrder("a");
         Assertions.assertThat(result1.get(1)).containsExactlyInOrder("b");
         Assertions.assertThat(result1.get(2)).containsExactlyInOrder("c");
 
-        csvParserBuilder.setSkipEmptyRowsEnabled(false);
+        csvParserBuilder = csvParserBuilder.setSkipEmptyRowsEnabled(false);
         List<List<String>> result2 = csvParserBuilder.parse("a\nb\n\nc\n\n");
         Assertions.assertThat(result2).hasSize(5);
         Assertions.assertThat(result2.get(0)).containsExactlyInOrder("a");
@@ -354,14 +470,14 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setMaxColumnLengthCheckEnabled(true);
 
         try {
-            csvParserBuilder.setMaxColumnLength(3);
+            csvParserBuilder = csvParserBuilder.setMaxColumnLength(3);
             csvParserBuilder.parse("abc,12345", new NoopEventHandler());
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column value length exceeded. Last characters: \"abc,1234\".");
         }
 
-        csvParserBuilder.setMaxColumnLength(5);
+        csvParserBuilder = csvParserBuilder.setMaxColumnLength(5);
         csvParserBuilder.parse("abc,12345", new NoopEventHandler());
     }
 
@@ -374,14 +490,14 @@ public final class CsvParserBuilderTest extends CsvTest {
         csvParserBuilder.setMaxColumnLength(3);
 
         try {
-            csvParserBuilder.setMaxColumnLengthCheckEnabled(true);
+            csvParserBuilder = csvParserBuilder.setMaxColumnLengthCheckEnabled(true);
             csvParserBuilder.parse("abc,12345", new NoopEventHandler());
             Assertions.fail("CsvParserBuilder test fail");
         } catch (WrongColumnLengthException ex) {
             Assertions.assertThat(ex).hasMessage("Maximum column value length exceeded. Last characters: \"abc,1234\".");
         }
 
-        csvParserBuilder.setMaxColumnLengthCheckEnabled(false);
+        csvParserBuilder = csvParserBuilder.setMaxColumnLengthCheckEnabled(false);
         csvParserBuilder.parse("abc,12345", new NoopEventHandler());
     }
 
