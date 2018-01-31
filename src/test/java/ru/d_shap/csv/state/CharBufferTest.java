@@ -22,6 +22,7 @@ package ru.d_shap.csv.state;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.Raw;
 import ru.d_shap.csv.CsvTest;
 
 /**
@@ -468,6 +469,65 @@ public final class CharBufferTest extends CsvTest {
         charBuffer6.clear();
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(0);
         Assertions.assertThat(charBuffer6).isToStringEqualTo("");
+    }
+
+    /**
+     * {@link CharBuffer} class test.
+     */
+    @Test
+    public void bufferLengthTest() {
+        CharBuffer charBuffer1 = new CharBuffer(-1, false);
+        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(20);
+        charBuffer1.append('1');
+        charBuffer1.append('2');
+        charBuffer1.append('3');
+        charBuffer1.append('4');
+        charBuffer1.append('5');
+        charBuffer1.append('6');
+        charBuffer1.append('7');
+        charBuffer1.append('8');
+        charBuffer1.append('9');
+        charBuffer1.append('0');
+        charBuffer1.append('1');
+        charBuffer1.append('2');
+        charBuffer1.append('3');
+        charBuffer1.append('4');
+        charBuffer1.append('5');
+        charBuffer1.append('6');
+        charBuffer1.append('7');
+        charBuffer1.append('8');
+        charBuffer1.append('9');
+        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(20);
+        charBuffer1.append('0');
+        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(20);
+        charBuffer1.append('1');
+        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(40);
+
+        CharBuffer charBuffer2 = new CharBuffer(10, false);
+        Assertions.assertThat(charBuffer2, "_buffer", Raw.charArrayAssertion()).hasLength(10);
+        charBuffer2.append('1');
+        charBuffer2.append('2');
+        charBuffer2.append('3');
+        charBuffer2.append('4');
+        charBuffer2.append('5');
+        charBuffer2.append('6');
+        charBuffer2.append('7');
+        charBuffer2.append('8');
+        charBuffer2.append('9');
+        Assertions.assertThat(charBuffer2, "_buffer", Raw.charArrayAssertion()).hasLength(10);
+        charBuffer2.append('0');
+        Assertions.assertThat(charBuffer2, "_buffer", Raw.charArrayAssertion()).hasLength(10);
+        charBuffer2.append('1');
+        Assertions.assertThat(charBuffer2, "_buffer", Raw.charArrayAssertion()).hasLength(10);
+
+        CharBuffer charBuffer3 = new CharBuffer(0, false);
+        Assertions.assertThat(charBuffer3, "_buffer", Raw.charArrayAssertion()).hasLength(0);
+        charBuffer3.append('1');
+        Assertions.assertThat(charBuffer3, "_buffer", Raw.charArrayAssertion()).hasLength(0);
+        charBuffer3.append('2');
+        Assertions.assertThat(charBuffer3, "_buffer", Raw.charArrayAssertion()).hasLength(0);
+        charBuffer3.append('3');
+        Assertions.assertThat(charBuffer3, "_buffer", Raw.charArrayAssertion()).hasLength(0);
     }
 
 }
