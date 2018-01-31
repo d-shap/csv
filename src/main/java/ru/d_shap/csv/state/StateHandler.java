@@ -42,8 +42,6 @@ public final class StateHandler {
 
     private final CharBuffer _currentColumnCharacters;
 
-    private boolean _firstRow;
-
     private int _firstRowColumnCount;
 
     private int _currentColumnCount;
@@ -61,8 +59,7 @@ public final class StateHandler {
         _csvParserConfiguration = csvParserConfiguration;
         _lastProcessedCharacters = new CharStack(LAST_CHARACTERS_COUNT);
         _currentColumnCharacters = new CharBuffer(_csvParserConfiguration.getMaxColumnLength(), _csvParserConfiguration.isMaxColumnLengthCheckEnabled());
-        _firstRow = true;
-        _firstRowColumnCount = 0;
+        _firstRowColumnCount = -1;
         _currentColumnCount = 0;
     }
 
@@ -109,7 +106,7 @@ public final class StateHandler {
     }
 
     void pushColumn() {
-        if (_csvParserConfiguration.isColumnCountCheckEnabled() && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+        if (_csvParserConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount >= 0 && _currentColumnCount >= _firstRowColumnCount) {
             throw new WrongColumnCountException(getLastProcessedCharacters());
         }
 
@@ -125,9 +122,8 @@ public final class StateHandler {
             return;
         }
 
-        if (_firstRow) {
+        if (_firstRowColumnCount < 0) {
             _firstRowColumnCount = _currentColumnCount;
-            _firstRow = false;
         } else if (_csvParserConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount != _currentColumnCount) {
             throw new WrongColumnCountException(getLastProcessedCharacters());
         }
