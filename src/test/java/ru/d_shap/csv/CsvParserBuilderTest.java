@@ -105,6 +105,18 @@ public final class CsvParserBuilderTest extends CsvTest {
         List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler61 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).setMaxColumnLength(-1).parse("1234567890", eventHandler61);
+        List<List<String>> result61 = eventHandler61.getCsv();
+        Assertions.assertThat(result61).hasSize(1);
+        Assertions.assertThat(result61.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler62 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.DEFAULT).setMaxColumnLength(5).parse("1234567890", eventHandler62);
+        List<List<String>> result62 = eventHandler62.getCsv();
+        Assertions.assertThat(result62).hasSize(1);
+        Assertions.assertThat(result62.get(0)).containsExactlyInOrder("12345");
     }
 
     /**
@@ -169,6 +181,18 @@ public final class CsvParserBuilderTest extends CsvTest {
         List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler61 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).setMaxColumnLength(-1).parse("1234567890", eventHandler61);
+        List<List<String>> result61 = eventHandler61.getCsv();
+        Assertions.assertThat(result61).hasSize(1);
+        Assertions.assertThat(result61.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler62 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.RFC4180).setMaxColumnLength(5).parse("1234567890", eventHandler62);
+        List<List<String>> result62 = eventHandler62.getCsv();
+        Assertions.assertThat(result62).hasSize(1);
+        Assertions.assertThat(result62.get(0)).containsExactlyInOrder("12345");
     }
 
     /**
@@ -233,6 +257,18 @@ public final class CsvParserBuilderTest extends CsvTest {
         List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler61 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).setMaxColumnLength(-1).parse("1234567890", eventHandler61);
+        List<List<String>> result61 = eventHandler61.getCsv();
+        Assertions.assertThat(result61).hasSize(1);
+        Assertions.assertThat(result61.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler62 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_COMMA).setMaxColumnLength(5).parse("1234567890", eventHandler62);
+        List<List<String>> result62 = eventHandler62.getCsv();
+        Assertions.assertThat(result62).hasSize(1);
+        Assertions.assertThat(result62.get(0)).containsExactlyInOrder("12345");
     }
 
     /**
@@ -297,6 +333,18 @@ public final class CsvParserBuilderTest extends CsvTest {
         List<List<String>> result52 = eventHandler52.getCsv();
         Assertions.assertThat(result52).hasSize(1);
         Assertions.assertThat(result52.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler61 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).setMaxColumnLength(-1).parse("1234567890", eventHandler61);
+        List<List<String>> result61 = eventHandler61.getCsv();
+        Assertions.assertThat(result61).hasSize(1);
+        Assertions.assertThat(result61.get(0)).containsExactlyInOrder("1234567890");
+
+        UnrestrictedListEventHandler eventHandler62 = new UnrestrictedListEventHandler();
+        CsvParserBuilder.getInstance().setMaxColumnLengthCheckEnabled(true).setFormat(CsvFormat.EXCEL_SEMICOLON).setMaxColumnLength(5).parse("1234567890", eventHandler62);
+        List<List<String>> result62 = eventHandler62.getCsv();
+        Assertions.assertThat(result62).hasSize(1);
+        Assertions.assertThat(result62.get(0)).containsExactlyInOrder("12345");
     }
 
     /**
