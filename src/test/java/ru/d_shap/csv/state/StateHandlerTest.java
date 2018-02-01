@@ -59,7 +59,7 @@ public final class StateHandlerTest extends CsvTest {
             StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
             Assertions.fail("StateHandler test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         try {
@@ -70,7 +70,7 @@ public final class StateHandlerTest extends CsvTest {
             StateHandler stateHandler = new StateHandler(listEventHandler, csvParserConfiguration);
             Assertions.fail("StateHandler test fail");
         } catch (WrongRowSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+            Assertions.assertThat(ex).hasMessage("No row separator is specified.");
         }
     }
 
