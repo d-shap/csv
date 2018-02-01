@@ -107,7 +107,7 @@ public final class CsvPrinterConfigurationTest extends CsvTest {
             csvPrinterConfiguration01.validate();
             Assertions.fail("CsvPrinterConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         CsvPrinterConfiguration csvPrinterConfiguration02 = new CsvPrinterConfiguration();
@@ -116,7 +116,7 @@ public final class CsvPrinterConfigurationTest extends CsvTest {
             csvPrinterConfiguration02.validate();
             Assertions.fail("CsvPrinterConfiguration test fail");
         } catch (WrongRowSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+            Assertions.assertThat(ex).hasMessage("No row separator is specified.");
         }
 
         CsvPrinterConfiguration csvPrinterConfiguration03 = new CsvPrinterConfiguration();
@@ -125,7 +125,7 @@ public final class CsvPrinterConfigurationTest extends CsvTest {
             csvPrinterConfiguration03.validate();
             Assertions.fail("CsvPrinterConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         CsvPrinterConfiguration csvPrinterConfiguration04 = new CsvPrinterConfiguration();
@@ -294,138 +294,138 @@ public final class CsvPrinterConfigurationTest extends CsvTest {
     public void hasSpecialCharactersTest() {
         CsvPrinterConfiguration csvPrinterConfiguration01 = new CsvPrinterConfiguration();
         Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" \r\n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("\r\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration01.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration02 = new CsvPrinterConfiguration();
         csvPrinterConfiguration02.setCommaSeparator();
         Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" , ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" \r\n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters(", ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("\r\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration02.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration03 = new CsvPrinterConfiguration();
         csvPrinterConfiguration03.setSemicolonSeparator();
         Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" ; ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" \r\n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("; ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("\r\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration03.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration04 = new CsvPrinterConfiguration();
         csvPrinterConfiguration04.setCrSeparator();
         Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" \r ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("\r ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration04.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration05 = new CsvPrinterConfiguration();
         csvPrinterConfiguration05.setLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" \n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration05.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration06 = new CsvPrinterConfiguration();
         csvPrinterConfiguration06.setCrLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration06.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration07 = new CsvPrinterConfiguration();
         csvPrinterConfiguration07.setCommaSeparator();
         csvPrinterConfiguration07.setCrSeparator();
         Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" , ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" \r ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters(", ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("\r ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration07.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration08 = new CsvPrinterConfiguration();
         csvPrinterConfiguration08.setSemicolonSeparator();
         csvPrinterConfiguration08.setCrSeparator();
         Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" ; ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" \r ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("; ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("\r ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration08.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration09 = new CsvPrinterConfiguration();
         csvPrinterConfiguration09.setCommaSeparator();
         csvPrinterConfiguration09.setLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" , ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" \n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters(", ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration09.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration10 = new CsvPrinterConfiguration();
         csvPrinterConfiguration10.setSemicolonSeparator();
         csvPrinterConfiguration10.setLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" ; ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" \r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters("; ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters("\r ")).isFalse();
         Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" \n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration10.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration11 = new CsvPrinterConfiguration();
         csvPrinterConfiguration11.setCommaSeparator();
         csvPrinterConfiguration11.setCrLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" , ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" ; ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters(", ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("; ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration11.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration12 = new CsvPrinterConfiguration();
         csvPrinterConfiguration12.setSemicolonSeparator();
         csvPrinterConfiguration12.setCrLfSeparator();
         Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" , ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" ; ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" \r ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" \n ")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters(", ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("; ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("\r ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("\n ")).isFalse();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration12.hasSpecialCharacters("\" ")).isTrue();
 
         CsvPrinterConfiguration csvPrinterConfiguration13 = new CsvPrinterConfiguration();
         csvPrinterConfiguration13.setEscapeAllSeparatorsEnabled(true);
         Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("value")).isFalse();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" , ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" ; ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" \r ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" \n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" \r\n ")).isTrue();
-        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(" \" ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters(", ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("; ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("\r ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("\r\n ")).isTrue();
+        Assertions.assertThat(csvPrinterConfiguration13.hasSpecialCharacters("\" ")).isTrue();
     }
 
 }
