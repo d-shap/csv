@@ -51,9 +51,39 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseColumnsWithSemicolonsTest() {
+    public void validateTest() {
+        try {
+            CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+            new CsvParser(csvParserConfiguration);
+            Assertions.fail("CsvParser test fail");
+        } catch (WrongColumnSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
+        }
+        try {
+            CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+            csvParserConfiguration.setCommaSeparator(true);
+            new CsvParser(csvParserConfiguration);
+            Assertions.fail("CsvParser test fail");
+        } catch (WrongRowSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No row separator is specified.");
+        }
+        try {
+            CsvParserConfiguration csvParserConfiguration = new CsvParserConfiguration();
+            csvParserConfiguration.setCrLfSeparator(true);
+            new CsvParser(csvParserConfiguration);
+            Assertions.fail("CsvParser test fail");
+        } catch (WrongColumnSeparatorException ex) {
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
+        }
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseColumnsWithSemicolonSeparatorTest() {
         String csv = "true;1.0.1;5";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "1.0.1", "5");
@@ -63,9 +93,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseColumnsWithCommasTest() {
+    public void parseColumnsWithCommaSeparatorTest() {
         String csv = "true,1.0.1,5";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "1.0.1", "5");
@@ -75,21 +105,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseColumnsWithSpecialsTest() {
-        String csv = "true,\"aa,bb;\r\na\",\"5\"";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).hasSize(1);
-        Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "aa,bb;\r\na", "5");
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test
-    public void parseEmptyColumnsTest() {
+    public void parseColumnsWithEmptyValuesTest() {
         String csv = ";a;;b;;;c;";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("", "a", "", "b", "", "", "c", "");
@@ -99,9 +117,21 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseEmptySpecialColumnsTest() {
+    public void parseColumnsWithSpecialCharactersTest() {
+        String csv = "true,\"aa,bb;\r\na\",\"5\"";
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("true", "aa,bb;\r\na", "5");
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseColumnsWithEmptySpecialCharactersTest() {
         String csv = "\"\",\"\",,\"\"";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("", "", "", "");
@@ -113,7 +143,7 @@ public final class CsvParserTest extends CsvTest {
     @Test
     public void parseColumnsWithQuotsTest() {
         String csv = "\"a\"\"b\",ab;\"\"\"a\",\"b\"\"\"";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("a\"b", "ab", "\"a", "b\"");
@@ -122,44 +152,64 @@ public final class CsvParserTest extends CsvTest {
     /**
      * {@link CsvParser} class test.
      */
-    @Test(expected = CsvParseException.class)
-    public void wrongQuotFailTest() {
-        String csv = "aaa,bb,c\"c,dd";
-        CsvParserBuilder.getInstance().build().parse(csv);
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test(expected = CsvParseException.class)
-    public void notClosedQuotFailTest() {
-        String csv = "aaa,bb,\"ccc,dd";
-        CsvParserBuilder.getInstance().build().parse(csv);
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test(expected = CsvParseException.class)
-    public void notOpenedQuotFailTest() {
-        String csv = "aaa,bb,ccc\",dd";
-        CsvParserBuilder.getInstance().build().parse(csv);
-    }
-
-    /**
-     * {@link CsvParser} class test.
-     */
-    @Test(expected = CsvParseException.class)
-    public void notAllColumnInQuotFailTest() {
-        String csv = "aaa,bb,\"ccc\"cc,dd";
-        CsvParserBuilder.getInstance().build().parse(csv);
+    @Test
+    public void parseColumnsWithNotClosedQuotTest() {
+        try {
+            String csv = "aaa,bb,\"ccc,dd";
+            createCsvParser(true, true, true, true, true).parse(csv);
+            Assertions.fail("CsvParser test fail");
+        } catch (CsvParseException ex) {
+            Assertions.assertThat(ex).hasMessage("End of input obtained. Last characters: \"aaa,bb,\"ccc,dd\".");
+        }
     }
 
     /**
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseRowsWithCrTest() {
+    public void parseColumnsWithNotOpenedQuotTest() {
+        try {
+            String csv = "aaa,bb,ccc\",dd";
+            createCsvParser(true, true, true, true, true).parse(csv);
+            Assertions.fail("CsvParser test fail");
+        } catch (CsvParseException ex) {
+            Assertions.assertThat(ex).hasMessage("Wrong character obtained: '\"' (34). Last characters: \"aaa,bb,ccc\"\".");
+        }
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseColumnsWithOpenQuotInTheMiddleTest() {
+        try {
+            String csv = "aaa,bb,c\"c,dd";
+            createCsvParser(true, true, true, true, true).parse(csv);
+            Assertions.fail("CsvParser test fail");
+        } catch (CsvParseException ex) {
+            Assertions.assertThat(ex).hasMessage("Wrong character obtained: '\"' (34). Last characters: \"aaa,bb,c\"\".");
+        }
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseColumnsWithCloseQuotInTheMiddleTest() {
+        try {
+            String csv = "aaa,bb,\"ccc\"cc,dd";
+            createCsvParser(true, true, true, true, true).parse(csv);
+            Assertions.fail("CsvParser test fail");
+        } catch (CsvParseException ex) {
+            Assertions.assertThat(ex).hasMessage("Wrong character obtained: 'c' (99). Last characters: \"aaa,bb,\"ccc\"c\".");
+        }
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
+    public void parseRowsWithCrSeparatorTest() {
         String csv = "a\rb\rc";
         List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
@@ -173,9 +223,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseRowsWithLfTest() {
+    public void parseRowsWithLfSeparatorTest() {
         String csv = "a\nb\nc";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(3);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("a");
@@ -187,9 +237,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseRowsWithCrLfTest() {
+    public void parseRowsWithCrLfSeparatorTest() {
         String csv = "a\r\nb\r\nc";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(3);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("a");
@@ -201,9 +251,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseEmptyRowsTest() {
+    public void parseRowsWithEmptyValuesTest() {
         String csv = "\naaa\n\nbbb\n\n";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(5);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder();
@@ -217,9 +267,9 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
-    public void parseRowsWithSpecialsTest() {
+    public void parseRowsWithSpecialCharactersTest() {
         String csv = "\",\"\r\n\"\"\"\"\r\n\"aaa;bbb\"\r\n";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(3);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder(",");
@@ -233,7 +283,7 @@ public final class CsvParserTest extends CsvTest {
     @Test
     public void parseTableTest() {
         String csv = "a,,false\nb,true,\n\n,c,d\n";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(4);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("a", "", "false");
@@ -248,7 +298,7 @@ public final class CsvParserTest extends CsvTest {
     @Test
     public void parseEmptyCsvTest() {
         String csv = "";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEmpty();
     }
@@ -258,7 +308,7 @@ public final class CsvParserTest extends CsvTest {
      */
     @Test(expected = NullPointerException.class)
     public void parseNullCsvTest() {
-        CsvParserBuilder.getInstance().build().parse((String) null);
+        createCsvParser(true, true, true, true, true).parse((String) null);
     }
 
     /**
@@ -268,7 +318,7 @@ public final class CsvParserTest extends CsvTest {
     public void parseStringBuilderCsvTest() {
         StringBuilder csv = new StringBuilder();
         csv.append("a,,false\nb,true,\n\n,c,d\n");
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(4);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("a", "", "false");
@@ -283,7 +333,7 @@ public final class CsvParserTest extends CsvTest {
     @Test(expected = CsvParseException.class)
     public void unquotedQuotFailTest() {
         String csv = "one;\"t\"wo\"\nthree;four";
-        CsvParserBuilder.getInstance().build().parse(csv);
+        createCsvParser(true, true, true, true, true).parse(csv);
     }
 
     /**
@@ -329,7 +379,7 @@ public final class CsvParserTest extends CsvTest {
     public void parseEmptyReaderCsvTest() {
         String csv = "";
         Reader reader = new StringReader(csv);
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEmpty();
     }
@@ -339,7 +389,7 @@ public final class CsvParserTest extends CsvTest {
      */
     @Test(expected = NullPointerException.class)
     public void parseNullReaderCsvTest() {
-        CsvParserBuilder.getInstance().build().parse((Reader) null);
+        createCsvParser(true, true, true, true, true).parse((Reader) null);
     }
 
     /**
@@ -372,7 +422,7 @@ public final class CsvParserTest extends CsvTest {
     @Test(expected = NullPointerException.class)
     public void parseNullHandlerTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
-        CsvParserBuilder.getInstance().build().parse(csv, null);
+        createCsvParser(true, true, true, true, true).parse(csv, null);
     }
 
     /**
@@ -420,7 +470,7 @@ public final class CsvParserTest extends CsvTest {
     public void dimensionHandlerTest() {
         String csv = "1,2,3\r\n4,5,6\r\n";
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(csv, eventHandler);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(3);
     }
@@ -433,7 +483,7 @@ public final class CsvParserTest extends CsvTest {
         String csv = "1,2,3\r\n4,5,6\r\n";
         Reader reader = new StringReader(csv);
         DimensionEventHandler eventHandler = new DimensionEventHandler();
-        CsvParserBuilder.getInstance().build().parse(reader, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(reader, eventHandler);
         Assertions.assertThat(eventHandler.getRowCount()).isEqualTo(2);
         Assertions.assertThat(eventHandler.getColumnCount()).isEqualTo(3);
     }
@@ -445,7 +495,7 @@ public final class CsvParserTest extends CsvTest {
     public void columnCountHandlerTest() {
         String csv = "1,2\r\n3,4,5\r\n6";
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(csv, eventHandler);
         Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 3, 1);
     }
@@ -458,7 +508,7 @@ public final class CsvParserTest extends CsvTest {
         String csv = "1,2\r\n3,4,5\r\n6";
         Reader reader = new StringReader(csv);
         ColumnCountEventHandler eventHandler = new ColumnCountEventHandler();
-        CsvParserBuilder.getInstance().build().parse(reader, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(reader, eventHandler);
         Assertions.assertThat(eventHandler.getColumnCounts()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnCounts()).containsExactlyInOrder(2, 3, 1);
     }
@@ -470,7 +520,7 @@ public final class CsvParserTest extends CsvTest {
     public void columnLengthHandlerTest() {
         String csv = "aaa,bb\r\ncccc,dddd,eeeee\r\nf";
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(csv, eventHandler);
         Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(3);
         Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsAllInOrder(3, 2);
@@ -486,7 +536,7 @@ public final class CsvParserTest extends CsvTest {
         String csv = "aaa,bb\r\ncccc,dddd,eeeee\r\nf";
         Reader reader = new StringReader(csv);
         ColumnLengthEventHandler eventHandler = new ColumnLengthEventHandler();
-        CsvParserBuilder.getInstance().build().parse(reader, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(reader, eventHandler);
         Assertions.assertThat(eventHandler.getColumnLengths()).isNotNull();
         Assertions.assertThat(eventHandler.getColumnLengths()).hasSize(3);
         Assertions.assertThat(eventHandler.getColumnLengths().get(0)).containsAllInOrder(3, 2);
@@ -501,7 +551,7 @@ public final class CsvParserTest extends CsvTest {
     public void restrictedListEventHandlerTest() {
         String csv = "long value 1,long value 2\r\nvalue,val,long value 3\r\nvalue";
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
-        CsvParserBuilder.getInstance().build().parse(csv, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(csv, eventHandler);
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(3);
         Assertions.assertThat(eventHandler.getCsv().get(0)).containsAllInOrder("lo...", "lo...");
@@ -517,7 +567,7 @@ public final class CsvParserTest extends CsvTest {
         String csv = "long value 1,long value 2\r\nvalue,val,long value 3\r\nvalue";
         Reader reader = new StringReader(csv);
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "...");
-        CsvParserBuilder.getInstance().build().parse(reader, eventHandler);
+        createCsvParser(true, true, true, true, true).parse(reader, eventHandler);
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(3);
         Assertions.assertThat(eventHandler.getCsv().get(0)).containsAllInOrder("lo...", "lo...");
@@ -531,7 +581,7 @@ public final class CsvParserTest extends CsvTest {
     @Test(expected = CsvIOException.class)
     public void parseReaderExceptionFailTest() {
         ErrorOnReadReader reader = new ErrorOnReadReader();
-        CsvParserBuilder.getInstance().build().parse(reader);
+        createCsvParser(true, true, true, true, true).parse(reader);
     }
 
     /**
@@ -1148,9 +1198,25 @@ public final class CsvParserTest extends CsvTest {
      * {@link CsvParser} class test.
      */
     @Test
+    public void parseCsvWithCommaAndCrSeparatorsNoColumnCountCheckNoSkipEmptyRowsTest() {
+        String csv = "1,2,3\r\r4;5;6\n\n7,8;9\r\n\r\na,b,c,d\r\n";
+        List<List<String>> result = createCsvParser(true, false, true, false, false).parse(csv);
+        Assertions.assertThat(result).hasSize(6);
+        Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3");
+        Assertions.assertThat(result.get(1)).containsExactlyInOrder();
+        Assertions.assertThat(result.get(2)).containsExactlyInOrder("4;5;6\n\n7", "8;9");
+        Assertions.assertThat(result.get(3)).containsExactlyInOrder("\n");
+        Assertions.assertThat(result.get(4)).containsExactlyInOrder("\na", "b", "c", "d");
+        Assertions.assertThat(result.get(5)).containsExactlyInOrder("\n");
+    }
+
+    /**
+     * {@link CsvParser} class test.
+     */
+    @Test
     public void parseCharSequenceWithZeroCodeByteTest() {
         String csv = "1,2,3\u00004\r\n";
-        List<List<String>> result = CsvParserBuilder.getInstance().build().parse(csv);
+        List<List<String>> result = createCsvParser(true, true, true, true, true).parse(csv);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).hasSize(1);
         Assertions.assertThat(result.get(0)).containsExactlyInOrder("1", "2", "3\u00004");
