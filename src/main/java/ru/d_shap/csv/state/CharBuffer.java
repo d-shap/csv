@@ -58,7 +58,7 @@ final class CharBuffer {
 
     void append(final char ch) {
         if (_maxLength < 0 && _currentIndex >= _buffer.length) {
-            char[] newBuffer = new char[_buffer.length * 2];
+            char[] newBuffer = new char[_buffer.length * 2 + 1];
             System.arraycopy(_buffer, 0, newBuffer, 0, _buffer.length);
             _buffer = newBuffer;
         }
