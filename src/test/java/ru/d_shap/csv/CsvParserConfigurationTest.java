@@ -112,7 +112,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
             csvParserConfiguration01.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         CsvParserConfiguration csvParserConfiguration02 = new CsvParserConfiguration();
@@ -122,7 +122,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
             csvParserConfiguration02.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongRowSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+            Assertions.assertThat(ex).hasMessage("No row separator is specified.");
         }
 
         CsvParserConfiguration csvParserConfiguration03 = new CsvParserConfiguration();
@@ -133,7 +133,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
             csvParserConfiguration03.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         CsvParserConfiguration csvParserConfiguration04 = new CsvParserConfiguration();
@@ -170,7 +170,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
             csvParserConfiguration07.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongColumnSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No column separator is specified");
+            Assertions.assertThat(ex).hasMessage("No column separator is specified.");
         }
 
         CsvParserConfiguration csvParserConfiguration08 = new CsvParserConfiguration();
@@ -231,7 +231,7 @@ public final class CsvParserConfigurationTest extends CsvTest {
             csvParserConfiguration14.validate();
             Assertions.fail("CsvParserConfiguration test fail");
         } catch (WrongRowSeparatorException ex) {
-            Assertions.assertThat(ex).hasMessage("No row separator is specified");
+            Assertions.assertThat(ex).hasMessage("No row separator is specified.");
         }
     }
 
