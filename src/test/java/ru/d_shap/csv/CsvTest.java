@@ -100,4 +100,52 @@ public class CsvTest {
         return csvParserBuilder.build();
     }
 
+    /**
+     * Create {@link CsvParser} object with skip empty rows enabled.
+     *
+     * @param comma     true if comma is a column separator.
+     * @param semicolon true if semicolon is a column separator.
+     * @param cr        true if CR is a row separator.
+     * @param lf        true if LF is a row separator.
+     * @param crlf      true if CRLF is a row separator.
+     * @return {@link CsvParser} object.
+     */
+    public final CsvParser createCsvParserWithSkipEmptyRows(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
+        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance();
+        csvParserBuilder.setCommaSeparator(comma);
+        csvParserBuilder.setSemicolonSeparator(semicolon);
+        csvParserBuilder.setCrSeparator(cr);
+        csvParserBuilder.setLfSeparator(lf);
+        csvParserBuilder.setCrLfSeparator(crlf);
+        csvParserBuilder.setColumnCountCheckEnabled(false);
+        csvParserBuilder.setSkipEmptyRowsEnabled(true);
+        csvParserBuilder.setMaxColumnLength(-1);
+        csvParserBuilder.setMaxColumnLengthCheckEnabled(false);
+        return csvParserBuilder.build();
+    }
+
+    /**
+     * Create {@link CsvParser} object with column count check and skip empty rows enabled.
+     *
+     * @param comma     true if comma is a column separator.
+     * @param semicolon true if semicolon is a column separator.
+     * @param cr        true if CR is a row separator.
+     * @param lf        true if LF is a row separator.
+     * @param crlf      true if CRLF is a row separator.
+     * @return {@link CsvParser} object.
+     */
+    public final CsvParser createCsvParserWithColumnCountCheckAndSkipEmptyRows(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
+        CsvParserBuilder csvParserBuilder = CsvParserBuilder.getInstance();
+        csvParserBuilder.setCommaSeparator(comma);
+        csvParserBuilder.setSemicolonSeparator(semicolon);
+        csvParserBuilder.setCrSeparator(cr);
+        csvParserBuilder.setLfSeparator(lf);
+        csvParserBuilder.setCrLfSeparator(crlf);
+        csvParserBuilder.setColumnCountCheckEnabled(true);
+        csvParserBuilder.setSkipEmptyRowsEnabled(true);
+        csvParserBuilder.setMaxColumnLength(-1);
+        csvParserBuilder.setMaxColumnLengthCheckEnabled(false);
+        return csvParserBuilder.build();
+    }
+
 }
