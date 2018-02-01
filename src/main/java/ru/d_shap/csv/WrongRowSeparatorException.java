@@ -32,7 +32,7 @@ public class WrongRowSeparatorException extends CsvException {
      * Create a new object.
      */
     public WrongRowSeparatorException() {
-        super("No row separator is specified");
+        super("No row separator is specified.");
     }
 
 }
