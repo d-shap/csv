@@ -32,11 +32,11 @@ import java.util.List;
  */
 public final class CsvPrinter implements AutoCloseable {
 
+    private static final int INITIAL_ROW_COLUMN_COUNT = -1;
+
     private final Writer _writer;
 
     private final CsvPrinterConfiguration _csvPrinterConfiguration;
-
-    private boolean _firstRow;
 
     private int _firstRowColumnCount;
 
@@ -47,8 +47,7 @@ public final class CsvPrinter implements AutoCloseable {
         _writer = writer;
         csvPrinterConfiguration.validate();
         _csvPrinterConfiguration = csvPrinterConfiguration;
-        _firstRow = true;
-        _firstRowColumnCount = 0;
+        _firstRowColumnCount = INITIAL_ROW_COLUMN_COUNT;
         _currentColumnCount = 0;
     }
 
@@ -162,7 +161,7 @@ public final class CsvPrinter implements AutoCloseable {
 
     private void doAddColumn(final String column) {
         try {
-            if (_csvPrinterConfiguration.isColumnCountCheckEnabled() && !_firstRow && _currentColumnCount >= _firstRowColumnCount) {
+            if (_csvPrinterConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount != INITIAL_ROW_COLUMN_COUNT && _currentColumnCount >= _firstRowColumnCount) {
                 throw new WrongColumnCountException();
             }
 
@@ -187,9 +186,8 @@ public final class CsvPrinter implements AutoCloseable {
                 return this;
             }
 
-            if (_firstRow) {
+            if (_firstRowColumnCount == INITIAL_ROW_COLUMN_COUNT) {
                 _firstRowColumnCount = _currentColumnCount;
-                _firstRow = false;
             } else if (_csvPrinterConfiguration.isColumnCountCheckEnabled() && _firstRowColumnCount != _currentColumnCount) {
                 throw new WrongColumnCountException();
             }
@@ -206,9 +204,10 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column values from the specified list and then add row separator and start a new row.
      *
      * @param columns the specified list of column values.
+     * @param <T>     generic type of column value.
      * @return current object for the method chaining.
      */
-    public CsvPrinter addRow(final List<?> columns) {
+    public <T> CsvPrinter addRow(final List<T> columns) {
         for (Object column : columns) {
             addColumn(column);
         }
@@ -220,9 +219,10 @@ public final class CsvPrinter implements AutoCloseable {
      * Add all rows in the specified list of rows, where each row is a list of columns.
      *
      * @param rows the specified list of rows, where each row is a list of columns.
+     * @param <T>  generic type of column value.
      * @return current object for the method chaining.
      */
-    public CsvPrinter addRows(final List<List<?>> rows) {
+    public <T> CsvPrinter addRows(final List<List<T>> rows) {
         for (List<?> row : rows) {
             addRow(row);
         }
