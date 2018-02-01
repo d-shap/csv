@@ -501,7 +501,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer1.append('0');
         Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(20);
         charBuffer1.append('1');
-        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(40);
+        Assertions.assertThat(charBuffer1, "_buffer", Raw.charArrayAssertion()).hasLength(41);
 
         CharBuffer charBuffer2 = new CharBuffer(10, false);
         Assertions.assertThat(charBuffer2, "_buffer", Raw.charArrayAssertion()).hasLength(10);
