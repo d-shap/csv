@@ -43,7 +43,7 @@ public final class WrongRowSeparatorExceptionTest extends CsvTest {
     @Test
     public void errorMessageTest() {
         WrongRowSeparatorException exception = new WrongRowSeparatorException();
-        Assertions.assertThat(exception).hasMessage("No row separator is specified");
+        Assertions.assertThat(exception).hasMessage("No row separator is specified.");
     }
 
 }

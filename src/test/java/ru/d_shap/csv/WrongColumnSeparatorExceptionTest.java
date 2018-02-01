@@ -43,7 +43,7 @@ public final class WrongColumnSeparatorExceptionTest extends CsvTest {
     @Test
     public void errorMessageTest() {
         WrongColumnSeparatorException exception = new WrongColumnSeparatorException();
-        Assertions.assertThat(exception).hasMessage("No column separator is specified");
+        Assertions.assertThat(exception).hasMessage("No column separator is specified.");
     }
 
 }
