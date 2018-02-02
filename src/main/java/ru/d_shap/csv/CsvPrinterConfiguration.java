@@ -227,20 +227,35 @@ public final class CsvPrinterConfiguration {
     }
 
     boolean hasSpecialCharacters(final String value) {
-        if ((_escapeAllSeparatorsEnabled || isCommaSeparator()) && value.indexOf(SpecialCharacter.COMMA) >= 0) {
-            return true;
-        }
-        if ((_escapeAllSeparatorsEnabled || isSemicolonSeparator()) && value.indexOf(SpecialCharacter.SEMICOLON) >= 0) {
-            return true;
-        }
-        if ((_escapeAllSeparatorsEnabled || isCrSeparator()) && value.indexOf(SpecialCharacter.CR) >= 0) {
-            return true;
-        }
-        if ((_escapeAllSeparatorsEnabled || isLfSeparator()) && value.indexOf(SpecialCharacter.LF) >= 0) {
-            return true;
-        }
-        if ((_escapeAllSeparatorsEnabled || isCrLfSeparator()) && value.contains(CRLF)) {
-            return true;
+        if (_escapeAllSeparatorsEnabled) {
+            if (value.indexOf(SpecialCharacter.COMMA) >= 0) {
+                return true;
+            }
+            if (value.indexOf(SpecialCharacter.SEMICOLON) >= 0) {
+                return true;
+            }
+            if (value.indexOf(SpecialCharacter.CR) >= 0) {
+                return true;
+            }
+            if (value.indexOf(SpecialCharacter.LF) >= 0) {
+                return true;
+            }
+        } else {
+            if (isCommaSeparator() && value.indexOf(SpecialCharacter.COMMA) >= 0) {
+                return true;
+            }
+            if (isSemicolonSeparator() && value.indexOf(SpecialCharacter.SEMICOLON) >= 0) {
+                return true;
+            }
+            if (isCrSeparator() && value.indexOf(SpecialCharacter.CR) >= 0) {
+                return true;
+            }
+            if (isLfSeparator() && value.indexOf(SpecialCharacter.LF) >= 0) {
+                return true;
+            }
+            if (isCrLfSeparator() && value.contains(CRLF)) {
+                return true;
+            }
         }
         return value.indexOf(SpecialCharacter.QUOT) >= 0;
     }
