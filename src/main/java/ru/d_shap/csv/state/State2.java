@@ -50,7 +50,14 @@ final class State2 extends State {
 
     @Override
     State processCr(final StateHandler stateHandler) {
-        return State4.INSTANCE;
+        if (stateHandler.isCrLfSeparator()) {
+            return State4.INSTANCE;
+        } else if (stateHandler.isCrSeparator()) {
+            pushColumnAndRow(stateHandler);
+            return State1.INSTANCE;
+        } else {
+            return pushUnquotedCharacter(SpecialCharacter.CR, stateHandler);
+        }
     }
 
     @Override
