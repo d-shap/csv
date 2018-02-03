@@ -212,12 +212,13 @@ public final class RestrictedListEventHandlerTest extends CsvTest {
     public void pushColumnValueExceedsMaxLengthWithoutMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5);
 
-        eventHandler.pushColumn("abcde", 7);
-        eventHandler.pushColumn("12345", 8);
+        eventHandler.pushColumn("abcde", 5);
+        eventHandler.pushColumn("12345", 7);
+        eventHandler.pushColumn("12345", 9);
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(1);
-        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abcde", "12345");
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abcde", "12345", "12345");
     }
 
     /**
@@ -227,12 +228,13 @@ public final class RestrictedListEventHandlerTest extends CsvTest {
     public void pushColumnValueExceedsMaxLengthWithMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, "..");
 
-        eventHandler.pushColumn("abcde", 7);
-        eventHandler.pushColumn("12345", 8);
+        eventHandler.pushColumn("abcde", 5);
+        eventHandler.pushColumn("12345", 7);
+        eventHandler.pushColumn("12345", 9);
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(1);
-        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abc..", "123..");
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abcde", "123..", "123..");
     }
 
     /**
@@ -242,12 +244,13 @@ public final class RestrictedListEventHandlerTest extends CsvTest {
     public void pushColumnValueExceedsMaxLengthWithSameSizeMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, ".....");
 
-        eventHandler.pushColumn("abcde", 7);
-        eventHandler.pushColumn("12345", 8);
+        eventHandler.pushColumn("abcde", 5);
+        eventHandler.pushColumn("12345", 7);
+        eventHandler.pushColumn("12345", 9);
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(1);
-        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder(".....", ".....");
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abcde", ".....", ".....");
     }
 
     /**
@@ -257,12 +260,13 @@ public final class RestrictedListEventHandlerTest extends CsvTest {
     public void pushColumnValueExceedsMaxLengthWithTooLargeSizeMarkTest() {
         RestrictedListEventHandler eventHandler = new RestrictedListEventHandler(5, ".......");
 
-        eventHandler.pushColumn("abcde", 7);
-        eventHandler.pushColumn("12345", 8);
+        eventHandler.pushColumn("abcde", 5);
+        eventHandler.pushColumn("12345", 7);
+        eventHandler.pushColumn("12345", 9);
         eventHandler.pushRow();
         Assertions.assertThat(eventHandler.getCsv()).isNotNull();
         Assertions.assertThat(eventHandler.getCsv()).hasSize(1);
-        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder(".......", ".......");
+        Assertions.assertThat(eventHandler.getCsv().get(0)).containsExactlyInOrder("abcde", ".......", ".......");
     }
 
 }
