@@ -25,6 +25,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.csv.CsvTest;
+import ru.d_shap.csv.WrongColumnCountException;
 
 /**
  * Tests for {@link State1}.
@@ -116,6 +117,20 @@ public final class State1Test extends CsvTest {
      * {@link State1} class test.
      */
     @Test
+    public void processCrAsSeparatorPartWithColumnCountCheckTest() {
+        try {
+            String csv = "1,2,3\r\n4,5\r\n6,7,8\r\n";
+            createCsvParserWithColumnCountCheck(true, true, false, false, true).parse(csv);
+            Assertions.fail("State1 test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"1,2,3\\r\\n4,5\\r\\n\".");
+        }
+    }
+
+    /**
+     * {@link State1} class test.
+     */
+    @Test
     public void processCrAsSeparatorTest() {
         String csv = "\ra";
         List<List<String>> list = createCsvParser(true, true, true, false, false).parse(csv);
@@ -123,6 +138,20 @@ public final class State1Test extends CsvTest {
         Assertions.assertThat(list).hasSize(2);
         Assertions.assertThat(list.get(0)).containsExactlyInOrder();
         Assertions.assertThat(list.get(1)).containsExactlyInOrder("a");
+    }
+
+    /**
+     * {@link State1} class test.
+     */
+    @Test
+    public void processCrAsSeparatorWithColumnCountCheckTest() {
+        try {
+            String csv = "1,2,3\r\n4,5\r\n6,7,8\r\n";
+            createCsvParserWithColumnCountCheck(true, true, true, false, false).parse(csv);
+            Assertions.fail("State1 test fail");
+        } catch (WrongColumnCountException ex) {
+            Assertions.assertThat(ex).hasMessage("CSV has rows with different column count. Last characters: \"1,2,3\\r\\n4,5\\r\".");
+        }
     }
 
     /**
