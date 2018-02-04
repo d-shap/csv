@@ -137,11 +137,7 @@ public final class CsvParser {
     }
 
     private Reader createReader(final CharSequence charSequence) {
-        if (charSequence == null) {
-            return null;
-        } else {
-            return new StringReader(charSequence.toString());
-        }
+        return new StringReader(charSequence.toString());
     }
 
 }
