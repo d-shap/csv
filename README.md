@@ -1,6 +1,6 @@
 CSV parser
 ==========
-Classes to print CSV and to parse CSV.
+CSV parser converts source stream to rows and columns and vice versa.
 
 CSV is a comma-separated values.
 It is a list of rows, separated with CRLF characters.
