@@ -114,3 +114,15 @@ The following code is an example of how to deal with CSV like this:
 String csv = "\"value;value_in_the same_column\";abc,123";
 List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).parse(csv);
 ```
+
+Donate
+======
+I am a full time software developer.
+I code in my spare time and to extend the use of software that has purpose.
+
+If you find value in what I do then, please, feel free to donate to me.
+I'm not going to force you to donate, you can use my software completely free of charge.
+If you are really want to give something to me then you are welcome to do so.
+I don't expect donations, nor do I insist that you give them.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dshapovalov)
