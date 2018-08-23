@@ -45,13 +45,13 @@ public final class CharStackTest extends CsvTest {
     @Test
     public void emptyCharStackTest() {
         CharStack charStack1 = new CharStack(0);
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
 
         CharStack charStack2 = new CharStack(3);
-        Assertions.assertThat(charStack2).isToStringEqualTo("");
+        Assertions.assertThat(charStack2).hasToString("");
 
         CharStack charStack3 = new CharStack(10);
-        Assertions.assertThat(charStack3).isToStringEqualTo("");
+        Assertions.assertThat(charStack3).hasToString("");
     }
 
     /**
@@ -61,81 +61,81 @@ public final class CharStackTest extends CsvTest {
     public void appendTest() {
         CharStack charStack1 = new CharStack(0);
         charStack1.append('a');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
         charStack1.append('b');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
         charStack1.append('1');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
         charStack1.append('2');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
         charStack1.append('a');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
         charStack1.append('b');
-        Assertions.assertThat(charStack1).isToStringEqualTo("");
+        Assertions.assertThat(charStack1).hasToString("");
 
         CharStack charStack2 = new CharStack(3);
         charStack2.append('a');
-        Assertions.assertThat(charStack2).isToStringEqualTo("a");
+        Assertions.assertThat(charStack2).hasToString("a");
         charStack2.append('b');
-        Assertions.assertThat(charStack2).isToStringEqualTo("ab");
+        Assertions.assertThat(charStack2).hasToString("ab");
         charStack2.append('c');
-        Assertions.assertThat(charStack2).isToStringEqualTo("abc");
+        Assertions.assertThat(charStack2).hasToString("abc");
         charStack2.append('1');
-        Assertions.assertThat(charStack2).isToStringEqualTo("bc1");
+        Assertions.assertThat(charStack2).hasToString("bc1");
         charStack2.append('2');
-        Assertions.assertThat(charStack2).isToStringEqualTo("c12");
+        Assertions.assertThat(charStack2).hasToString("c12");
         charStack2.append('3');
-        Assertions.assertThat(charStack2).isToStringEqualTo("123");
+        Assertions.assertThat(charStack2).hasToString("123");
         charStack2.append('a');
-        Assertions.assertThat(charStack2).isToStringEqualTo("23a");
+        Assertions.assertThat(charStack2).hasToString("23a");
         charStack2.append('b');
-        Assertions.assertThat(charStack2).isToStringEqualTo("3ab");
+        Assertions.assertThat(charStack2).hasToString("3ab");
 
         CharStack charStack3 = new CharStack(10);
         charStack3.append('a');
-        Assertions.assertThat(charStack3).isToStringEqualTo("a");
+        Assertions.assertThat(charStack3).hasToString("a");
         charStack3.append('b');
-        Assertions.assertThat(charStack3).isToStringEqualTo("ab");
+        Assertions.assertThat(charStack3).hasToString("ab");
         charStack3.append('c');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abc");
+        Assertions.assertThat(charStack3).hasToString("abc");
         charStack3.append('d');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcd");
+        Assertions.assertThat(charStack3).hasToString("abcd");
         charStack3.append('e');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcde");
+        Assertions.assertThat(charStack3).hasToString("abcde");
         charStack3.append('f');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcdef");
+        Assertions.assertThat(charStack3).hasToString("abcdef");
         charStack3.append('g');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcdefg");
+        Assertions.assertThat(charStack3).hasToString("abcdefg");
         charStack3.append('h');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcdefgh");
+        Assertions.assertThat(charStack3).hasToString("abcdefgh");
         charStack3.append('i');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcdefghi");
+        Assertions.assertThat(charStack3).hasToString("abcdefghi");
         charStack3.append('j');
-        Assertions.assertThat(charStack3).isToStringEqualTo("abcdefghij");
+        Assertions.assertThat(charStack3).hasToString("abcdefghij");
         charStack3.append('1');
-        Assertions.assertThat(charStack3).isToStringEqualTo("bcdefghij1");
+        Assertions.assertThat(charStack3).hasToString("bcdefghij1");
         charStack3.append('2');
-        Assertions.assertThat(charStack3).isToStringEqualTo("cdefghij12");
+        Assertions.assertThat(charStack3).hasToString("cdefghij12");
         charStack3.append('3');
-        Assertions.assertThat(charStack3).isToStringEqualTo("defghij123");
+        Assertions.assertThat(charStack3).hasToString("defghij123");
         charStack3.append('4');
-        Assertions.assertThat(charStack3).isToStringEqualTo("efghij1234");
+        Assertions.assertThat(charStack3).hasToString("efghij1234");
         charStack3.append('5');
-        Assertions.assertThat(charStack3).isToStringEqualTo("fghij12345");
+        Assertions.assertThat(charStack3).hasToString("fghij12345");
         charStack3.append('6');
-        Assertions.assertThat(charStack3).isToStringEqualTo("ghij123456");
+        Assertions.assertThat(charStack3).hasToString("ghij123456");
         charStack3.append('7');
-        Assertions.assertThat(charStack3).isToStringEqualTo("hij1234567");
+        Assertions.assertThat(charStack3).hasToString("hij1234567");
         charStack3.append('8');
-        Assertions.assertThat(charStack3).isToStringEqualTo("ij12345678");
+        Assertions.assertThat(charStack3).hasToString("ij12345678");
         charStack3.append('9');
-        Assertions.assertThat(charStack3).isToStringEqualTo("j123456789");
+        Assertions.assertThat(charStack3).hasToString("j123456789");
         charStack3.append('0');
-        Assertions.assertThat(charStack3).isToStringEqualTo("1234567890");
+        Assertions.assertThat(charStack3).hasToString("1234567890");
         charStack3.append('a');
-        Assertions.assertThat(charStack3).isToStringEqualTo("234567890a");
+        Assertions.assertThat(charStack3).hasToString("234567890a");
         charStack3.append('b');
-        Assertions.assertThat(charStack3).isToStringEqualTo("34567890ab");
+        Assertions.assertThat(charStack3).hasToString("34567890ab");
     }
 
     /**
@@ -152,7 +152,7 @@ public final class CharStackTest extends CsvTest {
         charStack.append('\r');
         charStack.append('\n');
         charStack.append('d');
-        Assertions.assertThat(charStack).isToStringEqualTo("a\\rb\\nc\\r\\nd");
+        Assertions.assertThat(charStack).hasToString("a\\rb\\nc\\r\\nd");
     }
 
     /**

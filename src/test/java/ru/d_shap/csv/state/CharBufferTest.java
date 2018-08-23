@@ -46,27 +46,27 @@ public final class CharBufferTest extends CsvTest {
     public void emptyCharBufferTest() {
         CharBuffer charBuffer1 = new CharBuffer(-1, false);
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer1).hasToString("");
 
         CharBuffer charBuffer2 = new CharBuffer(-1, true);
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer2).hasToString("");
 
         CharBuffer charBuffer3 = new CharBuffer(0, false);
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
 
         CharBuffer charBuffer4 = new CharBuffer(0, true);
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
 
         CharBuffer charBuffer5 = new CharBuffer(3, false);
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer5).hasToString("");
 
         CharBuffer charBuffer6 = new CharBuffer(3, true);
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer6).hasToString("");
     }
 
     /**
@@ -137,86 +137,86 @@ public final class CharBufferTest extends CsvTest {
         CharBuffer charBuffer1 = new CharBuffer(-1, false);
         charBuffer1.append('a');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("a");
+        Assertions.assertThat(charBuffer1).hasToString("a");
         charBuffer1.append('b');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("ab");
+        Assertions.assertThat(charBuffer1).hasToString("ab");
         charBuffer1.append('c');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer1).hasToString("abc");
         charBuffer1.append('d');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("abcd");
+        Assertions.assertThat(charBuffer1).hasToString("abcd");
 
         CharBuffer charBuffer2 = new CharBuffer(-1, true);
         charBuffer2.append('a');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("a");
+        Assertions.assertThat(charBuffer2).hasToString("a");
         charBuffer2.append('b');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("ab");
+        Assertions.assertThat(charBuffer2).hasToString("ab");
         charBuffer2.append('c');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer2).hasToString("abc");
         charBuffer2.append('d');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("abcd");
+        Assertions.assertThat(charBuffer2).hasToString("abcd");
 
         CharBuffer charBuffer3 = new CharBuffer(0, false);
         charBuffer3.append('a');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
         charBuffer3.append('b');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
         charBuffer3.append('c');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
         charBuffer3.append('d');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
 
         CharBuffer charBuffer4 = new CharBuffer(0, true);
         charBuffer4.append('a');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
         charBuffer4.append('b');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
         charBuffer4.append('c');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
         charBuffer4.append('d');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
 
         CharBuffer charBuffer5 = new CharBuffer(3, false);
         charBuffer5.append('a');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("a");
+        Assertions.assertThat(charBuffer5).hasToString("a");
         charBuffer5.append('b');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("ab");
+        Assertions.assertThat(charBuffer5).hasToString("ab");
         charBuffer5.append('c');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer5).hasToString("abc");
         charBuffer5.append('d');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer5).hasToString("abc");
 
         CharBuffer charBuffer6 = new CharBuffer(3, true);
         charBuffer6.append('a');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(1);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("a");
+        Assertions.assertThat(charBuffer6).hasToString("a");
         charBuffer6.append('b');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(2);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("ab");
+        Assertions.assertThat(charBuffer6).hasToString("ab");
         charBuffer6.append('c');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(3);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer6).hasToString("abc");
         charBuffer6.append('d');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer6).hasToString("abc");
     }
 
     /**
@@ -251,7 +251,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer1.append('4');
         charBuffer1.append('5');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("1234567890123456789012345");
+        Assertions.assertThat(charBuffer1).hasToString("1234567890123456789012345");
 
         CharBuffer charBuffer2 = new CharBuffer(-1, true);
         charBuffer2.append('1');
@@ -280,7 +280,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer2.append('4');
         charBuffer2.append('5');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("1234567890123456789012345");
+        Assertions.assertThat(charBuffer2).hasToString("1234567890123456789012345");
 
         CharBuffer charBuffer3 = new CharBuffer(0, false);
         charBuffer3.append('1');
@@ -309,7 +309,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer3.append('4');
         charBuffer3.append('5');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
 
         CharBuffer charBuffer4 = new CharBuffer(0, true);
         charBuffer4.append('1');
@@ -338,7 +338,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer4.append('4');
         charBuffer4.append('5');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
 
         CharBuffer charBuffer5 = new CharBuffer(3, false);
         charBuffer5.append('1');
@@ -367,7 +367,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer5.append('4');
         charBuffer5.append('5');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("123");
+        Assertions.assertThat(charBuffer5).hasToString("123");
 
         CharBuffer charBuffer6 = new CharBuffer(3, true);
         charBuffer6.append('1');
@@ -396,7 +396,7 @@ public final class CharBufferTest extends CsvTest {
         charBuffer6.append('4');
         charBuffer6.append('5');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(25);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("123");
+        Assertions.assertThat(charBuffer6).hasToString("123");
     }
 
     /**
@@ -410,10 +410,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer1.append('c');
         charBuffer1.append('d');
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("abcd");
+        Assertions.assertThat(charBuffer1).hasToString("abcd");
         charBuffer1.clear();
         Assertions.assertThat(charBuffer1.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer1).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer1).hasToString("");
 
         CharBuffer charBuffer2 = new CharBuffer(-1, true);
         charBuffer2.append('a');
@@ -421,10 +421,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer2.append('c');
         charBuffer2.append('d');
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("abcd");
+        Assertions.assertThat(charBuffer2).hasToString("abcd");
         charBuffer2.clear();
         Assertions.assertThat(charBuffer2.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer2).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer2).hasToString("");
 
         CharBuffer charBuffer3 = new CharBuffer(0, false);
         charBuffer3.append('a');
@@ -432,10 +432,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer3.append('c');
         charBuffer3.append('d');
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
         charBuffer3.clear();
         Assertions.assertThat(charBuffer3.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer3).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer3).hasToString("");
 
         CharBuffer charBuffer4 = new CharBuffer(0, true);
         charBuffer4.append('a');
@@ -443,10 +443,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer4.append('c');
         charBuffer4.append('d');
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
         charBuffer4.clear();
         Assertions.assertThat(charBuffer4.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer4).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer4).hasToString("");
 
         CharBuffer charBuffer5 = new CharBuffer(3, false);
         charBuffer5.append('a');
@@ -454,10 +454,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer5.append('c');
         charBuffer5.append('d');
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer5).hasToString("abc");
         charBuffer5.clear();
         Assertions.assertThat(charBuffer5.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer5).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer5).hasToString("");
 
         CharBuffer charBuffer6 = new CharBuffer(3, true);
         charBuffer6.append('a');
@@ -465,10 +465,10 @@ public final class CharBufferTest extends CsvTest {
         charBuffer6.append('c');
         charBuffer6.append('d');
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(4);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("abc");
+        Assertions.assertThat(charBuffer6).hasToString("abc");
         charBuffer6.clear();
         Assertions.assertThat(charBuffer6.getActualLength()).isEqualTo(0);
-        Assertions.assertThat(charBuffer6).isToStringEqualTo("");
+        Assertions.assertThat(charBuffer6).hasToString("");
     }
 
     /**
