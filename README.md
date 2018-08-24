@@ -117,4 +117,4 @@ List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(fal
 
 Donation
 ========
-If you find my code useful, you can [![bye me a coffee](donation.png)](https://www.paypal.me/dshapovalov)
+If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
