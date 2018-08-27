@@ -60,6 +60,7 @@ public class CsvTest {
      * @param cr        true if CR is a row separator.
      * @param lf        true if LF is a row separator.
      * @param crlf      true if CRLF is a row separator.
+     *
      * @return {@link CsvParser} object.
      */
     public final CsvParser createCsvParser(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
@@ -84,6 +85,7 @@ public class CsvTest {
      * @param cr        true if CR is a row separator.
      * @param lf        true if LF is a row separator.
      * @param crlf      true if CRLF is a row separator.
+     *
      * @return {@link CsvParser} object.
      */
     public final CsvParser createCsvParserWithColumnCountCheck(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
@@ -108,6 +110,7 @@ public class CsvTest {
      * @param cr        true if CR is a row separator.
      * @param lf        true if LF is a row separator.
      * @param crlf      true if CRLF is a row separator.
+     *
      * @return {@link CsvParser} object.
      */
     public final CsvParser createCsvParserWithSkipEmptyRows(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
@@ -132,6 +135,7 @@ public class CsvTest {
      * @param cr        true if CR is a row separator.
      * @param lf        true if LF is a row separator.
      * @param crlf      true if CRLF is a row separator.
+     *
      * @return {@link CsvParser} object.
      */
     public final CsvParser createCsvParserWithColumnCountCheckAndSkipEmptyRows(final boolean comma, final boolean semicolon, final boolean cr, final boolean lf, final boolean crlf) {
