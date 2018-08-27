@@ -49,6 +49,7 @@ public final class CsvPrinterBuilder {
      * Set current settings as defined in the specified format.
      *
      * @param format the specified format.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setFormat(final CsvFormat format) {
@@ -110,6 +111,7 @@ public final class CsvPrinterBuilder {
      * Specify whether all rows should have the same column count or not.
      *
      * @param columnCountCheckEnabled true if all rows should have the same column count.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
@@ -121,6 +123,7 @@ public final class CsvPrinterBuilder {
      * Specify whether all empty rows should be skipped or not.
      *
      * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
@@ -132,6 +135,7 @@ public final class CsvPrinterBuilder {
      * Specify whether all column and row separators should be escaped, or only separators specified in this object.
      *
      * @param escapeAllSeparatorsEnabled true if all column and row separators should be escaped, false if only separators specified in this object.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinterBuilder setEscapeAllSeparatorsEnabled(final boolean escapeAllSeparatorsEnabled) {
@@ -152,6 +156,7 @@ public final class CsvPrinterBuilder {
      * Create a {@link CsvPrinter} object.
      *
      * @param writer writer to write CSV.
+     *
      * @return a {@link CsvPrinter} object.
      */
     public CsvPrinter build(final Writer writer) {

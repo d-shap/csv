@@ -72,6 +72,7 @@ public final class CsvParser {
      * Parse CSV and define rows and columns.
      *
      * @param charSequence CSV to parse.
+     *
      * @return list of rows, each row is a list of columns.
      */
     public List<List<String>> parse(final CharSequence charSequence) {
@@ -96,6 +97,7 @@ public final class CsvParser {
      * Parse CSV and define rows and columns.
      *
      * @param reader CSV to parse.
+     *
      * @return list of rows, each row is a list of columns.
      */
     public List<List<String>> parse(final Reader reader) {

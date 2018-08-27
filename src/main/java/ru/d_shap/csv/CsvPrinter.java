@@ -55,6 +55,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final char column) {
@@ -66,6 +67,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final int column) {
@@ -77,6 +79,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final long column) {
@@ -88,6 +91,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final float column) {
@@ -99,6 +103,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final double column) {
@@ -110,6 +115,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final boolean column) {
@@ -121,6 +127,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final String column) {
@@ -132,6 +139,7 @@ public final class CsvPrinter implements AutoCloseable {
      * Add column value to the current row.
      *
      * @param column column value.
+     *
      * @return current object for the method chaining.
      */
     public CsvPrinter addColumn(final Object column) {
@@ -205,6 +213,7 @@ public final class CsvPrinter implements AutoCloseable {
      *
      * @param columns the specified list of column values.
      * @param <T>     generic type of column value.
+     *
      * @return current object for the method chaining.
      */
     public <T> CsvPrinter addRow(final List<T> columns) {
@@ -220,6 +229,7 @@ public final class CsvPrinter implements AutoCloseable {
      *
      * @param rows the specified list of rows, where each row is a list of columns.
      * @param <T>  generic type of column value.
+     *
      * @return current object for the method chaining.
      */
     public <T> CsvPrinter addRows(final List<List<T>> rows) {

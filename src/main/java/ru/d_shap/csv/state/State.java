@@ -44,6 +44,7 @@ public abstract class State {
      *
      * @param character    an input character.
      * @param stateHandler handler to process CSV parser events.
+     *
      * @return next CSV parser state.
      */
     public final State processCharacter(final int character, final StateHandler stateHandler) {

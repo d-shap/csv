@@ -51,6 +51,7 @@ public final class CsvParserBuilder {
      * Set current settings as defined in the specified format.
      *
      * @param format the specified format.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setFormat(final CsvFormat format) {
@@ -62,6 +63,7 @@ public final class CsvParserBuilder {
      * Set comma as a column separator.
      *
      * @param commaSeparator true if comma is a column separator.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCommaSeparator(final boolean commaSeparator) {
@@ -73,6 +75,7 @@ public final class CsvParserBuilder {
      * Set semicolon as a column separator.
      *
      * @param semicolonSeparator true if semicolon is a column separator.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setSemicolonSeparator(final boolean semicolonSeparator) {
@@ -84,6 +87,7 @@ public final class CsvParserBuilder {
      * Set CR as a row separator.
      *
      * @param crSeparator true if CR is a row separator.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCrSeparator(final boolean crSeparator) {
@@ -95,6 +99,7 @@ public final class CsvParserBuilder {
      * Set LF as a row separator.
      *
      * @param lfSeparator true if LF is a row separator.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setLfSeparator(final boolean lfSeparator) {
@@ -106,6 +111,7 @@ public final class CsvParserBuilder {
      * Set CRLF as a row separator.
      *
      * @param crLfSeparator true if CRLF is a row separator.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setCrLfSeparator(final boolean crLfSeparator) {
@@ -117,6 +123,7 @@ public final class CsvParserBuilder {
      * Specify whether all rows should have the same column count or not.
      *
      * @param columnCountCheckEnabled true if all rows should have the same column count.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setColumnCountCheckEnabled(final boolean columnCountCheckEnabled) {
@@ -128,6 +135,7 @@ public final class CsvParserBuilder {
      * Specify whether all empty rows should be skipped or not.
      *
      * @param skipEmptyRowsEnabled true if all empty rows should be skipped.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setSkipEmptyRowsEnabled(final boolean skipEmptyRowsEnabled) {
@@ -140,6 +148,7 @@ public final class CsvParserBuilder {
      * column value length, then either the rest of a column value is skipped, or an exception is thrown.
      *
      * @param maxColumnLength the maximum length of a column value, or negative number for no column value length restriction.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setMaxColumnLength(final int maxColumnLength) {
@@ -151,6 +160,7 @@ public final class CsvParserBuilder {
      * Specify whether an excepton should be thrown if a column value length exceeds the maximum column value length or not.
      *
      * @param maxColumnLengthCheckEnabled true if an excepton should be thrown.
+     *
      * @return current object for the method chaining.
      */
     public CsvParserBuilder setMaxColumnLengthCheckEnabled(final boolean maxColumnLengthCheckEnabled) {
@@ -172,6 +182,7 @@ public final class CsvParserBuilder {
      * Create a {@link CsvParser} object, then parse CSV and define rows and columns.
      *
      * @param charSequence CSV to parse.
+     *
      * @return list of rows, each row is a list of columns.
      */
     public List<List<String>> parse(final CharSequence charSequence) {
@@ -192,6 +203,7 @@ public final class CsvParserBuilder {
      * Create a {@link CsvParser} object, then parse CSV and define rows and columns.
      *
      * @param reader CSV to parse.
+     *
      * @return list of rows, each row is a list of columns.
      */
     public List<List<String>> parse(final Reader reader) {
