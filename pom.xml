@@ -306,7 +306,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <keyname>maven signature - csv</keyname>
+                            <keyname>(maven signature - csv)</keyname>
                         </configuration>
                     </plugin>
                 </plugins>
