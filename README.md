@@ -115,11 +115,11 @@ String csv = "\"value;value_in_the same_column\";abc,123";
 List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).parse(csv);
 ```
 
-Maven artifact
+Latest release
 ==============
-* **groupId**: ru.d-shap
-* **artifactId**: csv
-* **version**: 1.1
+* **&lt;groupId&gt;**: ru.d-shap
+* **&lt;artifactId&gt;**: csv
+* **&lt;version&gt;**: 1.1
 
 Donation
 ========
