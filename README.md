@@ -1,5 +1,4 @@
-CSV parser
-==========
+# CSV parser
 CSV parser converts source stream to rows and columns and vice versa.
 
 CSV is a comma-separated values.
@@ -115,12 +114,10 @@ String csv = "\"value;value_in_the same_column\";abc,123";
 List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).parse(csv);
 ```
 
-Latest release
-==============
+# Latest release
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: csv
 * **&lt;version&gt;**: 1.1
 
-Donation
-========
+# Donation
 If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
