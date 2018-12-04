@@ -115,6 +115,7 @@ List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(fal
 ```
 
 # Latest release
+CSV parser:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: csv
 * **&lt;version&gt;**: 1.1
