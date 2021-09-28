@@ -52,7 +52,7 @@ try (FileOutputStream stream = new FileOutputStream("someFile.csv");
 ```
 
 A `CsvPrinter` object has a number of settings, for example whether to skip empty lines or not, whether to check that each row has the same number of columns or not, and so on.
-This settings are specified in a `CsvPrinterBuilder` object, that is used to create a `CsvPrinter` object.
+These settings are specified in a `CsvPrinterBuilder` object, that is used to create a `CsvPrinter` object.
 
 To parse CSV `CsvParser` class should be used:
 ```
@@ -94,13 +94,13 @@ This handler could be a memory consuming one.
 By default, `CsvParser` object treats commas and semicolons as column separators, LF and CRLF as row separators.
 
 A `CsvParser` object has a number of settings, for example whether to skip empty lines or not, whether to check that each row has the same number of columns or not, and so on.
-This settings are specified in a `CsvParserBuilder` object, that is used to create a `CsvParser` object.
+These settings are specified in a `CsvParserBuilder` object, that is used to create a `CsvParser` object.
 
-This settings can be used in many different situations.
+These settings can be used in many situations.
 
 For example, some editors can use semicolon as column separator, but not comma.
-This editors do NOT enclose column values in double quots if column value contains commas.
-For example, this editors can produce a CSV like this:
+These editors do NOT enclose column values in double quots if column value contains commas.
+For example, these editors can produce a CSV like this:
 ```
 "value;value_in_the same_column";abc,123
 ```
@@ -114,7 +114,7 @@ String csv = "\"value;value_in_the same_column\";abc,123";
 List<List<String>> result = CsvParserBuilder.getInstance().setCommaSeparator(false).setSemicolonSeparator(true).parse(csv);
 ```
 
-# Latest release
+# The latest release
 CSV parser:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: csv
