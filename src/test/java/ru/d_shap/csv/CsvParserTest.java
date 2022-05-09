@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
@@ -27,6 +26,8 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.csv.handler.ColumnCountEventHandler;
 import ru.d_shap.csv.handler.ColumnLengthEventHandler;
 import ru.d_shap.csv.handler.DimensionEventHandler;
@@ -1574,7 +1575,7 @@ public final class CsvParserTest extends CsvTest {
     @Test
     public void parseCsvWithErrorReaderTest() {
         try {
-            ErrorOnReadReader reader = new ErrorOnReadReader();
+            Reader reader = DataHelper.createReaderBuilder().setReadException("ERROR").buildReader();
             createCsvParser(true, true, true, true, true).parse(reader);
             Assertions.fail("CsvParser test fail");
         } catch (CsvIOException ex) {
@@ -1861,10 +1862,10 @@ public final class CsvParserTest extends CsvTest {
      */
     @Test
     public void closeReaderTest() {
-        IsClosedReader reader = new IsClosedReader();
-        Assertions.assertThat(reader.isClosed()).isFalse();
+        Reader reader = DataHelper.createReaderBuilder().buildReader();
+        Assertions.assertThat(((IsCloseable) reader).isClosed()).isFalse();
         CsvParserBuilder.getInstance().parse(reader);
-        Assertions.assertThat(reader.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) reader).isClosed()).isTrue();
     }
 
     /**
@@ -1873,88 +1874,12 @@ public final class CsvParserTest extends CsvTest {
     @Test
     public void errorOnCloseReaderTest() {
         try {
-            ErrorOnCloseReader reader = new ErrorOnCloseReader();
+            Reader reader = DataHelper.createReaderBuilder().setCloseException("ERROR").buildReader();
             CsvParserBuilder.getInstance().parse(reader);
             Assertions.fail("CsvParser test fail");
         } catch (CsvIOException ex) {
             Assertions.assertThat(ex).hasMessage("ERROR");
         }
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorOnReadReader extends Reader {
-
-        ErrorOnReadReader() {
-            super();
-        }
-
-        @Override
-        public int read(final char[] cbuf, final int off, final int len) throws IOException {
-            throw new IOException("ERROR");
-        }
-
-        @Override
-        public void close() throws IOException {
-            // Ignore
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class IsClosedReader extends Reader {
-
-        private boolean _closed;
-
-        IsClosedReader() {
-            super();
-            _closed = false;
-        }
-
-        @Override
-        public int read(final char[] cbuf, final int off, final int len) throws IOException {
-            return -1;
-        }
-
-        @Override
-        public void close() throws IOException {
-            _closed = true;
-        }
-
-        boolean isClosed() {
-            return _closed;
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorOnCloseReader extends Reader {
-
-        ErrorOnCloseReader() {
-            super();
-        }
-
-        @Override
-        public int read(final char[] cbuf, final int off, final int len) throws IOException {
-            return -1;
-        }
-
-        @Override
-        public void close() throws IOException {
-            throw new IOException("ERROR");
-        }
-
     }
 
 }
