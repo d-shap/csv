@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.csv;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -29,6 +28,8 @@ import java.util.List;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
+import ru.d_shap.assertions.util.DataHelper;
 
 /**
  * Tests for {@link CsvPrinter}.
@@ -724,7 +725,7 @@ public final class CsvPrinterTest extends CsvTest {
     @Test
     public void writeColumnToErrorWriterTest() {
         try {
-            ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+            Writer writer = DataHelper.createWriterBuilder().setWriteException("ERROR").buildWriter();
             CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
             csvPrinter.addColumn("value");
             Assertions.fail("CsvPrinter test fail");
@@ -739,7 +740,7 @@ public final class CsvPrinterTest extends CsvTest {
     @Test
     public void writeRowToErrorWriterTest() {
         try {
-            ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+            Writer writer = DataHelper.createWriterBuilder().setWriteException("ERROR").buildWriter();
             CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
             csvPrinter.addRow();
             Assertions.fail("CsvPrinter test fail");
@@ -753,7 +754,7 @@ public final class CsvPrinterTest extends CsvTest {
      */
     @Test
     public void getNullCsvForStreamTest() {
-        ErrorOnWriteWriter writer = new ErrorOnWriteWriter();
+        Writer writer = DataHelper.createWriterBuilder().setWriteException("ERROR").buildWriter();
         CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer);
         Assertions.assertThat(csvPrinter.getCsv()).isNull();
     }
@@ -879,12 +880,12 @@ public final class CsvPrinterTest extends CsvTest {
      */
     @Test
     public void closeWriterTest() {
-        IsClosedWriter writer = new IsClosedWriter();
-        Assertions.assertThat(writer.isClosed()).isFalse();
+        Writer writer = DataHelper.createWriterBuilder().buildWriter();
+        Assertions.assertThat(((IsCloseable) writer).isClosed()).isFalse();
         try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer)) {
             csvPrinter.addColumn("1234567890").addRow();
         }
-        Assertions.assertThat(writer.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) writer).isClosed()).isTrue();
     }
 
     /**
@@ -893,7 +894,7 @@ public final class CsvPrinterTest extends CsvTest {
     @Test
     public void errorOnCloseWriterTest() {
         try {
-            ErrorOnCloseWriter writer = new ErrorOnCloseWriter();
+            Writer writer = DataHelper.createWriterBuilder().setCloseException("ERROR").buildWriter();
             try (CsvPrinter csvPrinter = CsvPrinterBuilder.getInstance().build(writer)) {
                 csvPrinter.addColumn("1234567890").addRow();
             }
@@ -927,97 +928,6 @@ public final class CsvPrinterTest extends CsvTest {
         csvPrinter = csvPrinter.addRows(rows);
         Assertions.assertThat(csvPrinter.getCsv()).isNotNull();
         Assertions.assertThat(csvPrinter.getCsv()).isEqualTo("z,1,2,1.1,2.2,true,value1,value2\r\nval1,val2,val3\r\nval11,val12,val13\r\nval21,val22,val23\r\nval31,val32,val33\r\n");
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorOnWriteWriter extends Writer {
-
-        ErrorOnWriteWriter() {
-            super();
-        }
-
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) throws IOException {
-            throw new IOException("ERROR");
-        }
-
-        @Override
-        public void flush() throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void close() throws IOException {
-            // Ignore
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class IsClosedWriter extends Writer {
-
-        private boolean _closed;
-
-        IsClosedWriter() {
-            super();
-            _closed = false;
-        }
-
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void flush() throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void close() throws IOException {
-            _closed = true;
-        }
-
-        boolean isClosed() {
-            return _closed;
-        }
-
-    }
-
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    private static final class ErrorOnCloseWriter extends Writer {
-
-        ErrorOnCloseWriter() {
-            super();
-        }
-
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void flush() throws IOException {
-            // Ignore
-        }
-
-        @Override
-        public void close() throws IOException {
-            throw new IOException("ERROR");
-        }
-
     }
 
 }
